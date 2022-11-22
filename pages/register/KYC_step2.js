@@ -1,28 +1,19 @@
-import { API, Auth } from "aws-amplify";
-import { config } from "process";
 import React, { useEffect, useState } from "react";
 import { color } from "../../public/theme/Color";
 import BoxBodyContainer from "../components/common/BoxBodyContainer";
-
-import TextField from "../ui-kit/TextField";
-// import {createDemo} from '../../src/graphql/mutations';
-import * as mutations from "../../src/graphql/mutations";
-
 import KYC_header from "../components/registration/KYC_header";
-import { listDemoSkillsLists, listTodos } from "../../src/graphql/queries";
 import Button from "../ui-kit/Button";
 import SkeletonLoader from "../ui-kit/SkeletonLoader";
-import { useRouter } from "next/router";
+import * as mutations from "../../src/graphql/mutations";
+import * as queries from "../../src/graphql/queries";
+import { API, Auth } from "aws-amplify";
 
-Auth.configure(config);
-const KYC_step1 = () => {
-  const router = useRouter();
-  const [link, setLink] = useState();
-  const [domainList, setdomainList] = useState();
-  const [showDomainInput, setShowDomainInput] = useState(false);
-  const [domainName, setDomainName] = useState({ value: "" });
+const KYC_step2 = () => {
+  const [serviceList, setServiceList] = useState();
+  const [showServiceInput, setShowServiceInput] = useState(false);
+  const [serviceName, setServiceName] = useState({ value: "" });
   const [loading, setLoading] = useState(false);
-  const [domainListLoading, setDomainListLoading] = useState(true);
+  const [serviceListLoading, setServiceListLoading] = useState(true);
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -32,14 +23,15 @@ const KYC_step1 = () => {
 
       try {
         const listData = await API.graphql({
-          query: listDemoSkillsLists,
+          query: queries.listSuggestedServiceLists,
           authMode: "AMAZON_COGNITO_USER_POOLS",
         });
-        setdomainList(listData?.data?.listDemoSkillsLists?.items);
-        setDomainListLoading(false);
+        console.log("list data", listData);
+        setServiceList(listData?.data?.listSuggestedServiceLists?.items);
+        setServiceListLoading(false);
       } catch (err) {
         console.log("err", err);
-        setDomainListLoading(false);
+        setServiceListLoading(false);
       }
     };
     getCurrentUser();
@@ -48,19 +40,19 @@ const KYC_step1 = () => {
   const saveDomainSkills = async () => {
     setLoading(true);
     try {
-      const data = { value: domainName };
+      const data = { value: serviceName };
       const postData = await API.graphql({
-        query: mutations.createDemoSkillsList,
-        variables: { input: domainName },
+        query: mutations.createSuggestedServiceList,
+        variables: { input: serviceName },
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
       console.log("post data", postData);
-      setShowDomainInput(false);
+      setShowServiceInput(false);
       setLoading(false);
     } catch (e) {
       console.log("e", e);
       setLoading(false);
-      setShowDomainInput(false);
+      setShowServiceInput(false);
     }
   };
 
@@ -76,7 +68,7 @@ const KYC_step1 = () => {
           }}
         >
           <KYC_header
-            stepImage={require("../../public/assets/icon/StepIndicator.png")}
+            stepImage={require("../../public/assets/icon/StepIndicator2.png")}
           />
           <div
             style={{
@@ -97,34 +89,14 @@ const KYC_step1 = () => {
               }}
             >
               <div style={{ color: color.blackVariant }}>
-                Get ready to mentor and share
+                What service you want to offer
               </div>
               <div style={{ color: color.blackVariant }}>
-                Add some basic details to personalise the experience
+                List the services which you think your target audience will like
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  flex: 1,
-                  flexDirection: "row",
-                }}
-              >
-                <TextField
-                  label="LinkedIn Profile URL"
-                  id="url"
-                  type="url"
-                  placeholder="Paster Linkedin profile URL "
-                  value={link}
-                  onChangeValue={(text) => {
-                    //   if (spaceValidation.test(text.target.value)) {
-                    //     setFieldValue(text.target.id, text.target.value);
-                    //   }
-                  }}
-                  // errMsg={touched.email && errors.email}
-                />
-              </div>
+
               <div style={{ color: color.blackVariant, marginBottom: 20 }}>
-                Domain you want to provide mentorship
+                Suggested services
               </div>
               <div
                 style={{
@@ -134,9 +106,9 @@ const KYC_step1 = () => {
                   flex: 1,
                 }}
               >
-                {!domainListLoading ? (
+                {!serviceListLoading ? (
                   <>
-                    {domainList?.map((item, index) => {
+                    {serviceList?.map((item, index) => {
                       return (
                         <div
                           key={index.toString()}
@@ -157,7 +129,7 @@ const KYC_step1 = () => {
                         </div>
                       );
                     })}
-                    {showDomainInput && (
+                    {showServiceInput && (
                       <input
                         style={{
                           backgroundColor: "transparent",
@@ -174,14 +146,14 @@ const KYC_step1 = () => {
                         placeholder="Enter here..."
                         name="value"
                         onChange={(e) => {
-                          setDomainName(() => ({
+                          setServiceName(() => ({
                             [e.target.name]: e.target.value,
                           }));
                         }}
                       />
                     )}
                     <Button
-                      label={showDomainInput ? "Save" : "Add another"}
+                      label={showServiceInput ? "Save" : "Add another"}
                       styleOverride={{
                         paddingLeft: 20,
                         paddingRight: 20,
@@ -193,12 +165,12 @@ const KYC_step1 = () => {
                         borderRadius: 22,
                         height: 43,
                         backgroundColor: color.blackVariant,
-                        width: showDomainInput ? 100 : 160,
+                        width: showServiceInput ? 100 : 160,
                       }}
                       loader={loading}
                       onClick={() => {
-                        setShowDomainInput(true);
-                        if (showDomainInput) {
+                        setShowServiceInput(true);
+                        if (showServiceInput) {
                           saveDomainSkills();
                         }
                       }}
@@ -243,4 +215,4 @@ const KYC_step1 = () => {
   );
 };
 
-export default KYC_step1;
+export default KYC_step2;
