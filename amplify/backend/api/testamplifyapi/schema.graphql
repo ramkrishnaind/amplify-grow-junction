@@ -16,3 +16,63 @@ type Todo
   username: String
   description: String
 }
+
+type DemoSkillsList
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  value: String!
+}
+
+type SuggestedServiceList
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  value: String!
+}
+
+type StudentRegister
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read] }
+    ]
+  ) {
+  student_id: ID!
+  student_name: String!
+  domain_id: [DemoSkillsList!]
+  recent_college: String!
+  degree: String!
+  current_employee: String
+  your_role: String
+  experience: String
+  phone_number: String!
+}
+
+type MentorRegister
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read] }
+    ]
+  ) {
+  mentor_id: ID!
+  mentor_name: String!
+  domain_id: [DemoSkillsList!]
+  profile_url: String!
+  mentor_service_id: [SuggestedServiceList!]
+
+  phone_number: String!
+}
