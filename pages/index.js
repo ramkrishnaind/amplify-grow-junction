@@ -36,21 +36,6 @@ const Home = () => {
     authListener();
     fetchTodos();
   }, []);
-  return (
-    // <>
-    //   <div>
-    //     {todos.map((item) => {
-    //       return (
-    //         <div key={item}>
-    //           <h1>{item.name}</h1>
-    //           <h3>{item.description}</h3>
-    //         </div>
-    //       );
-    //     })}
-    //   </div>
-    //   {/* <AmplifySignOut /> */}
-    // </>
-    <DashboardPage />
-  );
+  return <DashboardPage />;
 };
 export default Home;
