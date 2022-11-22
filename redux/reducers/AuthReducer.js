@@ -1,5 +1,5 @@
-import ACTION_KEYS from '../../constants/action-keys';
-import {HYDRATE} from 'next-redux-wrapper';
+import ACTION_KEYS from "../../constants/action-keys";
+import { HYDRATE } from "next-redux-wrapper";
 const initialState = {
   isRequesting: false,
   success: false,
@@ -10,8 +10,8 @@ const initialState = {
 };
 
 const AuthReducer = (state = initialState, action) => {
-  const {type, payload} = action;
-  console.log('action', action, type);
+  const { type, payload } = action;
+  console.log("action", action, type);
 
   switch (type) {
     case HYDRATE:
@@ -29,6 +29,7 @@ const AuthReducer = (state = initialState, action) => {
         ...state,
         userAuth: payload,
       };
+    // case
     default:
       return state;
   }
