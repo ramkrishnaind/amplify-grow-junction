@@ -4,6 +4,10 @@ import { API } from "aws-amplify";
 import styles from "../styles/Home.module.css";
 import { listTodos } from "../src/graphql/queries";
 import { Auth, Hub } from "aws-amplify";
+import Login from "./auth/Login";
+import Register from "./auth/Register";
+import DashboardPage from "./Dashboard";
+
 const Home = () => {
   const [isLoggedin, setIsLoggedIn] = useState(false);
   const authListener = async () => {
@@ -33,19 +37,20 @@ const Home = () => {
     fetchTodos();
   }, []);
   return (
-    <>
-      <div>
-        {todos.map((item) => {
-          return (
-            <div key={item}>
-              <h1>{item.name}</h1>
-              <h3>{item.description}</h3>
-            </div>
-          );
-        })}
-      </div>
-      {/* <AmplifySignOut /> */}
-    </>
+    // <>
+    //   <div>
+    //     {todos.map((item) => {
+    //       return (
+    //         <div key={item}>
+    //           <h1>{item.name}</h1>
+    //           <h3>{item.description}</h3>
+    //         </div>
+    //       );
+    //     })}
+    //   </div>
+    //   {/* <AmplifySignOut /> */}
+    // </>
+    <DashboardPage />
   );
 };
 export default Home;
