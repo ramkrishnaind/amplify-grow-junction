@@ -2,7 +2,7 @@ import "../styles/globals.css";
 import "../amplify-configure";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { wrapper, persistor, store } from "../redux/Store";
+import { store, persistor } from "../redux/Store";
 
 function MyApp({ Component, pageProps }) {
   return (
