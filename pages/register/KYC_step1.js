@@ -67,7 +67,6 @@ const KYC_step1 = () => {
             display: "flex",
             flex: 1,
             flexDirection: "column",
-            // alignItems: "center",
           }}
         >
           <KYC_header
@@ -79,10 +78,6 @@ const KYC_step1 = () => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              //   backgroundColor: "red",
-              //   alignSelf: "center",
-              //   marginLeft: 351,
-              //   marginRight: 351,
             }}
           >
             <div
