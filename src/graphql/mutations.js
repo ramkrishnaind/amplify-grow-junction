@@ -1,6 +1,84 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createDemoSkillsList = /* GraphQL */ `
+  mutation CreateDemoSkillsList(
+    $input: CreateDemoSkillsListInput!
+    $condition: ModelDemoSkillsListConditionInput
+  ) {
+    createDemoSkillsList(input: $input, condition: $condition) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateDemoSkillsList = /* GraphQL */ `
+  mutation UpdateDemoSkillsList(
+    $input: UpdateDemoSkillsListInput!
+    $condition: ModelDemoSkillsListConditionInput
+  ) {
+    updateDemoSkillsList(input: $input, condition: $condition) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteDemoSkillsList = /* GraphQL */ `
+  mutation DeleteDemoSkillsList(
+    $input: DeleteDemoSkillsListInput!
+    $condition: ModelDemoSkillsListConditionInput
+  ) {
+    deleteDemoSkillsList(input: $input, condition: $condition) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createSuggestedServiceList = /* GraphQL */ `
+  mutation CreateSuggestedServiceList(
+    $input: CreateSuggestedServiceListInput!
+    $condition: ModelSuggestedServiceListConditionInput
+  ) {
+    createSuggestedServiceList(input: $input, condition: $condition) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateSuggestedServiceList = /* GraphQL */ `
+  mutation UpdateSuggestedServiceList(
+    $input: UpdateSuggestedServiceListInput!
+    $condition: ModelSuggestedServiceListConditionInput
+  ) {
+    updateSuggestedServiceList(input: $input, condition: $condition) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteSuggestedServiceList = /* GraphQL */ `
+  mutation DeleteSuggestedServiceList(
+    $input: DeleteSuggestedServiceListInput!
+    $condition: ModelSuggestedServiceListConditionInput
+  ) {
+    deleteSuggestedServiceList(input: $input, condition: $condition) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createTodo = /* GraphQL */ `
   mutation CreateTodo(
     $input: CreateTodoInput!
@@ -46,90 +124,6 @@ export const deleteTodo = /* GraphQL */ `
     }
   }
 `;
-export const createDemoSkillsList = /* GraphQL */ `
-  mutation CreateDemoSkillsList(
-    $input: CreateDemoSkillsListInput!
-    $condition: ModelDemoSkillsListConditionInput
-  ) {
-    createDemoSkillsList(input: $input, condition: $condition) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
-export const updateDemoSkillsList = /* GraphQL */ `
-  mutation UpdateDemoSkillsList(
-    $input: UpdateDemoSkillsListInput!
-    $condition: ModelDemoSkillsListConditionInput
-  ) {
-    updateDemoSkillsList(input: $input, condition: $condition) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
-export const deleteDemoSkillsList = /* GraphQL */ `
-  mutation DeleteDemoSkillsList(
-    $input: DeleteDemoSkillsListInput!
-    $condition: ModelDemoSkillsListConditionInput
-  ) {
-    deleteDemoSkillsList(input: $input, condition: $condition) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
-export const createSuggestedServiceList = /* GraphQL */ `
-  mutation CreateSuggestedServiceList(
-    $input: CreateSuggestedServiceListInput!
-    $condition: ModelSuggestedServiceListConditionInput
-  ) {
-    createSuggestedServiceList(input: $input, condition: $condition) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
-export const updateSuggestedServiceList = /* GraphQL */ `
-  mutation UpdateSuggestedServiceList(
-    $input: UpdateSuggestedServiceListInput!
-    $condition: ModelSuggestedServiceListConditionInput
-  ) {
-    updateSuggestedServiceList(input: $input, condition: $condition) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
-export const deleteSuggestedServiceList = /* GraphQL */ `
-  mutation DeleteSuggestedServiceList(
-    $input: DeleteSuggestedServiceListInput!
-    $condition: ModelSuggestedServiceListConditionInput
-  ) {
-    deleteSuggestedServiceList(input: $input, condition: $condition) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
 export const createStudentRegister = /* GraphQL */ `
   mutation CreateStudentRegister(
     $input: CreateStudentRegisterInput!
@@ -143,7 +137,6 @@ export const createStudentRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       recent_college
       degree
@@ -172,7 +165,6 @@ export const updateStudentRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       recent_college
       degree
@@ -201,7 +193,6 @@ export const deleteStudentRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       recent_college
       degree
@@ -230,7 +221,6 @@ export const createMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       profile_url
       mentor_service_id {
@@ -238,7 +228,6 @@ export const createMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       phone_number
       id
@@ -262,7 +251,6 @@ export const updateMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       profile_url
       mentor_service_id {
@@ -270,7 +258,6 @@ export const updateMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       phone_number
       id
@@ -294,7 +281,6 @@ export const deleteMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       profile_url
       mentor_service_id {
@@ -302,7 +288,6 @@ export const deleteMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       phone_number
       id

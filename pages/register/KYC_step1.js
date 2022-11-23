@@ -33,7 +33,7 @@ const KYC_step1 = () => {
       try {
         const listData = await API.graphql({
           query: listDemoSkillsLists,
-          authMode: "AMAZON_COGNITO_USER_POOLS",
+          //   authMode: "AMAZON_COGNITO_USER_POOLS",
         });
         setdomainList(listData?.data?.listDemoSkillsLists?.items);
         setDomainListLoading(false);
@@ -52,7 +52,7 @@ const KYC_step1 = () => {
       const postData = await API.graphql({
         query: mutations.createDemoSkillsList,
         variables: { input: domainName },
-        authMode: "AMAZON_COGNITO_USER_POOLS",
+        // authMode: "AMAZON_COGNITO_USER_POOLS",
       });
       console.log("post data", postData);
       setShowDomainInput(false);

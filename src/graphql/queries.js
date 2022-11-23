@@ -1,6 +1,64 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getDemoSkillsList = /* GraphQL */ `
+  query GetDemoSkillsList($id: ID!) {
+    getDemoSkillsList(id: $id) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listDemoSkillsLists = /* GraphQL */ `
+  query ListDemoSkillsLists(
+    $filter: ModelDemoSkillsListFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listDemoSkillsLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        value
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getSuggestedServiceList = /* GraphQL */ `
+  query GetSuggestedServiceList($id: ID!) {
+    getSuggestedServiceList(id: $id) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listSuggestedServiceLists = /* GraphQL */ `
+  query ListSuggestedServiceLists(
+    $filter: ModelSuggestedServiceListFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSuggestedServiceLists(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        value
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getTodo = /* GraphQL */ `
   query GetTodo($id: ID!) {
     getTodo(id: $id) {
@@ -32,68 +90,6 @@ export const listTodos = /* GraphQL */ `
     }
   }
 `;
-export const getDemoSkillsList = /* GraphQL */ `
-  query GetDemoSkillsList($id: ID!) {
-    getDemoSkillsList(id: $id) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
-export const listDemoSkillsLists = /* GraphQL */ `
-  query ListDemoSkillsLists(
-    $filter: ModelDemoSkillsListFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listDemoSkillsLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        value
-        createdAt
-        updatedAt
-        username
-      }
-      nextToken
-    }
-  }
-`;
-export const getSuggestedServiceList = /* GraphQL */ `
-  query GetSuggestedServiceList($id: ID!) {
-    getSuggestedServiceList(id: $id) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
-export const listSuggestedServiceLists = /* GraphQL */ `
-  query ListSuggestedServiceLists(
-    $filter: ModelSuggestedServiceListFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listSuggestedServiceLists(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        value
-        createdAt
-        updatedAt
-        username
-      }
-      nextToken
-    }
-  }
-`;
 export const getStudentRegister = /* GraphQL */ `
   query GetStudentRegister($id: ID!) {
     getStudentRegister(id: $id) {
@@ -104,7 +100,6 @@ export const getStudentRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       recent_college
       degree
@@ -139,7 +134,6 @@ export const listStudentRegisters = /* GraphQL */ `
           value
           createdAt
           updatedAt
-          username
         }
         recent_college
         degree
@@ -167,7 +161,6 @@ export const getMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       profile_url
       mentor_service_id {
@@ -175,7 +168,6 @@ export const getMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       phone_number
       id
@@ -201,7 +193,6 @@ export const listMentorRegisters = /* GraphQL */ `
           value
           createdAt
           updatedAt
-          username
         }
         profile_url
         mentor_service_id {
@@ -209,7 +200,6 @@ export const listMentorRegisters = /* GraphQL */ `
           value
           createdAt
           updatedAt
-          username
         }
         phone_number
         id
