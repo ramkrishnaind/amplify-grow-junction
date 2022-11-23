@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import React from "react";
 
 const MentorAvailability = () => {
+  const router = useRouter();
   return (
     <>
       <form>
@@ -969,7 +971,12 @@ const MentorAvailability = () => {
                 <span className="ml-3 text-sm">Previous</span>
               </button>
 
-              <button className="flex justify-center items-center ml-10 bg-amber-500 hover:bg-blue-700 text-white font-bold  py-2 px-6 rounded-full w-40">
+              <button
+                className="flex justify-center items-center ml-10 bg-amber-500 hover:bg-blue-700 text-white font-bold  py-2 px-6 rounded-full w-40"
+                onClick={() => {
+                  router.push("/register/KYC_step4");
+                }}
+              >
                 <span className="ml-3 text-sm">Continue</span>
               </button>
             </div>

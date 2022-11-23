@@ -3,10 +3,12 @@ import { Formik } from "formik";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useReducer, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { color } from "../../public/theme/Color";
 import { RegistrationSchema } from "../../public/utils/schema";
 import useWindowDimensions from "../../public/utils/useWindowDimensions";
+import { StoreUserAuth } from "../../redux/actions/AuthAction";
 import Header from "../components/common/Header";
 import Button from "../ui-kit/Button";
 import TextField from "../ui-kit/TextField";
@@ -76,10 +78,10 @@ const options = {
 
 const spaceValidation = new RegExp(/^[^ ]*$/);
 const Register = (props) => {
-  //   const registerType = useSelector((state) => state.AuthReducer);
+  const registerType = useSelector((state) => state.AuthReducer);
   const { width, height } = useWindowDimensions();
   const router = useRouter();
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   //   const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
   //     ssr: false,
@@ -108,6 +110,7 @@ const Register = (props) => {
             backgroundColor: color.blackVariant,
             height: 42,
             width: 95,
+            fontSize: 16,
           }}
         />
         <div style={{ borderWidth: 1, borderColor: color.divider }} />
@@ -131,9 +134,7 @@ const Register = (props) => {
               marginBottom: 40,
             }}
           >
-            Fill in the details to create your account as{" "}
-            {/* {registerType?.registerType?.charAt(0)?.toUpperCase() +
-              registerType?.registerType?.slice(1)?.toLowerCase()} */}
+            Fill in the details to create your account
           </div>
           <Formik
             enableReinitialize={true}
@@ -163,9 +164,9 @@ const Register = (props) => {
                   },
                 });
                 console.log("user", user);
-                // StoreUserAuth(dispatch, user);
 
                 if (user) {
+                  StoreUserAuth(dispatch, user);
                   router.push("/auth/VerifyEmail");
                 }
               } catch (e) {
@@ -207,25 +208,25 @@ const Register = (props) => {
                     justifyContent: "space-between",
                   }}
                 >
-                  {/* <div style={{marginRight: 20}}> */}
-                  <TextField
-                    label="First Name"
-                    id="first_name"
-                    type="FirstName"
-                    placeholder="Robert"
-                    value={values.first_name}
-                    onChangeValue={(text) => {
-                      //   onChange(text);
-                      if (spaceValidation.test(text.target.value)) {
-                        console.log(text.target.id, text.target.value);
+                  <div style={{ marginRight: 20, display: "flex", flex: 1 }}>
+                    <TextField
+                      label="First Name"
+                      id="first_name"
+                      type="FirstName"
+                      placeholder="Robert"
+                      value={values.first_name}
+                      onChangeValue={(text) => {
+                        //   onChange(text);
+                        if (spaceValidation.test(text.target.value)) {
+                          console.log(text.target.id, text.target.value);
 
-                        setFieldValue(text.target.id, text.target.value);
-                      }
-                    }}
-                    errMsg={touched.first_name && errors.first_name}
-                    styleOverride={{ marginRight: 5 }}
-                  />
-                  {/* </div> */}
+                          setFieldValue(text.target.id, text.target.value);
+                        }
+                      }}
+                      errMsg={touched.first_name && errors.first_name}
+                      styleOverride={{ marginRight: 5 }}
+                    />
+                  </div>
                   <TextField
                     label="Last Name"
                     id="last_name"
@@ -283,12 +284,13 @@ const Register = (props) => {
                   errMsg={touched.confirm_password && errors.confirm_password}
                 />
                 <Button
-                  label="Create Account"
+                  label="Get Started"
                   styleOverride={{
                     height: 62,
                     backgroundColor: color.btnColor,
                     color: color.blackVariant,
                     marginTop: 40,
+                    fontSize: 16,
                   }}
                   onClick={handleSubmit}
                   //   onClick={() => {

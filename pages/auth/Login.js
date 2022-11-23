@@ -12,8 +12,8 @@ import { Formik } from "formik";
 
 // import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import dynamic from "next/dynamic";
-// import 'owl.carousel/dist/assets/owl.carousel.css';
-// import 'owl.carousel/dist/assets/owl.theme.default.css';
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
 import { useRouter } from "next/router";
 import useWindowDimensions from "../../public/utils/useWindowDimensions";
 
@@ -92,9 +92,9 @@ const Login = (props) => {
   //   const dispatch = useDispatch();
   //   console.log(width);
   const router = useRouter();
-  //   const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
-  //     ssr: false,
-  //   });
+  const OwlCarousel = dynamic(() => import("react-owl-carousel"), {
+    ssr: false,
+  });
 
   //   const [registration, setRegistration] = useState(initialState);
 
@@ -130,6 +130,7 @@ const Login = (props) => {
             backgroundColor: color.blackVariant,
             height: 42,
             width: 167,
+            fontSize: 16,
           }}
           //   btnStlye={{width: 100}}
         />
@@ -274,6 +275,7 @@ const Login = (props) => {
                     backgroundColor: color.btnColor,
                     color: color.blackVariant,
                     marginTop: 40,
+                    fontSize: 16,
                   }}
                   onClick={handleSubmit}
                   //   onClick={() => {
@@ -292,7 +294,7 @@ const Login = (props) => {
         // style={{width: 600, height: 400}}
       />
 
-      {/* <OwlCarousel
+      <OwlCarousel
         className="owl-theme"
         loop
         // margin={4}
@@ -305,27 +307,28 @@ const Login = (props) => {
           width: width / 3,
           height: height / 2.5,
           top: height / 6,
-          position: 'absolute',
+          position: "absolute",
           right: 0,
           //   right: width / 350,
         }}
         // dots={true}
         animateIn={true}
-        {...options}>
+        {...options}
+      >
         {productsp && productsp.length > 0
           ? productsp.map((product, index) => {
               return (
                 <Image
                   key={index}
-                  src={require('../../public/assets/icon/carousel.png')}
+                  src={require("../../public/assets/icon/carousel.png")}
                   alt={product.name}
-                  style={{height: height / 1.5, width: width / 5}}
+                  style={{ height: height / 1.5, width: width / 5 }}
                   title={product.name}
                 />
               );
             })
-          : ''}
-      </OwlCarousel> */}
+          : ""}
+      </OwlCarousel>
     </div>
   );
 };
