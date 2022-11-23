@@ -1,6 +1,78 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateDemoSkillsList = /* GraphQL */ `
+  subscription OnCreateDemoSkillsList(
+    $filter: ModelSubscriptionDemoSkillsListFilterInput
+  ) {
+    onCreateDemoSkillsList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateDemoSkillsList = /* GraphQL */ `
+  subscription OnUpdateDemoSkillsList(
+    $filter: ModelSubscriptionDemoSkillsListFilterInput
+  ) {
+    onUpdateDemoSkillsList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteDemoSkillsList = /* GraphQL */ `
+  subscription OnDeleteDemoSkillsList(
+    $filter: ModelSubscriptionDemoSkillsListFilterInput
+  ) {
+    onDeleteDemoSkillsList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateSuggestedServiceList = /* GraphQL */ `
+  subscription OnCreateSuggestedServiceList(
+    $filter: ModelSubscriptionSuggestedServiceListFilterInput
+  ) {
+    onCreateSuggestedServiceList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateSuggestedServiceList = /* GraphQL */ `
+  subscription OnUpdateSuggestedServiceList(
+    $filter: ModelSubscriptionSuggestedServiceListFilterInput
+  ) {
+    onUpdateSuggestedServiceList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteSuggestedServiceList = /* GraphQL */ `
+  subscription OnDeleteSuggestedServiceList(
+    $filter: ModelSubscriptionSuggestedServiceListFilterInput
+  ) {
+    onDeleteSuggestedServiceList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateTodo = /* GraphQL */ `
   subscription OnCreateTodo(
     $filter: ModelSubscriptionTodoFilterInput
@@ -46,90 +118,6 @@ export const onDeleteTodo = /* GraphQL */ `
     }
   }
 `;
-export const onCreateDemoSkillsList = /* GraphQL */ `
-  subscription OnCreateDemoSkillsList(
-    $filter: ModelSubscriptionDemoSkillsListFilterInput
-    $username: String
-  ) {
-    onCreateDemoSkillsList(filter: $filter, username: $username) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
-export const onUpdateDemoSkillsList = /* GraphQL */ `
-  subscription OnUpdateDemoSkillsList(
-    $filter: ModelSubscriptionDemoSkillsListFilterInput
-    $username: String
-  ) {
-    onUpdateDemoSkillsList(filter: $filter, username: $username) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
-export const onDeleteDemoSkillsList = /* GraphQL */ `
-  subscription OnDeleteDemoSkillsList(
-    $filter: ModelSubscriptionDemoSkillsListFilterInput
-    $username: String
-  ) {
-    onDeleteDemoSkillsList(filter: $filter, username: $username) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
-export const onCreateSuggestedServiceList = /* GraphQL */ `
-  subscription OnCreateSuggestedServiceList(
-    $filter: ModelSubscriptionSuggestedServiceListFilterInput
-    $username: String
-  ) {
-    onCreateSuggestedServiceList(filter: $filter, username: $username) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
-export const onUpdateSuggestedServiceList = /* GraphQL */ `
-  subscription OnUpdateSuggestedServiceList(
-    $filter: ModelSubscriptionSuggestedServiceListFilterInput
-    $username: String
-  ) {
-    onUpdateSuggestedServiceList(filter: $filter, username: $username) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
-export const onDeleteSuggestedServiceList = /* GraphQL */ `
-  subscription OnDeleteSuggestedServiceList(
-    $filter: ModelSubscriptionSuggestedServiceListFilterInput
-    $username: String
-  ) {
-    onDeleteSuggestedServiceList(filter: $filter, username: $username) {
-      id
-      value
-      createdAt
-      updatedAt
-      username
-    }
-  }
-`;
 export const onCreateStudentRegister = /* GraphQL */ `
   subscription OnCreateStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
@@ -148,7 +136,6 @@ export const onCreateStudentRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       recent_college
       degree
@@ -182,7 +169,6 @@ export const onUpdateStudentRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       recent_college
       degree
@@ -216,7 +202,6 @@ export const onDeleteStudentRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       recent_college
       degree
@@ -250,7 +235,6 @@ export const onCreateMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       profile_url
       mentor_service_id {
@@ -258,7 +242,6 @@ export const onCreateMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       phone_number
       id
@@ -287,7 +270,6 @@ export const onUpdateMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       profile_url
       mentor_service_id {
@@ -295,7 +277,6 @@ export const onUpdateMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       phone_number
       id
@@ -324,7 +305,6 @@ export const onDeleteMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       profile_url
       mentor_service_id {
@@ -332,7 +312,6 @@ export const onDeleteMentorRegister = /* GraphQL */ `
         value
         createdAt
         updatedAt
-        username
       }
       phone_number
       id

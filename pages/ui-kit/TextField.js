@@ -15,6 +15,7 @@ const TextField = (props) => {
     styleOverride,
     value,
     errMsg,
+    phoneNumber = false,
     ...rest
   } = props;
 
@@ -27,6 +28,28 @@ const TextField = (props) => {
         className="focus-outline mr-5  p-4  w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
         style={{ ...styleOverride }}
       >
+        {phoneNumber ? (
+          <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
+            <div
+              style={{
+                color: color.lightGrey,
+                marginLeft: 10,
+                marginRight: 10,
+              }}
+            >
+              +91
+            </div>
+            <div
+              style={{
+                color: color.lightGrey,
+                marginLeft: 10,
+                marginRight: 20,
+              }}
+            >
+              |
+            </div>
+          </div>
+        ) : null}
         <input
           id={id}
           name={name}

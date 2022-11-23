@@ -20,7 +20,7 @@ export const RegistrationSchema = () =>
       .required("Please enter your confirm password")
       .min(6, ({ min }) => "password must be atleast 6 character")
       .when("password", {
-        is: (val: string) => (val && val.length > 0 ? true : false),
+        is: (val) => (val && val.length > 0 ? true : false),
         then: Yup.string().oneOf(
           [Yup.ref("password")],
           "Confirm password not match with password"

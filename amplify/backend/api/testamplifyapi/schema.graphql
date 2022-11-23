@@ -19,24 +19,14 @@ type Todo
 
 type DemoSkillsList
   @model
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: public, operations: [read] }
-    ]
-  ) {
+  @auth(rules: [{ allow: public, operations: [read, create] }]) {
   id: ID!
   value: String!
 }
 
 type SuggestedServiceList
   @model
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: public, operations: [read] }
-    ]
-  ) {
+  @auth(rules: [{ allow: public, operations: [read, create] }]) {
   id: ID!
   value: String!
 }

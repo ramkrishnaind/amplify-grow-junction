@@ -16,26 +16,26 @@ const KYC_step2 = () => {
   const [serviceListLoading, setServiceListLoading] = useState(true);
 
   useEffect(() => {
-    const getCurrentUser = async () => {
-      const { username } = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-
-      try {
-        const listData = await API.graphql({
-          query: queries.listSuggestedServiceLists,
-          authMode: "AMAZON_COGNITO_USER_POOLS",
-        });
-        console.log("list data", listData);
-        setServiceList(listData?.data?.listSuggestedServiceLists?.items);
-        setServiceListLoading(false);
-      } catch (err) {
-        console.log("err", err);
-        setServiceListLoading(false);
-      }
-    };
     getCurrentUser();
   }, []);
+
+  const getCurrentUser = async () => {
+    const { username } = await Auth.currentAuthenticatedUser({
+      bypassCache: true,
+    });
+
+    try {
+      const listData = await API.graphql({
+        query: queries.listSuggestedServiceLists,
+        //   authMode: "AMAZON_COGNITO_USER_POOLS",
+      });
+      setServiceList(listData?.data?.listSuggestedServiceLists?.items);
+      setServiceListLoading(false);
+    } catch (err) {
+      console.log("err", err);
+      setServiceListLoading(false);
+    }
+  };
 
   const saveDomainSkills = async () => {
     setLoading(true);
@@ -44,9 +44,10 @@ const KYC_step2 = () => {
       const postData = await API.graphql({
         query: mutations.createSuggestedServiceList,
         variables: { input: serviceName },
-        authMode: "AMAZON_COGNITO_USER_POOLS",
+        // authMode: "AMAZON_COGNITO_USER_POOLS",
       });
       console.log("post data", postData);
+      getCurrentUser();
       setShowServiceInput(false);
       setLoading(false);
     } catch (e) {
