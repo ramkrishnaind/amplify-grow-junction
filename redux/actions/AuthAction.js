@@ -8,6 +8,6 @@ export const RegisterTypeRequest = (dispatch, data) => {
 
 export const StoreUserAuth = (dispatch, data) => {
   try {
-    dispatch({ type: ACTION_KEYS.STORE_AUTH, payload: data });
+    dispatch({ type: ACTION_KEYS.WINDOWLAYOUT, payload: data });
   } catch (err) {}
 };

@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import React from "react";
 
 const MentorAvailability = () => {
+  const router = useRouter();
   return (
     <>
       <form>
@@ -34,13 +36,21 @@ const MentorAvailability = () => {
             alt=""
             className="w-14"
           ></img>
-          <img src="/images/availability03.png" alt="" className="w-14 h-14"></img>
+          <img
+            src="/images/availability03.png"
+            alt=""
+            className="w-14 h-14"
+          ></img>
           <img
             src="/images/studentProfessionalDetail.png"
             alt=""
             className="w-14"
           ></img>
-          <img src="/images/availability04.png" alt="" className="w-10 h-10"></img>
+          <img
+            src="/images/availability04.png"
+            alt=""
+            className="w-10 h-10"
+          ></img>
         </div>
 
         <div></div>
@@ -78,7 +88,7 @@ const MentorAvailability = () => {
             </div>
             <div className="flex flex-col mt-5">
               <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-              <div className="flex justify-start items-start w-40">
+                <div className="flex justify-start items-start w-40">
                   <input
                     id="day"
                     type="checkbox"
@@ -187,7 +197,7 @@ const MentorAvailability = () => {
               </div>
               {/* Monday */}
               <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-              <div className="flex justify-start items-start w-40">
+                <div className="flex justify-start items-start w-40">
                   <input
                     id="day"
                     type="checkbox"
@@ -295,9 +305,9 @@ const MentorAvailability = () => {
                 </div>
               </div>
 
-               {/* Tuesday */}
-               <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-               <div className="flex justify-start items-start w-40">
+              {/* Tuesday */}
+              <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
+                <div className="flex justify-start items-start w-40">
                   <input
                     id="day"
                     type="checkbox"
@@ -405,9 +415,9 @@ const MentorAvailability = () => {
                 </div>
               </div>
 
-                {/* Wednesday */}
+              {/* Wednesday */}
               <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-              <div className="flex justify-start items-start w-40">
+                <div className="flex justify-start items-start w-40">
                   <input
                     id="day"
                     type="checkbox"
@@ -515,9 +525,9 @@ const MentorAvailability = () => {
                 </div>
               </div>
 
-                 {/* Thursday */}
+              {/* Thursday */}
               <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-              <div className="flex justify-start items-start w-40">
+                <div className="flex justify-start items-start w-40">
                   <input
                     id="day"
                     type="checkbox"
@@ -625,9 +635,9 @@ const MentorAvailability = () => {
                 </div>
               </div>
 
-                 {/* Friday */}
-                 <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-                 <div className="flex justify-start items-start w-40">
+              {/* Friday */}
+              <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
+                <div className="flex justify-start items-start w-40">
                   <input
                     id="day"
                     type="checkbox"
@@ -735,10 +745,9 @@ const MentorAvailability = () => {
                 </div>
               </div>
 
-
-                 {/* Saturday */}
+              {/* Saturday */}
               <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-              <div className="flex justify-start items-start w-40">
+                <div className="flex justify-start items-start w-40">
                   <input
                     id="day"
                     type="checkbox"
@@ -846,8 +855,8 @@ const MentorAvailability = () => {
                 </div>
               </div>
 
-                 {/* Everyday */}
-                 <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
+              {/* Everyday */}
+              <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
                 <div className="flex justify-start items-start w-40">
                   <input
                     id="day"
@@ -955,8 +964,6 @@ const MentorAvailability = () => {
                   </div>
                 </div>
               </div>
-
-
             </div>
 
             <div className="flex flex-row justify-center mt-10 ">
@@ -964,7 +971,12 @@ const MentorAvailability = () => {
                 <span className="ml-3 text-sm">Previous</span>
               </button>
 
-              <button className="flex justify-center items-center ml-10 bg-amber-500 hover:bg-blue-700 text-white font-bold  py-2 px-6 rounded-full w-40">
+              <button
+                className="flex justify-center items-center ml-10 bg-amber-500 hover:bg-blue-700 text-white font-bold  py-2 px-6 rounded-full w-40"
+                onClick={() => {
+                  router.push("/register/KYC_step4");
+                }}
+              >
                 <span className="ml-3 text-sm">Continue</span>
               </button>
             </div>

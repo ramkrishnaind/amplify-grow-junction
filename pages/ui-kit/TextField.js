@@ -16,12 +16,22 @@ const TextField = (props) => {
     value,
     errMsg,
     phoneNumber = false,
+    textStyleOverride,
+    infoMsg,
     ...rest
   } = props;
 
   return (
     <div className="mb-5 flex-1" style={{}}>
-      <label htmlFor="email-address" style={{ color: color.blackVariant }}>
+      <label
+        htmlFor="email-address"
+        style={{
+          color: color.blackVariant,
+          fontSize: 14,
+          fontWeight: 400,
+          marginBottom: 8,
+        }}
+      >
         {label}
       </label>
       <div
@@ -29,12 +39,20 @@ const TextField = (props) => {
         style={{ ...styleOverride }}
       >
         {phoneNumber ? (
-          <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
             <div
               style={{
                 color: color.lightGrey,
                 marginLeft: 10,
                 marginRight: 10,
+                fontSize: 14,
               }}
             >
               +91
@@ -44,6 +62,7 @@ const TextField = (props) => {
                 color: color.lightGrey,
                 marginLeft: 10,
                 marginRight: 20,
+                fontSize: 14,
               }}
             >
               |
@@ -56,11 +75,16 @@ const TextField = (props) => {
           type={type}
           required
           disabled={disabled}
-          style={{ backgroundColor: color.headerColor }}
+          style={{
+            backgroundColor: color.headerColor,
+            fontSize: 14,
+            ...textStyleOverride,
+          }}
           value={value}
           onChange={(text) => {
             onChangeValue(text);
           }}
+          st
           className="w-full  rounded-md  text-black border-none focus:outline-none "
           placeholder={placeholder}
           {...rest}
@@ -80,7 +104,18 @@ const TextField = (props) => {
         >
           {errMsg}
         </div>
-      ) : null}
+      ) : (
+        <div
+          style={{
+            //   position: 'absolute',
+            //paddingTop: 35,
+            fontSize: 12,
+            color: color.blue,
+          }}
+        >
+          {infoMsg}
+        </div>
+      )}
     </div>
   );
 };

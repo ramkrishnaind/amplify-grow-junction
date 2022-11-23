@@ -45,6 +45,8 @@ const TypeOfRegister = () => {
                 marginTop: 40,
                 borderRadius: 4,
                 marginRight: 24,
+                fontSize: 16,
+                fontWeight: 700,
               }}
               onClick={() => {
                 RegisterTypeRequest(dispatch, "MENTOR");
@@ -61,6 +63,8 @@ const TypeOfRegister = () => {
                 color: color.blackVariant,
                 marginTop: 40,
                 borderRadius: 4,
+                fontSize: 16,
+                fontWeight: 700,
               }}
               onClick={() => {
                 RegisterTypeRequest(dispatch, "STUDENT");
@@ -74,6 +78,8 @@ const TypeOfRegister = () => {
               marginTop: 36,
               color: color.blackVariant,
               cursor: "pointer",
+              fontSize: 16,
+              //   fontWeight: 600,
             }}
             onClick={() => {
               router.push("/auth/Login");

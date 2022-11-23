@@ -7,6 +7,7 @@ const initialState = {
   data: null,
   registerType: null,
   userAuth: null,
+  layout: null,
 };
 
 const AuthReducer = (state = initialState, action) => {
@@ -28,6 +29,11 @@ const AuthReducer = (state = initialState, action) => {
       return {
         ...state,
         userAuth: payload,
+      };
+    case ACTION_KEYS.WINDOWLAYOUT:
+      return {
+        ...state,
+        layout: payload,
       };
     // case
     default:

@@ -6,12 +6,13 @@ import BoxBodyContainer from "../components/common/BoxBodyContainer";
 import Button from "../ui-kit/Button";
 // import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 const VerifyEmail = () => {
-  //   const registerType = useSelector((state: ) => state.AuthReducer);
+  const registerType = useSelector((state) => state.AuthReducer);
   const router = useRouter();
 
-  // console.log(registerType.userAuth);
+  console.log(registerType.userAuth);
 
   //   useEffect(() => {
   //     const getInfo = async () => {
@@ -61,20 +62,24 @@ const VerifyEmail = () => {
           >
             Verify your Email
           </div>
-          <div
-            style={{
-              marginTop: 40,
-              fontSize: 20,
-              color: color.blackVariant,
-              textAlign: "center",
-              paddingLeft: 373,
-              paddingRight: 373,
-              //   lineHeight: 27.24,
-            }}
-          >
-            To keep a trusted and safe community, we’ve sent an email to{" "}
-            {/* {registerType.userAuth?.username}  */}
-            for verification, and you’ll only do this once.
+          <div style={{ display: "flex", flex: 1, justifyContent: "center" }}>
+            <div
+              style={{
+                marginTop: 40,
+                fontSize: 20,
+                color: color.blackVariant,
+                textAlign: "center",
+                paddingLeft: 373,
+                paddingRight: 373,
+                //   lineHeight: 27.24,
+              }}
+            >
+              To keep a trusted and safe community, we’ve sent an email to{" "}
+              <span style={{ fontWeight: 700 }}>
+                {registerType.userAuth?.username}
+              </span>{" "}
+              for verification, and you’ll only do this once.
+            </div>
           </div>
           <div
             style={{
@@ -106,6 +111,8 @@ const VerifyEmail = () => {
               //   alignSelf: 'center',
               //   marginTop: 40,
               width: 494,
+              fontSize: 16,
+              fontWeight: 700,
             }}
             //   onClick={handleSubmit}
             onClick={() => {
