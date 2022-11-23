@@ -8,7 +8,7 @@ import * as mutations from "../../src/graphql/mutations";
 import * as queries from "../../src/graphql/queries";
 import { API, Auth } from "aws-amplify";
 import TextField from "../ui-kit/TextField";
-import { DropDown } from "../ui-kit/DropDown";
+
 import { countryCodeJson } from "../../public/utils/CountryCodeJson";
 
 const numberValidation = new RegExp(/^[0-9]{0,10}$/);
