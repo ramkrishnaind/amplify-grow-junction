@@ -1,980 +1,621 @@
-import React from "react";
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import { color } from '../../public/theme/Color'
+import BoxBodyContainer from '../components/common/BoxBodyContainer'
+import KYC_header from '../components/registration/KYC_header'
+import Button from '../ui-kit/Button'
+import CheckBox from '../ui-kit/CheckBox'
+import DropDown from '../ui-kit/DropDown'
+import TextField from '../ui-kit/TextField'
 
+const timeAvailability = [
+  {
+    day: 'Sunday',
+    checked: false,
+    selectedTime: [
+      {
+        startTime: '00',
+        leftMeridianDropDown: false,
+        startTimeMeridian: 'AM',
+        endTime: '00',
+        rightMeridianDropDown: false,
+        endTimeMeridian: 'AM',
+      },
+    ],
+  },
+  {
+    day: 'Monday',
+    checked: false,
+    selectedTime: [
+      {
+        startTime: '00',
+        leftMeridianDropDown: false,
+        startTimeMeridian: 'AM',
+        endTime: '00',
+        rightMeridianDropDown: false,
+        endTimeMeridian: 'AM',
+      },
+    ],
+  },
+  {
+    day: 'Tuesday',
+    checked: false,
+    selectedTime: [
+      {
+        startTime: '00',
+        leftMeridianDropDown: false,
+        startTimeMeridian: 'AM',
+        endTime: '00',
+        rightMeridianDropDown: false,
+        endTimeMeridian: 'AM',
+      },
+    ],
+  },
+  {
+    day: 'Wednesday',
+    checked: false,
+    selectedTime: [
+      {
+        startTime: '00',
+        leftMeridianDropDown: false,
+        startTimeMeridian: 'AM',
+        endTime: '00',
+        rightMeridianDropDown: false,
+        endTimeMeridian: 'AM',
+      },
+    ],
+  },
+  {
+    day: 'Thrusday',
+    checked: false,
+    selectedTime: [
+      {
+        startTime: '00',
+        leftMeridianDropDown: false,
+        startTimeMeridian: 'AM',
+        endTime: '00',
+        rightMeridianDropDown: false,
+        endTimeMeridian: 'AM',
+      },
+    ],
+  },
+  {
+    day: 'Friday',
+    checked: false,
+    selectedTime: [
+      {
+        startTime: '00',
+        leftMeridianDropDown: false,
+        startTimeMeridian: 'AM',
+        endTime: '00',
+        rightMeridianDropDown: false,
+        endTimeMeridian: 'AM',
+      },
+    ],
+  },
+  {
+    day: 'Saurday',
+    checked: false,
+    selectedTime: [
+      {
+        startTime: '00',
+        leftMeridianDropDown: false,
+        startTimeMeridian: 'AM',
+        endTime: '00',
+        rightMeridianDropDown: false,
+        endTimeMeridian: 'AM',
+      },
+    ],
+  },
+]
+const meridian = ['AM', 'PM']
 const MentorAvailability = () => {
+  const router = useRouter()
+  const [sameTimeAvailabel, setSameTimeAvailabel] = useState(false)
+  const [mentorAvailability, setMentorAvailability] = useState(timeAvailability)
+  console.log('zdfdf', mentorAvailability)
   return (
-    <>
-      <form>
-        <div className="mt-20 px-4">
-          <div className="flex w-auto">
-            {/* 01*/}
-            <div className="flex justify-start w-auto px-4">
-              <div className="flex flex-row py-3">
-                <img
-                  src="/images/leftArrow.png"
-                  alt=""
-                  className="w-4 h-4 mt-1"
-                ></img>
-                <span className="text-base tex-black ml-4">Go back</span>
+    <BoxBodyContainer
+      styleOverride={{ alignItems: 'flex-start' }}
+      body={
+        <div
+          style={{
+            display: 'flex',
+            flex: 1,
+            flexDirection: 'column',
+          }}
+        >
+          <KYC_header
+            stepImage={require('../../public/assets/icon/StepIndicator3.png')}
+          />
+          <div
+            style={{
+              display: 'flex',
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'center',
+                flexDirection: 'column',
+                maxWidth: 750,
+              }}
+            >
+              <div
+                style={{
+                  color: color.blackVariant,
+                  fontWeight: 400,
+                  fontSize: 36,
+                  marginTop: 60,
+                }}
+              >
+                Let your audience know your availability
+              </div>
+              <div
+                style={{
+                  color: color.lightGrey,
+                  fontSize: 16,
+                  fontWeight: 400,
+                  marginTop: 16,
+                }}
+              >
+                Leting your audience know your availability will help them
+                connect or opt for your service at their convenience, you can
+                edit it multiple time later
               </div>
 
-              {/* 01*/}
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-row justify-center  items-center mt-5 px-10 w-full">
-          <img src="/images/studentPD1.png" alt="" className="w-10 h-10"></img>
-          <img
-            src="/images/studentProfessionalDetail.png"
-            alt=""
-            className="w-14"
-          ></img>
-          <img src="/images/studentPD1.png" alt="" className="w-10 h-10"></img>
-          <img
-            src="/images/studentProfessionalDetail.png"
-            alt=""
-            className="w-14"
-          ></img>
-          <img src="/images/availability03.png" alt="" className="w-14 h-14"></img>
-          <img
-            src="/images/studentProfessionalDetail.png"
-            alt=""
-            className="w-14"
-          ></img>
-          <img src="/images/availability04.png" alt="" className="w-10 h-10"></img>
-        </div>
-
-        <div></div>
-
-        <div className="flex flex-row justify-center px-5 mt-10">
-          <div className="flex flex-col tracking-wide text-black ml-4 w-5/6 md:w-auto lg:w-auto">
-            <div className="leading-8 text-2xl font-semibold">
-              Let your audience know your availability
-            </div>
-            <p className="text-xs mt-10">
-              Leting your audience know your availability will help them connect
-              or opt for your service at their convenience, you can edit it
-              multiple time later
-            </p>
-
-            <div className="flex flex-row justify-start mt-10">
-              <div className="text-base font-medium">
-                Select days you’ll be available
-              </div>
-
-              <div className="flex ml-10 justify-center items-center">
-                <input
-                  id="availability"
-                  type="checkbox"
-                  value=""
-                  className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label
-                  htmlFor="availability"
-                  className="ml-2 text-sm font-normal text-gray-900 dark:text-gray-300"
+              <div
+                style={{
+                  display: 'flex',
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <div
+                  style={{
+                    color: color.blackVariant,
+                    marginBottom: 20,
+                    fontSize: 16,
+                    fontWeight: 400,
+                    marginTop: 56,
+                    marginBottom: 24,
+                  }}
                 >
-                  I’m available same time everyday
-                </label>
+                  Select days you’ll be available
+                </div>
+                <CheckBox
+                  title={`I'm Available same time everyday`}
+                  checkBool={sameTimeAvailabel}
+                  onSubmit={() => {
+                    setSameTimeAvailabel(!sameTimeAvailabel)
+                  }}
+                  styleOverride={{ alignItems: 'center' }}
+                />
               </div>
-            </div>
-            <div className="flex flex-col mt-5">
-              <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-              <div className="flex justify-start items-start w-40">
-                  <input
-                    id="day"
-                    type="checkbox"
-                    value=""
-                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    htmlFor="day"
-                    className="ml-2 text-sm font-normal text-gray-900 dark:text-gray-300"
+              {mentorAvailability?.map((item, index) => {
+                return (
+                  <div
+                    style={{
+                      backgroundColor: color.white,
+                      display: 'flex',
+                      flexDirection: 'row',
+                      paddingTop: 24,
+                      paddingBottom: 24,
+                      paddingRight: 40,
+                      paddingLeft: 40,
+                    }}
+                    key={index.toString()}
                   >
-                    Sunday
-                  </label>
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="startTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
+                    <CheckBox
+                      checkBool={item?.checked}
+                      onSubmit={() => {
+                        // setSameTimeAvailabel(!sameTimeAvailabel)
 
-                  <div className="ml-5 ">
-                    <select
-                      id="startTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        const payload = [...mentorAvailability]
+                        payload[index]['checked'] = !item?.checked
+                          ? true
+                          : false
+
+                        setMentorAvailability(payload)
+                      }}
+                    />
+
+                    <div
+                      style={{
+                        color: color.black,
+                        fontSize: 18,
+                        alignSelf: 'center',
+                        marginRight: 109,
+                        width: 30,
+                        marginLeft: 15,
+                      }}
                     >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
+                      {item?.day}
+                    </div>
+                    <div>
+                      {item?.selectedTime?.map((items, in_index) => {
+                        return (
+                          <div
+                            key={in_index.toString()}
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              marginTop: 10,
+                              // alignSelf: 'center',
+                            }}
+                          >
+                            <TextField
+                              label=""
+                              id="url"
+                              value={items?.startTime}
+                              placeholder="10"
+                              styleOverride={{
+                                backgroundColor: color.white,
+                                height: 34,
+                                borderColor: color.borderGrey,
+                                width: 122,
+                                padding: 2,
+                                paddingRight: 15,
+                                marginTop: 2,
+                              }}
+                              textStyleOverride={{
+                                backgroundColor: color.white,
+                                paddingLeft: 8,
+                              }}
+                              imageType={true}
+                              handleIncrement={() => {
+                                const payload = [...mentorAvailability]
+                                const dateArr = payload[index]?.selectedTime
+                                const dateTime =
+                                  payload[index]?.selectedTime[in_index]
+                                let cal_add = Number(dateTime?.startTime)
+                                if (cal_add >= 0 && cal_add < 12) {
+                                  cal_add = cal_add + 1
+                                }
+                                const updatePayload = {
+                                  ...dateTime,
+                                  startTime: cal_add.toString(),
+                                }
+                                dateArr[in_index] = updatePayload
+                                payload[index]['selectedTime'] = dateArr
+                                console.log('payload', payload)
+                                setMentorAvailability(payload)
+                              }}
+                              handleDecrement={() => {
+                                const payload = [...mentorAvailability]
+                                const dateArr = payload[index]?.selectedTime
+                                const dateTime =
+                                  payload[index]?.selectedTime[in_index]
+                                let cal_add = Number(dateTime?.startTime)
+                                if (cal_add > 1 && cal_add <= 12) {
+                                  cal_add = cal_add - 1
+                                }
+                                const updatePayload = {
+                                  ...dateTime,
+                                  startTime: cal_add.toString(),
+                                }
+                                dateArr[in_index] = updatePayload
+                                payload[index]['selectedTime'] = dateArr
+                                setMentorAvailability(payload)
+                              }}
+                            />
+                            <div>
+                              <DropDown
+                                value={items?.startTimeMeridian}
+                                containerStyle={{
+                                  backgroundColor: color.white,
+                                  height: 34,
+                                  borderColor: color.borderGrey,
+                                  borderWidth: 1,
+                                  width: 81,
+                                  borderRadius: 4,
+                                }}
+                                dropDownBool={items?.leftMeridianDropDown}
+                                openDropDown={() => {
+                                  const payload = [...mentorAvailability]
+                                  const dateArr = payload[index]?.selectedTime
+                                  const dateTime =
+                                    payload[index]?.selectedTime[in_index]
+
+                                  const updatePayload = {
+                                    ...dateTime,
+                                    leftMeridianDropDown: true,
+                                  }
+                                  dateArr[in_index] = updatePayload
+                                  payload[index]['selectedTime'] = dateArr
+                                  setMentorAvailability(payload)
+                                }}
+                              />
+
+                              {items?.leftMeridianDropDown ? (
+                                <div
+                                  style={{
+                                    backgroundColor: color.lightGrey,
+                                    padding: 5,
+                                    borderRadius: 4,
+                                    position: 'absolute',
+                                    width: 81,
+                                  }}
+                                >
+                                  {meridian?.map((item, _index) => {
+                                    return (
+                                      <div
+                                        key={_index.toString()}
+                                        style={{
+                                          color: color.black,
+                                          marginBottom: 2,
+                                          fontSize: 14,
+                                          cursor: 'pointer',
+                                        }}
+                                        onClick={() => {
+                                          const payload = [
+                                            ...mentorAvailability,
+                                          ]
+                                          const dateArr =
+                                            payload[index]?.selectedTime
+                                          const dateTime =
+                                            payload[index]?.selectedTime[
+                                              in_index
+                                            ]
+
+                                          const updatePayload = {
+                                            ...dateTime,
+                                            startTimeMeridian: item,
+                                            leftMeridianDropDown: false,
+                                          }
+                                          dateArr[in_index] = updatePayload
+                                          payload[index]['selectedTime'] =
+                                            dateArr
+                                          setMentorAvailability(payload)
+                                        }}
+                                      >
+                                        {item}
+                                      </div>
+                                    )
+                                  })}
+                                </div>
+                              ) : null}
+                            </div>
+                            <div
+                              style={{
+                                color: color.black,
+                                alignSelf: 'center',
+                                paddingLeft: 24,
+                                paddingRight: 24,
+                                fontSize: 14,
+                              }}
+                            >
+                              to
+                            </div>
+                            <TextField
+                              label=""
+                              id="url"
+                              value={items?.endTime}
+                              placeholder="10"
+                              styleOverride={{
+                                backgroundColor: color.white,
+                                height: 34,
+                                borderColor: color.borderGrey,
+                                width: 122,
+                                padding: 2,
+                                paddingRight: 15,
+                                marginTop: 2,
+                              }}
+                              textStyleOverride={{
+                                backgroundColor: color.white,
+                                paddingLeft: 8,
+                              }}
+                              imageType={true}
+                              handleIncrement={() => {
+                                const payload = [...mentorAvailability]
+                                const dateArr = payload[index]?.selectedTime
+                                const dateTime =
+                                  payload[index]?.selectedTime[in_index]
+                                let cal_add = Number(dateTime?.endTime)
+                                if (cal_add >= 0 && cal_add < 12) {
+                                  cal_add = cal_add + 1
+                                }
+                                const updatePayload = {
+                                  ...dateTime,
+                                  endTime: cal_add.toString(),
+                                }
+                                dateArr[in_index] = updatePayload
+                                payload[index]['selectedTime'] = dateArr
+                                setMentorAvailability(payload)
+                              }}
+                              handleDecrement={() => {
+                                const payload = [...mentorAvailability]
+                                const dateArr = payload[index]?.selectedTime
+                                const dateTime =
+                                  payload[index]?.selectedTime[in_index]
+                                let cal_add = Number(dateTime?.endTime)
+                                if (cal_add > 1 && cal_add <= 12) {
+                                  cal_add = cal_add - 1
+                                }
+                                const updatePayload = {
+                                  ...dateTime,
+                                  endTime: cal_add.toString(),
+                                }
+                                dateArr[in_index] = updatePayload
+                                payload[index]['selectedTime'] = dateArr
+                                setMentorAvailability(payload)
+                              }}
+                            />
+                            <div>
+                              <DropDown
+                                value={items?.endTimeMeridian}
+                                containerStyle={{
+                                  backgroundColor: color.white,
+                                  height: 34,
+                                  borderColor: color.borderGrey,
+                                  borderWidth: 1,
+                                  width: 81,
+                                  borderRadius: 4,
+                                }}
+                                dropDownBool={items?.rightMeridianDropDown}
+                                openDropDown={() => {
+                                  const payload = [...mentorAvailability]
+                                  const dateArr = payload[index]?.selectedTime
+                                  const dateTime =
+                                    payload[index]?.selectedTime[in_index]
+
+                                  const updatePayload = {
+                                    ...dateTime,
+                                    rightMeridianDropDown: true,
+                                  }
+                                  dateArr[in_index] = updatePayload
+                                  payload[index]['selectedTime'] = dateArr
+                                  setMentorAvailability(payload)
+                                }}
+                              />
+
+                              {items?.rightMeridianDropDown ? (
+                                <div
+                                  style={{
+                                    backgroundColor: color.lightGrey,
+                                    padding: 5,
+                                    borderRadius: 4,
+                                    position: 'absolute',
+                                    width: 81,
+                                  }}
+                                >
+                                  {meridian?.map((item, _index) => {
+                                    return (
+                                      <div
+                                        key={_index.toString()}
+                                        style={{
+                                          color: color.black,
+                                          marginBottom: 2,
+                                          fontSize: 14,
+                                          cursor: 'pointer',
+                                        }}
+                                        onClick={() => {
+                                          const payload = [
+                                            ...mentorAvailability,
+                                          ]
+                                          const dateArr =
+                                            payload[index]?.selectedTime
+                                          const dateTime =
+                                            payload[index]?.selectedTime[
+                                              in_index
+                                            ]
+
+                                          const updatePayload = {
+                                            ...dateTime,
+                                            endTimeMeridian: item,
+                                            rightMeridianDropDown: false,
+                                          }
+                                          dateArr[in_index] = updatePayload
+                                          payload[index]['selectedTime'] =
+                                            dateArr
+                                          setMentorAvailability(payload)
+                                        }}
+                                      >
+                                        {item}
+                                      </div>
+                                    )
+                                  })}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+                        )
+                      })}
+                      <Image
+                        src={require('../../public/assets/icon/plus.png')}
+                        alt=""
+                        style={{
+                          backgroundColor: color.black,
+                          height: 15,
+                          width: 15,
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => {
+                          const payload = [...mentorAvailability]
+                          const dateArr = payload[index]?.selectedTime
+
+                          dateArr.push({
+                            startTime: '00',
+                            leftMeridianDropDown: false,
+                            startTimeMeridian: 'AM',
+                            endTime: '00',
+                            rightMeridianDropDown: false,
+                            endTimeMeridian: 'AM',
+                          })
+                          //   dateArr[in_index] = updatePayload
+                          payload[index]['selectedTime'] = dateArr
+                          //   console.log('payload', payload)
+                          setMentorAvailability(payload)
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="flex justify-center items-center ml-3 text-sm font-normal text-gray-900 dark:text-gray-300 w-20">
-                  to
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="endTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-                  <div className="ml-5 ">
-                    <select
-                      id="endTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
+                )
+              })}
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  flex: 1,
+                  maxWidth: 700,
+                }}
+              ></div>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <Button
+                  label={'Previous'}
+                  styleOverride={{
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    paddingTop: 6,
+                    paddingBottom: 6,
+                    color: color.white,
+                    borderRadius: 22,
+                    height: 43,
+                    fontSize: 15,
+                    backgroundColor: color.blackVariant,
+                    width: 186,
+                    marginTop: 70,
+                    marginBottom: 48,
+                    marginRight: 24,
+                  }}
+                  onClick={() => {
+                    router.push('/register/KYC_step1')
+                  }}
+                />
+                <Button
+                  label={'Continue'}
+                  styleOverride={{
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    paddingTop: 6,
+                    paddingBottom: 6,
+                    color: color.white,
+                    borderRadius: 22,
+                    height: 43,
+                    fontSize: 15,
+                    backgroundColor: color.btnColor,
+                    width: 186,
+                    marginTop: 70,
+                    marginBottom: 48,
+                  }}
+                  onClick={() => {
+                    router.push('/register/KYC_step4')
+                  }}
+                />
               </div>
-              {/* Monday */}
-              <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-              <div className="flex justify-start items-start w-40">
-                  <input
-                    id="day"
-                    type="checkbox"
-                    value=""
-                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    htmlFor="day"
-                    className="ml-2 text-sm font-normal text-gray-900 dark:text-gray-300"
-                  >
-                    Monday
-                  </label>
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="startTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-
-                  <div className="ml-5 ">
-                    <select
-                      id="startTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="flex justify-center items-center ml-3 text-sm font-normal text-gray-900 dark:text-gray-300 w-20">
-                  to
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="endTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-                  <div className="ml-5 ">
-                    <select
-                      id="endTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-               {/* Tuesday */}
-               <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-               <div className="flex justify-start items-start w-40">
-                  <input
-                    id="day"
-                    type="checkbox"
-                    value=""
-                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    htmlFor="day"
-                    className="ml-2 text-sm font-normal text-gray-900 dark:text-gray-300"
-                  >
-                    Tuesday
-                  </label>
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="startTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-
-                  <div className="ml-5 ">
-                    <select
-                      id="startTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="flex justify-center items-center ml-3 text-sm font-normal text-gray-900 dark:text-gray-300 w-20">
-                  to
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="endTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-                  <div className="ml-5 ">
-                    <select
-                      id="endTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-                {/* Wednesday */}
-              <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-              <div className="flex justify-start items-start w-40">
-                  <input
-                    id="day"
-                    type="checkbox"
-                    value=""
-                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    htmlFor="day"
-                    className="ml-2 text-sm font-normal text-gray-900 dark:text-gray-300"
-                  >
-                    Wednesday
-                  </label>
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="startTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-
-                  <div className="ml-5 ">
-                    <select
-                      id="startTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="flex justify-center items-center ml-3 text-sm font-normal text-gray-900 dark:text-gray-300 w-20">
-                  to
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="endTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-                  <div className="ml-5 ">
-                    <select
-                      id="endTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-                 {/* Thursday */}
-              <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-              <div className="flex justify-start items-start w-40">
-                  <input
-                    id="day"
-                    type="checkbox"
-                    value=""
-                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    htmlFor="day"
-                    className="ml-2 text-sm font-normal text-gray-900 dark:text-gray-300"
-                  >
-                    Thursday
-                  </label>
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="startTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-
-                  <div className="ml-5 ">
-                    <select
-                      id="startTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="flex justify-center items-center ml-3 text-sm font-normal text-gray-900 dark:text-gray-300 w-20">
-                  to
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="endTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-                  <div className="ml-5 ">
-                    <select
-                      id="endTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-                 {/* Friday */}
-                 <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-                 <div className="flex justify-start items-start w-40">
-                  <input
-                    id="day"
-                    type="checkbox"
-                    value=""
-                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    htmlFor="day"
-                    className="ml-2 text-sm font-normal text-gray-900 dark:text-gray-300"
-                  >
-                    Friday
-                  </label>
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="startTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-
-                  <div className="ml-5 ">
-                    <select
-                      id="startTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="flex justify-center items-center ml-3 text-sm font-normal text-gray-900 dark:text-gray-300 w-20">
-                  to
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="endTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-                  <div className="ml-5 ">
-                    <select
-                      id="endTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-
-                 {/* Saturday */}
-              <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-              <div className="flex justify-start items-start w-40">
-                  <input
-                    id="day"
-                    type="checkbox"
-                    value=""
-                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    htmlFor="day"
-                    className="ml-2 text-sm font-normal text-gray-900 dark:text-gray-300"
-                  >
-                    Saturday
-                  </label>
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="startTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-
-                  <div className="ml-5 ">
-                    <select
-                      id="startTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="flex justify-center items-center ml-3 text-sm font-normal text-gray-900 dark:text-gray-300 w-20">
-                  to
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="endTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-                  <div className="ml-5 ">
-                    <select
-                      id="endTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-                 {/* Everyday */}
-                 <div className="flex flex-col md:flex-row lg:flex-row justify-start mt-10 ">
-                <div className="flex justify-start items-start w-40">
-                  <input
-                    id="day"
-                    type="checkbox"
-                    value=""
-                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    htmlFor="day"
-                    className="ml-2 text-sm font-normal text-gray-900 dark:text-gray-300"
-                  >
-                    Everyday
-                  </label>
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="startTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-
-                  <div className="ml-5 ">
-                    <select
-                      id="startTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="flex justify-center items-center ml-3 text-sm font-normal text-gray-900 dark:text-gray-300 w-20">
-                  to
-                </div>
-                <div className="flex flex-row justify-center ml-2">
-                  <select
-                    id="endTime"
-                    className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option value="01" selected>
-                      01
-                    </option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                  </select>
-                  <div className="ml-5 ">
-                    <select
-                      id="endTimeAP"
-                      className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option value="AM" selected>
-                        AM
-                      </option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-
-            </div>
-
-            <div className="flex flex-row justify-center mt-10 ">
-              <button className="flex justify-center items-center bg-black hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full w-40">
-                <span className="ml-3 text-sm">Previous</span>
-              </button>
-
-              <button className="flex justify-center items-center ml-10 bg-amber-500 hover:bg-blue-700 text-white font-bold  py-2 px-6 rounded-full w-40">
-                <span className="ml-3 text-sm">Continue</span>
-              </button>
             </div>
           </div>
         </div>
+      }
+    />
+  )
+}
 
-        {/* 02 */}
-      </form>
-    </>
-  );
-};
-
-export default MentorAvailability;
+export default MentorAvailability

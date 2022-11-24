@@ -1,6 +1,6 @@
-import Image from "next/image";
-import React from "react";
-import { color } from "../../public/theme/Color";
+import Image from 'next/image'
+import React from 'react'
+import { color } from '../../public/theme/Color'
 
 const TextField = (props) => {
   const {
@@ -16,25 +16,46 @@ const TextField = (props) => {
     value,
     errMsg,
     phoneNumber = false,
+    textStyleOverride,
+    infoMsg,
+    imageType,
+    handleIncrement = () => {},
+    handleDecrement = () => {},
     ...rest
-  } = props;
+  } = props
 
   return (
     <div className="mb-5 flex-1" style={{}}>
-      <label htmlFor="email-address" style={{ color: color.blackVariant }}>
+      <label
+        htmlFor="email-address"
+        style={{
+          color: color.blackVariant,
+          fontSize: 14,
+          fontWeight: 400,
+          marginBottom: 8,
+        }}
+      >
         {label}
       </label>
       <div
-        className="focus-outline mr-5  p-4  w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        style={{ ...styleOverride }}
+        className="focus-outline mr-5   w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        style={{ padding: 4, ...styleOverride }}
       >
         {phoneNumber ? (
-          <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
+          <div
+            style={{
+              display: 'flex',
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
             <div
               style={{
                 color: color.lightGrey,
                 marginLeft: 10,
                 marginRight: 10,
+                fontSize: 14,
               }}
             >
               +91
@@ -44,6 +65,7 @@ const TextField = (props) => {
                 color: color.lightGrey,
                 marginLeft: 10,
                 marginRight: 20,
+                fontSize: 14,
               }}
             >
               |
@@ -56,10 +78,14 @@ const TextField = (props) => {
           type={type}
           required
           disabled={disabled}
-          style={{ backgroundColor: color.headerColor }}
+          style={{
+            backgroundColor: color.headerColor,
+            fontSize: 14,
+            ...textStyleOverride,
+          }}
           value={value}
           onChange={(text) => {
-            onChangeValue(text);
+            onChangeValue(text)
           }}
           className="w-full  rounded-md  text-black border-none focus:outline-none "
           placeholder={placeholder}
@@ -68,20 +94,70 @@ const TextField = (props) => {
         {icon && (
           <Image src={icon} alt="" className="h-5 max-w-full self-center" />
         )}
+        {imageType ? (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}
+          >
+            <Image
+              src={require('../../public/assets/icon/darkDrop.png')}
+              alt=""
+              style={{
+                transform: 'rotate(180deg)',
+                width: 9,
+                height: 5,
+                marginBottom: 5,
+                cursor: 'pointer',
+              }}
+              onClick={() => {
+                handleIncrement()
+              }}
+            />
+            <Image
+              src={require('../../public/assets/icon/darkDrop.png')}
+              alt=""
+              style={{
+                width: 9,
+                height: 5,
+                fill: color.black,
+                marginRight: 1,
+                cursor: 'pointer',
+              }}
+              onClick={() => {
+                handleDecrement()
+              }}
+            />
+          </div>
+        ) : null}
       </div>
+
       {errMsg ? (
         <div
           style={{
             //   position: 'absolute',
             //paddingTop: 35,
             fontSize: 12,
-            color: "red",
+            color: 'red',
           }}
         >
           {errMsg}
         </div>
-      ) : null}
+      ) : (
+        <div
+          style={{
+            //   position: 'absolute',
+            //paddingTop: 35,
+            fontSize: 12,
+            color: color.blue,
+          }}
+        >
+          {infoMsg}
+        </div>
+      )}
     </div>
-  );
-};
-export default TextField;
+  )
+}
+export default TextField
