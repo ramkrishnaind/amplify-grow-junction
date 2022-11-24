@@ -1,6 +1,6 @@
-import Image from "next/image";
-import React from "react";
-import { color } from "../../public/theme/Color";
+import Image from 'next/image'
+import React from 'react'
+import { color } from '../../public/theme/Color'
 
 const TextField = (props) => {
   const {
@@ -18,8 +18,11 @@ const TextField = (props) => {
     phoneNumber = false,
     textStyleOverride,
     infoMsg,
+    imageType,
+    handleIncrement = () => {},
+    handleDecrement = () => {},
     ...rest
-  } = props;
+  } = props
 
   return (
     <div className="mb-5 flex-1" style={{}}>
@@ -35,16 +38,16 @@ const TextField = (props) => {
         {label}
       </label>
       <div
-        className="focus-outline mr-5  p-4  w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        style={{ ...styleOverride }}
+        className="focus-outline mr-5   w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        style={{ padding: 4, ...styleOverride }}
       >
         {phoneNumber ? (
           <div
             style={{
-              display: "flex",
+              display: 'flex',
               flex: 1,
-              flexDirection: "row",
-              alignItems: "center",
+              flexDirection: 'row',
+              alignItems: 'center',
             }}
           >
             <div
@@ -82,9 +85,8 @@ const TextField = (props) => {
           }}
           value={value}
           onChange={(text) => {
-            onChangeValue(text);
+            onChangeValue(text)
           }}
-          st
           className="w-full  rounded-md  text-black border-none focus:outline-none "
           placeholder={placeholder}
           {...rest}
@@ -92,14 +94,53 @@ const TextField = (props) => {
         {icon && (
           <Image src={icon} alt="" className="h-5 max-w-full self-center" />
         )}
+        {imageType ? (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}
+          >
+            <Image
+              src={require('../../public/assets/icon/darkDrop.png')}
+              alt=""
+              style={{
+                transform: 'rotate(180deg)',
+                width: 9,
+                height: 5,
+                marginBottom: 5,
+                cursor: 'pointer',
+              }}
+              onClick={() => {
+                handleIncrement()
+              }}
+            />
+            <Image
+              src={require('../../public/assets/icon/darkDrop.png')}
+              alt=""
+              style={{
+                width: 9,
+                height: 5,
+                fill: color.black,
+                marginRight: 1,
+                cursor: 'pointer',
+              }}
+              onClick={() => {
+                handleDecrement()
+              }}
+            />
+          </div>
+        ) : null}
       </div>
+
       {errMsg ? (
         <div
           style={{
             //   position: 'absolute',
             //paddingTop: 35,
             fontSize: 12,
-            color: "red",
+            color: 'red',
           }}
         >
           {errMsg}
@@ -117,6 +158,6 @@ const TextField = (props) => {
         </div>
       )}
     </div>
-  );
-};
-export default TextField;
+  )
+}
+export default TextField
