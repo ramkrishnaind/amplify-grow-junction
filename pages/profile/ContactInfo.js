@@ -7,7 +7,7 @@ import DropDown from '../ui-kit/DropDown'
 import TextField from '../ui-kit/TextField'
 import useWindowDimensions from "../../public/utils/useWindowDimensions";
 
-const Contact = () => {
+const ContactInfo = () => {
   const [phoneNumber, setPhoneNumber] = useState();
   const initialState = {};
   return (
@@ -55,7 +55,7 @@ const Contact = () => {
                 {/* <div className="w-1/4 md:w-1/6 lg:w-1/6">
                   <select
                     id="mobile"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded rounded-r-none focus:ring-black-500 focus:border-black-500 block w-full p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded rounded-r-none focus:ring-black-500 focus:border-black-500 block w-full p-3"
                   >
                     <option value="91" selected>
                       +91
@@ -99,7 +99,7 @@ const Contact = () => {
                 {/* <div className="w-1/4 md:w-1/6 lg:w-1/6">
                   <select
                     id="whatsapp"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded rounded-r-none focus:ring-black-500 focus:border-black-500 block w-full p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded rounded-r-none focus:ring-black-500 focus:border-black-500 block w-full p-3"
                   >
                     <option value="91" selected>
                       +91
@@ -172,4 +172,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default ContactInfo;

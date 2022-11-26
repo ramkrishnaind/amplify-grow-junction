@@ -1,15 +1,15 @@
 import React, {useState} from 'react'
 import { Formik } from 'formik'
 import Image from 'next/image'
-import { color } from '../../public/theme/Color'
-import Button from '../ui-kit/Button'
-import DropDown from '../ui-kit/DropDown'
-import TextField from '../ui-kit/TextField'
-import useWindowDimensions from '../../public/utils/useWindowDimensions'
+import { color } from '../../../public/theme/Color'
+import Button from '../../ui-kit/Button'
+import DropDown from '../../ui-kit/DropDown'
+import TextField from '../../ui-kit/TextField'
+import useWindowDimensions from '../../../public/utils/useWindowDimensions'
 import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 
 
-const ProfileInfo = () => {
+const Profile = () => {
   const initialState = {}
   const [timeZone, setTimeZone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
 
@@ -30,7 +30,7 @@ const ProfileInfo = () => {
                 <div className="flex flex-row w-2/3 md:w-1/6 lg:w-1/6">
                   <div className="w-36 h-36 bg-gray-300 rounded-full">
                     <img
-                      src="../../../images/add-post-profile.png"
+                      src="../../../images/student.png"
                       alt=""
                       className="w-36 h-36"
                     />
@@ -62,19 +62,6 @@ const ProfileInfo = () => {
               </div>
               <div className="p-4 leading-8 text-2xl font-semibold">
                 About Yourself
-              </div>
-
-              <div className="px-4">
-                <label className="leading-8 text-sm font-normal mt-5">
-                  Growjunction URL
-                </label>
-                <div className="flex flex-wrap items-stretch w-full mb-4 relative">
-                  <TextField
-                    type="url"
-                    id="url"
-                    placeholder="the_michael_scott"
-                  />
-                </div>
               </div>
 
               <div className="flex flex-row font-normal">
@@ -127,7 +114,19 @@ const ProfileInfo = () => {
                 </span>
               </div>
 
-              <div className="p-4 leading-8 text-2xl font-semibold mt-10 mb-5">
+              <div className="px-4 mt-8">
+                <label className="leading-8 text-sm font-normal mt-5">
+                  Upload Resume / CV (optional)
+                </label>
+                <div className="flex flex-wrap items-stretch w-full mb-4 relative">
+                  <TextField
+                    id="file_input"
+                    type="file"
+                  />
+                </div>
+              </div>
+
+              <div className="p-4 leading-8 text-2xl font-semibold mt-5 mb-5">
                 Social Links
               </div>
               <div className="px-4">
@@ -181,78 +180,6 @@ const ProfileInfo = () => {
                   />
                 </div>
               </div>
-
-              <div className="p-4 leading-8 text-2xl font-semibold mt-10 mb-5">
-                Other details
-              </div>
-
-              <div className="px-4">
-                <div>
-                  <label className="leading-8 text-sm font-normal mt-5">
-                    Select Currency
-                  </label>
-                </div>
-                {/* todo currency*/}
-                <div className="inline-block relative w-80">
-                  <select
-                    id="currency"
-                    className=" h-12 block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                  >
-                    <option value="₹" selected>₹</option>
-                    <option value="$">$</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg
-                      className="fill-current h-6 w-6"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </div>
-                </div>
-                <p>
-                  Want to change currency? Contact us at support@growjunction.io
-                </p>
-              </div>
-
-              {/* TimeZone */}
-
-              <div className="px-4 mt-5">
-                <div>
-                  <label className="leading-8 text-sm font-normal mt-5">
-                    TimeZone
-                  </label>
-                </div>
-                <div className="inline-block relative w-80">
-                  {/* <select 
-                id="timezone"
-                className="h-12 block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                  <option>GMT (+05:30) Mumbai, New Delhi</option>
-                  <option>Option 2</option>
-                  <option>Option 3</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg
-                    className="fill-current h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
-                </div> */}
-                  <TimezoneSelect
-                    value={timeZone}
-                    onChange={setTimeZone}
-                   // labelStyle="altName"
-                    timezones={{
-                      ...allTimezones,
-                      'America/Lima': 'Pittsburgh',
-                      'Europe/Berlin': 'Frankfurt',
-                    }}
-                  />
-                </div>
-              </div>
             </div>
           </div>
 
@@ -263,18 +190,6 @@ const ProfileInfo = () => {
                 Save Changes
               </button>
             </div>
-
-            <div className="flex justify-center mt-20 md:justify-end lg:justify-end py-2 px-6">
-              <div className="flex justify-center items-center text-base text-semibold border-2 rounded-md bg-white h-8 w-1/2 md:w-1/2 lg:w-1/2">
-                Preview
-              </div>
-            </div>
-
-            <div className="flex justify-center px-6 md:justify-end lg:justify-end">
-              <div className="flex justify-center items-center text-sm border-2 rounded-md bg-gray-200 h-96 w-1/2 md:w-1/2 lg:w-1/2">
-                {' '}
-              </div>
-            </div>
           </div>
         </div>
       </Formik>
@@ -282,4 +197,4 @@ const ProfileInfo = () => {
   );
 };
 
-export default ProfileInfo;
+export default Profile;

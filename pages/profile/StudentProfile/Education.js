@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import { Formik } from 'formik'
 import Image from 'next/image'
-import { color } from '../../public/theme/Color'
-import Button from '../ui-kit/Button'
-import DropDown from '../ui-kit/DropDown'
-import TextField from '../ui-kit/TextField'
-import useWindowDimensions from '../../public/utils/useWindowDimensions'
+import { color } from '../../../public/theme/Color'
+import Button from '../../ui-kit/Button'
+import DropDown from '../../ui-kit/DropDown'
+import TextField from '../../ui-kit/TextField'
+import useWindowDimensions from '../../../public/utils/useWindowDimensions'
 
-const ProfessionalInfo = () => {
+const Education = () => {
   const initialState = {}
 
   return (
@@ -54,12 +54,6 @@ const ProfessionalInfo = () => {
                     id="college"
                     placeholder="Gandhi University of applied sciences"
                   />
-                {/* <input
-                  type="text"
-                  id="college"
-                  className="h-16 block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Gandhi University of applied sciences"
-                /> */}
               </div>
 
               <div className="px-4 mt-1">
@@ -95,6 +89,24 @@ const ProfessionalInfo = () => {
                   <option value="2018">2018</option>
                 </select>
               </div>
+
+              <div className="px-5   mt-2">
+                <div className="flex items-center">
+                  <input
+                    id="stillStudent"
+                    type="checkbox"
+                    value=""
+                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500"
+                  />
+                  <label
+                    htmlFor="stillStudent"
+                    className="ml-2 text-sm font-medium text-gray-900"
+                  >
+                    I’m still a student
+                  </label>
+                </div>
+              </div>
+              
               {/* Professional info */}
 
               <div className="mt-10 p-4 leading-8 text-2xl font-semibold">
@@ -127,12 +139,6 @@ const ProfessionalInfo = () => {
                     id="organisation"
                     placeholder="Grow"
                   />
-                {/* <input
-                  type="text"
-                  id="organisation"
-                  className="h-16 block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Grow"
-                /> */}
               </div>
 
               <div className="px-4 mt-1">
@@ -220,23 +226,10 @@ const ProfessionalInfo = () => {
                 Save Changes
               </button>
             </div>
-
-            <div className="flex justify-center mt-20 md:justify-end lg:justify-end py-2 px-6">
-              <div className="flex justify-center items-center text-base text-semibold border-2 rounded-md bg-white h-8 w-1/2 md:w-1/2 lg:w-1/2">
-                Preview
-              </div>
-            </div>
-
-            <div className="flex justify-center px-6 md:justify-end lg:justify-end">
-              <div className="flex justify-center items-center text-sm border-2 rounded-md bg-gray-200 h-96 w-1/2 md:w-1/2 lg:w-1/2">
-                {' '}
-              </div>
-            </div>
           </div>
         </div>
       </Formik>
     </>
   );
 };
-
-export default ProfessionalInfo;
+export default Education;
