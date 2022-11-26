@@ -1,8 +1,8 @@
 import React from "react";
 import Header from "../../components/profile/header";
-import Profile from "./Profile";
-import Contact from "./Contact";
-import Education from "./Education";
+import Profile from "../StudentProfile/Profile";
+import Contact from "../StudentProfile/Contact";
+import Education from "../StudentProfile/Education";
 
 
 const StudentProfileTab = () => {
