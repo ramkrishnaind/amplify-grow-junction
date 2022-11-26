@@ -30,8 +30,8 @@ const Parent = ({ image, url, hasItems, items }) => {
       </div> */}
 
       <ul>
-        {items.map((child) => {
-          return <Child {...child} />
+        {items.map((child, index) => {
+          return <Child key={index} {...child} />
         })}
       </ul>
     </>

@@ -39,8 +39,8 @@ const Parent = ({ title, image, url, hasItems, items }) => {
       </div>
       {!collapsed && (
         <ul>
-          {items.map((child) => {
-            return <Child {...child} setActive={setActiveHandler} />
+          {items.map((child, index) => {
+            return <Child key={index} {...child} setActive={setActiveHandler} />
           })}
         </ul>
       )}

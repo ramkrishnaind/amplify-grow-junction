@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setMentorTitle } from '../../redux/actions/MentorTitleAction'
-const home = () => {
+const Home = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     setMentorTitle(dispatch, 'Home!!!')
@@ -9,4 +9,4 @@ const home = () => {
   return <div>home</div>
 }
 
-export default home
+export default Home
