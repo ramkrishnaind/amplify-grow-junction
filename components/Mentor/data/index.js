@@ -1,5 +1,10 @@
 export const NavigationLinks = [
   {
+    title: 'Home',
+    url: '/mentor',
+    image: 'home.svg',
+  },
+  {
     title: 'Bookings',
     url: '',
     image: 'bookings.png',
