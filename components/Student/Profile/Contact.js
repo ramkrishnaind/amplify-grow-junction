@@ -28,7 +28,7 @@ const Contact = () => {
               </div>
 
               <div className="px-4">
-                <label className="leading-8 text-sm font-normal mt-5">
+                <label className="leading-8 text-lg font-normal mt-5">
                   Email ID
                 </label>
                 <div className="flex flex-wrap items-stretch w-full relative">
@@ -48,7 +48,7 @@ const Contact = () => {
                 Email ID Verified
               </p>
 
-              <label className="px-4 leading-8 text-sm font-normal mt-5">
+              <label className="px-4 leading-8 text-lg font-normal mt-5">
                 Mobile Number
               </label>
               <div className="px-4 flex flex-row ">
@@ -77,7 +77,7 @@ const Contact = () => {
                 Number Verified
               </p>
 
-              <label className="px-4 leading-8 text-sm font-normal mt-5">
+              <label className="px-4 leading-8 text-lg font-normal mt-5">
                 Whatsapp Number
               </label>
 
@@ -127,7 +127,7 @@ const Contact = () => {
         </div>
       </Formik>
     </>
-  );
-};
+  )
+}
 
-export default Contact;
+export default Contact

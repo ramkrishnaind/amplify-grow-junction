@@ -19,13 +19,14 @@ const TextField = (props) => {
     textStyleOverride,
     infoMsg,
     imageType,
+    style,
     handleIncrement = () => {},
     handleDecrement = () => {},
     ...rest
   } = props
 
   return (
-    <div className="mb-5 flex-1" style={{}}>
+    <div className="mb-5 flex-1" style={style ? { ...style } : {}}>
       <label
         htmlFor="email-address"
         style={{
@@ -38,8 +39,8 @@ const TextField = (props) => {
         {label}
       </label>
       <div
-        className="focus-outline mr-5   w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        style={{ padding: 4, ...styleOverride }}
+        className="focus-outline mr-5 p-3  w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        style={{ ...style }}
       >
         {phoneNumber ? (
           <div
@@ -87,7 +88,7 @@ const TextField = (props) => {
           onChange={(text) => {
             onChangeValue(text)
           }}
-          className="w-full  rounded-md  text-black border-none focus:outline-none "
+          className="w-full text-lg rounded-md  text-black border-none focus:outline-none "
           placeholder={placeholder}
           {...rest}
         />
