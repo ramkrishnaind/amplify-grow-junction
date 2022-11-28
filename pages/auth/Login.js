@@ -1,58 +1,59 @@
-import Image from "next/image";
-import React, { useState } from "react";
+import Image from 'next/image'
+import React, { useEffect, useState } from 'react'
 
-import { color } from "../../public/theme/Color";
+import { color } from '../../public/theme/Color'
 
 // import 'react-multi-carousel/lib/styles.css';
 
 // import {Auth} from 'aws-amplify';
-import { Formik } from "formik";
+import { Formik } from 'formik'
 
 // import {CognitoUser} from '@aws-amplify/auth';
 
 // import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
-import dynamic from "next/dynamic";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
-import { useRouter } from "next/router";
-import useWindowDimensions from "../../public/utils/useWindowDimensions";
+import dynamic from 'next/dynamic'
+import 'owl.carousel/dist/assets/owl.carousel.css'
+import 'owl.carousel/dist/assets/owl.theme.default.css'
+import Router, { useRouter } from 'next/router'
+import useWindowDimensions from '../../public/utils/useWindowDimensions'
 
-import { RegistrationSchema, SignInSchema } from "../../public/utils/schema";
-import TextField from "../ui-kit/TextField";
-import Button from "../ui-kit/Button";
-import Header from "../components/common/Header";
-import { Auth } from "aws-amplify";
-// import { StoreUserAuth } from "../../redux/actions/AuthAction";
-// import { useDispatch } from "react-redux";
+import { RegistrationSchema, SignInSchema } from '../../public/utils/schema'
+import TextField from '../ui-kit/TextField'
+import Button from '../ui-kit/Button'
+import Header from '../components/common/Header'
+import { Auth } from 'aws-amplify'
+import Link from 'next/link'
+import { StoreUserAuth } from '../../redux/actions/AuthAction'
+import { useDispatch } from 'react-redux'
 
 let productsp = [
   {
     id: 1,
-    name: "Product Number 1",
-    brand: "Brand Name",
-    url: "products-number-1",
+    name: 'Product Number 1',
+    brand: 'Brand Name',
+    url: 'products-number-1',
     price: 100,
   },
   {
     id: 1,
-    name: "Product Number 1",
-    brand: "Brand Name",
-    url: "products-number-1",
+    name: 'Product Number 1',
+    brand: 'Brand Name',
+    url: 'products-number-1',
     price: 100,
   },
   {
     id: 1,
-    name: "Product Number 1",
-    brand: "Brand Name",
-    url: "products-number-1",
+    name: 'Product Number 1',
+    brand: 'Brand Name',
+    url: 'products-number-1',
     price: 100,
   },
-];
+]
 
 const initialState = {
-  email: "",
-  password: "",
-};
+  email: '',
+  password: '',
+}
 
 const options = {
   margin: 30,
@@ -64,8 +65,8 @@ const options = {
   //   dotsClass: {backgroundColor: 'red'},
 
   //   dotsContainer: {backgroundColor: 'red'},
-  navClass: ["owl-prev", "owl-next"],
-  navText: ["", ""],
+  navClass: ['owl-prev', 'owl-next'],
+  navText: ['', ''],
   responsive: {
     0: {
       items: 1,
@@ -83,18 +84,60 @@ const options = {
     //   items: 4,
     // },
   },
-};
+}
 
-const spaceValidation = new RegExp(/^[^ ]*$/);
+const spaceValidation = new RegExp(/^[^ ]*$/)
 const Login = (props) => {
   //   const {width, height} = props;
-  const { width, height } = useWindowDimensions();
-  //   const dispatch = useDispatch();
+  const { width, height } = useWindowDimensions()
+  const dispatch = useDispatch()
+  const [loader, setLoader] = useState(false)
   //   console.log(width);
-  const router = useRouter();
-  const OwlCarousel = dynamic(() => import("react-owl-carousel"), {
+  const router = useRouter()
+  const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
     ssr: false,
-  });
+  })
+
+  useEffect(() => {
+    // router.beforePopState(({ as }) => {
+    //   if (as !== router.asPath) {
+    //     // Will run when leaving the current page; on back/forward actions
+    //     // Add your logic here, like toggling the modal state
+    //     console.log('entry')
+    //   }
+    //   return true
+    // })
+    // return () => {
+    //   router.beforePopState(() => true)
+    // }
+    // Router.reload()
+  }, []) // Ad
+  //   const landscapeHandler = () => {
+  //     console.log('emntry ddasd')
+  //     Router.reload()
+  //   }
+  //   useEffect(() => {
+  //     console.log('asdsads', typeof window)
+  //     if (typeof window !== 'undefined') {
+  //       window
+  //         .matchMedia('((orientation:landscape)')
+  //         .addEventListener('change', landscapeHandler)
+  //     }
+  //     // component Will Unmount
+  //     return () => {
+  //       if (typeof window !== 'undefined') {
+  //         window.removeEventListener('change', landscapeHandler)
+  //       }
+  //     }
+  //   }, [])
+
+  //   const isBrowser = () => typeof window !== 'undefined'
+
+  //   // node
+  //   console.log(isBrowser()) // false
+
+  //   // browser
+  //   console.log(isBrowser()) // true
 
   //   const [registration, setRegistration] = useState(initialState);
 
@@ -110,21 +153,21 @@ const Login = (props) => {
     // const id = uuidNum;
     // registration.id = id;
     // console.log(registration);
-  };
+  }
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "row",
+        display: 'flex',
+        flexDirection: 'row',
         flex: 1,
         backgroundColor: color.headerColor,
       }}
     >
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <Header
           btnName="Create Account"
           onClickBtn={() => {
-            router.push("/auth/TypeOfRegister");
+            router.push('/auth/TypeOfRegister')
           }}
           style={{
             backgroundColor: color.blackVariant,
@@ -161,63 +204,46 @@ const Login = (props) => {
             enableReinitialize={true}
             initialValues={initialState}
             onSubmit={async (values, { setErrors }) => {
-              //   const registration = {
-              //     first_name: values.first_name,
-              //     last_name: values.last_name,
-              //     email: values.email,
-              //     password: values.password,
-              //   };
-              let username = values.email;
-              let first_name = values.first_name;
-              let last_name = values.last_name;
-              let email = values.email;
-              let password = values.password;
-              //   try {
-              //     await API.graphql({
-              //       query: createRegistration,
-              //       variables: {input: registration},
-              //       authMode: 'AMAZON_COGNITO_USER_POOLS',
-              //     });
-              //   } catch (e) {
-              //     console.log('error', e);
-              //   }
-              //   console.log(email, password, username);
-
+              setLoader(true)
+              let username = values.email
+              let password = values.password
               try {
                 const user = await Auth.signIn({
                   username,
                   password,
-                });
+                })
 
                 if (user) {
-                  //   StoreUserAuth(dispatch, user);
-                  //   router.push('/mentor/MentorDashboard');
+                  StoreUserAuth(dispatch, user)
                   Auth.currentUserInfo()
                     .then((res) => {
-                      console.log("res", res?.attributes);
+                      setLoader(false)
+                      console.log('res', res?.attributes)
                       Object.entries(res?.attributes).map((item, index) => {
-                        console.log("ityem", item[0]);
-                        if (item[0] === "custom:kyc_done") {
-                          console.log("entry");
-                          if (item[1] === "true") {
+                        console.log('ityem', item[0])
+                        if (item[0] === 'custom:kyc_done') {
+                          console.log('entry')
+                          if (item[1] === 'true') {
                           } else {
-                            router.push("/register/KYC_step1");
+                            router.push('/register/KYC_step1')
                           }
                         }
-                      });
+                      })
                     })
-                    .catch((e) => {});
+                    .catch((e) => {})
                 }
               } catch (e) {
-                console.log("e", e);
+                console.log('e', e)
                 if (
                   e
                     ?.toString()
                     ?.includes(
-                      "An account with the given email already exists."
+                      'An account with the given email already exists.',
                     )
                 ) {
-                  setErrors({ email: "User email id is already registered" });
+                  setErrors({ email: 'User email id is already registered' })
+                } else if (e?.toString()?.includes('User is not confirmed.')) {
+                  router.push('/auth/VerifyEmail')
                 }
               }
             }}
@@ -247,7 +273,7 @@ const Login = (props) => {
                   value={values.email}
                   onChangeValue={(text) => {
                     if (spaceValidation.test(text.target.value)) {
-                      setFieldValue(text.target.id, text.target.value);
+                      setFieldValue(text.target.id, text.target.value)
                     }
                   }}
                   errMsg={touched.email && errors.email}
@@ -258,11 +284,11 @@ const Login = (props) => {
                   id="password"
                   type="Password"
                   placeholder="Enter Password"
-                  icon={require("../../public/assets/icon/eye.png")}
+                  icon={require('../../public/assets/icon/eye.png')}
                   value={values.password}
                   onChangeValue={(text) => {
                     if (spaceValidation.test(text.target.value)) {
-                      setFieldValue(text.target.id, text.target.value);
+                      setFieldValue(text.target.id, text.target.value)
                     }
                   }}
                   errMsg={touched.password && errors.password}
@@ -277,9 +303,11 @@ const Login = (props) => {
                     marginTop: 40,
                     fontSize: 16,
                   }}
+                  loader={loader}
                   onClick={handleSubmit}
                   //   onClick={() => {
-                  //     router.push('/auth/VerifyEmail');
+                  //     // router.prefetch('www.google.com')
+                  //     window.open('https://www.codexworld.com/', '_self')
                   //   }}
                 />
               </>
@@ -288,8 +316,8 @@ const Login = (props) => {
         </div>
       </div>
       <Image
-        src={require("../../public/assets/icon/rectangle.png")}
-        alt={""}
+        src={require('../../public/assets/icon/rectangle.png')}
+        alt={''}
         style={{ width: width / 2.5, height: height }}
         // style={{width: 600, height: 400}}
       />
@@ -307,7 +335,7 @@ const Login = (props) => {
           width: width / 3,
           height: height / 2.5,
           top: height / 6,
-          position: "absolute",
+          position: 'absolute',
           right: 0,
           //   right: width / 350,
         }}
@@ -320,16 +348,16 @@ const Login = (props) => {
               return (
                 <Image
                   key={index}
-                  src={require("../../public/assets/icon/carousel.png")}
+                  src={require('../../public/assets/icon/carousel.png')}
                   alt={product.name}
                   style={{ height: height / 1.5, width: width / 5 }}
                   title={product.name}
                 />
-              );
+              )
             })
-          : ""}
+          : ''}
       </OwlCarousel>
     </div>
-  );
-};
-export default Login;
+  )
+}
+export default Login

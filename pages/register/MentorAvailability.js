@@ -8,12 +8,15 @@ import Button from '../ui-kit/Button'
 import CheckBox from '../ui-kit/CheckBox'
 import DropDown from '../ui-kit/DropDown'
 import TextField from '../ui-kit/TextField'
+import * as mutations from '../../src/graphql/mutations'
+import { API } from 'aws-amplify'
+import { v4 as uuid } from 'uuid'
 
 const timeAvailability = [
   {
     day: 'Sunday',
     checked: false,
-    selectedTime: [
+    time_schedule: [
       {
         startTime: '00',
         leftMeridianDropDown: false,
@@ -27,7 +30,7 @@ const timeAvailability = [
   {
     day: 'Monday',
     checked: false,
-    selectedTime: [
+    time_schedule: [
       {
         startTime: '00',
         leftMeridianDropDown: false,
@@ -41,7 +44,7 @@ const timeAvailability = [
   {
     day: 'Tuesday',
     checked: false,
-    selectedTime: [
+    time_schedule: [
       {
         startTime: '00',
         leftMeridianDropDown: false,
@@ -55,7 +58,7 @@ const timeAvailability = [
   {
     day: 'Wednesday',
     checked: false,
-    selectedTime: [
+    time_schedule: [
       {
         startTime: '00',
         leftMeridianDropDown: false,
@@ -69,7 +72,7 @@ const timeAvailability = [
   {
     day: 'Thrusday',
     checked: false,
-    selectedTime: [
+    time_schedule: [
       {
         startTime: '00',
         leftMeridianDropDown: false,
@@ -83,7 +86,7 @@ const timeAvailability = [
   {
     day: 'Friday',
     checked: false,
-    selectedTime: [
+    time_schedule: [
       {
         startTime: '00',
         leftMeridianDropDown: false,
@@ -97,7 +100,7 @@ const timeAvailability = [
   {
     day: 'Saurday',
     checked: false,
-    selectedTime: [
+    time_schedule: [
       {
         startTime: '00',
         leftMeridianDropDown: false,
@@ -109,12 +112,31 @@ const timeAvailability = [
     ],
   },
 ]
+
 const meridian = ['AM', 'PM']
+
 const MentorAvailability = () => {
   const router = useRouter()
   const [sameTimeAvailabel, setSameTimeAvailabel] = useState(false)
   const [mentorAvailability, setMentorAvailability] = useState(timeAvailability)
-  console.log('zdfdf', mentorAvailability)
+
+  const handleSubmit = async () => {
+    const payload = {
+      mentor_schedule: timeAvailability,
+      mentor_availability_id: uuid(),
+    }
+    try {
+      const postSchedule = await API.graphql({
+        query: mutations.createMentorAvailability,
+        variables: { input: payload },
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+      })
+      console.log(postSchedule)
+    } catch (e) {
+      console.log('e', e)
+    }
+  }
+
   return (
     <BoxBodyContainer
       styleOverride={{ alignItems: 'flex-start' }}
@@ -239,7 +261,7 @@ const MentorAvailability = () => {
                       {item?.day}
                     </div>
                     <div>
-                      {item?.selectedTime?.map((items, in_index) => {
+                      {item?.time_schedule?.map((items, in_index) => {
                         return (
                           <div
                             key={in_index.toString()}
@@ -606,6 +628,7 @@ const MentorAvailability = () => {
                     marginBottom: 48,
                   }}
                   onClick={() => {
+                    handleSubmit()
                     router.push('/register/KYC_step4')
                   }}
                 />

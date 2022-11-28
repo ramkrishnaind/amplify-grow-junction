@@ -93,20 +93,14 @@ export const listTodos = /* GraphQL */ `
 export const getStudentRegister = /* GraphQL */ `
   query GetStudentRegister($id: ID!) {
     getStudentRegister(id: $id) {
-      student_id
-      student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
       recent_college
       degree
       current_employee
       your_role
       experience
       phone_number
+      linkedIn_url
       id
       createdAt
       updatedAt
@@ -127,20 +121,14 @@ export const listStudentRegisters = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
-        student_id
-        student_name
-        domain_id {
-          id
-          value
-          createdAt
-          updatedAt
-        }
+        domain_id
         recent_college
         degree
         current_employee
         your_role
         experience
         phone_number
+        linkedIn_url
         id
         createdAt
         updatedAt
@@ -156,19 +144,10 @@ export const getMentorRegister = /* GraphQL */ `
     getMentorRegister(id: $id) {
       mentor_id
       mentor_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
-      profile_url
-      mentor_service_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
+      linkedIn_url
+      mentor_service_id
+      mentor_availability_id
       phone_number
       id
       createdAt
@@ -188,19 +167,10 @@ export const listMentorRegisters = /* GraphQL */ `
       items {
         mentor_id
         mentor_name
-        domain_id {
-          id
-          value
-          createdAt
-          updatedAt
-        }
-        profile_url
-        mentor_service_id {
-          id
-          value
-          createdAt
-          updatedAt
-        }
+        domain_id
+        linkedIn_url
+        mentor_service_id
+        mentor_availability_id
         phone_number
         id
         createdAt

@@ -130,20 +130,14 @@ export const createStudentRegister = /* GraphQL */ `
     $condition: ModelStudentRegisterConditionInput
   ) {
     createStudentRegister(input: $input, condition: $condition) {
-      student_id
-      student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
       recent_college
       degree
       current_employee
       your_role
       experience
       phone_number
+      linkedIn_url
       id
       createdAt
       updatedAt
@@ -158,20 +152,14 @@ export const updateStudentRegister = /* GraphQL */ `
     $condition: ModelStudentRegisterConditionInput
   ) {
     updateStudentRegister(input: $input, condition: $condition) {
-      student_id
-      student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
       recent_college
       degree
       current_employee
       your_role
       experience
       phone_number
+      linkedIn_url
       id
       createdAt
       updatedAt
@@ -186,20 +174,14 @@ export const deleteStudentRegister = /* GraphQL */ `
     $condition: ModelStudentRegisterConditionInput
   ) {
     deleteStudentRegister(input: $input, condition: $condition) {
-      student_id
-      student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
       recent_college
       degree
       current_employee
       your_role
       experience
       phone_number
+      linkedIn_url
       id
       createdAt
       updatedAt
@@ -216,19 +198,10 @@ export const createMentorRegister = /* GraphQL */ `
     createMentorRegister(input: $input, condition: $condition) {
       mentor_id
       mentor_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
-      profile_url
-      mentor_service_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
+      linkedIn_url
+      mentor_service_id
+      mentor_availability_id
       phone_number
       id
       createdAt
@@ -246,19 +219,10 @@ export const updateMentorRegister = /* GraphQL */ `
     updateMentorRegister(input: $input, condition: $condition) {
       mentor_id
       mentor_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
-      profile_url
-      mentor_service_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
+      linkedIn_url
+      mentor_service_id
+      mentor_availability_id
       phone_number
       id
       createdAt
@@ -276,19 +240,10 @@ export const deleteMentorRegister = /* GraphQL */ `
     deleteMentorRegister(input: $input, condition: $condition) {
       mentor_id
       mentor_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
-      profile_url
-      mentor_service_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
+      linkedIn_url
+      mentor_service_id
+      mentor_availability_id
       phone_number
       id
       createdAt

@@ -1,18 +1,19 @@
-import React from "react";
-import Amplify, { Auth } from "aws-amplify";
-import Image from "next/image";
-import { color } from "../../public/theme/Color";
-import BoxBodyContainer from "../components/common/BoxBodyContainer";
-import Button from "../ui-kit/Button";
+import React, { useState } from 'react'
+import Amplify, { Auth } from 'aws-amplify'
+import Image from 'next/image'
+import { color } from '../../public/theme/Color'
+import BoxBodyContainer from '../components/common/BoxBodyContainer'
+import Button from '../ui-kit/Button'
 // import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
 
 const VerifyEmail = () => {
-  const registerType = useSelector((state) => state.AuthReducer);
-  const router = useRouter();
+  const registerType = useSelector((state) => state.AuthReducer)
+  const router = useRouter()
+  const [verifyMail, setVerifyMail] = useState(false)
 
-  console.log(registerType.userAuth);
+  console.log(registerType.userAuth?.username)
 
   //   useEffect(() => {
   //     const getInfo = async () => {
@@ -26,12 +27,23 @@ const VerifyEmail = () => {
   //     };
   //     getInfo();
   //   }, []);
+  const handleVerifyEmail = async () => {
+    // await Auth.userAttributes('er.riyaz2507@gmail.com')
+    //   .then((res) => {
+    //     console.log('res', res)
+    //     router.push('/register/KYC_step1')
+    //   })
+    //   .catch((err) => {
+    //     console.log('err', err)
+    //   })
+    router.push('/auth/Login')
+  }
   return (
     <BoxBodyContainer
       body={
         <>
           <Image
-            src={require("../../public/assets/icon/logo.png")}
+            src={require('../../public/assets/icon/logo.png')}
             alt=""
             style={{ height: 89, width: 224 }}
           />
@@ -41,13 +53,13 @@ const VerifyEmail = () => {
               height: 66,
               width: 66,
               borderRadius: 66,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <Image
-              src={require("../../public/assets/icon/mailBox.png")}
+              src={require('../../public/assets/icon/mailBox.png')}
               alt=""
               style={{ height: 42, width: 42 }}
             />
@@ -62,48 +74,48 @@ const VerifyEmail = () => {
           >
             Verify your Email
           </div>
-          <div style={{ display: "flex", flex: 1, justifyContent: "center" }}>
+          <div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
             <div
               style={{
                 marginTop: 40,
                 fontSize: 20,
                 color: color.blackVariant,
-                textAlign: "center",
+                textAlign: 'center',
                 paddingLeft: 373,
                 paddingRight: 373,
                 //   lineHeight: 27.24,
               }}
             >
-              To keep a trusted and safe community, we’ve sent an email to{" "}
+              To keep a trusted and safe community, we’ve sent an email to{' '}
               <span style={{ fontWeight: 700 }}>
                 {registerType.userAuth?.username}
-              </span>{" "}
+              </span>{' '}
               for verification, and you’ll only do this once.
             </div>
           </div>
           <div
             style={{
               marginTop: 48,
-              display: "flex",
-              flexDirection: "row",
+              display: 'flex',
+              flexDirection: 'row',
               flex: 1,
               color: color.blackVariant,
               fontSize: 16,
             }}
           >
-            Not the correct email?{" "}
+            Not the correct email?{' '}
             <div
               style={{ fontSize: 16, color: color.blue }}
               onClick={() => {
-                router.back();
+                router.back()
               }}
             >
-              {" "}
+              {' '}
               Change email address
             </div>
           </div>
           <Button
-            label="Open my email"
+            label={!verifyMail ? 'Open my email' : 'Continue'}
             styleOverride={{
               height: 62,
               backgroundColor: color.blackVariant,
@@ -114,16 +126,17 @@ const VerifyEmail = () => {
               fontSize: 16,
               fontWeight: 700,
             }}
+            link={!verifyMail}
             //   onClick={handleSubmit}
             onClick={() => {
               // router.push('/auth/VerifyEmail');
               // Auth.currentAuthenticatedUser(registerType.userAuth?.userDataKey);
               //   alertService.success('Success!!', 'asdsadsa');
-              let data = Auth.currentUserInfo();
-              console.log("data", data);
-              router.push("/register/KYC_step1");
-              console.log("entry");
-
+              //   let data = Auth.currentUserInfo();
+              //   console.log("data", data);
+              //   router.push("/register/KYC_step1");
+              //   console.log("entry");
+              //   router.asPath('www.google.com')
               //   return (
               //     <Link
               //       target="_blank"
@@ -131,32 +144,50 @@ const VerifyEmail = () => {
               //       href={'https://gmail.com/'}
               //     />
               //   );
+              if (!verifyMail) {
+                setVerifyMail(true)
+              } else {
+                handleVerifyEmail()
+              }
             }}
           />
           <div
             onClick={async () => {
-              let username = '"er.riyaz2507@gmail.com"';
+              let username = '"er.riyaz2507@gmail.com"'
               try {
-                await Auth.resendSignUp(username);
-                console.log("code resent successfully");
+                await Auth.resendSignUp(username)
+                console.log('code resent successfully')
               } catch (err) {
-                console.log("error resending code: ", err);
+                console.log('error resending code: ', err)
               }
             }}
           >
             <div
               style={{
                 marginTop: 48,
-                display: "flex",
-                flexDirection: "row",
+                display: 'flex',
+                flexDirection: 'row',
                 flex: 1,
                 color: color.blackVariant,
                 fontSize: 16,
               }}
+              onClick={async () => {
+                try {
+                  await Auth.resendSignUp('er.riyaz2507@gmail.com')
+                    .then((res) => {
+                      console.log('res', res)
+                    })
+                    .catch((err) => {
+                      console.log('err', err)
+                    })
+                } catch (e) {
+                  console.log('e', e)
+                }
+              }}
             >
-              Did not receive any mail?{" "}
+              Did not receive any mail?{' '}
               <div style={{ fontSize: 16, color: color.blue }}>
-                {" "}
+                {' '}
                 Resend email
               </div>
             </div>
@@ -164,7 +195,7 @@ const VerifyEmail = () => {
         </>
       }
     />
-  );
-};
+  )
+}
 
-export default VerifyEmail;
+export default VerifyEmail

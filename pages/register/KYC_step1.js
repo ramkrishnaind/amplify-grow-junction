@@ -1,106 +1,126 @@
-import { API, Auth } from "aws-amplify";
-import { config } from "process";
-import React, { useEffect, useState } from "react";
-import { color } from "../../public/theme/Color";
-import BoxBodyContainer from "../components/common/BoxBodyContainer";
+import { API, Auth } from 'aws-amplify'
+import { config } from 'process'
+import React, { useEffect, useState } from 'react'
+import { color } from '../../public/theme/Color'
+import BoxBodyContainer from '../components/common/BoxBodyContainer'
 
-import TextField from "../ui-kit/TextField";
+import TextField from '../ui-kit/TextField'
 // import {createDemo} from '../../src/graphql/mutations';
-import * as mutations from "../../src/graphql/mutations";
+import * as mutations from '../../src/graphql/mutations'
 
-import KYC_header from "../components/registration/KYC_header";
-import { listDemoSkillsLists, listTodos } from "../../src/graphql/queries";
-import Button from "../ui-kit/Button";
-import SkeletonLoader from "../ui-kit/SkeletonLoader";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import useWindowDimensions from "../../public/utils/useWindowDimensions";
+import KYC_header from '../components/registration/KYC_header'
+import { listDemoSkillsLists, listTodos } from '../../src/graphql/queries'
+import Button from '../ui-kit/Button'
+import SkeletonLoader from '../ui-kit/SkeletonLoader'
+import { useRouter } from 'next/router'
+import { useDispatch, useSelector } from 'react-redux'
+import useWindowDimensions from '../../public/utils/useWindowDimensions'
+import { type } from 'os'
+import ACTION_KEYS from '../../constants/action-keys'
+import { Toaster } from '../ui-kit/Toaster'
 
-Auth.configure(config);
+Auth.configure(config)
+
+const spaceValidation = new RegExp(/^[^ ]*$/)
 const KYC_step1 = () => {
-  const registerType = useSelector((state) => state.AuthReducer);
+  const registerType = useSelector((state) => state.AuthReducer)
+  const dispatch = useDispatch()
 
-  const { width, height } = useWindowDimensions();
+  const { width, height } = useWindowDimensions()
 
-  const router = useRouter();
-  const [link, setLink] = useState();
-  const [domainList, setdomainList] = useState([]);
-  const [showDomainInput, setShowDomainInput] = useState(false);
-  const [domainName, setDomainName] = useState({ value: "" });
-  const [loading, setLoading] = useState(false);
-  const [domainListLoading, setDomainListLoading] = useState(true);
-  const [selectedList, setSelectedList] = useState([]);
+  const router = useRouter()
+  const [link, setLink] = useState(null)
+  const [domainList, setdomainList] = useState([])
+  const [showDomainInput, setShowDomainInput] = useState(false)
+  const [domainName, setDomainName] = useState({ value: '' })
+  const [loading, setLoading] = useState(false)
+  const [domainListLoading, setDomainListLoading] = useState(true)
+  const [selectedList, setSelectedList] = useState([])
+  const [showtoast, setShowToast] = useState(false)
+  const [toastContent, setToastContent] = useState({ message: '', type: '' })
+
+  //   console.log(registerType?.registerType)
 
   useEffect(() => {
     if (!domainList.length) {
-      getCurrentUser();
+      getCurrentUser()
     }
-  }, []);
+  }, [])
 
   const getCurrentUser = async () => {
     const { username } = await Auth.currentAuthenticatedUser({
       bypassCache: true,
-    });
+    })
 
     try {
       const listData = await API.graphql({
         query: listDemoSkillsLists,
-      });
-      setdomainList(listData?.data?.listDemoSkillsLists?.items);
-      setDomainListLoading(false);
-      setShowDomainInput(false);
-      setLoading(false);
+      })
+      setdomainList(listData?.data?.listDemoSkillsLists?.items)
+      setDomainListLoading(false)
+      setShowDomainInput(false)
+      setLoading(false)
     } catch (err) {
-      console.log("err", err);
-      setDomainListLoading(false);
+      console.log('err', err)
+      setDomainListLoading(false)
     }
-  };
+  }
 
   const saveDomainSkills = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const data = { value: domainName };
+      const data = { value: domainName }
       const postData = await API.graphql({
         query: mutations.createDemoSkillsList,
         variables: { input: domainName },
-      });
+      })
 
-      getCurrentUser();
+      getCurrentUser()
     } catch (e) {
-      console.log("e", e);
-      setLoading(false);
-      setShowDomainInput(false);
+      console.log('e', e)
+      setLoading(false)
+      setShowDomainInput(false)
     }
-  };
+  }
+
+  useEffect(() => {
+    if (link?.length || selectedList.length) {
+      setShowToast(false)
+    }
+  }, [link, selectedList.length])
 
   return (
     <BoxBodyContainer
-      styleOverride={{ alignItems: "flex-start" }}
+      styleOverride={{ alignItems: 'flex-start' }}
       body={
         <div
           style={{
-            display: "flex",
+            display: 'flex',
             flex: 1,
-            flexDirection: "column",
+            flexDirection: 'column',
           }}
         >
           <KYC_header
-            stepImage={require("../../public/assets/icon/StepIndicator.png")}
+            stepImage={
+              registerType?.registerType === 'STUDENT'
+                ? require('../../public/assets/icon/stu_StepIndicator.png')
+                : require('../../public/assets/icon/StepIndicator.png')
+            }
           />
           <div
             style={{
-              display: "flex",
+              display: 'flex',
               flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <div
               style={{
-                display: "flex",
+                display: 'flex',
                 flex: 1,
-                justifyContent: "center",
-                flexDirection: "column",
+                justifyContent: 'center',
+                flexDirection: 'column',
               }}
             >
               <div
@@ -125,9 +145,9 @@ const KYC_step1 = () => {
               </div>
               <div
                 style={{
-                  display: "flex",
+                  display: 'flex',
                   flex: 1,
-                  flexDirection: "row",
+                  flexDirection: 'row',
                   marginTop: 60,
                 }}
               >
@@ -145,11 +165,12 @@ const KYC_step1 = () => {
                     backgroundColor: color.white,
                     paddingLeft: 8,
                   }}
+                  link="https://linkedin.com"
                   infoMsg="Get yout linkedin URL, click here."
                   onChangeValue={(text) => {
-                    //   if (spaceValidation.test(text.target.value)) {
-                    //     setFieldValue(text.target.id, text.target.value);
-                    //   }
+                    if (spaceValidation.test(text.target.value)) {
+                      setLink(text.target.value)
+                    }
                   }}
                   // errMsg={touched.email && errors.email}
                 />
@@ -168,9 +189,9 @@ const KYC_step1 = () => {
               </div>
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
+                  display: 'flex',
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
                   flex: 1,
                   maxWidth: 700,
                 }}
@@ -178,18 +199,18 @@ const KYC_step1 = () => {
                 {!domainListLoading ? (
                   <>
                     {domainList?.map((item, index) => {
-                      let selectedItem = false;
+                      let selectedItem = false
                       selectedList?.map((key, index) => {
-                        if (key === item?.id) {
-                          selectedItem = true;
+                        if (key?.id === item?.id) {
+                          selectedItem = true
                         }
-                      });
+                      })
 
                       return (
                         <div
                           key={index.toString()}
                           style={{
-                            cursor: "pointer",
+                            cursor: 'pointer',
                             paddingLeft: 20,
                             paddingRight: 20,
                             // backgroundColor: "red",
@@ -201,34 +222,34 @@ const KYC_step1 = () => {
                             marginRight: 10,
                             marginBottom: 20,
                             height: 43,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            display: "flex",
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            display: 'flex',
                           }}
                           onClick={() => {
-                            let count = 0;
+                            let count = 0
                             if (selectedList.length) {
                               selectedList.map((items, index) => {
-                                if (items === item?.id) {
-                                  count = 1;
+                                if (items?.id === item?.id) {
+                                  count = 1
                                   setSelectedList(
                                     selectedList.filter(
-                                      (items) => items !== item?.id
-                                    )
-                                  );
+                                      (items) => items?.id !== item?.id,
+                                    ),
+                                  )
                                 }
-                              });
+                              })
                               if (count == 0) {
                                 setSelectedList((selectedList) => [
                                   ...selectedList,
-                                  item?.id,
-                                ]);
+                                  item,
+                                ])
                               }
                             } else
                               setSelectedList((selectedList) => [
                                 ...selectedList,
-                                item?.id,
-                              ]);
+                                item,
+                              ])
                           }}
                         >
                           <div
@@ -241,12 +262,12 @@ const KYC_step1 = () => {
                             {item?.value}
                           </div>
                         </div>
-                      );
+                      )
                     })}
                     {showDomainInput && (
                       <input
                         style={{
-                          backgroundColor: "transparent",
+                          backgroundColor: 'transparent',
                           borderRadius: 25,
                           borderWidth: 1,
                           borderColor: color.blackVariant,
@@ -262,12 +283,12 @@ const KYC_step1 = () => {
                         onChange={(e) => {
                           setDomainName(() => ({
                             [e.target.name]: e.target.value,
-                          }));
+                          }))
                         }}
                       />
                     )}
                     <Button
-                      label={showDomainInput ? "Save" : "Add another"}
+                      label={showDomainInput ? 'Save' : 'Add another'}
                       styleOverride={{
                         paddingLeft: 20,
                         paddingRight: 20,
@@ -284,9 +305,9 @@ const KYC_step1 = () => {
                       }}
                       loader={loading}
                       onClick={() => {
-                        setShowDomainInput(true);
+                        setShowDomainInput(true)
                         if (showDomainInput) {
-                          saveDomainSkills();
+                          saveDomainSkills()
                         }
                       }}
                     />
@@ -296,7 +317,7 @@ const KYC_step1 = () => {
                 )}
               </div>
               <Button
-                label={"Continue"}
+                label={'Continue'}
                 styleOverride={{
                   paddingLeft: 20,
                   paddingRight: 20,
@@ -311,21 +332,41 @@ const KYC_step1 = () => {
                   marginTop: 70,
                   marginBottom: 48,
                 }}
-                // loader={loading}
                 onClick={() => {
-                  //   setShowDomainInput(true);
-                  //   if (showDomainInput) {
-                  //     saveDomainSkills();
-                  //   }
-                  router.push("/register/KYC_step2");
+                  if (registerType?.registerType === 'STUDENT') {
+                    if (url && selectedList.length) {
+                      dispatch({
+                        type: ACTION_KEYS.KYCSTEP1,
+                        payload: {
+                          linkedIn_url: link,
+                          domain_id: selectedList,
+                        },
+                      })
+                      router.push('/register/StudentProfessionalDetails')
+                    } else {
+                      setToastContent({
+                        message: 'Please fill all details',
+                        type: 'failure',
+                      })
+                      setShowToast(true)
+                    }
+                  } else {
+                    router.push('/register/KYC_step2')
+                  }
                 }}
               />
+              {showtoast ? (
+                <Toaster
+                  message={toastContent?.message}
+                  type={toastContent.type}
+                />
+              ) : null}
             </div>
           </div>
         </div>
       }
     />
-  );
-};
+  )
+}
 
-export default KYC_step1;
+export default KYC_step1
