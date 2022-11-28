@@ -9,9 +9,10 @@ import DropDown from '../ui-kit/DropDown'
 import { ProfessionalDetailSchema } from '../../public/utils/schema'
 import { useRouter } from 'next/router'
 // import { toast } from 'react-toastify'
-import { Toaster } from '../ui-kit/Toaster'
+
 import ACTION_KEYS from '../../constants/action-keys'
 import { useDispatch } from 'react-redux'
+import Toaster from '../ui-kit/Toaster'
 // import { toast, ToastContainer } from 'react-nextjs-toast'
 
 const degree = [

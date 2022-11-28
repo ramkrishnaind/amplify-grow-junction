@@ -15,9 +15,10 @@ import SkeletonLoader from '../ui-kit/SkeletonLoader'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import useWindowDimensions from '../../public/utils/useWindowDimensions'
-import { type } from 'os'
+
 import ACTION_KEYS from '../../constants/action-keys'
-import { Toaster } from '../ui-kit/Toaster'
+import Toaster from '../ui-kit/Toaster'
+
 
 Auth.configure(config)
 

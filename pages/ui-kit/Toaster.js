@@ -1,7 +1,7 @@
 import React from 'react'
 import { color } from '../../public/theme/Color'
 
-export const Toaster = (props) => {
+ const Toaster = (props) => {
   const { message = 'Hello', type = 'success' } = props
   return (
     <div
@@ -68,3 +68,4 @@ export const Toaster = (props) => {
     </div>
   )
 }
+export default Toaster
