@@ -87,42 +87,42 @@ const KYC_step4 = () => {
               <Formik
                 enableReinitialize={true}
                 initialValues={initialState}
-                onSubmit={async (values, { setErrors }) => {
-                  router.push('/register/SuccessRegister')
-                  console.log('entry', registerType?.kycStep1)
-                  //   const id = uuid()
-                  //   let payload = {
-                  //     ...registerType?.professionalDetails?.payload,
-                  //     ...registerType?.kycStep1,
-                  //     phone_number: values.phoneNumber,
-                  //   }
-                  //   console.log('payload', payload)
-                  //   if (registerType?.registerType === 'STUDENT') {
-                  //     try {
-                  //       const postData = await API.graphql({
-                  //         query: mutations.createStudentRegister,
-                  //         variables: { input: payload },
-                  //         authMode: 'AMAZON_COGNITO_USER_POOLS',
-                  //       })
-                  //       console.log(postData)
-                  //       if (postData) {
-                  //         let user = await Auth.currentAuthenticatedUser()
-                  //         let data = {
-                  //           'custom:kyc_done': 'true',
-                  //         }
-                  //         Auth.updateUserAttributes(user, data)
-                  //           .then((res) => {
-                  //             console.log('res', res)
-
-                  //           })
-                  //           .catch((e) => {
-                  //             console.log('err', e)
-                  //           })
-                  //       }
-                  //     } catch (e) {
-                  //       console.log('e', e)
-                  //     }
-                  //   }
+                onSubmit={async (values, { setErrors, setSubmitting }) => {
+                  setSubmitting(true)
+                  const id = uuid()
+                  let payload = {
+                    ...registerType?.professionalDetails?.payload,
+                    ...registerType?.kycStep1,
+                    phone_number: values.phoneNumber,
+                  }
+                  console.log('payload', payload)
+                  if (registerType?.registerType === 'STUDENT') {
+                    try {
+                      const postData = await API.graphql({
+                        query: mutations.createStudentRegister,
+                        variables: { input: payload },
+                        authMode: 'AMAZON_COGNITO_USER_POOLS',
+                      })
+                      console.log(postData)
+                      if (postData) {
+                        let user = await Auth.currentAuthenticatedUser()
+                        let data = {
+                          'custom:kyc_done': 'true',
+                        }
+                        Auth.updateUserAttributes(user, data)
+                          .then((res) => {
+                            console.log('res', res)
+                            router.push('/register/SuccessRegister')
+                            setSubmitting(true)
+                          })
+                          .catch((e) => {
+                            console.log('err', e)
+                          })
+                      }
+                    } catch (e) {
+                      console.log('e', e)
+                    }
+                  }
                 }}
                 validationSchema={verifyStep4()}
                 validateOnChange={true}
@@ -208,7 +208,7 @@ const KYC_step4 = () => {
                           marginTop: 70,
                           marginBottom: 48,
                         }}
-                        loader={loading}
+                        loader={isSubmitting}
                         // onClick={() => {
                         //   //   setShowDomainInput(true);
                         //   //   if (showDomainInput) {
