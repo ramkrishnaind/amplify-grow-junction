@@ -1,14 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Formik } from 'formik'
-import Image from 'next/image'
-import { color } from '../../public/theme/Color'
-import Button from '../ui-kit/Button'
-import DropDown from '../ui-kit/DropDown'
-import TextField from '../ui-kit/TextField'
-import useWindowDimensions from '../../public/utils/useWindowDimensions'
+import TextField from '../../../pages/ui-kit/TextField'
 
 const ProfessionalInfo = () => {
+  const [years, setYears] = useState([])
   const initialState = {}
+  useEffect(() => {
+    const d = new Date()
+    const tmpYears = []
+    let year = d.getFullYear()
+    for (let i = year; i >= year - 50; i--) {
+      tmpYears.push(i)
+    }
+    setYears(tmpYears)
+  }, [])
 
   return (
     <>
@@ -29,12 +34,12 @@ const ProfessionalInfo = () => {
               </div>
 
               <div className="px-4 ">
-                <label className="block mb-2 text-sm font-medium text-gray-900">
+                <label className="block mb-2 text-lg font-medium text-gray-900">
                   Degree (optional)
                 </label>
                 <select
                   id="degree"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                 >
                   <option value="mtech" selected>
                     M.Tech
@@ -46,29 +51,29 @@ const ProfessionalInfo = () => {
               </div>
 
               <div className="px-4 mt-5">
-                <label className="leading-8 text-sm font-normal mt-5">
+                <label className="leading-8 text-lg font-normal mt-5">
                   College / University (optional)
                 </label>
                 <TextField
-                    type="text"
-                    id="college"
-                    placeholder="Gandhi University of applied sciences"
-                  />
+                  type="text"
+                  id="college"
+                  placeholder="Gandhi University of applied sciences"
+                />
                 {/* <input
                   type="text"
                   id="college"
-                  className="h-16 block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="h-16 block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-lg focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Gandhi University of applied sciences"
                 /> */}
               </div>
 
               <div className="px-4 mt-1">
-                <label className="block mb-2 text-sm font-medium text-gray-900">
+                <label className="block mb-2 text-lg font-medium text-gray-900">
                   Course
                 </label>
                 <select
                   id="course"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                 >
                   <option value="course1" selected>
                     Advanced Computers and integrations
@@ -80,19 +85,21 @@ const ProfessionalInfo = () => {
               </div>
 
               <div className="px-4 mt-5">
-                <label className="block mb-2 text-sm font-medium text-gray-900">
+                <label className="block mb-2 text-lg font-medium text-gray-900">
                   Graduation year
                 </label>
                 <select
                   id="graduationyear"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                 >
-                  <option value="2015" selected>
-                    2015
+                  <option value="" selected>
+                    Select
                   </option>
-                  <option value="2016">2016</option>
-                  <option value="2017">2017</option>
-                  <option value="2018">2018</option>
+                  {years.map((year, index) => (
+                    <option key={index} value={year}>
+                      {year}
+                    </option>
+                  ))}
                 </select>
               </div>
               {/* Professional info */}
@@ -102,12 +109,12 @@ const ProfessionalInfo = () => {
               </div>
 
               <div className="px-4 ">
-                <label className="block mb-2 text-sm font-medium text-gray-900">
+                <label className="block mb-2 text-lg font-medium text-gray-900">
                   Occupation (optional)
                 </label>
                 <select
                   id="occupation"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                 >
                   <option value="owner1" selected>
                     Startup owner
@@ -119,29 +126,25 @@ const ProfessionalInfo = () => {
               </div>
 
               <div className="px-4 mt-5">
-                <label className="leading-8 text-sm font-normal mt-5">
+                <label className="leading-8 text-lg font-normal mt-5">
                   Organisation (optional)
                 </label>
-                <TextField
-                    type="text"
-                    id="organisation"
-                    placeholder="Grow"
-                  />
+                <TextField type="text" id="organisation" placeholder="Grow" />
                 {/* <input
                   type="text"
                   id="organisation"
-                  className="h-16 block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="h-16 block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-lg focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Grow"
                 /> */}
               </div>
 
               <div className="px-4 mt-1">
-                <label className="block mb-2 text-sm font-medium text-gray-900">
+                <label className="block mb-2 text-lg font-medium text-gray-900">
                   Location (optional)
                 </label>
                 <select
                   id="location"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                 >
                   <option value="location1" selected>
                     Bangalore
@@ -153,12 +156,12 @@ const ProfessionalInfo = () => {
               </div>
 
               <div className="px-4 mt-5">
-                <label className="block mb-2 text-sm font-medium text-gray-900">
+                <label className="block mb-2 text-lg font-medium text-gray-900">
                   Position (optional)
                 </label>
                 <select
                   id="position"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                 >
                   <option value="position1" selected>
                     Chief design officer
@@ -170,42 +173,38 @@ const ProfessionalInfo = () => {
               </div>
 
               <div className="px-4 mt-5">
-                <label className="block mb-2 text-sm font-medium text-gray-900">
+                <label className="block mb-2 text-lg font-medium text-gray-900">
                   Experience (optional)
                 </label>
                 <div className="flex flex-row font-normal">
-                  <div className=" text-sm w-1/2">
-                    <label className="leading-8 text-sm font-normal mt-5">
+                  <div className=" text-lg w-1/2">
+                    <label className="leading-8 text-lg font-normal mt-5">
                       Years
                     </label>
                     <select
                       id="expyears"
-                      className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                      className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                     >
-                      <option value="11" selected>
-                        01
-                      </option>
-                      <option value="2">02</option>
-                      <option value="3">03</option>
-                      <option value="4">04</option>
-                      <option value="5">05</option>
+                      {Array.from({ length: 51 }, (x, i) => i).map((i) => (
+                        <option value={String(i).padStart(2, '0')}>
+                          {String(i).padStart(2, '0')}
+                        </option>
+                      ))}
                     </select>
                   </div>
-                  <div className="ml-2 text-sm w-1/2">
-                    <label className="leading-8 text-sm font-normal mt-5">
+                  <div className="ml-2 text-lg w-1/2">
+                    <label className="leading-8 text-lg font-normal mt-5">
                       Months
                     </label>
                     <select
                       id="expmonths"
-                      className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                      className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                     >
-                      <option value="11" selected>
-                        01
-                      </option>
-                      <option value="2">02</option>
-                      <option value="3">03</option>
-                      <option value="4">04</option>
-                      <option value="5">05</option>
+                      {Array.from({ length: 12 }, (x, i) => i).map((i) => (
+                        <option value={String(i + 1).padStart(2, '0')}>
+                          {String(i + 1).padStart(2, '0')}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -217,7 +216,7 @@ const ProfessionalInfo = () => {
           <div className="bg-gray-50">
             <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end">
               <button className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
-                Save Changes
+                Save Changes 3
               </button>
             </div>
 
@@ -228,7 +227,7 @@ const ProfessionalInfo = () => {
             </div>
 
             <div className="flex justify-center px-6 md:justify-end lg:justify-end">
-              <div className="flex justify-center items-center text-sm border-2 rounded-md bg-gray-200 h-96 w-1/2 md:w-1/2 lg:w-1/2">
+              <div className="flex justify-center items-center text-lg border-2 rounded-md bg-gray-200 h-96 w-1/2 md:w-1/2 lg:w-1/2">
                 {' '}
               </div>
             </div>
@@ -236,7 +235,7 @@ const ProfessionalInfo = () => {
         </div>
       </Formik>
     </>
-  );
-};
+  )
+}
 
-export default ProfessionalInfo;
+export default ProfessionalInfo

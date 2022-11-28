@@ -8,7 +8,7 @@ const MainContent = ({ content }) => {
       className={`${classes.body} flex-1 min-h-screen flex flex-col justify-start`}
     >
       <Header />
-      <main className="mt-5 px-3  md:px-10 ">
+      <main className={`mt-5 px-3 ${classes['main-content']} md:px-10 `}>
         {!!content || <Home />}
         {!!content && content}
       </main>

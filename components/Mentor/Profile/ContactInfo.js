@@ -1,15 +1,10 @@
-import React, {useState} from "react";
-import { Formik } from "formik";
-import Image from "next/image";
-import { color } from "../../public/theme/Color";
-import Button from '../ui-kit/Button'
-import DropDown from '../ui-kit/DropDown'
-import TextField from '../ui-kit/TextField'
-import useWindowDimensions from "../../public/utils/useWindowDimensions";
+import React, { useState } from 'react'
+import { Formik } from 'formik'
+import TextField from '../../../pages/ui-kit/TextField'
 
 const ContactInfo = () => {
-  const [phoneNumber, setPhoneNumber] = useState();
-  const initialState = {};
+  const [phoneNumber, setPhoneNumber] = useState()
+  const initialState = {}
   return (
     <>
       <Formik
@@ -28,15 +23,15 @@ const ContactInfo = () => {
               </div>
 
               <div className="px-4">
-                <label className="leading-8 text-sm font-normal mt-5">
+                <label className="leading-8 text-lg font-normal mt-5">
                   Email ID
                 </label>
                 <div className="flex flex-wrap items-stretch w-full relative">
-                <TextField
-                  id="email"
-                  type="email"
-                  placeholder="Michaelscott@gmail.com"
-                />
+                  <TextField
+                    id="email"
+                    type="email"
+                    placeholder="Michaelscott@gmail.com"
+                  />
                 </div>
               </div>
               <p className="flex mr-5 text-xs justify-end -mt-4">
@@ -48,14 +43,14 @@ const ContactInfo = () => {
                 Email ID Verified
               </p>
 
-              <label className="px-4 leading-8 text-sm font-normal mt-5">
+              <label className="px-4 leading-8 text-lg font-normal mt-5">
                 Mobile Number
               </label>
               <div className="px-4 flex flex-row ">
                 {/* <div className="w-1/4 md:w-1/6 lg:w-1/6">
                   <select
                     id="mobile"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded rounded-r-none focus:ring-black-500 focus:border-black-500 block w-full p-3"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded rounded-r-none focus:ring-black-500 focus:border-black-500 block w-full p-3"
                   >
                     <option value="91" selected>
                       +91
@@ -67,18 +62,17 @@ const ContactInfo = () => {
                 </div> */}
                 <div className="w-full">
                   <div className="flex flex-wrap items-stretch w-full relative">
-                  <TextField
-                    id="number"
-                    placeholder="000 000 000"
-                    value={phoneNumber}
-                    phoneNumber={true}
-                    onChangeValue={(text) => {
-                      if (numberValidation.test(text.target.value)) {
-                        setPhoneNumber(text.target.value);
-                      }
-                    }}   
+                    <TextField
+                      id="number"
+                      placeholder="000 000 000"
+                      value={phoneNumber}
+                      phoneNumber={true}
+                      onChangeValue={(text) => {
+                        if (numberValidation.test(text.target.value)) {
+                          setPhoneNumber(text.target.value)
+                        }
+                      }}
                     />
-                  
                   </div>
                 </div>
               </div>
@@ -91,7 +85,7 @@ const ContactInfo = () => {
                 Number Verified
               </p>
 
-              <label className="px-4 leading-8 text-sm font-normal mt-5">
+              <label className="px-4 leading-8 text-lg font-normal mt-5">
                 Whatsapp Number
               </label>
 
@@ -99,7 +93,7 @@ const ContactInfo = () => {
                 {/* <div className="w-1/4 md:w-1/6 lg:w-1/6">
                   <select
                     id="whatsapp"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded rounded-r-none focus:ring-black-500 focus:border-black-500 block w-full p-3"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded rounded-r-none focus:ring-black-500 focus:border-black-500 block w-full p-3"
                   >
                     <option value="91" selected>
                       +91
@@ -111,17 +105,16 @@ const ContactInfo = () => {
                 </div> */}
                 <div className="w-full">
                   <div className="flex flex-wrap items-stretch w-full relative">
-
-                  <TextField
-                    id="number"
-                    placeholder="000 000 000"
-                    value={phoneNumber}
-                    phoneNumber={true}
-                    onChangeValue={(text) => {
-                      if (numberValidation.test(text.target.value)) {
-                        setPhoneNumber(text.target.value);
-                      }
-                    }}   
+                    <TextField
+                      id="number"
+                      placeholder="000 000 000"
+                      value={phoneNumber}
+                      phoneNumber={true}
+                      onChangeValue={(text) => {
+                        if (numberValidation.test(text.target.value)) {
+                          setPhoneNumber(text.target.value)
+                        }
+                      }}
                     />
                   </div>
                 </div>
@@ -138,7 +131,7 @@ const ContactInfo = () => {
                   href="#"
                   className="text-blue-600 ml-2 no-underline hover:underline"
                 >
-                  {" "}
+                  {' '}
                   Click to verify
                 </a>
               </p>
@@ -147,29 +140,28 @@ const ContactInfo = () => {
 
           {/* 02 */}
           <div className="bg-gray-50">
-          <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end">
-            <button className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
-              Save Changes
-            </button>
-          </div>
+            <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end">
+              <button className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
+                Save Changes 2
+              </button>
+            </div>
 
-          <div className="flex justify-center mt-20 md:justify-end lg:justify-end py-2 px-6">
-            <div className="flex justify-center items-center text-base text-semibold border-2 rounded-md bg-white h-8 w-1/2 md:w-1/2 lg:w-1/2">
-              Preview
+            <div className="flex justify-center mt-20 md:justify-end lg:justify-end py-2 px-6">
+              <div className="flex justify-center items-center text-base text-semibold border-2 rounded-md bg-white h-8 w-1/2 md:w-1/2 lg:w-1/2">
+                Preview
+              </div>
+            </div>
+
+            <div className="flex justify-center px-6 md:justify-end lg:justify-end">
+              <div className="flex justify-center items-center text-lg border-2 rounded-md bg-gray-200 h-96 w-1/2 md:w-1/2 lg:w-1/2">
+                {' '}
+              </div>
             </div>
           </div>
-
-          <div className="flex justify-center px-6 md:justify-end lg:justify-end">
-            <div className="flex justify-center items-center text-sm border-2 rounded-md bg-gray-200 h-96 w-1/2 md:w-1/2 lg:w-1/2">
-              {" "}
-            </div>
-          </div>
-
-        </div>
         </div>
       </Formik>
     </>
-  );
-};
+  )
+}
 
-export default ContactInfo;
+export default ContactInfo
