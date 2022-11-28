@@ -6,7 +6,11 @@ import NavLink from '../../../../../Utilities/NavLink'
 import Collapsed from '../../../Collapsed/index'
 const Parent = ({ title, image, url, hasItems, items }) => {
   const [collapsed, setCollapsed] = useState(true)
+<<<<<<< HEAD
   const [headerActive, setHeaderActive] = useState(true)
+=======
+  const [headerActive, setHeaderActive] = useState(false)
+>>>>>>> d3da3498a51c8eee94d004fe00cc4d5fcd33a878
   const setActiveHandler = (value) => {
     setHeaderActive(value)
     // if (value) setCollapsed(false)

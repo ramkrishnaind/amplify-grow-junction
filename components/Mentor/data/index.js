@@ -51,7 +51,11 @@ export const NavigationLinks = [
   },
   {
     title: 'Profile',
+<<<<<<< HEAD
     url: '',
+=======
+    url: '/mentor/profile',
+>>>>>>> d3da3498a51c8eee94d004fe00cc4d5fcd33a878
     image: 'profile.png',
   },
   {

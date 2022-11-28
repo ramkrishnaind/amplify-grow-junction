@@ -3,7 +3,12 @@ import LeftMenu from '../../components/Mentor/LeftMenu'
 import MainContent from '../../components/Mentor/MainContent'
 import { useDispatch } from 'react-redux'
 import { setMentorTitle } from '../../redux/actions/MentorTitleAction'
+<<<<<<< HEAD
 
+=======
+import { Auth, withAuthenticator } from '@aws-amplify/ui-react'
+// import withAuthenticator from '../add-todo'
+>>>>>>> d3da3498a51c8eee94d004fe00cc4d5fcd33a878
 const Mentor = ({ children }) => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -17,4 +22,8 @@ const Mentor = ({ children }) => {
   )
 }
 
+<<<<<<< HEAD
 export default Mentor
+=======
+export default withAuthenticator(Mentor)
+>>>>>>> d3da3498a51c8eee94d004fe00cc4d5fcd33a878

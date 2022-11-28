@@ -7,7 +7,11 @@ import Parent from './Parent'
 const Navigation = () => {
   return (
     <nav>
+<<<<<<< HEAD
       <ul className="max-h-[85vh] overflow-y-auto ">
+=======
+      <ul className="max-h-[140vh] overflow-y-auto ">
+>>>>>>> d3da3498a51c8eee94d004fe00cc4d5fcd33a878
         {NavigationLinks.map((navLink, index) => {
           const { title, url, image, items } = navLink
           if (items) {
