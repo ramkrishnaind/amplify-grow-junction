@@ -21,6 +21,7 @@ const TextField = (props) => {
     imageType,
     handleIncrement = () => {},
     handleDecrement = () => {},
+    link,
     ...rest
   } = props
 
@@ -38,8 +39,13 @@ const TextField = (props) => {
         {label}
       </label>
       <div
-        className="focus-outline mr-5   w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        style={{ padding: 4, ...styleOverride }}
+        className="focus-outline mr-5  w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        style={{
+          padding: 4,
+          height: 56,
+
+          ...styleOverride,
+        }}
       >
         {phoneNumber ? (
           <div
@@ -154,7 +160,9 @@ const TextField = (props) => {
             color: color.blue,
           }}
         >
-          {infoMsg}
+          <a href={link} target="_blank" rel="noopener noreferrer">
+            {infoMsg}
+          </a>
         </div>
       )}
     </div>

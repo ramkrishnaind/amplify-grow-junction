@@ -129,20 +129,14 @@ export const onCreateStudentRegister = /* GraphQL */ `
       username: $username
       owner: $owner
     ) {
-      student_id
-      student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
       recent_college
       degree
       current_employee
       your_role
       experience
       phone_number
+      linkedIn_url
       id
       createdAt
       updatedAt
@@ -162,20 +156,14 @@ export const onUpdateStudentRegister = /* GraphQL */ `
       username: $username
       owner: $owner
     ) {
-      student_id
-      student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
       recent_college
       degree
       current_employee
       your_role
       experience
       phone_number
+      linkedIn_url
       id
       createdAt
       updatedAt
@@ -195,20 +183,14 @@ export const onDeleteStudentRegister = /* GraphQL */ `
       username: $username
       owner: $owner
     ) {
-      student_id
-      student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
       recent_college
       degree
       current_employee
       your_role
       experience
       phone_number
+      linkedIn_url
       id
       createdAt
       updatedAt
@@ -230,19 +212,10 @@ export const onCreateMentorRegister = /* GraphQL */ `
     ) {
       mentor_id
       mentor_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
-      profile_url
-      mentor_service_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
+      linkedIn_url
+      mentor_service_id
+      mentor_availability_id
       phone_number
       id
       createdAt
@@ -265,19 +238,10 @@ export const onUpdateMentorRegister = /* GraphQL */ `
     ) {
       mentor_id
       mentor_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
-      profile_url
-      mentor_service_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
+      linkedIn_url
+      mentor_service_id
+      mentor_availability_id
       phone_number
       id
       createdAt
@@ -300,19 +264,10 @@ export const onDeleteMentorRegister = /* GraphQL */ `
     ) {
       mentor_id
       mentor_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
-      profile_url
-      mentor_service_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
+      linkedIn_url
+      mentor_service_id
+      mentor_availability_id
       phone_number
       id
       createdAt
