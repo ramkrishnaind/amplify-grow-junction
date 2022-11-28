@@ -38,11 +38,16 @@ let productsp = [
 ]
 
 const initialState = {
-  first_name: 'riyaz',
-  last_name: 'ahamed',
-  email: 'er.riyaz2507@gmail.com',
-  password: 'R!yaz2507',
-  confirm_password: 'R!yaz2507',
+  //   first_name: 'riyaz',
+  //   last_name: 'ahamed',
+  //   email: 'er.riyaz2507@gmail.com',
+  //   password: 'R!yaz2507',
+  //   confirm_password: 'R!yaz2507',
+  first_name: '',
+  last_name: '',
+  email: '',
+  password: '',
+  confirm_password: '',
 }
 
 const options = {
