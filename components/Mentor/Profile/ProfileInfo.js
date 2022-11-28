@@ -4,6 +4,7 @@ import TextField from '../../../pages/ui-kit/TextField'
 import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import classes from './ProfileInfo.module.css'
 import ProgressBar from '../../Utilities/ProgressBar'
+import Preview from './Preview'
 const ProfileInfo = () => {
   const initialState = {}
   const [timeZone, setTimeZone] = useState(
@@ -269,19 +270,19 @@ const ProfileInfo = () => {
           <div className="bg-gray-50 basis-2/5">
             <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end">
               <button className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
-                Save Changes 1
+                Save Changes  
               </button>
             </div>
 
-            <div className="flex justify-center mt-20 md:justify-end lg:justify-end py-2 px-6">
+            <div className="flex justify-center mt-20 py-2 px-6">
               <div className="flex justify-center items-center text-base text-semibold border-2 rounded-md bg-white h-8 w-1/2 md:w-1/2 lg:w-1/2">
                 Preview
               </div>
             </div>
 
-            <div className="flex justify-center px-6 md:justify-end lg:justify-end">
-              <div className="flex justify-center items-center text-lg border-2 rounded-md bg-gray-200 h-96 w-1/2 md:w-1/2 lg:w-1/2">
-                {' '}
+            <div className="flex justify-center md:justify-end lg:justify-end">
+              <div className="flex justify-center items-center text-lg border-2 rounded-md bg-gray-100 h-auto w-auto">
+                <Preview/>
               </div>
             </div>
           </div>
