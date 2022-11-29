@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 const Header = () => {
-  debugger
+  // debugger
   const mentorHeader = useSelector((state) => state.MentorHeaderReducer)
   return (
     <div className="flex  px-3  md:px-10 sticky bg-white top-0 left-0 h-24 items-center w-full justify-between">

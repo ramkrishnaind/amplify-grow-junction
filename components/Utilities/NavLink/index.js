@@ -19,10 +19,13 @@ export default function NavLink({
   ...props
 }) {
   const { pathname } = useRouter()
+  // debugger
   const isActive = exact ? pathname === href : pathname.startsWith(href)
 
   if (isActive) {
     props.className += ' active'
+    if (setActive) setActive(isActive)
+  } else {
     if (setActive) setActive(isActive)
   }
 

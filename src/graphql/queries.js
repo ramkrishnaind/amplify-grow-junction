@@ -59,6 +59,98 @@ export const listSuggestedServiceLists = /* GraphQL */ `
     }
   }
 `;
+export const getMentorWeekSchedule = /* GraphQL */ `
+  query GetMentorWeekSchedule($id: ID!) {
+    getMentorWeekSchedule(id: $id) {
+      day
+      checked
+      time_schedule {
+        startTime
+        startTimeMeridian
+        endTime
+        endTimeMeridian
+        leftMeridianDropDown
+        rightMeridianDropDown
+        id
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listMentorWeekSchedules = /* GraphQL */ `
+  query ListMentorWeekSchedules(
+    $filter: ModelMentorWeekScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMentorWeekSchedules(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        day
+        checked
+        time_schedule {
+          startTime
+          startTimeMeridian
+          endTime
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+        }
+        id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getTimeSchedule = /* GraphQL */ `
+  query GetTimeSchedule($id: ID!) {
+    getTimeSchedule(id: $id) {
+      startTime
+      startTimeMeridian
+      endTime
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTimeSchedules = /* GraphQL */ `
+  query ListTimeSchedules(
+    $filter: ModelTimeScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTimeSchedules(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        startTime
+        startTimeMeridian
+        endTime
+        endTimeMeridian
+        leftMeridianDropDown
+        rightMeridianDropDown
+        id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getTodo = /* GraphQL */ `
   query GetTodo($id: ID!) {
     getTodo(id: $id) {
@@ -103,6 +195,9 @@ export const getStudentRegister = /* GraphQL */ `
       }
       recent_college
       degree
+      education {
+        degree
+      }
       current_employee
       your_role
       experience
@@ -111,7 +206,6 @@ export const getStudentRegister = /* GraphQL */ `
       createdAt
       updatedAt
       username
-      owner
     }
   }
 `;
@@ -137,6 +231,9 @@ export const listStudentRegisters = /* GraphQL */ `
         }
         recent_college
         degree
+        education {
+          degree
+        }
         current_employee
         your_role
         experience
@@ -145,7 +242,6 @@ export const listStudentRegisters = /* GraphQL */ `
         createdAt
         updatedAt
         username
-        owner
       }
       nextToken
     }
@@ -169,6 +265,7 @@ export const getMentorRegister = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      mentor_availability_id
       phone_number
       id
       createdAt
@@ -201,7 +298,68 @@ export const listMentorRegisters = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        mentor_availability_id
         phone_number
+        id
+        createdAt
+        updatedAt
+        username
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getMentorAvailability = /* GraphQL */ `
+  query GetMentorAvailability($id: ID!) {
+    getMentorAvailability(id: $id) {
+      mentor_availability_id
+      mentor_schedule {
+        day
+        checked
+        time_schedule {
+          startTime
+          startTimeMeridian
+          endTime
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+        }
+        id
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const listMentorAvailabilities = /* GraphQL */ `
+  query ListMentorAvailabilities(
+    $filter: ModelMentorAvailabilityFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMentorAvailabilities(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        mentor_availability_id
+        mentor_schedule {
+          day
+          checked
+          id
+          createdAt
+          updatedAt
+        }
         id
         createdAt
         updatedAt

@@ -73,6 +73,129 @@ export const onDeleteSuggestedServiceList = /* GraphQL */ `
     }
   }
 `;
+export const onCreateMentorWeekSchedule = /* GraphQL */ `
+  subscription OnCreateMentorWeekSchedule(
+    $filter: ModelSubscriptionMentorWeekScheduleFilterInput
+  ) {
+    onCreateMentorWeekSchedule(filter: $filter) {
+      day
+      checked
+      time_schedule {
+        startTime
+        startTimeMeridian
+        endTime
+        endTimeMeridian
+        leftMeridianDropDown
+        rightMeridianDropDown
+        id
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateMentorWeekSchedule = /* GraphQL */ `
+  subscription OnUpdateMentorWeekSchedule(
+    $filter: ModelSubscriptionMentorWeekScheduleFilterInput
+  ) {
+    onUpdateMentorWeekSchedule(filter: $filter) {
+      day
+      checked
+      time_schedule {
+        startTime
+        startTimeMeridian
+        endTime
+        endTimeMeridian
+        leftMeridianDropDown
+        rightMeridianDropDown
+        id
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteMentorWeekSchedule = /* GraphQL */ `
+  subscription OnDeleteMentorWeekSchedule(
+    $filter: ModelSubscriptionMentorWeekScheduleFilterInput
+  ) {
+    onDeleteMentorWeekSchedule(filter: $filter) {
+      day
+      checked
+      time_schedule {
+        startTime
+        startTimeMeridian
+        endTime
+        endTimeMeridian
+        leftMeridianDropDown
+        rightMeridianDropDown
+        id
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTimeSchedule = /* GraphQL */ `
+  subscription OnCreateTimeSchedule(
+    $filter: ModelSubscriptionTimeScheduleFilterInput
+  ) {
+    onCreateTimeSchedule(filter: $filter) {
+      startTime
+      startTimeMeridian
+      endTime
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTimeSchedule = /* GraphQL */ `
+  subscription OnUpdateTimeSchedule(
+    $filter: ModelSubscriptionTimeScheduleFilterInput
+  ) {
+    onUpdateTimeSchedule(filter: $filter) {
+      startTime
+      startTimeMeridian
+      endTime
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTimeSchedule = /* GraphQL */ `
+  subscription OnDeleteTimeSchedule(
+    $filter: ModelSubscriptionTimeScheduleFilterInput
+  ) {
+    onDeleteTimeSchedule(filter: $filter) {
+      startTime
+      startTimeMeridian
+      endTime
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateTodo = /* GraphQL */ `
   subscription OnCreateTodo(
     $filter: ModelSubscriptionTodoFilterInput
@@ -122,13 +245,8 @@ export const onCreateStudentRegister = /* GraphQL */ `
   subscription OnCreateStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
     $username: String
-    $owner: String
   ) {
-    onCreateStudentRegister(
-      filter: $filter
-      username: $username
-      owner: $owner
-    ) {
+    onCreateStudentRegister(filter: $filter, username: $username) {
       student_id
       student_name
       domain_id {
@@ -139,6 +257,9 @@ export const onCreateStudentRegister = /* GraphQL */ `
       }
       recent_college
       degree
+      education {
+        degree
+      }
       current_employee
       your_role
       experience
@@ -147,7 +268,6 @@ export const onCreateStudentRegister = /* GraphQL */ `
       createdAt
       updatedAt
       username
-      owner
     }
   }
 `;
@@ -155,13 +275,8 @@ export const onUpdateStudentRegister = /* GraphQL */ `
   subscription OnUpdateStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
     $username: String
-    $owner: String
   ) {
-    onUpdateStudentRegister(
-      filter: $filter
-      username: $username
-      owner: $owner
-    ) {
+    onUpdateStudentRegister(filter: $filter, username: $username) {
       student_id
       student_name
       domain_id {
@@ -172,6 +287,9 @@ export const onUpdateStudentRegister = /* GraphQL */ `
       }
       recent_college
       degree
+      education {
+        degree
+      }
       current_employee
       your_role
       experience
@@ -180,7 +298,6 @@ export const onUpdateStudentRegister = /* GraphQL */ `
       createdAt
       updatedAt
       username
-      owner
     }
   }
 `;
@@ -188,13 +305,8 @@ export const onDeleteStudentRegister = /* GraphQL */ `
   subscription OnDeleteStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
     $username: String
-    $owner: String
   ) {
-    onDeleteStudentRegister(
-      filter: $filter
-      username: $username
-      owner: $owner
-    ) {
+    onDeleteStudentRegister(filter: $filter, username: $username) {
       student_id
       student_name
       domain_id {
@@ -205,6 +317,9 @@ export const onDeleteStudentRegister = /* GraphQL */ `
       }
       recent_college
       degree
+      education {
+        degree
+      }
       current_employee
       your_role
       experience
@@ -213,7 +328,6 @@ export const onDeleteStudentRegister = /* GraphQL */ `
       createdAt
       updatedAt
       username
-      owner
     }
   }
 `;
@@ -243,6 +357,7 @@ export const onCreateMentorRegister = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      mentor_availability_id
       phone_number
       id
       createdAt
@@ -278,6 +393,7 @@ export const onUpdateMentorRegister = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      mentor_availability_id
       phone_number
       id
       createdAt
@@ -313,7 +429,122 @@ export const onDeleteMentorRegister = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      mentor_availability_id
       phone_number
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onCreateMentorAvailability = /* GraphQL */ `
+  subscription OnCreateMentorAvailability(
+    $filter: ModelSubscriptionMentorAvailabilityFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateMentorAvailability(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      mentor_availability_id
+      mentor_schedule {
+        day
+        checked
+        time_schedule {
+          startTime
+          startTimeMeridian
+          endTime
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+        }
+        id
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onUpdateMentorAvailability = /* GraphQL */ `
+  subscription OnUpdateMentorAvailability(
+    $filter: ModelSubscriptionMentorAvailabilityFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateMentorAvailability(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      mentor_availability_id
+      mentor_schedule {
+        day
+        checked
+        time_schedule {
+          startTime
+          startTimeMeridian
+          endTime
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+        }
+        id
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onDeleteMentorAvailability = /* GraphQL */ `
+  subscription OnDeleteMentorAvailability(
+    $filter: ModelSubscriptionMentorAvailabilityFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteMentorAvailability(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      mentor_availability_id
+      mentor_schedule {
+        day
+        checked
+        time_schedule {
+          startTime
+          startTimeMeridian
+          endTime
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+        }
+        id
+        createdAt
+        updatedAt
+      }
       id
       createdAt
       updatedAt

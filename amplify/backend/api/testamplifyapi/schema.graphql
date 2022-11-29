@@ -30,13 +30,15 @@ type SuggestedServiceList
   id: ID!
   value: String!
 }
-
+type Education {
+  degree: String
+}
 type StudentRegister
   @model
   @auth(
     rules: [
       { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read] }
+      { allow: public, operations: [read] }
     ]
   ) {
   student_id: ID!
@@ -44,6 +46,7 @@ type StudentRegister
   domain_id: [DemoSkillsList!]
   recent_college: String!
   degree: String!
+  education: Education
   current_employee: String
   your_role: String
   experience: String
