@@ -40,7 +40,7 @@ const Profile = () => {
                     setOpenTab(1)
                   }}
                 >
-                  Profile info
+                  Profile
                 </a>
               </li>
               <li className="mr-2">
@@ -56,7 +56,7 @@ const Profile = () => {
                     setOpenTab(2)
                   }}
                 >
-                  Contact info
+                  Contact
                 </a>
               </li>
               <li className="mr-2">
@@ -72,7 +72,7 @@ const Profile = () => {
                     setOpenTab(3)
                   }}
                 >
-                  Professional info
+                  Professional
                 </a>
               </li>
             </ul>

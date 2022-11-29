@@ -20,13 +20,13 @@ const DropDown = (props) => {
     dropDownBool = false,
     openDropDown = () => {},
     mulitline,
-
+    iconOverride,
     ...rest
   } = props
 
   return (
     <div
-      className="flex flex-col  "
+      className="mb-5 flex-1"
       //   style={containerStyle}
       onClick={() => {
         openDropDown(value)
@@ -36,22 +36,44 @@ const DropDown = (props) => {
         // dir="rtl"
         style={{
           //   color: Color.textColor,
-          display: 'flex',
-          flex: 1,
-          marginBottom: 3,
+          color: color.blackVariant,
+          fontSize: 14,
+          fontWeight: 400,
+          marginBottom: 8,
         }}
       >
         {label}
       </label>
       <div
-        className="focus-outline   p-4  w-full flex flex-1 flex-row rounded-md  px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        style={{ ...containerStyle }}
+        className="focus-outline mr-5  w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        style={{ padding: 4, height: 56, ...containerStyle }}
       >
-        <div
-          style={{ flex: 1, display: 'flex', color: color.black, fontSize: 14 }}
-        >
-          {value}
-        </div>
+        {value || value !== '' ? (
+          <div
+            style={{
+              flex: 1,
+              display: 'flex',
+              color: color.black,
+              fontSize: 14,
+              alignSelf: 'center',
+            }}
+          >
+            {value}
+          </div>
+        ) : (
+          <div
+            style={{
+              flex: 1,
+              display: 'flex',
+              color: color.textGrey,
+              fontSize: 14,
+              alignSelf: 'center',
+            }}
+          >
+            {placeholder}
+          </div>
+        )}
+
         <Image
           src={require('../../public/assets/icon/darkDrop.png')}
           alt=""
@@ -63,8 +85,15 @@ const DropDown = (props) => {
                   transform: 'rotate(180deg)',
                   alignSelf: 'center',
                   cursor: 'pointer',
+                  ...iconOverride,
                 }
-              : { height: 5, width: 10, alignSelf: 'center', cursor: 'pointer' }
+              : {
+                  height: 5,
+                  width: 10,
+                  alignSelf: 'center',
+                  cursor: 'pointer',
+                  ...iconOverride,
+                }
           }
         />
         {/* {mulitline && value?.length ? (

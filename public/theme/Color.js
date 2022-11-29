@@ -11,4 +11,8 @@ export const color = {
   blue: '#2714FF',
   black: '#000000',
   borderGrey: '#989898',
+  green: '#30B956',
+  lightGreen: '#EDFFF2',
+  lightRed: '#FFF6F6',
+  red: '#D71E1E',
 }

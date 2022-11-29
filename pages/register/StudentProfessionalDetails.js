@@ -1,66 +1,176 @@
-import React from "react";
+import { Formik } from 'formik'
+import React, { useState } from 'react'
+import { color } from '../../public/theme/Color'
+import BoxBodyContainer from '../components/common/BoxBodyContainer'
+import KYC_header from '../components/registration/KYC_header'
+import Button from '../ui-kit/Button'
+import TextField from '../ui-kit/TextField'
+import DropDown from '../ui-kit/DropDown'
+import { ProfessionalDetailSchema } from '../../public/utils/schema'
+import { useRouter } from 'next/router'
+// import { toast } from 'react-toastify'
 
+import ACTION_KEYS from '../../constants/action-keys'
+import { useDispatch } from 'react-redux'
+import Toaster from '../ui-kit/Toaster'
+// import { toast, ToastContainer } from 'react-nextjs-toast'
+
+const degree = [
+  { name: 'B.E' },
+  { name: 'B.Tech' },
+  { name: 'M.Sc' },
+  { name: 'M.Tech' },
+]
+
+const currentEmployer = ['Yes', 'No']
+
+const experience = ['1', '2', '3', '4+']
+
+const spaceValidation = new RegExp(/^[^ ]*$/)
 const StudentProfessionalDetails = () => {
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const [degreeDropDownBool, setDegreeDropDownBool] = useState(false)
+  const [employerDropDownBool, setEmployeeDropDownBool] = useState(false)
+  const [expDropDownBool, setExpDropDownBool] = useState(false)
+  const [showToaster, setShowToaster] = useState(false)
+  const initialState = {
+    recent_college: '',
+    degree: '',
+    current_employee: '',
+    your_role: '',
+    experience: '',
+  }
   return (
-    <>
-      <form>
-        <div className="mt-20 px-4">
-          <div className="flex w-1/3">
-            {/* 01*/}
-            <div className="flex justify-start w-full px-4">
-              <div className="flex flex-row py-3">
-                <img
-                  src="/images/leftArrow.png"
-                  alt=""
-                  className="w-4 h-4 mt-1"
-                ></img>
-                <span className="text-base tex-black ml-4">Go back</span>
-              </div>
-
-              {/* 01*/}
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-row justify-start items-center mt-5 ml-20 px-20">
-          <img src="/images/studentPD1.png" alt="" className="w-10 h-10"></img>
-          <img
-            src="/images/studentProfessionalDetail.png"
-            alt=""
-            className="w-14"
-          ></img>
-          <img src="/images/studentPD2.png" alt="" className="w-14 h-14"></img>
-          <img
-            src="/images/studentProfessionalDetail.png"
-            alt=""
-            className="w-14"
-          ></img>
-          <img src="/images/studentPD3.png" alt="" className="w-10 h-10"></img>
-        </div>
-
-      
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="px-10 mt-10">
-            <div className="flex flex-col tracking-wide text-black ml-4 w-5/6 md:w-auto lg:w-auto">
-              <div className="p-4 leading-8 text-2xl font-semibold">
+    <BoxBodyContainer
+      styleOverride={{ alignItems: 'flex-start' }}
+      body={
+        <div
+          style={{
+            display: 'flex',
+            flex: 1,
+            flexDirection: 'column',
+          }}
+        >
+          {/* <ToastContainer align={'right'} position={'bottom'} /> */}
+          <KYC_header
+            stepImage={require('../../public/assets/icon/stu_Step_Indicator1.png')}
+          />
+          <div
+            style={{
+              display: 'flex',
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'center',
+                flexDirection: 'column',
+                maxWidth: 750,
+              }}
+            >
+              <div
+                style={{
+                  color: color.blackVariant,
+                  fontWeight: 400,
+                  fontSize: 36,
+                  marginTop: 60,
+                }}
+              >
                 Professional Details
               </div>
-              <p className="p-4 text-xs mt-2">
-              Add some basic details to personalise the experience
-            </p>
-              <div className="px-4 mt-5">
-                <label className="leading-8 text-sm font-normal mt-5">
-                  Your Recent college
-                </label>
-                <div className="flex flex-wrap items-stretch w-full mb-4 relative">
-                  <input
-                    type="text"
-                    id="name"
-                    className="flex-shrink flex-grow leading-normal w-px flex-1 border-2  rounded-lg h-16 px-4 relative text-sm md:h-16 lg:h-16"
-                    placeholder="Enter college name"
-                  />
-                </div>
+              <div
+                style={{
+                  color: color.lightGrey,
+                  fontSize: 16,
+                  fontWeight: 400,
+                  marginTop: 16,
+                }}
+              >
+                Add some basic details to personalise the experience
               </div>
+              <Formik
+                enableReinitialize={true}
+                initialValues={initialState}
+                onSubmit={async (values, { setErrors }) => {
+                  let payload = {
+                    recent_college: values.recent_college,
+                    degree: values.degree,
+                  }
+                  if (values.current_employee !== '') {
+                    payload = {
+                      ...payload,
+                      current_employee: values.current_employee,
+                    }
+                  }
+                  if (values.your_role !== '') {
+                    payload = {
+                      ...payload,
+                      your_role: values.your_role,
+                    }
+                  }
+                  if (values.experience !== '') {
+                    payload = {
+                      ...payload,
+                      experience: values.experience,
+                    }
+                  }
+                  dispatch({
+                    type: ACTION_KEYS.PROFESSIONAL_DETAILS,
+                    payload: { payload },
+                  })
+                  //   setShowToaster(true)
+                  router.push('/register/KYC_step4')
+                }}
+                validationSchema={ProfessionalDetailSchema()}
+                validateOnChange={true}
+                validateOnBlur={true}
+                validateOnMount={true}
+              >
+                {({
+                  handleChange,
+                  values,
+                  isSubmitting,
+                  errors,
+                  touched,
+                  handleBlur,
+                  setErrors,
+                  handleSubmit,
+                  setFieldValue,
+                  ...restProps
+                }) => (
+                  <>
+                    {showToaster ? (
+                      <Toaster message={'hellow'} type="success" />
+                    ) : null}
+                    <TextField
+                      label="Your Recent college"
+                      id="recent_college"
+                      //   type="Email"
+                      placeholder="Enter college name"
+                      value={values.recent_college}
+                      onChangeValue={(text) => {
+                        if (spaceValidation.test(text.target.value)) {
+                          setFieldValue('recent_college', text.target.value)
+                        }
+                      }}
+                      styleOverride={{
+                        backgroundColor: color.white,
+                        height: 56,
+                        borderColor: color.borderGrey,
+                      }}
+                      textStyleOverride={{
+                        backgroundColor: color.white,
+                        paddingLeft: 8,
+                      }}
+                      errMsg={touched.recent_college && errors.recent_college}
+                    />
 
+<<<<<<< HEAD
               <div className="px-4 ">
                 <label className="block mb-2 text-sm font-medium text-gray-900">
                   Choose your degree
@@ -77,35 +187,77 @@ const StudentProfessionalDetails = () => {
                   <option value="bsc">BSC</option>
                 </select>
               </div>
+=======
+                    <DropDown
+                      value={values.degree}
+                      label="Choose your degree"
+                      placeholder="Choose college degree"
+                      containerStyle={{
+                        backgroundColor: color.white,
+                        height: 59,
+                        borderColor: color.borderGrey,
+                        borderWidth: 1,
+                        borderRadius: 4,
+                      }}
+                      dropDownBool={degreeDropDownBool}
+                      openDropDown={() => {
+                        setDegreeDropDownBool(!degreeDropDownBool)
+                      }}
+                      iconOverride={{ marginRight: 28 }}
+                      errMsg={touched.degree && errors.degree}
+                    />
+>>>>>>> 322ba132a8475cdb89d81f8bbbbdfbba40dc9d62
 
-              <div className="px-4 mt-5">
-                <label className="leading-8 text-sm font-normal mt-5">
-                  Current Employer (optional)
-                </label>
-                <div className="flex flex-wrap items-stretch w-full mb-4 relative">
-                  <input
-                    type="text"
-                    id="cemployer"
-                    className="flex-shrink flex-grow leading-normal w-px flex-1 border-2  rounded-lg px-4 relative text-sm h-16 md:h-16 lg:h-16"
-                    placeholder="Enter current employer"
-                  />
-                </div>
-              </div>
+                    {degreeDropDownBool ? (
+                      <div
+                        style={{
+                          backgroundColor: color.white,
+                          paddingLeft: 10,
+                          //   position: 'absolute',
+                        }}
+                      >
+                        {degree.map((item, index) => {
+                          return (
+                            <div
+                              key={index.toString()}
+                              style={{
+                                color: color.black,
+                                paddingTop: 10,
+                                paddingBottom: 10,
+                                fontSize: 14,
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => {
+                                setFieldValue('degree', item?.name)
+                                setDegreeDropDownBool(false)
+                              }}
+                            >
+                              {item?.name}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    ) : null}
 
-              <div className="px-4">
-                <label className="leading-8 text-sm font-normal mt-5">
-                  Your role (optional)
-                </label>
-                <div className="flex flex-wrap items-stretch w-full mb-4 relative">
-                  <input
-                    type="text"
-                    id="role"
-                    className="flex-shrink flex-grow leading-normal w-px flex-1 border-2  rounded-lg px-4 relative text-sm h-16 md:h-16 lg:h-16"
-                    placeholder="Enter your role"
-                  />
-                </div>
-              </div>
+                    <DropDown
+                      value={values.current_employee}
+                      label="Current Employer (optional))"
+                      placeholder="Choose current employer"
+                      containerStyle={{
+                        backgroundColor: color.white,
+                        height: 59,
+                        borderColor: color.borderGrey,
+                        borderWidth: 1,
+                        borderRadius: 4,
+                      }}
+                      iconOverride={{ marginRight: 28 }}
+                      dropDownBool={employerDropDownBool}
+                      openDropDown={() => {
+                        setEmployeeDropDownBool(!employerDropDownBool)
+                      }}
+                    />
 
+<<<<<<< HEAD
               <div className="px-4 mt-5">
                 <label className="block mb-2 text-sm font-medium text-gray-900">
                   Experience in years (optional)
@@ -122,24 +274,166 @@ const StudentProfessionalDetails = () => {
                   <option value="04">04</option>
                 </select>
               </div>
+=======
+                    {employerDropDownBool ? (
+                      <div
+                        style={{
+                          backgroundColor: color.white,
+                          paddingLeft: 10,
+                        }}
+                      >
+                        {currentEmployer.map((item, index) => {
+                          return (
+                            <div
+                              key={index.toString()}
+                              style={{
+                                color: color.black,
+                                paddingTop: 10,
+                                paddingBottom: 10,
+                                fontSize: 14,
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => {
+                                setFieldValue('current_employee', item)
+                                setEmployeeDropDownBool(false)
+                              }}
+                            >
+                              {item}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    ) : null}
+>>>>>>> 322ba132a8475cdb89d81f8bbbbdfbba40dc9d62
 
-              <div className="flex flex-row justify-center mt-20  ">
-                <button className="flex justify-center items-center bg-black hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full w-40">
-                  <span className="ml-3 text-sm">Previous</span>
-                </button>
+                    <TextField
+                      label="Your role (optional)"
+                      id="your_role"
+                      type="role"
+                      placeholder="Enter your role"
+                      //   icon={require('../../public/assets/icon/eye.png')}
+                      styleOverride={{
+                        backgroundColor: color.white,
+                        height: 56,
+                        borderColor: color.borderGrey,
+                      }}
+                      textStyleOverride={{
+                        backgroundColor: color.white,
+                        paddingLeft: 8,
+                      }}
+                      value={values.your_role}
+                      onChangeValue={(text) => {
+                        if (spaceValidation.test(text.target.value)) {
+                          setFieldValue(text.target.id, text.target.value)
+                        }
+                      }}
+                      errMsg={touched.your_role && errors.your_role}
+                    />
 
-                <button className="flex justify-center items-center ml-10 bg-amber-500 hover:bg-blue-700 text-white font-bold  py-2 px-6 rounded-full w-40">
-                  <span className="ml-3 text-sm">Continue</span>
-                </button>
-              </div>
+                    <DropDown
+                      value={values.experience}
+                      label="Experience in years (optional)"
+                      placeholder="Choose experience in year"
+                      containerStyle={{
+                        backgroundColor: color.white,
+                        height: 59,
+                        borderColor: color.borderGrey,
+                        borderWidth: 1,
+                        borderRadius: 4,
+                      }}
+                      iconOverride={{ marginRight: 28 }}
+                      dropDownBool={expDropDownBool}
+                      openDropDown={() => {
+                        setExpDropDownBool(!expDropDownBool)
+                      }}
+                    />
+
+                    {expDropDownBool ? (
+                      <div
+                        style={{
+                          backgroundColor: color.white,
+                          paddingLeft: 10,
+                        }}
+                      >
+                        {experience.map((item, index) => {
+                          return (
+                            <div
+                              key={index.toString()}
+                              style={{
+                                color: color.black,
+                                paddingTop: 10,
+                                paddingBottom: 10,
+                                fontSize: 14,
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => {
+                                setFieldValue('experience', item)
+                                setExpDropDownBool(false)
+                              }}
+                            >
+                              {item}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    ) : null}
+
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                      <Button
+                        label={'Previous'}
+                        styleOverride={{
+                          paddingLeft: 20,
+                          paddingRight: 20,
+                          paddingTop: 6,
+                          paddingBottom: 6,
+                          color: color.white,
+                          borderRadius: 22,
+                          height: 43,
+                          fontSize: 15,
+                          backgroundColor: color.blackVariant,
+                          width: 186,
+                          marginTop: 70,
+                          marginBottom: 48,
+                          marginRight: 24,
+                        }}
+                        // loader={loading}
+                        onClick={() => {
+                          router.back()
+                        }}
+                      />
+                      <Button
+                        label={'Continue'}
+                        styleOverride={{
+                          paddingLeft: 20,
+                          paddingRight: 20,
+                          paddingTop: 6,
+                          paddingBottom: 6,
+                          color: color.white,
+                          borderRadius: 22,
+                          height: 43,
+                          fontSize: 15,
+                          backgroundColor: color.btnColor,
+                          width: 186,
+                          marginTop: 70,
+                          marginBottom: 48,
+                        }}
+                        // loader={loading}
+                        // onClick={() => {
+                        //   router.push('/register/KYC_step4')
+                        // }}
+                        onClick={handleSubmit}
+                      />
+                    </div>
+                  </>
+                )}
+              </Formik>
+              {/* <Toaster /> */}
             </div>
           </div>
-
-          {/* 02 */}
         </div>
-      </form>
-    </>
-  );
-};
+      }
+    />
+  )
+}
 
-export default StudentProfessionalDetails;
+export default StudentProfessionalDetails

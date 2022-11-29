@@ -58,14 +58,14 @@ const Preview = () => {
         <span className="text-2xl font-semibold m-10">Services Offered</span>
         <div className="bg-gray-100 p-4">
       <div className="flex justify-center">
-        <div className="grid grid-cols-1 ">
-        <div className="relative rounded-3xl shadow-3xl w-full">
+        <div className="grid grid-cols-2 ">
+        <div className="relative rounded-3xl shadow-3xl w-1/2">
           <img
             className="object-cover w-3/2"
             src="../../../images/CardRectangle.png"
             alt=""
           />
-          <span className="absolute top-0 left-0 flex flex-col mt-3 ml-3 px-2 py-2 rounded-full z-10 ">
+          <div className="absolute top-0 left-0 flex flex-col mt-3 ml-3 px-2 py-2 rounded-full z-10 ">
             <p className="text-2xl text-black font-semibold">1 on 1 Mock Interview</p>
             <p className="text-xl text-black font-normal">
               60 min | 30 min | 15 min sessions
@@ -74,16 +74,16 @@ const Preview = () => {
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
               commodo ligula eget dolor.
             </p>
-          </span>
-          <span className="absolute top-0 right-0 items-center inline-flex mt-3 mr-3 px-3 py-2 rounded-full z-10 text-sm font-medium text-white select-none">
+          </div>
+          <div className="absolute top-0 right-0 items-center inline-flex mt-3 mr-3 px-3 py-2 rounded-full z-10 text-sm font-medium text-white select-none">
             <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold py-2 px-6 rounded-full w-50">
               <img src="../../../images/camera.png" alt="" className="w-4 h-3"></img>
               <p className="text-sm text-black dark:text-gray-100 ml-3">
                 Video session
               </p>
             </button>
-          </span>
-          <div className="flex flex-row justify-end">
+          </div>
+          <div className="absolute bottom-5 right-5 ">
           <button className=" absolute bottom-4 left-1/2 -translate-x-1/2  hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full w-50">
               <p className="text-sm text-black underline dark:text-gray-100">
                 View Details
