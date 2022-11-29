@@ -59,7 +59,7 @@ const Preview = () => {
         <span className="text-2xl font-semibold m-10">Services Offered</span>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 w-full p-4 bg-gray-100">
-          <div className="relative overflow-hidden w-full  rounded-xl shadow-xl">
+          <div className="relative overflow-hidden w-auto  rounded-xl shadow-xl">
             <img
               src="../../../images/CardRectangle.png"
               className="object-cover w-full"
@@ -89,6 +89,7 @@ const Preview = () => {
                 </p>
               </button>
             </div>
+            
             <div className="flex flex-row justify-end bg-gray-200 bg-opacity-25 md:bg-opacity-50">
               <button className="inset-x-0 bottom-0 mr-2">
                 <p className="text-sm text-black underline dark:text-gray-100">
