@@ -1,5 +1,5 @@
-import React from "react";
-import Loader from "./Loader";
+import React from 'react'
+import Loader from './Loader'
 const Button = (props) => {
   const {
     label,
@@ -7,8 +7,9 @@ const Button = (props) => {
     styleOverride,
     disable,
     loader = false,
+    link = false,
     ...rest
-  } = props;
+  } = props
 
   return (
     <button
@@ -17,8 +18,14 @@ const Button = (props) => {
       style={styleOverride}
       {...rest}
     >
-      {loader ? <Loader /> : label}
+      {link ? (
+        <a href="https://gmail.com" target="_blank" rel="noopener noreferrer">
+          {label}
+        </a>
+      ) : (
+        <>{loader ? <Loader /> : label}</>
+      )}
     </button>
-  );
-};
-export default Button;
+  )
+}
+export default Button

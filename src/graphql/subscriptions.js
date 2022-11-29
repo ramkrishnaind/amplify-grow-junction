@@ -246,6 +246,7 @@ export const onCreateStudentRegister = /* GraphQL */ `
     $filter: ModelSubscriptionStudentRegisterFilterInput
     $username: String
   ) {
+<<<<<<< HEAD
     onCreateStudentRegister(filter: $filter, username: $username) {
       student_id
       student_name
@@ -255,6 +256,14 @@ export const onCreateStudentRegister = /* GraphQL */ `
         createdAt
         updatedAt
       }
+=======
+    onCreateStudentRegister(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      domain_id
+>>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
       recent_college
       degree
       education {
@@ -264,6 +273,7 @@ export const onCreateStudentRegister = /* GraphQL */ `
       your_role
       experience
       phone_number
+      linkedIn_url
       id
       createdAt
       updatedAt
@@ -276,6 +286,7 @@ export const onUpdateStudentRegister = /* GraphQL */ `
     $filter: ModelSubscriptionStudentRegisterFilterInput
     $username: String
   ) {
+<<<<<<< HEAD
     onUpdateStudentRegister(filter: $filter, username: $username) {
       student_id
       student_name
@@ -285,6 +296,14 @@ export const onUpdateStudentRegister = /* GraphQL */ `
         createdAt
         updatedAt
       }
+=======
+    onUpdateStudentRegister(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      domain_id
+>>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
       recent_college
       degree
       education {
@@ -294,6 +313,7 @@ export const onUpdateStudentRegister = /* GraphQL */ `
       your_role
       experience
       phone_number
+      linkedIn_url
       id
       createdAt
       updatedAt
@@ -306,6 +326,7 @@ export const onDeleteStudentRegister = /* GraphQL */ `
     $filter: ModelSubscriptionStudentRegisterFilterInput
     $username: String
   ) {
+<<<<<<< HEAD
     onDeleteStudentRegister(filter: $filter, username: $username) {
       student_id
       student_name
@@ -315,6 +336,14 @@ export const onDeleteStudentRegister = /* GraphQL */ `
         createdAt
         updatedAt
       }
+=======
+    onDeleteStudentRegister(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      domain_id
+>>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
       recent_college
       degree
       education {
@@ -324,6 +353,7 @@ export const onDeleteStudentRegister = /* GraphQL */ `
       your_role
       experience
       phone_number
+      linkedIn_url
       id
       createdAt
       updatedAt
@@ -344,6 +374,7 @@ export const onCreateMentorRegister = /* GraphQL */ `
     ) {
       mentor_id
       mentor_name
+<<<<<<< HEAD
       domain_id {
         id
         value
@@ -357,6 +388,11 @@ export const onCreateMentorRegister = /* GraphQL */ `
         createdAt
         updatedAt
       }
+=======
+      domain_id
+      linkedIn_url
+      mentor_service_id
+>>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
       mentor_availability_id
       phone_number
       id
@@ -380,6 +416,7 @@ export const onUpdateMentorRegister = /* GraphQL */ `
     ) {
       mentor_id
       mentor_name
+<<<<<<< HEAD
       domain_id {
         id
         value
@@ -393,6 +430,11 @@ export const onUpdateMentorRegister = /* GraphQL */ `
         createdAt
         updatedAt
       }
+=======
+      domain_id
+      linkedIn_url
+      mentor_service_id
+>>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
       mentor_availability_id
       phone_number
       id
@@ -416,6 +458,7 @@ export const onDeleteMentorRegister = /* GraphQL */ `
     ) {
       mentor_id
       mentor_name
+<<<<<<< HEAD
       domain_id {
         id
         value
@@ -429,6 +472,11 @@ export const onDeleteMentorRegister = /* GraphQL */ `
         createdAt
         updatedAt
       }
+=======
+      domain_id
+      linkedIn_url
+      mentor_service_id
+>>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
       mentor_availability_id
       phone_number
       id

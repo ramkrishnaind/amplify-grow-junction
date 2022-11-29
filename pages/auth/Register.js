@@ -1,49 +1,54 @@
-import { Auth } from "aws-amplify";
-import { Formik } from "formik";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React, { useReducer, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Auth } from 'aws-amplify'
+import { Formik } from 'formik'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import React, { useReducer, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { color } from "../../public/theme/Color";
-import { RegistrationSchema } from "../../public/utils/schema";
-import useWindowDimensions from "../../public/utils/useWindowDimensions";
-import { StoreUserAuth } from "../../redux/actions/AuthAction";
-import Header from "../components/common/Header";
-import Button from "../ui-kit/Button";
-import TextField from "../ui-kit/TextField";
+import { color } from '../../public/theme/Color'
+import { RegistrationSchema } from '../../public/utils/schema'
+import useWindowDimensions from '../../public/utils/useWindowDimensions'
+import { StoreUserAuth } from '../../redux/actions/AuthAction'
+import Header from '../components/common/Header'
+import Button from '../ui-kit/Button'
+import TextField from '../ui-kit/TextField'
 
 let productsp = [
   {
     id: 1,
-    name: "Product Number 1",
-    brand: "Brand Name",
-    url: "products-number-1",
+    name: 'Product Number 1',
+    brand: 'Brand Name',
+    url: 'products-number-1',
     price: 100,
   },
   {
     id: 1,
-    name: "Product Number 1",
-    brand: "Brand Name",
-    url: "products-number-1",
+    name: 'Product Number 1',
+    brand: 'Brand Name',
+    url: 'products-number-1',
     price: 100,
   },
   {
     id: 1,
-    name: "Product Number 1",
-    brand: "Brand Name",
-    url: "products-number-1",
+    name: 'Product Number 1',
+    brand: 'Brand Name',
+    url: 'products-number-1',
     price: 100,
   },
-];
+]
 
 const initialState = {
-  first_name: "riyaz",
-  last_name: "ahamed",
-  email: "er.riyaz2507@gmail.com",
-  password: "R!yaz2507",
-  confirm_password: "R!yaz2507",
-};
+  //   first_name: 'riyaz',
+  //   last_name: 'ahamed',
+  //   email: 'er.riyaz2507@gmail.com',
+  //   password: 'R!yaz2507',
+  //   confirm_password: 'R!yaz2507',
+  first_name: '',
+  last_name: '',
+  email: '',
+  password: '',
+  confirm_password: '',
+}
 
 const options = {
   margin: 30,
@@ -55,8 +60,8 @@ const options = {
   //   dotsClass: {backgroundColor: 'red'},
 
   //   dotsContainer: {backgroundColor: 'red'},
-  navClass: ["owl-prev", "owl-next"],
-  navText: ["", ""],
+  navClass: ['owl-prev', 'owl-next'],
+  navText: ['', ''],
   responsive: {
     0: {
       items: 1,
@@ -74,14 +79,14 @@ const options = {
     //   items: 4,
     // },
   },
-};
+}
 
-const spaceValidation = new RegExp(/^[^ ]*$/);
+const spaceValidation = new RegExp(/^[^ ]*$/)
 const Register = (props) => {
-  const registerType = useSelector((state) => state.AuthReducer);
-  const { width, height } = useWindowDimensions();
-  const router = useRouter();
-  const dispatch = useDispatch();
+  const registerType = useSelector((state) => state.AuthReducer)
+  const { width, height } = useWindowDimensions()
+  const router = useRouter()
+  const dispatch = useDispatch()
 
   //   const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
   //     ssr: false,
@@ -89,22 +94,22 @@ const Register = (props) => {
 
   //   const [registration, setRegistration] = useState(initialState);
 
-  //   console.log('assdasda', registerType?.registerType);
+  console.log('assdasda', registerType?.registerType)
 
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "row",
+        display: 'flex',
+        flexDirection: 'row',
         flex: 1,
         backgroundColor: color.headerColor,
       }}
     >
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <Header
           btnName="Log In"
           onClickBtn={() => {
-            router.push("/auth/Login");
+            router.push('/auth/Login')
           }}
           style={{
             backgroundColor: color.blackVariant,
@@ -140,13 +145,13 @@ const Register = (props) => {
             enableReinitialize={true}
             initialValues={initialState}
             onSubmit={async (values, { setErrors }) => {
-              let username = values.email;
-              let first_name = values.first_name;
-              let last_name = values.last_name;
-              let email = values.email;
-              let password = values.password;
-              let register_type = "MENTOR";
-              let profile_registration = "false";
+              let username = values.email
+              let first_name = values.first_name
+              let last_name = values.last_name
+              let email = values.email
+              let password = values.password
+              let register_type = registerType?.registerType
+              let profile_registration = 'false'
 
               try {
                 const { user } = await Auth.signUp({
@@ -154,32 +159,32 @@ const Register = (props) => {
                   password,
                   attributes: {
                     email: email,
-                    "custom:first_name": first_name,
-                    "custom:last_name": last_name,
-                    "custom:register_type": register_type,
-                    "custom:kyc_done": profile_registration,
+                    'custom:first_name': first_name,
+                    'custom:last_name': last_name,
+                    'custom:register_type': register_type,
+                    'custom:kyc_done': profile_registration,
                   },
                   autoSignIn: {
                     enabled: true,
                   },
-                });
-                console.log("user", user);
+                })
+                console.log('user', user)
 
                 if (user) {
-                  StoreUserAuth(dispatch, user);
-                  router.push("/auth/VerifyEmail");
+                  StoreUserAuth(dispatch, user)
+                  router.push('/auth/VerifyEmail')
                 }
               } catch (e) {
-                console.log("err", e);
+                console.log('err', e)
 
                 if (
                   e
                     ?.toString()
                     ?.includes(
-                      "An account with the given email already exists."
+                      'An account with the given email already exists.',
                     )
                 ) {
-                  setErrors({ email: "User email id is already registered" });
+                  setErrors({ email: 'User email id is already registered' })
                 }
               }
             }}
@@ -203,12 +208,12 @@ const Register = (props) => {
               <>
                 <div
                   style={{
-                    flexDirection: "row",
-                    display: "flex",
-                    justifyContent: "space-between",
+                    flexDirection: 'row',
+                    display: 'flex',
+                    justifyContent: 'space-between',
                   }}
                 >
-                  <div style={{ marginRight: 20, display: "flex", flex: 1 }}>
+                  <div style={{ marginRight: 20, display: 'flex', flex: 1 }}>
                     <TextField
                       label="First Name"
                       id="first_name"
@@ -218,9 +223,9 @@ const Register = (props) => {
                       onChangeValue={(text) => {
                         //   onChange(text);
                         if (spaceValidation.test(text.target.value)) {
-                          console.log(text.target.id, text.target.value);
+                          console.log(text.target.id, text.target.value)
 
-                          setFieldValue(text.target.id, text.target.value);
+                          setFieldValue(text.target.id, text.target.value)
                         }
                       }}
                       errMsg={touched.first_name && errors.first_name}
@@ -235,7 +240,7 @@ const Register = (props) => {
                     value={values.last_name}
                     onChangeValue={(text) => {
                       if (spaceValidation.test(text.target.value)) {
-                        setFieldValue(text.target.id, text.target.value);
+                        setFieldValue(text.target.id, text.target.value)
                       }
                     }}
                     errMsg={touched.last_name && errors.last_name}
@@ -250,7 +255,7 @@ const Register = (props) => {
                   value={values.email}
                   onChangeValue={(text) => {
                     if (spaceValidation.test(text.target.value)) {
-                      setFieldValue(text.target.id, text.target.value);
+                      setFieldValue(text.target.id, text.target.value)
                     }
                   }}
                   errMsg={touched.email && errors.email}
@@ -261,11 +266,11 @@ const Register = (props) => {
                   id="password"
                   type="Password"
                   placeholder="Enter Password"
-                  icon={require("../../public/assets/icon/eye.png")}
+                  icon={require('../../public/assets/icon/eye.png')}
                   value={values.password}
                   onChangeValue={(text) => {
                     if (spaceValidation.test(text.target.value)) {
-                      setFieldValue(text.target.id, text.target.value);
+                      setFieldValue(text.target.id, text.target.value)
                     }
                   }}
                   errMsg={touched.password && errors.password}
@@ -278,7 +283,7 @@ const Register = (props) => {
                   value={values.confirm_password}
                   onChangeValue={(text) => {
                     if (spaceValidation.test(text.target.value)) {
-                      setFieldValue(text.target.id, text.target.value);
+                      setFieldValue(text.target.id, text.target.value)
                     }
                   }}
                   errMsg={touched.confirm_password && errors.confirm_password}
@@ -303,8 +308,8 @@ const Register = (props) => {
         </div>
       </div>
       <Image
-        src={require("../../public/assets/icon/rectangle.png")}
-        alt={""}
+        src={require('../../public/assets/icon/rectangle.png')}
+        alt={''}
         style={{ width: width / 2.5, height: height }}
         // style={{width: 600, height: 400}}
       />
@@ -344,6 +349,6 @@ const Register = (props) => {
           : ''}
       </OwlCarousel> */}
     </div>
-  );
-};
-export default Register;
+  )
+}
+export default Register

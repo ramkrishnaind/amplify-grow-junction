@@ -22,6 +22,7 @@ const TextField = (props) => {
     style,
     handleIncrement = () => {},
     handleDecrement = () => {},
+    link,
     ...rest
   } = props
 
@@ -39,8 +40,13 @@ const TextField = (props) => {
         {label}
       </label>
       <div
-        className="focus-outline mr-5 p-3  w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        style={{ ...style }}
+        className="focus-outline mr-5  w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        style={{
+          padding: 4,
+          height: 40,
+
+          ...styleOverride,
+        }}
       >
         {phoneNumber ? (
           <div
@@ -66,7 +72,7 @@ const TextField = (props) => {
                 color: color.lightGrey,
                 marginLeft: 10,
                 marginRight: 20,
-                fontSize: 14,
+                fontSize: 12,
               }}
             >
               |
@@ -155,7 +161,9 @@ const TextField = (props) => {
             color: color.blue,
           }}
         >
-          {infoMsg}
+          <a href={link} target="_blank" rel="noopener noreferrer">
+            {infoMsg}
+          </a>
         </div>
       )}
     </div>

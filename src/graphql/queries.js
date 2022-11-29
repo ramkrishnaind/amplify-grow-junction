@@ -185,14 +185,7 @@ export const listTodos = /* GraphQL */ `
 export const getStudentRegister = /* GraphQL */ `
   query GetStudentRegister($id: ID!) {
     getStudentRegister(id: $id) {
-      student_id
-      student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
+      domain_id
       recent_college
       degree
       education {
@@ -202,6 +195,7 @@ export const getStudentRegister = /* GraphQL */ `
       your_role
       experience
       phone_number
+      linkedIn_url
       id
       createdAt
       updatedAt
@@ -221,14 +215,7 @@ export const listStudentRegisters = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
-        student_id
-        student_name
-        domain_id {
-          id
-          value
-          createdAt
-          updatedAt
-        }
+        domain_id
         recent_college
         degree
         education {
@@ -238,6 +225,7 @@ export const listStudentRegisters = /* GraphQL */ `
         your_role
         experience
         phone_number
+        linkedIn_url
         id
         createdAt
         updatedAt
@@ -252,6 +240,7 @@ export const getMentorRegister = /* GraphQL */ `
     getMentorRegister(id: $id) {
       mentor_id
       mentor_name
+<<<<<<< HEAD
       domain_id {
         id
         value
@@ -265,6 +254,11 @@ export const getMentorRegister = /* GraphQL */ `
         createdAt
         updatedAt
       }
+=======
+      domain_id
+      linkedIn_url
+      mentor_service_id
+>>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
       mentor_availability_id
       phone_number
       id
@@ -285,6 +279,7 @@ export const listMentorRegisters = /* GraphQL */ `
       items {
         mentor_id
         mentor_name
+<<<<<<< HEAD
         domain_id {
           id
           value
@@ -298,6 +293,11 @@ export const listMentorRegisters = /* GraphQL */ `
           createdAt
           updatedAt
         }
+=======
+        domain_id
+        linkedIn_url
+        mentor_service_id
+>>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
         mentor_availability_id
         phone_number
         id

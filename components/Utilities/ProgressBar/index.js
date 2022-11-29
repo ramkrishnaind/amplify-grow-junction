@@ -6,12 +6,12 @@ const ProgressBar = ({ progressPercentage, headerText, footerText }) => {
       {typeof headerText !== 'undefined' ? (
         headerText
       ) : (
-        <div className="px-5">
-          <span className="font-bold">{progressPercentage}</span>% of profile
+        <div className="px-2 text-sm">
+          <span className="text-sm font-bold">{progressPercentage}</span>% of profile
           completed.
         </div>
       )}
-      <div className="h-10 rounded-lg w-full bg-gray-300 p-3 m-5">
+      <div className="h-10 rounded-lg w-auto bg-gray-300 py-3 mr-5 ml-2">
         <div
           style={{ width: `${progressPercentage}%` }}
           className={`h-3 rounded-lg bg-gray-800`}
@@ -20,7 +20,7 @@ const ProgressBar = ({ progressPercentage, headerText, footerText }) => {
       {typeof footerText !== 'undefined' ? (
         footerText
       ) : (
-        <div className="px-5">
+        <div className="px-2 text-sm">
           Complete 100% of the profile to get a better reach
         </div>
       )}

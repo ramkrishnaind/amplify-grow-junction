@@ -4,6 +4,7 @@ import TextField from '../../../pages/ui-kit/TextField'
 import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import classes from './ProfileInfo.module.css'
 import ProgressBar from '../../Utilities/ProgressBar'
+import Preview from './Preview'
 const ProfileInfo = () => {
   const initialState = {}
   const [timeZone, setTimeZone] = useState(
@@ -22,8 +23,8 @@ const ProfileInfo = () => {
       >
         <div className="flex flex-col md:flex-row">
           <div className="bg-gray-50 basis-3/5">
-            <div className="flex flex-col tracking-wide text-black ml-4 bg-gray-50 w-4/5 md:w-auto lg:w-auto">
-              <div className="m-10 flex flex-row">
+            <div className="flex flex-col tracking-wide text-black ml-4 bg-gray-50 w-full md:w-auto lg:w-auto">
+              <div className="m-10 flex flex-col md:flex-row lg:flex-row">
                 <div className="flex flex-row">
                   <div className=" bg-gray-300 rounded-full">
                     <img
@@ -42,12 +43,12 @@ const ProfileInfo = () => {
                     />
                     <span className="ml-3 text-lg">Add image</span>
                   </button>
-                  <p className="w-auto ml-3 mt-3 text-lg tracking-wide">
+                  <p className="w-auto ml-3 mt-3 text-xs tracking-wide">
                     Recommended 256x256 px image
                   </p>
                 </div>
               </div>
-              <div className=" mb-16 ">
+              <div className="mb-16 ">
                 <ProgressBar progressPercentage={40} />
               </div>
               {/* <div className="flex flex-col ml-4 p-6 border-2 rounded-md bg-white">
@@ -60,18 +61,18 @@ const ProfileInfo = () => {
                   Complete 100% of the profile to get a better reach
                 </p>
               </div> */}
-              <h2 className="p-4 leading-8 text-4xl font-semibold">
+              <h2 className="p-2 leading-8 text-2xl font-semibold">
                 About Yourself
               </h2>
 
-              <div className="px-4">
-                <label className="leading-8 text-lg font-normal mt-5">
+              <div className="px-2">
+                <label className="leading-8 text-sm font-normal mt-5">
                   Growjunction URL
                 </label>
 
-                <div className="flex flex-wrap items-start w-full relative">
+                <div className="flex flex-wrap items-start w-full relative flex-col md:flex-row md-flex-row">
                   <div class="focus-outline flex flex-row rounded-md border border-gray-300 px-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 pr-1">
-                    <label className="text-black py-2 flex-1 text-right pr-0  text-xl font-normal">
+                    <label className="text-black py-2 flex-1 text-right pr-0  text-sm font-normal">
                       Growjunction.io/
                     </label>
                   </div>
@@ -86,26 +87,26 @@ const ProfileInfo = () => {
                 </div>
               </div>
 
-              <div className="flex flex-row font-normal">
-                <div className="px-4 text-lg w-1/2">
+              <div className="flex flex-col font-normal mt-5 md:flex-row lg:flex-row">
+                <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
                   <label className="leading-8 text-lg font-normal mt-5">
                     First Name
                   </label>
-                  <div className="flex flex-wrap items-stretch w-full mb-4 relative">
+                  <div className="flex flex-wrap items-stretch w-full relative">
                     <TextField type="text" id="fname" placeholder="Michel" />
                   </div>
                 </div>
-                <div className="px-4 text-lg w-1/2">
+                <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
                   <label className="leading-8 text-lg font-normal mt-5">
                     Last Name
                   </label>
-                  <div className="flex flex-wrap items-stretch w-full mb-4 relative">
+                  <div className="flex flex-wrap items-stretch w-full relative">
                     <TextField type="text" id="lname" placeholder="Scott" />
                   </div>
                 </div>
               </div>
-              <div className="px-4">
-                <label className="leading-8 text-lg font-normal mt-5">
+              <div className="px-2">
+                <label className="leading-8 text-sm font-normal">
                   Write a short description
                 </label>
                 <div className="flex flex-wrap items-stretch w-full relative">
@@ -120,8 +121,8 @@ const ProfileInfo = () => {
                 </span>
               </div>
 
-              <div className="px-4 mt-10">
-                <label className="leading-8 text-lg font-normal mt-5">
+              <div className="px-2 mt-10">
+                <label className="leading-8 text-sm font-normal mt-5">
                   Tell us about yourself
                 </label>
                 <div className="flex flex-wrap items-stretch w-full relative">
@@ -132,11 +133,11 @@ const ProfileInfo = () => {
                 </span>
               </div>
 
-              <h2 className="p-4 leading-8 text-4xl font-semibold mt-10 mb-5">
+              <h2 className="p-2 leading-8 text-2xl font-semibold mt-10 mb-5">
                 Social Links
               </h2>
-              <div className="px-4">
-                <label className="leading-8 text-lg font-normal mt-5">
+              <div className="px-2">
+                <label className="leading-8 text-sm font-normal mt-5">
                   LinkedIn URL
                 </label>
                 <div className="flex flex-wrap items-stretch w-full mb-4 relative">
@@ -148,8 +149,8 @@ const ProfileInfo = () => {
                 </div>
               </div>
 
-              <div className="px-4">
-                <label className="leading-8 text-lg font-normal mt-5">
+              <div className="px-2">
+                <label className="leading-8 text-sm font-normal mt-5">
                   Personal Website URL (optional)
                 </label>
                 <div className="flex flex-wrap items-stretch w-full mb-4 relative">
@@ -161,8 +162,8 @@ const ProfileInfo = () => {
                 </div>
               </div>
 
-              <div className="px-4">
-                <label className="leading-8 text-lg font-normal mt-5">
+              <div className="px-2">
+                <label className="leading-8 text-sm font-normal mt-5">
                   Instagram URL (optional)
                 </label>
                 <div className="flex flex-wrap items-stretch w-full mb-4 relative">
@@ -174,8 +175,8 @@ const ProfileInfo = () => {
                 </div>
               </div>
 
-              <div className="px-4">
-                <label className="leading-8 text-lg font-normal mt-5">
+              <div className="px-2">
+                <label className="leading-8 text-sm font-normal mt-5">
                   Other URL (optional)
                 </label>
                 <div className="flex flex-wrap items-stretch w-full mb-4 relative">
@@ -187,18 +188,18 @@ const ProfileInfo = () => {
                 </div>
               </div>
 
-              <h2 className="p-4 leading-8 text-4xl font-semibold mt-10 mb-5">
+              <h2 className="p-4 leading-8 text-2xl font-semibold mt-10 mb-5">
                 Other details
               </h2>
 
-              <div className="px-4">
+              <div className="px-2">
                 <div>
-                  <label className="leading-8 text-lg font-normal mt-5">
+                  <label className="leading-8 text-sm font-normal mt-5">
                     Select Currency
                   </label>
                 </div>
                 {/* todo currency*/}
-                <div className="inline-block relative w-80">
+                <div className="inline-block relative w-full">
                   <select
                     id="currency"
                     className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
@@ -218,16 +219,16 @@ const ProfileInfo = () => {
                     </svg>
                   </div>
                 </div>
-                <p>
+                <p className='text-sm'>
                   Want to change currency? Contact us at support@growjunction.io
                 </p>
               </div>
 
               {/* TimeZone */}
 
-              <div className="px-4 mt-5">
+              <div className="px-2 mt-5">
                 <div>
-                  <label className="leading-8 text-lg font-normal mt-5">
+                  <label className="leading-8 text-sm font-normal mt-5">
                     TimeZone
                   </label>
                 </div>
@@ -269,19 +270,19 @@ const ProfileInfo = () => {
           <div className="bg-gray-50 basis-2/5">
             <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end">
               <button className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
-                Save Changes 1
+                Save Changes  
               </button>
             </div>
 
-            <div className="flex justify-center mt-20 md:justify-end lg:justify-end py-2 px-6">
+            <div className="flex justify-center mt-20 py-2 px-6">
               <div className="flex justify-center items-center text-base text-semibold border-2 rounded-md bg-white h-8 w-1/2 md:w-1/2 lg:w-1/2">
                 Preview
               </div>
             </div>
 
-            <div className="flex justify-center px-6 md:justify-end lg:justify-end">
-              <div className="flex justify-center items-center text-lg border-2 rounded-md bg-gray-200 h-96 w-1/2 md:w-1/2 lg:w-1/2">
-                {' '}
+            <div className="flex justify-center md:justify-end lg:justify-end">
+              <div className="flex justify-center items-center text-lg border-2 rounded-md bg-gray-100 h-auto w-auto">
+                <Preview/>
               </div>
             </div>
           </div>
