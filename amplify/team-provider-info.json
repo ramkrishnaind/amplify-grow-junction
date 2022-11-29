@@ -17,6 +17,9 @@
       },
       "auth": {
         "testamplifyapi362703db": {}
+      },
+      "storage": {
+        "testAmplify": {}
       }
     }
   }
