@@ -1,12 +1,62 @@
-import React from 'react'
+import React,{useState} from 'react'
 import ProfileInfo from './ProfileInfo'
 import ContactInfo from './ContactInfo'
 import ProfessionalInfo from './ProfessionalInfo'
+import nestedkeys from 'nested-keys'
 // import useWindowDimensions from '../../public/utils/useWindowDimensions'
+const initialState={
+  about_yourself: {
+    grow_junction_url: "",
+    first_name: "",
+    last_name: "",
+    short_description: "",}
+,
+  social: {
+    linkedin_url: "",
+    facebook_url: "",
+    instagram_url: "",
+    personal_web_url: "",
+    other_url: "",
+  },
+  currency: "",
+  time_zone: "",
+  contact_info: {
+    email: "",
+    mobile: "",
+    whatsapp: "",
+  },
+  education: {
+    degree: "",
+    college_university: "",
+    course: "",
+    graduation_year: 0
+  },
+  professional_info: {
+    occupation: "",
+    organization: "",
+    location: "",
+    position: "",
+    experience: {
+      years: "",
+      months: "",
+    }
+  },
+  profile_image: "",
+}
 
 const Profile = () => {
   // const { width, height } = useWindowDimensions()
-  const [openTab, setOpenTab] = React.useState(1)
+  console.log("nestedkeys",nestedkeys)
+  const [openTab, setOpenTab] = useState(1)
+  const[state,setState]=useState(initialState)
+  const setProfileState=(profileState)=>{
+    
+    setState(prev=>{
+      const prevVal={...prev,...profileState}
+      return prevVal
+    })
+  }
+  console.log("state",state)
   return (
     <>
       {/* <BoxBodyContainer
@@ -78,17 +128,17 @@ const Profile = () => {
             </ul>
             {/* Profile */}
             <div className={openTab === 1 ? 'block' : 'hidden'}>
-              <ProfileInfo />
+              <ProfileInfo {...{about_yourself:state.about_yourself,social:state.social,currency:state.currency,time_zone:state.time_zone,setProfileState,profile_image:state.profile_image}}/>
             </div>
 
             {/* contact */}
             <div className={openTab === 2 ? 'block' : 'hidden'}>
-              <ContactInfo />
+              <ContactInfo {...{contact_info:state.contact_info}} />
             </div>
 
             {/* Professional */}
             <div className={openTab === 3 ? 'block' : 'hidden'}>
-              <ProfessionalInfo />
+              <ProfessionalInfo {...{professional_info:state.professional_info}}/>
             </div>
           </div>
         </div>

@@ -37,17 +37,7 @@ const ProfessionalInfo = () => {
                 <label className="block mb-2 text-lg font-medium text-gray-900">
                   Degree (optional)
                 </label>
-                <select
-                  id="degree"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                >
-                  <option value="mtech" selected>
-                    M.Tech
-                  </option>
-                  <option value="btech">B.Tech</option>
-                  <option value="msc">M.SC</option>
-                  <option value="bsc">BSC</option>
-                </select>
+                <TextField type="text" id="degree" placeholder="Degree" />
               </div>
 
               <div className="px-4 mt-5">
@@ -71,17 +61,7 @@ const ProfessionalInfo = () => {
                 <label className="block mb-2 text-lg font-medium text-gray-900">
                   Course
                 </label>
-                <select
-                  id="course"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                >
-                  <option value="course1" selected>
-                    Advanced Computers and integrations
-                  </option>
-                  <option value="course2">Course2</option>
-                  <option value="course3">Course3</option>
-                  <option value="course4">Course4</option>
-                </select>
+                <TextField type="text" id="course" placeholder="Course" />
               </div>
 
               <div className="px-4 mt-5">
@@ -112,24 +92,22 @@ const ProfessionalInfo = () => {
                 <label className="block mb-2 text-lg font-medium text-gray-900">
                   Occupation (optional)
                 </label>
-                <select
+                <TextField
+                  type="text"
                   id="occupation"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                >
-                  <option value="owner1" selected>
-                    Startup owner
-                  </option>
-                  <option value="owner2">Startup owner2</option>
-                  <option value="owner3">Startup owner3</option>
-                  <option value="owner4">Startup owner4</option>
-                </select>
+                  placeholder="Occupation"
+                />
               </div>
 
               <div className="px-4 mt-5">
                 <label className="leading-8 text-lg font-normal mt-5">
                   Organisation (optional)
                 </label>
-                <TextField type="text" id="organisation" placeholder="Grow" />
+                <TextField
+                  type="text"
+                  id="organisation"
+                  placeholder="Organization"
+                />
                 {/* <input
                   type="text"
                   id="organisation"
@@ -142,34 +120,14 @@ const ProfessionalInfo = () => {
                 <label className="block mb-2 text-lg font-medium text-gray-900">
                   Location (optional)
                 </label>
-                <select
-                  id="location"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                >
-                  <option value="location1" selected>
-                    Bangalore
-                  </option>
-                  <option value="location2">Mumbai</option>
-                  <option value="location3">Chennai</option>
-                  <option value="location4">Pune</option>
-                </select>
+                <TextField type="text" id="location" placeholder="Location" />
               </div>
 
               <div className="px-4 mt-5">
                 <label className="block mb-2 text-lg font-medium text-gray-900">
                   Position (optional)
                 </label>
-                <select
-                  id="position"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                >
-                  <option value="position1" selected>
-                    Chief design officer
-                  </option>
-                  <option value="position2">design officer</option>
-                  <option value="position3">officer</option>
-                  <option value="position4">executive officer</option>
-                </select>
+                <TextField type="text" id="position" placeholder="Position" />
               </div>
 
               <div className="px-4 mt-5">

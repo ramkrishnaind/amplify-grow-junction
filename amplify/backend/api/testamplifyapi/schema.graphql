@@ -32,6 +32,9 @@ type SuggestedServiceList
 }
 type Education {
   degree: String
+  college_university: String
+  course: String
+  graduation_year: Int
 }
 type StudentRegister
   @model
@@ -60,39 +63,90 @@ type MentorRegister
       { allow: owner, operations: [read, update] }
     ]
   ) {
-  mentor_id: ID!
-  mentor_name: String!
   domain_id: [String!]
-  linkedIn_url: String!
   mentor_service_id: [String!]
-  mentor_availability_id: String!
   phone_number: String!
+  about_yourself: AboutYourself
+
+  social: SocialUrl
+  currency: String
+  time_zone: String
+  contact_info: ContactInfo
+  education: Education
+  professional_info: Professionalinfo
+  profile_image: String
+}
+type Professionalinfo {
+  occupation: String
+  organization: String
+  location: String
+  position: String
+  experience: Experience
+}
+type Experience {
+  years: String
+  months: String
+}
+type AboutYourself {
+  grow_junction_url: String
+  first_name: String
+  last_name: String
+  short_description: String
+  about_yourself:String
+}
+type ContactInfo {
+  email: String
+  mobile: String
+  whatsapp: String
+}
+type SocialUrl {
+  linkedin_url: String
+  facebook_url: String
+  instagram_url: String
+  personal_web_url: String
+  other_url: String
+}
+type MentorAvailability
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create] }
+    ]
+  ) {
+  mentor_schedule: [MentorWeekSchedule!]
 }
 
-# type MentorAvailability
-#   @model
-#   @auth(
-#     rules: [
-#       { allow: owner, ownerField: "username" }
-#       { allow: owner, operations: [read, update, create] }
-#     ]
-#   ) {
-#   mentor_availability_id: ID!
-#   mentor_schedule: [MentorWeekSchedule!]
-# }
+type MentorWeekSchedule
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create] }
+    ]
+  ) {
+  id: ID!
+  sortId: Int!
+  day: String!
+  checked: Boolean
+  time_schedule: [timeSchedule!]
+    @hasMany(indexName: "byMentorSchedule", fields: ["id"])
+}
 
-# type MentorWeekSchedule @model {
-#   day: String!
-#   checked: Boolean
-#   time_schedule: [timeSchedule!]
-#   mentor_available: MentorAvailability
-# }
-
-# type timeSchedule @model {
-#   startTime: String!
-#   startTimeMeridian: String!
-#   endTime: String!
-#   endTimeMeridian: String!
-#   leftMeridianDropDown: Boolean
-#   rightMeridianDropDown: Boolean
-# }
+type timeSchedule
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create] }
+    ]
+  ) {
+  Mentor: MentorWeekSchedule @belongsTo(fields: ["MentorWeekScheduleId"])
+  MentorWeekScheduleId: ID @index(name: "byMentorSchedule")
+  startTime: String!
+  startTimeMeridian: String!
+  endTime: String!
+  endTimeMeridian: String!
+  leftMeridianDropDown: Boolean
+  rightMeridianDropDown: Boolean
+}

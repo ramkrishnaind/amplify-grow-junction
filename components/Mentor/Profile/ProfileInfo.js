@@ -1,26 +1,79 @@
-import React, { useState } from 'react'
-import { Formik } from 'formik'
+import React, { useState,useEffect,useRef } from 'react'
+import { Formik,useFormikContext } from 'formik'
 import TextField from '../../../pages/ui-kit/TextField'
 import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import classes from './ProfileInfo.module.css'
 import ProgressBar from '../../Utilities/ProgressBar'
 import Preview from './Preview'
-const ProfileInfo = () => {
+import {Storage} from 'aws-amplify'
+const AutoSubmitToken = () => {
+  // Grab values and submitForm from context
+  const { values, submitForm } = useFormikContext();
+  
+  React.useEffect(() => {
+    console.log("context_values",values)
+    // setProfile(values)
+    // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
+    // if (values.token.length === 6) {
+    //   submitForm();
+    // }
+  }, [values, submitForm]);
+  return null;
+};
+const ProfileInfo = ({about_yourself,social,currency,time_zone,profile_image,setProfileState}) => {
   const initialState = {}
+  const imageInputref=useRef()
+  const [image,setImage]=useState()
+  const [convertedImage,setConvertedImage]=useState()
   const [timeZone, setTimeZone] = useState(
-    Intl.DateTimeFormat().resolvedOptions().timeZone,
+    {}
+    // Intl.DateTimeFormat().resolvedOptions().timeZone,
   )
+  // useEffect(()=>{
+  //   console.log("ProfileValues",values)
+  // },[values])
+  const getImage=async(profile_image)=>{
+    const image_key=await Storage.get(profile_image)
+    setConvertedImage(image_key)
+  }
+  useEffect(()=>{
+    if(profile_image){
+
+    }
+  },[profile_image])
+  const handleFileInput = (e) => {
+    // handle validations
+    if(e.target.files?.[0])
+      setImage(e.target.files[0])
+}
 
   return (
     <>
       <Formik
-        enableReinitialize={true}
-        initialValues={initialState}
-        //onSubmit={}
-        validateOnChange={true}
-        validateOnBlur={true}
-        validateOnMount={true}
-      >
+        initialValues={{about_yourself,social,currency,time_zone}}
+        onSubmit={(values, { setSubmitting }) => {
+          setTimeout(() => {
+            // alert(JSON.stringify(values, null, 2));                        
+            setSubmitting(false);
+          }, 400);
+          values.time_zone=timeZone?.value||""
+          setProfileState(values)
+        }}
+        // validateOnChange={true}
+        // validateOnBlur={true}
+        // validateOnMount={true}
+      >{({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting,
+        /* and other goodies */
+      }) => (
+        <form onSubmit={handleSubmit}>
+          
         <div className="flex flex-col md:flex-row">
           <div className="bg-gray-50 basis-3/5">
             <div className="flex flex-col tracking-wide text-black ml-4 bg-gray-50 w-full md:w-auto lg:w-auto">
@@ -29,21 +82,28 @@ const ProfileInfo = () => {
                   <div
                     className={`${classes['img-profile']} bg-gray-300 rounded-full`}
                   >
-                    <img
-                      src="../../../images/add-post-profile.png"
+                    {image?<img
+                      src={URL.createObjectURL(image)}
                       alt=""
-                      className={`${classes['img-profile']}`}
-                    />
+                      className={`${classes['img-profile']} rounded-full`}
+                    />:convertedImage?<img
+                    src={convertedImage}
+                    alt=""
+                    className={`${classes['img-profile']}`} />:null}
+                   
+                   
                   </div>
                 </div>
                 <div className=" mt-16 px-8 py-2">
                   <button className="flex justify-center items-center bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-full min-w-40">
+                    
                     <img
                       src="../../../assets/icon/plus.png"
                       alt=""
                       className="w-7 h-7"
                     />
-                    <span className="ml-3 text-lg">Add image</span>
+                    <span className="ml-3 text-lg" onClick={()=>imageInputref.current.click()}>Add image</span>
+                    <input type="file" ref={imageInputref} className="absolute w-0 h-0 left-0 top-0" onChange={handleFileInput}/>
                   </button>
                   <p className="w-auto ml-3 mt-3 text-xs tracking-wide">
                     Recommended 256x256 px image
@@ -79,11 +139,13 @@ const ProfileInfo = () => {
                     </label>
                   </div>
                   <TextField
-                    type="url"
-                    onChangeValue={() => {}}
+                    type="text"
+                    name="about_yourself.grow_junction_url"
+                    
+                    onChangeValue={handleChange}
                     style={{ marginBottom: 0, paddingLeft: 4, paddingLeft: 0 }}
                     id="url"
-                    placeholder="the_michael_scott"
+                    placeholder="Grow Junction url"
                     textStyleOverride={{ marginBottom: 0, paddingLeft: 0 }}
                   />
                 </div>
@@ -95,7 +157,11 @@ const ProfileInfo = () => {
                     First Name
                   </label>
                   <div className="flex flex-wrap items-stretch w-full relative">
-                    <TextField type="text" id="fname" placeholder="Michel" />
+                    <TextField 
+                    onChangeValue={handleChange}
+                    placeholder="First Name"
+                    name="about_yourself.first_name"
+                    type="text" id="fname"/>
                   </div>
                 </div>
                 <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
@@ -103,7 +169,10 @@ const ProfileInfo = () => {
                     Last Name
                   </label>
                   <div className="flex flex-wrap items-stretch w-full relative">
-                    <TextField type="text" id="lname" placeholder="Scott" />
+                    <TextField type="text"
+                    placeholder="Last Name"
+                    onChangeValue={handleChange}
+                    name="about_yourself.last_name" id="lname"  />
                   </div>
                 </div>
               </div>
@@ -114,8 +183,11 @@ const ProfileInfo = () => {
                 <div className="flex flex-wrap items-stretch w-full relative">
                   <TextField
                     type="text"
-                    id="description"
-                    placeholder="Founder and CEO at Twitter | Business owner | Entrepneur"
+                    id="description"    
+                    placeholder="Short description"
+                    onChangeValue={handleChange}                
+                    name="about_yourself.short_description"
+                    
                   />
                 </div>
                 <span className="flex justify-start text-xs -mt-4">
@@ -128,7 +200,11 @@ const ProfileInfo = () => {
                   Tell us about yourself
                 </label>
                 <div className="flex flex-wrap items-stretch w-full relative">
-                  <textarea className="w-full"></textarea>
+                  <textarea
+                  onChange={handleChange}
+                  placeholder="Abot yourself"
+                  name="about_yourself.about_yourself"
+                   className="w-full p-3"></textarea>
                 </div>
                 <span className="flex justify-start text-xs -mt-4">
                   Describe yourself in 500 characters or less
@@ -144,34 +220,52 @@ const ProfileInfo = () => {
                 </label>
                 <div className="flex flex-wrap items-stretch w-full mb-4 relative">
                   <TextField
+                  name="social.linkedin_url"
+                  onChangeValue={handleChange}
                     type="url"
                     id="linkedurl"
                     placeholder="Enter URL here"
                   />
                 </div>
               </div>
-
               <div className="px-2">
                 <label className="leading-8 text-sm font-normal mt-5">
-                  Personal Website URL (optional)
+                  Facebook URL
                 </label>
                 <div className="flex flex-wrap items-stretch w-full mb-4 relative">
                   <TextField
+                  name="social.facebook_url"
+                  onChangeValue={handleChange}
                     type="url"
-                    id="personalurl"
+                    id="linkedurl"
                     placeholder="Enter URL here"
                   />
                 </div>
               </div>
-
               <div className="px-2">
                 <label className="leading-8 text-sm font-normal mt-5">
                   Instagram URL (optional)
                 </label>
                 <div className="flex flex-wrap items-stretch w-full mb-4 relative">
                   <TextField
+                  name="social.instagram_url"
+                  onChangeValue={handleChange}
                     type="url"
                     id="instagram"
+                    placeholder="Enter URL here"
+                  />
+                </div>
+              </div>
+              <div className="px-2">
+                <label className="leading-8 text-sm font-normal mt-5">
+                  Personal Website URL (optional)
+                </label>
+                <div className="flex flex-wrap items-stretch w-full mb-4 relative">
+                  <TextField
+                  name="social.personal_web_url"
+                  onChangeValue={handleChange}
+                    type="url"
+                    id="personalurl"
                     placeholder="Enter URL here"
                   />
                 </div>
@@ -183,6 +277,8 @@ const ProfileInfo = () => {
                 </label>
                 <div className="flex flex-wrap items-stretch w-full mb-4 relative">
                   <TextField
+                  name="social.other_url"
+                  onChangeValue={handleChange}
                     type="url"
                     id="other"
                     placeholder="Enter URL here"
@@ -204,9 +300,14 @@ const ProfileInfo = () => {
                 <div className="inline-block relative w-full">
                   <select
                     id="currency"
+                    name="currency"
+                    onChange={handleChange}
                     className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                   >
-                    <option value="₹" selected>
+                    <option value="" >
+                      
+                    </option>
+                    <option value="₹" >
                       ₹
                     </option>
                     <option value="$">$</option>
@@ -234,6 +335,7 @@ const ProfileInfo = () => {
                     TimeZone
                   </label>
                 </div>
+
                 <div className="inline-block relative w-full">
                   {/* <select 
                 id="timezone"
@@ -254,6 +356,9 @@ const ProfileInfo = () => {
                   <div className="select-wrapper w-full">
                     <TimezoneSelect
                       value={timeZone}
+                      value={values.time_zone}
+                      name="time_zone"
+                      // onChange={(val)=>handleChange(val)}
                       onChange={setTimeZone}
                       // labelStyle="altName"
                       timezones={{
@@ -271,15 +376,9 @@ const ProfileInfo = () => {
           {/* 02 */}
           <div className="bg-gray-50 basis-2/5 ">
             <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end mb-32">
-              <button className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
+              <button type="submit" className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
                 Save Changes
               </button>
-            </div>
-
-            <div className="flex justify-center mt-20 py-2 px-6">
-              <div className="flex justify-center items-center text-base text-semibold border-2 rounded-md bg-white h-8 w-1/2 md:w-1/2 lg:w-1/2">
-                Preview
-              </div>
             </div>
 
             <div className="flex justify-center md:justify-end lg:justify-end">
@@ -289,6 +388,9 @@ const ProfileInfo = () => {
             </div>
           </div>
         </div>
+        <AutoSubmitToken />
+        </form>
+      )}
       </Formik>
     </>
   )
