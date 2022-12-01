@@ -4731,13 +4731,6 @@
   "resolved" "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz"
   "version" "1.4.0"
 
-"nested-keys@^0.0.2":
-  "integrity" "sha512-yta4nzAuMHUB5dyOqV3BATJCi2/a9LFFIK0HT1UyXrAc6pNxKCRFxg9/4gdrXB+FKFaZLpg6HsXF0hvmv/xIUA=="
-  "resolved" "https://registry.npmjs.org/nested-keys/-/nested-keys-0.0.2.tgz"
-  "version" "0.0.2"
-  dependencies:
-    "underscore" ">=1.7.0"
-
 "next-redux-wrapper@^8.0.0":
   "integrity" "sha512-zKRdpvDeqNXQr1j5DUWwsB2fz6XpHR32iy2qJGItTKLsbLB9GvtxDL9b4mFCfhDvnzy5dw97UqMjWDpFY8h0zA=="
   "resolved" "https://registry.npmjs.org/next-redux-wrapper/-/next-redux-wrapper-8.0.0.tgz"
@@ -5721,11 +5714,6 @@
     "has-bigints" "^1.0.2"
     "has-symbols" "^1.0.3"
     "which-boxed-primitive" "^1.0.2"
-
-"underscore@>=1.7.0":
-  "integrity" "sha512-+A5Sja4HP1M08MaXya7p5LvjuM7K6q/2EaC0+iovj/wOcMsTzMvDFbasi/oSapiwOlt252IqsKqPjCl7huKS0A=="
-  "resolved" "https://registry.npmjs.org/underscore/-/underscore-1.13.6.tgz"
-  "version" "1.13.6"
 
 "undici@^5.12.0":
   "integrity" "sha512-zMLamCG62PGjd9HHMpo05bSLvvwWOZgGeiWlN/vlqu3+lRo3elxktVGEyLMX+IO7c2eflLjcW74AlkhEZm15mg=="

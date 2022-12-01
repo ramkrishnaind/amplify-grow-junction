@@ -94,6 +94,7 @@ export const getStudentRegister = /* GraphQL */ `
   query GetStudentRegister($id: ID!) {
     getStudentRegister(id: $id) {
       domain_id
+      username
       recent_college
       degree
       education {
@@ -110,7 +111,6 @@ export const getStudentRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -127,6 +127,7 @@ export const listStudentRegisters = /* GraphQL */ `
     ) {
       items {
         domain_id
+        username
         recent_college
         degree
         education {
@@ -143,7 +144,6 @@ export const listStudentRegisters = /* GraphQL */ `
         id
         createdAt
         updatedAt
-        username
       }
       nextToken
     }
@@ -162,6 +162,7 @@ export const getMentorRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      username
       social {
         linkedin_url
         facebook_url
@@ -196,8 +197,6 @@ export const getMentorRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
-      owner
     }
   }
 `;
@@ -219,6 +218,7 @@ export const listMentorRegisters = /* GraphQL */ `
           short_description
           about_yourself
         }
+        username
         social {
           linkedin_url
           facebook_url
@@ -253,8 +253,6 @@ export const listMentorRegisters = /* GraphQL */ `
         id
         createdAt
         updatedAt
-        username
-        owner
       }
       nextToken
     }

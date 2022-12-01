@@ -125,6 +125,7 @@ export const onCreateStudentRegister = /* GraphQL */ `
   ) {
     onCreateStudentRegister(filter: $filter, username: $username) {
       domain_id
+      username
       recent_college
       degree
       education {
@@ -141,7 +142,6 @@ export const onCreateStudentRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -152,6 +152,7 @@ export const onUpdateStudentRegister = /* GraphQL */ `
   ) {
     onUpdateStudentRegister(filter: $filter, username: $username) {
       domain_id
+      username
       recent_college
       degree
       education {
@@ -168,7 +169,6 @@ export const onUpdateStudentRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -179,6 +179,7 @@ export const onDeleteStudentRegister = /* GraphQL */ `
   ) {
     onDeleteStudentRegister(filter: $filter, username: $username) {
       domain_id
+      username
       recent_college
       degree
       education {
@@ -195,7 +196,6 @@ export const onDeleteStudentRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -203,13 +203,8 @@ export const onCreateMentorRegister = /* GraphQL */ `
   subscription OnCreateMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput
     $username: String
-    $owner: String
   ) {
-    onCreateMentorRegister(
-      filter: $filter
-      username: $username
-      owner: $owner
-    ) {
+    onCreateMentorRegister(filter: $filter, username: $username) {
       domain_id
       mentor_service_id
       phone_number
@@ -220,6 +215,7 @@ export const onCreateMentorRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      username
       social {
         linkedin_url
         facebook_url
@@ -254,8 +250,6 @@ export const onCreateMentorRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
-      owner
     }
   }
 `;
@@ -263,13 +257,8 @@ export const onUpdateMentorRegister = /* GraphQL */ `
   subscription OnUpdateMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput
     $username: String
-    $owner: String
   ) {
-    onUpdateMentorRegister(
-      filter: $filter
-      username: $username
-      owner: $owner
-    ) {
+    onUpdateMentorRegister(filter: $filter, username: $username) {
       domain_id
       mentor_service_id
       phone_number
@@ -280,6 +269,7 @@ export const onUpdateMentorRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      username
       social {
         linkedin_url
         facebook_url
@@ -314,8 +304,6 @@ export const onUpdateMentorRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
-      owner
     }
   }
 `;
@@ -323,13 +311,8 @@ export const onDeleteMentorRegister = /* GraphQL */ `
   subscription OnDeleteMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput
     $username: String
-    $owner: String
   ) {
-    onDeleteMentorRegister(
-      filter: $filter
-      username: $username
-      owner: $owner
-    ) {
+    onDeleteMentorRegister(filter: $filter, username: $username) {
       domain_id
       mentor_service_id
       phone_number
@@ -340,6 +323,7 @@ export const onDeleteMentorRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      username
       social {
         linkedin_url
         facebook_url
@@ -374,8 +358,6 @@ export const onDeleteMentorRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
-      owner
     }
   }
 `;

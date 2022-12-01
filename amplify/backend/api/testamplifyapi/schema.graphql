@@ -44,7 +44,8 @@ type StudentRegister
       { allow: public, operations: [read] }
     ]
   ) {
-  domain_id: [String!]
+  domain_id: [String]
+  username: String
   recent_college: String!
   degree: String!
   education: Education
@@ -60,14 +61,14 @@ type MentorRegister
   @auth(
     rules: [
       { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update] }
+      { allow: public, operations: [read] }
     ]
   ) {
-  domain_id: [String!]
-  mentor_service_id: [String!]
-  phone_number: String!
+  domain_id: [String]
+  mentor_service_id: [String]
+  phone_number: String
   about_yourself: AboutYourself
-
+  username: String
   social: SocialUrl
   currency: String
   time_zone: String
@@ -92,7 +93,7 @@ type AboutYourself {
   first_name: String
   last_name: String
   short_description: String
-  about_yourself:String
+  about_yourself: String
 }
 type ContactInfo {
   email: String

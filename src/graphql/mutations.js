@@ -131,6 +131,7 @@ export const createStudentRegister = /* GraphQL */ `
   ) {
     createStudentRegister(input: $input, condition: $condition) {
       domain_id
+      username
       recent_college
       degree
       education {
@@ -147,7 +148,6 @@ export const createStudentRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -158,6 +158,7 @@ export const updateStudentRegister = /* GraphQL */ `
   ) {
     updateStudentRegister(input: $input, condition: $condition) {
       domain_id
+      username
       recent_college
       degree
       education {
@@ -174,7 +175,6 @@ export const updateStudentRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -185,6 +185,7 @@ export const deleteStudentRegister = /* GraphQL */ `
   ) {
     deleteStudentRegister(input: $input, condition: $condition) {
       domain_id
+      username
       recent_college
       degree
       education {
@@ -201,7 +202,6 @@ export const deleteStudentRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
     }
   }
 `;
@@ -221,6 +221,7 @@ export const createMentorRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      username
       social {
         linkedin_url
         facebook_url
@@ -255,8 +256,6 @@ export const createMentorRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
-      owner
     }
   }
 `;
@@ -276,6 +275,7 @@ export const updateMentorRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      username
       social {
         linkedin_url
         facebook_url
@@ -310,8 +310,6 @@ export const updateMentorRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
-      owner
     }
   }
 `;
@@ -331,6 +329,7 @@ export const deleteMentorRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      username
       social {
         linkedin_url
         facebook_url
@@ -365,8 +364,6 @@ export const deleteMentorRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
-      owner
     }
   }
 `;
