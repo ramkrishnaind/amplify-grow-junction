@@ -75,7 +75,7 @@ const DropDown = (props) => {
         )}
 
         <Image
-          src={require('../../public/assets/icon/dropDown.png')}
+          src={require('../../public/assets/icon/darkDrop.png')}
           alt=""
           style={
             dropDownBool

@@ -24,39 +24,30 @@ type DemoSkillsList
   value: String!
 }
 
-type DomainInterestedList
-  @model
-  @auth(rules: [{ allow: public, operations: [read, create] }]) {
-  id: ID!
-  value: String!
-}
-
 type SuggestedServiceList
   @model
   @auth(rules: [{ allow: public, operations: [read, create] }]) {
   id: ID!
   value: String!
 }
-type Education {
-  degree: String
-}
+
 type StudentRegister
   @model
   @auth(
     rules: [
       { allow: owner, ownerField: "username" }
-      { allow: public, operations: [read] }
+      { allow: owner, operations: [read] }
     ]
   ) {
-  interestedSkills: [String!]
+  student_id: ID!
+  student_name: String!
+  domain_id: [DemoSkillsList!]
   recent_college: String!
   degree: String!
-  education: Education
   current_employee: String
   your_role: String
   experience: String
   phone_number: String!
-  linkedIn_url: String!
 }
 
 type MentorRegister
@@ -67,9 +58,12 @@ type MentorRegister
       { allow: owner, operations: [read, update] }
     ]
   ) {
-  domain_id: [String!]
-  url: String!
-  mentor_service_id: [String!]
+  mentor_id: ID!
+  mentor_name: String!
+  domain_id: [DemoSkillsList!]
+  profile_url: String!
+  mentor_service_id: [SuggestedServiceList!]
+  mentor_availability_id: String!
   phone_number: String!
 }
 
@@ -81,35 +75,17 @@ type MentorAvailability
       { allow: owner, operations: [read, update, create] }
     ]
   ) {
+  mentor_availability_id: ID!
   mentor_schedule: [MentorWeekSchedule!]
 }
 
-type MentorWeekSchedule
-  @model
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create] }
-    ]
-  ) {
-  id: ID!
-  sortId: Int!
+type MentorWeekSchedule @model {
   day: String!
   checked: Boolean
   time_schedule: [timeSchedule!]
-    @hasMany(indexName: "byMentorSchedule", fields: ["id"])
 }
 
-type timeSchedule
-  @model
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create] }
-    ]
-  ) {
-  Mentor: MentorWeekSchedule @belongsTo(fields: ["MentorWeekScheduleId"])
-  MentorWeekScheduleId: ID @index(name: "byMentorSchedule")
+type timeSchedule @model {
   startTime: String!
   startTimeMeridian: String!
   endTime: String!

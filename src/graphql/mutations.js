@@ -13,7 +13,7 @@ export const createDemoSkillsList = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const updateDemoSkillsList = /* GraphQL */ `
   mutation UpdateDemoSkillsList(
     $input: UpdateDemoSkillsListInput!
@@ -26,7 +26,7 @@ export const updateDemoSkillsList = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const deleteDemoSkillsList = /* GraphQL */ `
   mutation DeleteDemoSkillsList(
     $input: DeleteDemoSkillsListInput!
@@ -39,46 +39,7 @@ export const deleteDemoSkillsList = /* GraphQL */ `
       updatedAt
     }
   }
-`;
-export const createDomainInterestedList = /* GraphQL */ `
-  mutation CreateDomainInterestedList(
-    $input: CreateDomainInterestedListInput!
-    $condition: ModelDomainInterestedListConditionInput
-  ) {
-    createDomainInterestedList(input: $input, condition: $condition) {
-      id
-      value
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateDomainInterestedList = /* GraphQL */ `
-  mutation UpdateDomainInterestedList(
-    $input: UpdateDomainInterestedListInput!
-    $condition: ModelDomainInterestedListConditionInput
-  ) {
-    updateDomainInterestedList(input: $input, condition: $condition) {
-      id
-      value
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteDomainInterestedList = /* GraphQL */ `
-  mutation DeleteDomainInterestedList(
-    $input: DeleteDomainInterestedListInput!
-    $condition: ModelDomainInterestedListConditionInput
-  ) {
-    deleteDomainInterestedList(input: $input, condition: $condition) {
-      id
-      value
-      createdAt
-      updatedAt
-    }
-  }
-`;
+`
 export const createSuggestedServiceList = /* GraphQL */ `
   mutation CreateSuggestedServiceList(
     $input: CreateSuggestedServiceListInput!
@@ -91,7 +52,7 @@ export const createSuggestedServiceList = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const updateSuggestedServiceList = /* GraphQL */ `
   mutation UpdateSuggestedServiceList(
     $input: UpdateSuggestedServiceListInput!
@@ -104,7 +65,7 @@ export const updateSuggestedServiceList = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const deleteSuggestedServiceList = /* GraphQL */ `
   mutation DeleteSuggestedServiceList(
     $input: DeleteSuggestedServiceListInput!
@@ -117,7 +78,7 @@ export const deleteSuggestedServiceList = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const createTodo = /* GraphQL */ `
   mutation CreateTodo(
     $input: CreateTodoInput!
@@ -132,7 +93,7 @@ export const createTodo = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const updateTodo = /* GraphQL */ `
   mutation UpdateTodo(
     $input: UpdateTodoInput!
@@ -147,7 +108,7 @@ export const updateTodo = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const deleteTodo = /* GraphQL */ `
   mutation DeleteTodo(
     $input: DeleteTodoInput!
@@ -162,18 +123,22 @@ export const deleteTodo = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const createStudentRegister = /* GraphQL */ `
   mutation CreateStudentRegister(
     $input: CreateStudentRegisterInput!
     $condition: ModelStudentRegisterConditionInput
   ) {
     createStudentRegister(input: $input, condition: $condition) {
-      interestedSkills
+      domain_id
+      username
       recent_college
       degree
       education {
         degree
+        college_university
+        course
+        graduation_year
       }
       current_employee
       your_role
@@ -183,21 +148,24 @@ export const createStudentRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
     }
   }
-`;
+`
 export const updateStudentRegister = /* GraphQL */ `
   mutation UpdateStudentRegister(
     $input: UpdateStudentRegisterInput!
     $condition: ModelStudentRegisterConditionInput
   ) {
     updateStudentRegister(input: $input, condition: $condition) {
-      interestedSkills
+      domain_id
+      username
       recent_college
       degree
       education {
         degree
+        college_university
+        course
+        graduation_year
       }
       current_employee
       your_role
@@ -207,21 +175,24 @@ export const updateStudentRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
     }
   }
-`;
+`
 export const deleteStudentRegister = /* GraphQL */ `
   mutation DeleteStudentRegister(
     $input: DeleteStudentRegisterInput!
     $condition: ModelStudentRegisterConditionInput
   ) {
     deleteStudentRegister(input: $input, condition: $condition) {
-      interestedSkills
+      domain_id
+      username
       recent_college
       degree
       education {
         degree
+        college_university
+        course
+        graduation_year
       }
       current_employee
       your_role
@@ -231,10 +202,9 @@ export const deleteStudentRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
     }
   }
-`;
+`
 export const createMentorRegister = /* GraphQL */ `
   mutation CreateMentorRegister(
     $input: CreateMentorRegisterInput!
@@ -242,17 +212,53 @@ export const createMentorRegister = /* GraphQL */ `
   ) {
     createMentorRegister(input: $input, condition: $condition) {
       domain_id
-      url
       mentor_service_id
       phone_number
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      username
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      currency
+      time_zone
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
+      education {
+        degree
+        college_university
+        course
+        graduation_year
+      }
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
       id
       createdAt
       updatedAt
-      username
-      owner
     }
   }
-`;
+`
 export const updateMentorRegister = /* GraphQL */ `
   mutation UpdateMentorRegister(
     $input: UpdateMentorRegisterInput!
@@ -260,17 +266,53 @@ export const updateMentorRegister = /* GraphQL */ `
   ) {
     updateMentorRegister(input: $input, condition: $condition) {
       domain_id
-      url
       mentor_service_id
       phone_number
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      username
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      currency
+      time_zone
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
+      education {
+        degree
+        college_university
+        course
+        graduation_year
+      }
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
       id
       createdAt
       updatedAt
-      username
-      owner
     }
   }
-`;
+`
 export const deleteMentorRegister = /* GraphQL */ `
   mutation DeleteMentorRegister(
     $input: DeleteMentorRegisterInput!
@@ -278,17 +320,53 @@ export const deleteMentorRegister = /* GraphQL */ `
   ) {
     deleteMentorRegister(input: $input, condition: $condition) {
       domain_id
-      url
       mentor_service_id
       phone_number
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      username
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      currency
+      time_zone
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
+      education {
+        degree
+        college_university
+        course
+        graduation_year
+      }
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
       id
       createdAt
       updatedAt
-      username
-      owner
     }
   }
-`;
+`
 export const createMentorAvailability = /* GraphQL */ `
   mutation CreateMentorAvailability(
     $input: CreateMentorAvailabilityInput!
@@ -339,7 +417,7 @@ export const createMentorAvailability = /* GraphQL */ `
       owner
     }
   }
-`;
+`
 export const updateMentorAvailability = /* GraphQL */ `
   mutation UpdateMentorAvailability(
     $input: UpdateMentorAvailabilityInput!
@@ -390,7 +468,7 @@ export const updateMentorAvailability = /* GraphQL */ `
       owner
     }
   }
-`;
+`
 export const deleteMentorAvailability = /* GraphQL */ `
   mutation DeleteMentorAvailability(
     $input: DeleteMentorAvailabilityInput!
@@ -441,7 +519,7 @@ export const deleteMentorAvailability = /* GraphQL */ `
       owner
     }
   }
-`;
+`
 export const createMentorWeekSchedule = /* GraphQL */ `
   mutation CreateMentorWeekSchedule(
     $input: CreateMentorWeekScheduleInput!
@@ -488,7 +566,7 @@ export const createMentorWeekSchedule = /* GraphQL */ `
       owner
     }
   }
-`;
+`
 export const updateMentorWeekSchedule = /* GraphQL */ `
   mutation UpdateMentorWeekSchedule(
     $input: UpdateMentorWeekScheduleInput!
@@ -535,7 +613,7 @@ export const updateMentorWeekSchedule = /* GraphQL */ `
       owner
     }
   }
-`;
+`
 export const deleteMentorWeekSchedule = /* GraphQL */ `
   mutation DeleteMentorWeekSchedule(
     $input: DeleteMentorWeekScheduleInput!
@@ -582,7 +660,7 @@ export const deleteMentorWeekSchedule = /* GraphQL */ `
       owner
     }
   }
-`;
+`
 export const createTimeSchedule = /* GraphQL */ `
   mutation CreateTimeSchedule(
     $input: CreateTimeScheduleInput!
@@ -640,7 +718,7 @@ export const createTimeSchedule = /* GraphQL */ `
       owner
     }
   }
-`;
+`
 export const updateTimeSchedule = /* GraphQL */ `
   mutation UpdateTimeSchedule(
     $input: UpdateTimeScheduleInput!
@@ -698,7 +776,7 @@ export const updateTimeSchedule = /* GraphQL */ `
       owner
     }
   }
-`;
+`
 export const deleteTimeSchedule = /* GraphQL */ `
   mutation DeleteTimeSchedule(
     $input: DeleteTimeScheduleInput!
@@ -756,4 +834,4 @@ export const deleteTimeSchedule = /* GraphQL */ `
       owner
     }
   }
-`;
+`

@@ -53,3 +53,15 @@ div.active-header {
     background: black;
   }
 }
+input,
+select {
+  padding: 5px;
+}
+select option {
+  padding: 10px 5px;
+}
+textarea {
+  resize: none;
+  height: 8em;
+  /* width: 57rem; */
+}

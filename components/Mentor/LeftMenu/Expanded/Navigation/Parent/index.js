@@ -6,21 +6,32 @@ import NavLink from '../../../../../Utilities/NavLink'
 import Collapsed from '../../../Collapsed/index'
 const Parent = ({ title, image, url, hasItems, items }) => {
   const [collapsed, setCollapsed] = useState(true)
-  const [headerActive, setHeaderActive] = useState(true)
-  const setActiveHandler = (value) => {
-    setHeaderActive(value)
+  const [isHeaderActive, setIsHeaderActive] = useState(true)
+  const [headerActive, setHeaderActive] = useState([])
+  const setActiveHandler = (index, value) => {
+    headerActive[index] = value
+    setHeaderActive(headerActive)
     // if (value) setCollapsed(false)
   }
-  useEffect(() => {
-    if (headerActive) {
-      setCollapsed(false)
-    }
-  }, [headerActive])
+  // useEffect(() => {
+  //   debugger
+  //   let isAnyActive = false
+  //   headerActive.forEach((i) => {
+  //     if (i) {
+  //       isAnyActive = true
+  //       return
+  //     }
+  //   })
+  //   setIsHeaderActive(isAnyActive)
+  //   if (isAnyActive) {
+  //     setCollapsed(false)
+  //   }
+  // }, [headerActive])
   return hasItems ? (
     <>
       <div
         className={`${classes.container} ${
-          headerActive ? 'active-header' : ''
+          isHeaderActive ? 'active-header' : ''
         } my-2 text-2xl flex items-center cursor-pointer`}
         onClick={() => {
           setCollapsed(!collapsed)
@@ -40,7 +51,13 @@ const Parent = ({ title, image, url, hasItems, items }) => {
       {!collapsed && (
         <ul>
           {items.map((child, index) => {
-            return <Child key={index} {...child} setActive={setActiveHandler} />
+            return (
+              <Child
+                key={index}
+                {...child}
+                setActive={setActiveHandler.bind(null, index)}
+              />
+            )
           })}
         </ul>
       )}

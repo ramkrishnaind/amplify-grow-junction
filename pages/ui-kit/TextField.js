@@ -19,6 +19,8 @@ const TextField = (props) => {
     textStyleOverride,
     infoMsg,
     imageType,
+    required,
+    style,
     handleIncrement = () => {},
     handleDecrement = () => {},
     link,
@@ -26,7 +28,7 @@ const TextField = (props) => {
   } = props
 
   return (
-    <div className="mb-5 flex-1" style={{}}>
+    <div className="mb-5 flex-1" style={style ? { ...style } : {}}>
       <label
         htmlFor="email-address"
         style={{
@@ -42,7 +44,7 @@ const TextField = (props) => {
         className="focus-outline mr-5  w-full flex flex-row rounded-md border border-gray-300 px-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
         style={{
           padding: 4,
-          height: 56,
+          height: 40,
 
           ...styleOverride,
         }}
@@ -71,7 +73,7 @@ const TextField = (props) => {
                 color: color.lightGrey,
                 marginLeft: 10,
                 marginRight: 20,
-                fontSize: 14,
+                fontSize: 12,
               }}
             >
               |
@@ -82,7 +84,7 @@ const TextField = (props) => {
           id={id}
           name={name}
           type={type}
-          required
+          required={required}
           disabled={disabled}
           style={{
             backgroundColor: color.headerColor,
@@ -93,7 +95,7 @@ const TextField = (props) => {
           onChange={(text) => {
             onChangeValue(text)
           }}
-          className="w-full  rounded-md  text-black border-none focus:outline-none "
+          className="w-full text-lg rounded-md  text-black border-none focus:outline-none "
           placeholder={placeholder}
           {...rest}
         />
