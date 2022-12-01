@@ -170,6 +170,28 @@ const StudentProfessionalDetails = () => {
                       errMsg={touched.recent_college && errors.recent_college}
                     />
 
+                    <TextField
+                      value={values.degree}
+                      label="Choose your degree"
+                      placeholder="Choose college degree"
+                      onChangeValue={(text) => {
+                        if (spaceValidation.test(text.target.value)) {
+                          setFieldValue('degree', text.target.value)
+                        }
+                      }}
+                      styleOverride={{
+                        backgroundColor: color.white,
+                        height: 56,
+                        borderColor: color.borderGrey,
+                      }}
+                      textStyleOverride={{
+                        backgroundColor: color.white,
+                        paddingLeft: 8,
+                      }}
+                      errMsg={touched.degree && errors.degree}
+                    />
+
+                    {/* 
                     <DropDown
                       value={values.degree}
                       label="Choose your degree"
@@ -218,9 +240,31 @@ const StudentProfessionalDetails = () => {
                           )
                         })}
                       </div>
-                    ) : null}
+                    ) : null} */}
+                    <TextField
+                      value={values.current_employee}
+                      label="Current Employer (optional))"
+                      placeholder="Choose current employer"
+                      onChangeValue={(text) => {
+                        if (spaceValidation.test(text.target.value)) {
+                          setFieldValue('current_employee', text.target.value)
+                        }
+                      }}
+                      styleOverride={{
+                        backgroundColor: color.white,
+                        height: 56,
+                        borderColor: color.borderGrey,
+                      }}
+                      textStyleOverride={{
+                        backgroundColor: color.white,
+                        paddingLeft: 8,
+                      }}
+                      errMsg={
+                        touched.current_employee && errors.current_employee
+                      }
+                    />
 
-                    <DropDown
+                    {/* <DropDown
                       value={values.current_employee}
                       label="Current Employer (optional))"
                       placeholder="Choose current employer"
@@ -266,7 +310,7 @@ const StudentProfessionalDetails = () => {
                           )
                         })}
                       </div>
-                    ) : null}
+                    ) : null} */}
 
                     <TextField
                       label="Your role (optional)"
@@ -292,7 +336,31 @@ const StudentProfessionalDetails = () => {
                       errMsg={touched.your_role && errors.your_role}
                     />
 
-                    <DropDown
+                    <TextField
+                      value={values.experience}
+                      label="Experience in years (optional)"
+                      placeholder="Choose experience in year"
+                      id="experience"
+                      type="role"
+                      //   icon={require('../../public/assets/icon/eye.png')}
+                      styleOverride={{
+                        backgroundColor: color.white,
+                        height: 56,
+                        borderColor: color.borderGrey,
+                      }}
+                      textStyleOverride={{
+                        backgroundColor: color.white,
+                        paddingLeft: 8,
+                      }}
+                      onChangeValue={(text) => {
+                        if (spaceValidation.test(text.target.value)) {
+                          setFieldValue(text.target.id, text.target.value)
+                        }
+                      }}
+                      errMsg={touched.your_role && errors.your_role}
+                    />
+
+                    {/* <DropDown
                       value={values.experience}
                       label="Experience in years (optional)"
                       placeholder="Choose experience in year"
@@ -338,7 +406,7 @@ const StudentProfessionalDetails = () => {
                           )
                         })}
                       </div>
-                    ) : null}
+                    ) : null} */}
 
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <Button

@@ -9,7 +9,11 @@ import TextField from '../ui-kit/TextField'
 import * as mutations from '../../src/graphql/mutations'
 
 import KYC_header from '../components/registration/KYC_header'
-import { listDemoSkillsLists, listTodos } from '../../src/graphql/queries'
+import {
+  listDemoSkillsLists,
+  listDomainInterestedLists,
+  listTodos,
+} from '../../src/graphql/queries'
 import Button from '../ui-kit/Button'
 import SkeletonLoader from '../ui-kit/SkeletonLoader'
 import { useRouter } from 'next/router'
@@ -18,7 +22,6 @@ import useWindowDimensions from '../../public/utils/useWindowDimensions'
 
 import ACTION_KEYS from '../../constants/action-keys'
 import Toaster from '../ui-kit/Toaster'
-
 
 Auth.configure(config)
 
@@ -52,18 +55,33 @@ const KYC_step1 = () => {
     const { username } = await Auth.currentAuthenticatedUser({
       bypassCache: true,
     })
-
-    try {
-      const listData = await API.graphql({
-        query: listDemoSkillsLists,
-      })
-      setdomainList(listData?.data?.listDemoSkillsLists?.items)
-      setDomainListLoading(false)
-      setShowDomainInput(false)
-      setLoading(false)
-    } catch (err) {
-      console.log('err', err)
-      setDomainListLoading(false)
+    if (registerType?.registerType === 'STUDENT') {
+      try {
+        const listData = await API.graphql({
+          query: listDomainInterestedLists,
+        })
+        console.log(listData)
+        setdomainList(listData?.data?.listDomainInterestedLists?.items)
+        setDomainListLoading(false)
+        setShowDomainInput(false)
+        setLoading(false)
+      } catch (err) {
+        console.log('err', err)
+        setDomainListLoading(false)
+      }
+    } else {
+      try {
+        const listData = await API.graphql({
+          query: listDemoSkillsLists,
+        })
+        setdomainList(listData?.data?.listDemoSkillsLists?.items)
+        setDomainListLoading(false)
+        setShowDomainInput(false)
+        setLoading(false)
+      } catch (err) {
+        console.log('err', err)
+        setDomainListLoading(false)
+      }
     }
   }
 
@@ -71,11 +89,17 @@ const KYC_step1 = () => {
     setLoading(true)
     try {
       const data = { value: domainName }
-      const postData = await API.graphql({
-        query: mutations.createDemoSkillsList,
-        variables: { input: domainName },
-      })
-
+      if (registerType?.registerType === 'STUDENT') {
+        const postData = await API.graphql({
+          query: mutations.createDomainInterestedList,
+          variables: { input: domainName },
+        })
+      } else {
+        const postData = await API.graphql({
+          query: mutations.createDemoSkillsList,
+          variables: { input: domainName },
+        })
+      }
       getCurrentUser()
     } catch (e) {
       console.log('e', e)
@@ -132,7 +156,9 @@ const KYC_step1 = () => {
                   marginTop: 60,
                 }}
               >
-                Get ready to mentor and share
+                {registerType?.registerType === 'STUDENT'
+                  ? 'Learn and grow from mentors'
+                  : 'Get ready to mentor and share'}
               </div>
               <div
                 style={{
@@ -186,7 +212,9 @@ const KYC_step1 = () => {
                   marginBottom: 24,
                 }}
               >
-                Domain you want to provide mentorship
+                {registerType?.registerType === 'STUDENT'
+                  ? 'Domain you are intrested to learn'
+                  : 'Domain you want to provide mentorship'}
               </div>
               <div
                 style={{
@@ -335,12 +363,12 @@ const KYC_step1 = () => {
                 }}
                 onClick={() => {
                   if (registerType?.registerType === 'STUDENT') {
-                    if (url && selectedList.length) {
+                    if (link && selectedList.length) {
                       dispatch({
                         type: ACTION_KEYS.KYCSTEP1,
                         payload: {
                           linkedIn_url: link,
-                          domain_id: selectedList,
+                          interestedSkills: selectedList,
                         },
                       })
                       router.push('/register/StudentProfessionalDetails')
@@ -352,7 +380,22 @@ const KYC_step1 = () => {
                       setShowToast(true)
                     }
                   } else {
-                    router.push('/register/KYC_step2')
+                    if (link && selectedList.length) {
+                      dispatch({
+                        type: ACTION_KEYS.KYCSTEP1,
+                        payload: {
+                          url: link,
+                          domain_id: selectedList,
+                        },
+                      })
+                      router.push('/register/KYC_step2')
+                    } else {
+                      setToastContent({
+                        message: 'Please fill all details',
+                        type: 'failure',
+                      })
+                      setShowToast(true)
+                    }
                   }
                 }}
               />

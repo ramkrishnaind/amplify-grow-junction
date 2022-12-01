@@ -90,13 +90,13 @@ const KYC_step4 = () => {
                 onSubmit={async (values, { setErrors, setSubmitting }) => {
                   setSubmitting(true)
                   const id = uuid()
-                  let payload = {
-                    ...registerType?.professionalDetails?.payload,
-                    ...registerType?.kycStep1,
-                    phone_number: values.phoneNumber,
-                  }
-                  console.log('payload', payload)
+                  console.log('entry')
                   if (registerType?.registerType === 'STUDENT') {
+                    let payload = {
+                      ...registerType?.professionalDetails?.payload,
+                      ...registerType?.kycStep1,
+                      phone_number: values.phoneNumber,
+                    }
                     try {
                       const postData = await API.graphql({
                         query: mutations.createStudentRegister,
@@ -113,7 +113,39 @@ const KYC_step4 = () => {
                           .then((res) => {
                             console.log('res', res)
                             router.push('/register/SuccessRegister')
-                            setSubmitting(true)
+                            setSubmitting(false)
+                          })
+                          .catch((e) => {
+                            console.log('err', e)
+                          })
+                      }
+                    } catch (e) {
+                      console.log('e', e)
+                    }
+                  } else {
+                    let payload = {
+                      ...registerType?.kycStep2,
+                      ...registerType?.kycStep1,
+                      phone_number: values.phoneNumber,
+                    }
+                    console.log(payload)
+                    try {
+                      const postData = await API.graphql({
+                        query: mutations.createMentorRegister,
+                        variables: { input: payload },
+                        authMode: 'AMAZON_COGNITO_USER_POOLS',
+                      })
+                      console.log(postData)
+                      if (postData) {
+                        let user = await Auth.currentAuthenticatedUser()
+                        let data = {
+                          'custom:kyc_done': 'true',
+                        }
+                        Auth.updateUserAttributes(user, data)
+                          .then((res) => {
+                            console.log('res', res)
+                            router.push('/register/SuccessRegister')
+                            setSubmitting(false)
                           })
                           .catch((e) => {
                             console.log('err', e)

@@ -37,6 +37,42 @@ export const onDeleteDemoSkillsList = /* GraphQL */ `
     }
   }
 `;
+export const onCreateDomainInterestedList = /* GraphQL */ `
+  subscription OnCreateDomainInterestedList(
+    $filter: ModelSubscriptionDomainInterestedListFilterInput
+  ) {
+    onCreateDomainInterestedList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateDomainInterestedList = /* GraphQL */ `
+  subscription OnUpdateDomainInterestedList(
+    $filter: ModelSubscriptionDomainInterestedListFilterInput
+  ) {
+    onUpdateDomainInterestedList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteDomainInterestedList = /* GraphQL */ `
+  subscription OnDeleteDomainInterestedList(
+    $filter: ModelSubscriptionDomainInterestedListFilterInput
+  ) {
+    onDeleteDomainInterestedList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateSuggestedServiceList = /* GraphQL */ `
   subscription OnCreateSuggestedServiceList(
     $filter: ModelSubscriptionSuggestedServiceListFilterInput
@@ -122,16 +158,14 @@ export const onCreateStudentRegister = /* GraphQL */ `
   subscription OnCreateStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
     $username: String
-    $owner: String
   ) {
-    onCreateStudentRegister(
-      filter: $filter
-      username: $username
-      owner: $owner
-    ) {
-      domain_id
+    onCreateStudentRegister(filter: $filter, username: $username) {
+      interestedSkills
       recent_college
       degree
+      education {
+        degree
+      }
       current_employee
       your_role
       experience
@@ -141,7 +175,6 @@ export const onCreateStudentRegister = /* GraphQL */ `
       createdAt
       updatedAt
       username
-      owner
     }
   }
 `;
@@ -149,16 +182,14 @@ export const onUpdateStudentRegister = /* GraphQL */ `
   subscription OnUpdateStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
     $username: String
-    $owner: String
   ) {
-    onUpdateStudentRegister(
-      filter: $filter
-      username: $username
-      owner: $owner
-    ) {
-      domain_id
+    onUpdateStudentRegister(filter: $filter, username: $username) {
+      interestedSkills
       recent_college
       degree
+      education {
+        degree
+      }
       current_employee
       your_role
       experience
@@ -168,7 +199,6 @@ export const onUpdateStudentRegister = /* GraphQL */ `
       createdAt
       updatedAt
       username
-      owner
     }
   }
 `;
@@ -176,16 +206,14 @@ export const onDeleteStudentRegister = /* GraphQL */ `
   subscription OnDeleteStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
     $username: String
-    $owner: String
   ) {
-    onDeleteStudentRegister(
-      filter: $filter
-      username: $username
-      owner: $owner
-    ) {
-      domain_id
+    onDeleteStudentRegister(filter: $filter, username: $username) {
+      interestedSkills
       recent_college
       degree
+      education {
+        degree
+      }
       current_employee
       your_role
       experience
@@ -195,7 +223,6 @@ export const onDeleteStudentRegister = /* GraphQL */ `
       createdAt
       updatedAt
       username
-      owner
     }
   }
 `;
@@ -210,12 +237,9 @@ export const onCreateMentorRegister = /* GraphQL */ `
       username: $username
       owner: $owner
     ) {
-      mentor_id
-      mentor_name
       domain_id
-      linkedIn_url
+      url
       mentor_service_id
-      mentor_availability_id
       phone_number
       id
       createdAt
@@ -236,12 +260,9 @@ export const onUpdateMentorRegister = /* GraphQL */ `
       username: $username
       owner: $owner
     ) {
-      mentor_id
-      mentor_name
       domain_id
-      linkedIn_url
+      url
       mentor_service_id
-      mentor_availability_id
       phone_number
       id
       createdAt
@@ -262,13 +283,511 @@ export const onDeleteMentorRegister = /* GraphQL */ `
       username: $username
       owner: $owner
     ) {
-      mentor_id
-      mentor_name
       domain_id
-      linkedIn_url
+      url
       mentor_service_id
-      mentor_availability_id
       phone_number
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onCreateMentorAvailability = /* GraphQL */ `
+  subscription OnCreateMentorAvailability(
+    $filter: ModelSubscriptionMentorAvailabilityFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateMentorAvailability(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      mentor_schedule {
+        id
+        sortId
+        day
+        checked
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              createdAt
+              updatedAt
+              username
+              owner
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+            username
+            owner
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+        username
+        owner
+      }
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onUpdateMentorAvailability = /* GraphQL */ `
+  subscription OnUpdateMentorAvailability(
+    $filter: ModelSubscriptionMentorAvailabilityFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateMentorAvailability(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      mentor_schedule {
+        id
+        sortId
+        day
+        checked
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              createdAt
+              updatedAt
+              username
+              owner
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+            username
+            owner
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+        username
+        owner
+      }
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onDeleteMentorAvailability = /* GraphQL */ `
+  subscription OnDeleteMentorAvailability(
+    $filter: ModelSubscriptionMentorAvailabilityFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteMentorAvailability(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      mentor_schedule {
+        id
+        sortId
+        day
+        checked
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              createdAt
+              updatedAt
+              username
+              owner
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+            username
+            owner
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+        username
+        owner
+      }
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onCreateMentorWeekSchedule = /* GraphQL */ `
+  subscription OnCreateMentorWeekSchedule(
+    $filter: ModelSubscriptionMentorWeekScheduleFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateMentorWeekSchedule(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      id
+      sortId
+      day
+      checked
+      time_schedule {
+        items {
+          Mentor {
+            id
+            sortId
+            day
+            checked
+            time_schedule {
+              nextToken
+            }
+            createdAt
+            updatedAt
+            username
+            owner
+          }
+          MentorWeekScheduleId
+          startTime
+          startTimeMeridian
+          endTime
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+          username
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onUpdateMentorWeekSchedule = /* GraphQL */ `
+  subscription OnUpdateMentorWeekSchedule(
+    $filter: ModelSubscriptionMentorWeekScheduleFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateMentorWeekSchedule(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      id
+      sortId
+      day
+      checked
+      time_schedule {
+        items {
+          Mentor {
+            id
+            sortId
+            day
+            checked
+            time_schedule {
+              nextToken
+            }
+            createdAt
+            updatedAt
+            username
+            owner
+          }
+          MentorWeekScheduleId
+          startTime
+          startTimeMeridian
+          endTime
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+          username
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onDeleteMentorWeekSchedule = /* GraphQL */ `
+  subscription OnDeleteMentorWeekSchedule(
+    $filter: ModelSubscriptionMentorWeekScheduleFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteMentorWeekSchedule(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      id
+      sortId
+      day
+      checked
+      time_schedule {
+        items {
+          Mentor {
+            id
+            sortId
+            day
+            checked
+            time_schedule {
+              nextToken
+            }
+            createdAt
+            updatedAt
+            username
+            owner
+          }
+          MentorWeekScheduleId
+          startTime
+          startTimeMeridian
+          endTime
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+          username
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onCreateTimeSchedule = /* GraphQL */ `
+  subscription OnCreateTimeSchedule(
+    $filter: ModelSubscriptionTimeScheduleFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateTimeSchedule(filter: $filter, username: $username, owner: $owner) {
+      Mentor {
+        id
+        sortId
+        day
+        checked
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              createdAt
+              updatedAt
+              username
+              owner
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+            username
+            owner
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+        username
+        owner
+      }
+      MentorWeekScheduleId
+      startTime
+      startTimeMeridian
+      endTime
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onUpdateTimeSchedule = /* GraphQL */ `
+  subscription OnUpdateTimeSchedule(
+    $filter: ModelSubscriptionTimeScheduleFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateTimeSchedule(filter: $filter, username: $username, owner: $owner) {
+      Mentor {
+        id
+        sortId
+        day
+        checked
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              createdAt
+              updatedAt
+              username
+              owner
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+            username
+            owner
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+        username
+        owner
+      }
+      MentorWeekScheduleId
+      startTime
+      startTimeMeridian
+      endTime
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onDeleteTimeSchedule = /* GraphQL */ `
+  subscription OnDeleteTimeSchedule(
+    $filter: ModelSubscriptionTimeScheduleFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteTimeSchedule(filter: $filter, username: $username, owner: $owner) {
+      Mentor {
+        id
+        sortId
+        day
+        checked
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              createdAt
+              updatedAt
+              username
+              owner
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+            username
+            owner
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+        username
+        owner
+      }
+      MentorWeekScheduleId
+      startTime
+      startTimeMeridian
+      endTime
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
       id
       createdAt
       updatedAt
