@@ -23,8 +23,11 @@ import Button from '../ui-kit/Button'
 import Header from '../components/common/Header'
 import { Auth } from 'aws-amplify'
 import Link from 'next/link'
-import { StoreUserAuth } from '../../redux/actions/AuthAction'
-import { useDispatch } from 'react-redux'
+import {
+  RegisterTypeRequest,
+  StoreUserAuth,
+} from '../../redux/actions/AuthAction'
+import { useDispatch, useSelector } from 'react-redux'
 
 let productsp = [
   {
@@ -88,6 +91,8 @@ const options = {
 
 const spaceValidation = new RegExp(/^[^ ]*$/)
 const Login = (props) => {
+  const registerType = useSelector((state) => state.AuthReducer)
+
   //   const {width, height} = props;
   const { width, height } = useWindowDimensions()
   const dispatch = useDispatch()
@@ -214,13 +219,17 @@ const Login = (props) => {
                 })
 
                 if (user) {
+                  console.log('user', user)
                   StoreUserAuth(dispatch, user)
                   Auth.currentUserInfo()
                     .then((res) => {
                       setLoader(false)
-                      console.log('res', res?.attributes)
+                      console.log(res?.attributes?.email)
                       Object.entries(res?.attributes).map((item, index) => {
-                        console.log('ityem', item[0])
+                        // console.log('ityem', item)
+                        if (item[0] === 'custom:register_type') {
+                          RegisterTypeRequest(dispatch, item[1])
+                        }
                         if (item[0] === 'custom:kyc_done') {
                           console.log('entry')
                           if (item[1] === 'true') {

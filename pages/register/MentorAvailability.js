@@ -16,6 +16,7 @@ const timeAvailability = [
   {
     day: 'Sunday',
     checked: false,
+    sortId: 1,
     time_schedule: [
       {
         startTime: '00',
@@ -30,6 +31,7 @@ const timeAvailability = [
   {
     day: 'Monday',
     checked: false,
+    sortId: 2,
     time_schedule: [
       {
         startTime: '00',
@@ -44,6 +46,7 @@ const timeAvailability = [
   {
     day: 'Tuesday',
     checked: false,
+    sortId: 3,
     time_schedule: [
       {
         startTime: '00',
@@ -58,6 +61,7 @@ const timeAvailability = [
   {
     day: 'Wednesday',
     checked: false,
+    sortId: 4,
     time_schedule: [
       {
         startTime: '00',
@@ -72,6 +76,7 @@ const timeAvailability = [
   {
     day: 'Thrusday',
     checked: false,
+    sortId: 5,
     time_schedule: [
       {
         startTime: '00',
@@ -86,6 +91,7 @@ const timeAvailability = [
   {
     day: 'Friday',
     checked: false,
+    sortId: 6,
     time_schedule: [
       {
         startTime: '00',
@@ -100,6 +106,24 @@ const timeAvailability = [
   {
     day: 'Saurday',
     checked: false,
+    sortId: 7,
+    time_schedule: [
+      {
+        startTime: '00',
+        leftMeridianDropDown: false,
+        startTimeMeridian: 'AM',
+        endTime: '00',
+        rightMeridianDropDown: false,
+        endTimeMeridian: 'AM',
+      },
+    ],
+  },
+]
+
+const sameAvailability = [
+  {
+    day: 'Everyday',
+    checked: true,
     time_schedule: [
       {
         startTime: '00',
@@ -119,22 +143,68 @@ const MentorAvailability = () => {
   const router = useRouter()
   const [sameTimeAvailabel, setSameTimeAvailabel] = useState(false)
   const [mentorAvailability, setMentorAvailability] = useState(timeAvailability)
+  const [sameTimeAvailability, setSameTimeAvailability] =
+    useState(sameAvailability)
+  const [loading, setLoading] = useState(false)
+
+  const availability = sameTimeAvailabel ? sameAvailability : mentorAvailability
 
   const handleSubmit = async () => {
-    const payload = {
-      mentor_schedule: timeAvailability,
-      mentor_availability_id: uuid(),
-    }
-    try {
-      const postSchedule = await API.graphql({
-        query: mutations.createMentorAvailability,
-        variables: { input: payload },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+    setLoading(true)
+    if (sameTimeAvailabel) {
+      timeAvailability.map((item, index) => {
+        item['time_schedule'] = sameTimeAvailability[0]?.time_schedule
+        item['checked'] = true
       })
-      console.log(postSchedule)
-    } catch (e) {
-      console.log('e', e)
     }
+    // console.log(timeAvailability)
+    timeAvailability.map(async (items, index) => {
+      let payload = {
+        id: uuid(),
+        day: items?.day,
+        sortId: items?.sortId,
+        checked: items?.checked,
+      }
+      let in_count = 0
+      try {
+        const weekSchedule = await API.graphql({
+          query: mutations.createMentorWeekSchedule,
+          variables: { input: payload },
+          authMode: 'AMAZON_COGNITO_USER_POOLS',
+        })
+        in_count = items?.time_schedule?.length
+        console.log(weekSchedule)
+        items?.time_schedule.map(async (item, index) => {
+          let payload = {
+            MentorWeekScheduleId:
+              weekSchedule?.data?.createMentorWeekSchedule?.id,
+            startTime: item?.startTime,
+            startTimeMeridian: item?.startTimeMeridian,
+            endTime: item?.endTime,
+            endTimeMeridian: item?.endTimeMeridian,
+            leftMeridianDropDown: item?.leftMeridianDropDown,
+            rightMeridianDropDown: item?.rightMeridianDropDown,
+          }
+
+          try {
+            const postTimeShedule = await API.graphql({
+              query: mutations.createTimeSchedule,
+              variables: { input: payload },
+              authMode: 'AMAZON_COGNITO_USER_POOLS',
+            })
+            console.log(postTimeShedule)
+            if (items?.sortId === 7 && in_count === index + 1) {
+              setLoading(false)
+              router.push('/register/KYC_step4')
+            }
+          } catch (e) {
+            console.log('iiner time schedulr error', e)
+          }
+        })
+      } catch (e) {
+        console.log('week schedulr error', e)
+      }
+    })
   }
 
   return (
@@ -220,7 +290,8 @@ const MentorAvailability = () => {
                   styleOverride={{ alignItems: 'center' }}
                 />
               </div>
-              {mentorAvailability?.map((item, index) => {
+              {/* {sameTimeAvailabel?:} */}
+              {availability?.map((item, index) => {
                 return (
                   <div
                     style={{
@@ -238,13 +309,21 @@ const MentorAvailability = () => {
                       checkBool={item?.checked}
                       onSubmit={() => {
                         // setSameTimeAvailabel(!sameTimeAvailabel)
+                        if (sameTimeAvailabel) {
+                          const payload = [...sameTimeAvailability]
+                          payload[index]['checked'] = !item?.checked
+                            ? true
+                            : false
 
-                        const payload = [...mentorAvailability]
-                        payload[index]['checked'] = !item?.checked
-                          ? true
-                          : false
+                          setSameTimeAvailability(payload)
+                        } else {
+                          const payload = [...mentorAvailability]
+                          payload[index]['checked'] = !item?.checked
+                            ? true
+                            : false
 
-                        setMentorAvailability(payload)
+                          setMentorAvailability(payload)
+                        }
                       }}
                     />
 
@@ -292,39 +371,76 @@ const MentorAvailability = () => {
                               }}
                               imageType={true}
                               handleIncrement={() => {
-                                const payload = [...mentorAvailability]
-                                const dateArr = payload[index]?.selectedTime
-                                const dateTime =
-                                  payload[index]?.selectedTime[in_index]
-                                let cal_add = Number(dateTime?.startTime)
-                                if (cal_add >= 0 && cal_add < 12) {
-                                  cal_add = cal_add + 1
+                                if (sameTimeAvailabel) {
+                                  const payload = [...sameTimeAvailability]
+                                  const dateArr = payload[index]?.time_schedule
+                                  const dateTime =
+                                    payload[index]?.time_schedule[in_index]
+                                  let cal_add = Number(dateTime?.startTime)
+                                  if (cal_add >= 0 && cal_add < 12) {
+                                    cal_add = cal_add + 1
+                                  }
+                                  const updatePayload = {
+                                    ...dateTime,
+                                    startTime: cal_add.toString(),
+                                  }
+                                  dateArr[in_index] = updatePayload
+                                  payload[index]['selectedTime'] = dateArr
+                                  console.log('payload', payload)
+                                  setSameTimeAvailability(payload)
+                                } else {
+                                  const payload = [...mentorAvailability]
+                                  const dateArr = payload[index]?.time_schedule
+                                  const dateTime =
+                                    payload[index]?.time_schedule[in_index]
+                                  let cal_add = Number(dateTime?.startTime)
+                                  if (cal_add >= 0 && cal_add < 12) {
+                                    cal_add = cal_add + 1
+                                  }
+                                  const updatePayload = {
+                                    ...dateTime,
+                                    startTime: cal_add.toString(),
+                                  }
+                                  dateArr[in_index] = updatePayload
+                                  payload[index]['selectedTime'] = dateArr
+                                  console.log('payload', payload)
+                                  setMentorAvailability(payload)
                                 }
-                                const updatePayload = {
-                                  ...dateTime,
-                                  startTime: cal_add.toString(),
-                                }
-                                dateArr[in_index] = updatePayload
-                                payload[index]['selectedTime'] = dateArr
-                                console.log('payload', payload)
-                                setMentorAvailability(payload)
                               }}
                               handleDecrement={() => {
-                                const payload = [...mentorAvailability]
-                                const dateArr = payload[index]?.selectedTime
-                                const dateTime =
-                                  payload[index]?.selectedTime[in_index]
-                                let cal_add = Number(dateTime?.startTime)
-                                if (cal_add > 1 && cal_add <= 12) {
-                                  cal_add = cal_add - 1
+                                if (sameTimeAvailabel) {
+                                  const payload = [...sameTimeAvailability]
+                                  const dateArr = payload[index]?.time_schedule
+                                  const dateTime =
+                                    payload[index]?.time_schedule[in_index]
+                                  let cal_add = Number(dateTime?.startTime)
+                                  if (cal_add > 1 && cal_add <= 12) {
+                                    cal_add = cal_add - 1
+                                  }
+                                  const updatePayload = {
+                                    ...dateTime,
+                                    startTime: cal_add.toString(),
+                                  }
+                                  dateArr[in_index] = updatePayload
+                                  payload[index]['selectedTime'] = dateArr
+                                  setSameTimeAvailability(payload)
+                                } else {
+                                  const payload = [...mentorAvailability]
+                                  const dateArr = payload[index]?.time_schedule
+                                  const dateTime =
+                                    payload[index]?.time_schedule[in_index]
+                                  let cal_add = Number(dateTime?.startTime)
+                                  if (cal_add > 1 && cal_add <= 12) {
+                                    cal_add = cal_add - 1
+                                  }
+                                  const updatePayload = {
+                                    ...dateTime,
+                                    startTime: cal_add.toString(),
+                                  }
+                                  dateArr[in_index] = updatePayload
+                                  payload[index]['selectedTime'] = dateArr
+                                  setMentorAvailability(payload)
                                 }
-                                const updatePayload = {
-                                  ...dateTime,
-                                  startTime: cal_add.toString(),
-                                }
-                                dateArr[in_index] = updatePayload
-                                payload[index]['selectedTime'] = dateArr
-                                setMentorAvailability(payload)
                               }}
                             />
                             <div>
@@ -340,18 +456,35 @@ const MentorAvailability = () => {
                                 }}
                                 dropDownBool={items?.leftMeridianDropDown}
                                 openDropDown={() => {
-                                  const payload = [...mentorAvailability]
-                                  const dateArr = payload[index]?.selectedTime
-                                  const dateTime =
-                                    payload[index]?.selectedTime[in_index]
+                                  if (sameTimeAvailabel) {
+                                    const payload = [...sameTimeAvailability]
+                                    const dateArr =
+                                      payload[index]?.time_schedule
+                                    const dateTime =
+                                      payload[index]?.time_schedule[in_index]
 
-                                  const updatePayload = {
-                                    ...dateTime,
-                                    leftMeridianDropDown: true,
+                                    const updatePayload = {
+                                      ...dateTime,
+                                      leftMeridianDropDown: true,
+                                    }
+                                    dateArr[in_index] = updatePayload
+                                    payload[index]['selectedTime'] = dateArr
+                                    setSameTimeAvailability(payload)
+                                  } else {
+                                    const payload = [...mentorAvailability]
+                                    const dateArr =
+                                      payload[index]?.time_schedule
+                                    const dateTime =
+                                      payload[index]?.time_schedule[in_index]
+
+                                    const updatePayload = {
+                                      ...dateTime,
+                                      leftMeridianDropDown: true,
+                                    }
+                                    dateArr[in_index] = updatePayload
+                                    payload[index]['selectedTime'] = dateArr
+                                    setMentorAvailability(payload)
                                   }
-                                  dateArr[in_index] = updatePayload
-                                  payload[index]['selectedTime'] = dateArr
-                                  setMentorAvailability(payload)
                                 }}
                               />
 
@@ -376,25 +509,47 @@ const MentorAvailability = () => {
                                           cursor: 'pointer',
                                         }}
                                         onClick={() => {
-                                          const payload = [
-                                            ...mentorAvailability,
-                                          ]
-                                          const dateArr =
-                                            payload[index]?.selectedTime
-                                          const dateTime =
-                                            payload[index]?.selectedTime[
-                                              in_index
+                                          if (sameTimeAvailabel) {
+                                            const payload = [
+                                              ...sameTimeAvailability,
                                             ]
+                                            const dateArr =
+                                              payload[index]?.time_schedule
+                                            const dateTime =
+                                              payload[index]?.time_schedule[
+                                                in_index
+                                              ]
 
-                                          const updatePayload = {
-                                            ...dateTime,
-                                            startTimeMeridian: item,
-                                            leftMeridianDropDown: false,
+                                            const updatePayload = {
+                                              ...dateTime,
+                                              startTimeMeridian: item,
+                                              leftMeridianDropDown: false,
+                                            }
+                                            dateArr[in_index] = updatePayload
+                                            payload[index]['selectedTime'] =
+                                              dateArr
+                                            setSameTimeAvailability(payload)
+                                          } else {
+                                            const payload = [
+                                              ...mentorAvailability,
+                                            ]
+                                            const dateArr =
+                                              payload[index]?.time_schedule
+                                            const dateTime =
+                                              payload[index]?.time_schedule[
+                                                in_index
+                                              ]
+
+                                            const updatePayload = {
+                                              ...dateTime,
+                                              startTimeMeridian: item,
+                                              leftMeridianDropDown: false,
+                                            }
+                                            dateArr[in_index] = updatePayload
+                                            payload[index]['selectedTime'] =
+                                              dateArr
+                                            setMentorAvailability(payload)
                                           }
-                                          dateArr[in_index] = updatePayload
-                                          payload[index]['selectedTime'] =
-                                            dateArr
-                                          setMentorAvailability(payload)
                                         }}
                                       >
                                         {item}
@@ -435,38 +590,74 @@ const MentorAvailability = () => {
                               }}
                               imageType={true}
                               handleIncrement={() => {
-                                const payload = [...mentorAvailability]
-                                const dateArr = payload[index]?.selectedTime
-                                const dateTime =
-                                  payload[index]?.selectedTime[in_index]
-                                let cal_add = Number(dateTime?.endTime)
-                                if (cal_add >= 0 && cal_add < 12) {
-                                  cal_add = cal_add + 1
+                                if (sameTimeAvailabel) {
+                                  const payload = [...sameTimeAvailability]
+                                  const dateArr = payload[index]?.time_schedule
+                                  const dateTime =
+                                    payload[index]?.time_schedule[in_index]
+                                  let cal_add = Number(dateTime?.endTime)
+                                  if (cal_add >= 0 && cal_add < 12) {
+                                    cal_add = cal_add + 1
+                                  }
+                                  const updatePayload = {
+                                    ...dateTime,
+                                    endTime: cal_add.toString(),
+                                  }
+                                  dateArr[in_index] = updatePayload
+                                  payload[index]['selectedTime'] = dateArr
+                                  setSameTimeAvailability(payload)
+                                } else {
+                                  const payload = [...mentorAvailability]
+                                  const dateArr = payload[index]?.time_schedule
+                                  const dateTime =
+                                    payload[index]?.time_schedule[in_index]
+                                  let cal_add = Number(dateTime?.endTime)
+                                  if (cal_add >= 0 && cal_add < 12) {
+                                    cal_add = cal_add + 1
+                                  }
+                                  const updatePayload = {
+                                    ...dateTime,
+                                    endTime: cal_add.toString(),
+                                  }
+                                  dateArr[in_index] = updatePayload
+                                  payload[index]['selectedTime'] = dateArr
+                                  setMentorAvailability(payload)
                                 }
-                                const updatePayload = {
-                                  ...dateTime,
-                                  endTime: cal_add.toString(),
-                                }
-                                dateArr[in_index] = updatePayload
-                                payload[index]['selectedTime'] = dateArr
-                                setMentorAvailability(payload)
                               }}
                               handleDecrement={() => {
-                                const payload = [...mentorAvailability]
-                                const dateArr = payload[index]?.selectedTime
-                                const dateTime =
-                                  payload[index]?.selectedTime[in_index]
-                                let cal_add = Number(dateTime?.endTime)
-                                if (cal_add > 1 && cal_add <= 12) {
-                                  cal_add = cal_add - 1
+                                if (sameTimeAvailabel) {
+                                  const payload = [...mentorAvailability]
+                                  const dateArr = payload[index]?.time_schedule
+                                  const dateTime =
+                                    payload[index]?.time_schedule[in_index]
+                                  let cal_add = Number(dateTime?.endTime)
+                                  if (cal_add > 1 && cal_add <= 12) {
+                                    cal_add = cal_add - 1
+                                  }
+                                  const updatePayload = {
+                                    ...dateTime,
+                                    endTime: cal_add.toString(),
+                                  }
+                                  dateArr[in_index] = updatePayload
+                                  payload[index]['selectedTime'] = dateArr
+                                  setMentorAvailability(payload)
+                                } else {
+                                  const payload = [...sameTimeAvailability]
+                                  const dateArr = payload[index]?.time_schedule
+                                  const dateTime =
+                                    payload[index]?.time_schedule[in_index]
+                                  let cal_add = Number(dateTime?.endTime)
+                                  if (cal_add > 1 && cal_add <= 12) {
+                                    cal_add = cal_add - 1
+                                  }
+                                  const updatePayload = {
+                                    ...dateTime,
+                                    endTime: cal_add.toString(),
+                                  }
+                                  dateArr[in_index] = updatePayload
+                                  payload[index]['selectedTime'] = dateArr
+                                  setSameTimeAvailability(payload)
                                 }
-                                const updatePayload = {
-                                  ...dateTime,
-                                  endTime: cal_add.toString(),
-                                }
-                                dateArr[in_index] = updatePayload
-                                payload[index]['selectedTime'] = dateArr
-                                setMentorAvailability(payload)
                               }}
                             />
                             <div>
@@ -482,18 +673,35 @@ const MentorAvailability = () => {
                                 }}
                                 dropDownBool={items?.rightMeridianDropDown}
                                 openDropDown={() => {
-                                  const payload = [...mentorAvailability]
-                                  const dateArr = payload[index]?.selectedTime
-                                  const dateTime =
-                                    payload[index]?.selectedTime[in_index]
+                                  if (sameTimeAvailabel) {
+                                    const payload = [...sameTimeAvailability]
+                                    const dateArr =
+                                      payload[index]?.time_schedule
+                                    const dateTime =
+                                      payload[index]?.time_schedule[in_index]
 
-                                  const updatePayload = {
-                                    ...dateTime,
-                                    rightMeridianDropDown: true,
+                                    const updatePayload = {
+                                      ...dateTime,
+                                      rightMeridianDropDown: true,
+                                    }
+                                    dateArr[in_index] = updatePayload
+                                    payload[index]['selectedTime'] = dateArr
+                                    setSameTimeAvailability(payload)
+                                  } else {
+                                    const payload = [...mentorAvailability]
+                                    const dateArr =
+                                      payload[index]?.time_schedule
+                                    const dateTime =
+                                      payload[index]?.time_schedule[in_index]
+
+                                    const updatePayload = {
+                                      ...dateTime,
+                                      rightMeridianDropDown: true,
+                                    }
+                                    dateArr[in_index] = updatePayload
+                                    payload[index]['selectedTime'] = dateArr
+                                    setMentorAvailability(payload)
                                   }
-                                  dateArr[in_index] = updatePayload
-                                  payload[index]['selectedTime'] = dateArr
-                                  setMentorAvailability(payload)
                                 }}
                               />
 
@@ -518,25 +726,47 @@ const MentorAvailability = () => {
                                           cursor: 'pointer',
                                         }}
                                         onClick={() => {
-                                          const payload = [
-                                            ...mentorAvailability,
-                                          ]
-                                          const dateArr =
-                                            payload[index]?.selectedTime
-                                          const dateTime =
-                                            payload[index]?.selectedTime[
-                                              in_index
+                                          if (sameTimeAvailabel) {
+                                            const payload = [
+                                              ...sameTimeAvailability,
                                             ]
+                                            const dateArr =
+                                              payload[index]?.time_schedule
+                                            const dateTime =
+                                              payload[index]?.time_schedule[
+                                                in_index
+                                              ]
 
-                                          const updatePayload = {
-                                            ...dateTime,
-                                            endTimeMeridian: item,
-                                            rightMeridianDropDown: false,
+                                            const updatePayload = {
+                                              ...dateTime,
+                                              endTimeMeridian: item,
+                                              rightMeridianDropDown: false,
+                                            }
+                                            dateArr[in_index] = updatePayload
+                                            payload[index]['selectedTime'] =
+                                              dateArr
+                                            setSameTimeAvailability(payload)
+                                          } else {
+                                            const payload = [
+                                              ...mentorAvailability,
+                                            ]
+                                            const dateArr =
+                                              payload[index]?.time_schedule
+                                            const dateTime =
+                                              payload[index]?.time_schedule[
+                                                in_index
+                                              ]
+
+                                            const updatePayload = {
+                                              ...dateTime,
+                                              endTimeMeridian: item,
+                                              rightMeridianDropDown: false,
+                                            }
+                                            dateArr[in_index] = updatePayload
+                                            payload[index]['selectedTime'] =
+                                              dateArr
+                                            setMentorAvailability(payload)
                                           }
-                                          dateArr[in_index] = updatePayload
-                                          payload[index]['selectedTime'] =
-                                            dateArr
-                                          setMentorAvailability(payload)
                                         }}
                                       >
                                         {item}
@@ -549,33 +779,37 @@ const MentorAvailability = () => {
                           </div>
                         )
                       })}
-                      <Image
-                        src={require('../../public/assets/icon/plus.png')}
-                        alt=""
-                        style={{
-                          backgroundColor: color.black,
-                          height: 15,
-                          width: 15,
-                          cursor: 'pointer',
-                        }}
-                        onClick={() => {
-                          const payload = [...mentorAvailability]
-                          const dateArr = payload[index]?.selectedTime
+                      {sameTimeAvailabel ? null : (
+                        <>
+                          <Image
+                            src={require('../../public/assets/icon/plus.png')}
+                            alt=""
+                            style={{
+                              backgroundColor: color.black,
+                              height: 15,
+                              width: 15,
+                              cursor: 'pointer',
+                            }}
+                            onClick={() => {
+                              const payload = [...mentorAvailability]
+                              const dateArr = payload[index]?.time_schedule
 
-                          dateArr.push({
-                            startTime: '00',
-                            leftMeridianDropDown: false,
-                            startTimeMeridian: 'AM',
-                            endTime: '00',
-                            rightMeridianDropDown: false,
-                            endTimeMeridian: 'AM',
-                          })
-                          //   dateArr[in_index] = updatePayload
-                          payload[index]['selectedTime'] = dateArr
-                          //   console.log('payload', payload)
-                          setMentorAvailability(payload)
-                        }}
-                      />
+                              dateArr.push({
+                                startTime: '00',
+                                leftMeridianDropDown: false,
+                                startTimeMeridian: 'AM',
+                                endTime: '00',
+                                rightMeridianDropDown: false,
+                                endTimeMeridian: 'AM',
+                              })
+                              //   dateArr[in_index] = updatePayload
+                              payload[index]['selectedTime'] = dateArr
+                              //   console.log('payload', payload)
+                              setMentorAvailability(payload)
+                            }}
+                          />
+                        </>
+                      )}
                     </div>
                   </div>
                 )
@@ -608,7 +842,7 @@ const MentorAvailability = () => {
                     marginRight: 24,
                   }}
                   onClick={() => {
-                    router.push('/register/KYC_step1')
+                    router.back()
                   }}
                 />
                 <Button
@@ -627,9 +861,10 @@ const MentorAvailability = () => {
                     marginTop: 70,
                     marginBottom: 48,
                   }}
+                  loader={loading}
                   onClick={() => {
                     handleSubmit()
-                    router.push('/register/KYC_step4')
+                    // router.push('/register/KYC_step4')
                   }}
                 />
               </div>
