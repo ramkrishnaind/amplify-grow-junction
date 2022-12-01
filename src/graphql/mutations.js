@@ -334,6 +334,7 @@ export const createMentorRegister = /* GraphQL */ `
       mentor_id
       mentor_name
 <<<<<<< HEAD
+<<<<<<< HEAD
       domain_id {
         id
         value
@@ -352,6 +353,11 @@ export const createMentorRegister = /* GraphQL */ `
       linkedIn_url
       mentor_service_id
 >>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
+=======
+      domain_id
+      linkedIn_url
+      mentor_service_id
+>>>>>>> 21257734192f878d41d2372b454e462c1044782c
       mentor_availability_id
       phone_number
       id
@@ -371,42 +377,6 @@ export const updateMentorRegister = /* GraphQL */ `
       mentor_id
       mentor_name
 <<<<<<< HEAD
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
-      profile_url
-      mentor_service_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
-=======
-      domain_id
-      linkedIn_url
-      mentor_service_id
->>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
-      mentor_availability_id
-      phone_number
-      id
-      createdAt
-      updatedAt
-      username
-      owner
-    }
-  }
-`;
-export const deleteMentorRegister = /* GraphQL */ `
-  mutation DeleteMentorRegister(
-    $input: DeleteMentorRegisterInput!
-    $condition: ModelMentorRegisterConditionInput
-  ) {
-    deleteMentorRegister(input: $input, condition: $condition) {
-      mentor_id
-      mentor_name
 <<<<<<< HEAD
       domain_id {
         id
@@ -426,6 +396,54 @@ export const deleteMentorRegister = /* GraphQL */ `
       linkedIn_url
       mentor_service_id
 >>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
+=======
+      domain_id
+      linkedIn_url
+      mentor_service_id
+>>>>>>> 21257734192f878d41d2372b454e462c1044782c
+      mentor_availability_id
+      phone_number
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const deleteMentorRegister = /* GraphQL */ `
+  mutation DeleteMentorRegister(
+    $input: DeleteMentorRegisterInput!
+    $condition: ModelMentorRegisterConditionInput
+  ) {
+    deleteMentorRegister(input: $input, condition: $condition) {
+      mentor_id
+      mentor_name
+<<<<<<< HEAD
+<<<<<<< HEAD
+      domain_id {
+        id
+        value
+        createdAt
+        updatedAt
+      }
+      profile_url
+      mentor_service_id {
+        id
+        value
+        createdAt
+        updatedAt
+      }
+=======
+      domain_id
+      linkedIn_url
+      mentor_service_id
+>>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
+=======
+      domain_id
+      linkedIn_url
+      mentor_service_id
+>>>>>>> 21257734192f878d41d2372b454e462c1044782c
       mentor_availability_id
       phone_number
       id

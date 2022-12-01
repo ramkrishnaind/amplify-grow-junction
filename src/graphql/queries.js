@@ -241,6 +241,7 @@ export const getMentorRegister = /* GraphQL */ `
       mentor_id
       mentor_name
 <<<<<<< HEAD
+<<<<<<< HEAD
       domain_id {
         id
         value
@@ -259,6 +260,11 @@ export const getMentorRegister = /* GraphQL */ `
       linkedIn_url
       mentor_service_id
 >>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
+=======
+      domain_id
+      linkedIn_url
+      mentor_service_id
+>>>>>>> 21257734192f878d41d2372b454e462c1044782c
       mentor_availability_id
       phone_number
       id
@@ -280,6 +286,7 @@ export const listMentorRegisters = /* GraphQL */ `
         mentor_id
         mentor_name
 <<<<<<< HEAD
+<<<<<<< HEAD
         domain_id {
           id
           value
@@ -298,6 +305,11 @@ export const listMentorRegisters = /* GraphQL */ `
         linkedIn_url
         mentor_service_id
 >>>>>>> cbc2c1c830cab09bb79347457811ee4a77c2222d
+=======
+        domain_id
+        linkedIn_url
+        mentor_service_id
+>>>>>>> 21257734192f878d41d2372b454e462c1044782c
         mentor_availability_id
         phone_number
         id

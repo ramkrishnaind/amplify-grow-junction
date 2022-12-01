@@ -24,7 +24,11 @@ const ProfileInfo = () => {
         <div className="flex flex-col md:flex-row">
           <div className="bg-gray-50 basis-3/5">
             <div className="flex flex-col tracking-wide text-black ml-4 bg-gray-50 w-full md:w-auto lg:w-auto">
+<<<<<<< HEAD
               <div className="m-10 flex items-center flex-col md:flex-row lg:flex-row">
+=======
+              <div className="m-10 flex flex-col md:flex-row lg:flex-row">
+>>>>>>> 21257734192f878d41d2372b454e462c1044782c
                 <div className="flex flex-row">
                   <div
                     className={`${classes['img-profile']} bg-gray-300 rounded-full`}
@@ -221,7 +225,11 @@ const ProfileInfo = () => {
                     </svg>
                   </div>
                 </div>
+<<<<<<< HEAD
                 <p className="text-sm">
+=======
+                <p className='text-sm'>
+>>>>>>> 21257734192f878d41d2372b454e462c1044782c
                   Want to change currency? Contact us at support@growjunction.io
                 </p>
               </div>
@@ -272,6 +280,7 @@ const ProfileInfo = () => {
           <div className="bg-gray-50 basis-2/5 ">
             <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end mb-32">
               <button className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
+<<<<<<< HEAD
                 Save Changes
               </button>
             </div>
@@ -279,6 +288,21 @@ const ProfileInfo = () => {
             <div className="flex justify-center md:justify-end lg:justify-end">
               <div className="flex justify-center items-center text-lg border-2 rounded-md h-auto w-auto border-white">
                 <Preview />
+=======
+                Save Changes  
+              </button>
+            </div>
+
+            <div className="flex justify-center mt-20 py-2 px-6">
+              <div className="flex justify-center items-center text-base text-semibold border-2 rounded-md bg-white h-8 w-1/2 md:w-1/2 lg:w-1/2">
+                Preview
+              </div>
+            </div>
+
+            <div className="flex justify-center md:justify-end lg:justify-end">
+              <div className="flex justify-center items-center text-lg border-2 rounded-md bg-gray-100 h-auto w-auto">
+                <Preview/>
+>>>>>>> 21257734192f878d41d2372b454e462c1044782c
               </div>
             </div>
           </div>
