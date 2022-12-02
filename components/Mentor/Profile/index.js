@@ -87,7 +87,7 @@ const Profile = () => {
         // const arrBuf = await response.arrayBuffer()
         // const base64String = arrayBufferToBase64(arrBuf)
         // data.profile_image = `data:image/png;base64,${base64String}`
-        data.profile_image = img
+        data.profile_image_url = img
       }
       setState({ ...data })
     }
@@ -132,7 +132,10 @@ const Profile = () => {
         authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
     } else {
-      const { createdAt, updatedAt, ...rest } = { ...state, ...remaining }
+      const { createdAt, updatedAt, profile_image_url, ...rest } = {
+        ...state,
+        ...remaining,
+      }
       try {
         await API.graphql({
           query: updateMentorRegister,
@@ -239,8 +242,10 @@ const Profile = () => {
                       social: state.social,
                       currency: state.currency,
                       time_zone: state.time_zone,
+                      profile_image_url: state.profile_image_url,
                       setProfileState: setModifiedState,
-                      profile_image: state.profile_image,
+                      // ,
+                      // profile_image: state.profile_image,
                     }}
                   />
                 </div>

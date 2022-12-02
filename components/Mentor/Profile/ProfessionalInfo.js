@@ -2,9 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { Formik } from 'formik'
 import TextField from '../../../pages/ui-kit/TextField'
 import Preview from './Preview'
-const ProfessionalInfo = () => {
+const ProfessionalInfo = ({ professional_info, education_info }) => {
   const [years, setYears] = useState([])
-  const initialState = {}
+  const [state, setState] = useState({
+    professional_info,
+    education_info,
+  })
+
+  useEffect(() => {
+    setState({
+      professional_info,
+      education_info,
+    })
+  }, [professional_info, education_info])
   useEffect(() => {
     const d = new Date()
     const tmpYears = []
@@ -18,173 +28,226 @@ const ProfessionalInfo = () => {
   return (
     <>
       <Formik
-        enableReinitialize={true}
-        initialValues={initialState}
-        //onSubmit={}
-        validateOnChange={true}
-        validateOnBlur={true}
-        validateOnMount={true}
+        initialValues={state}
+        onSubmit={(values, { setSubmitting }) => {
+          // console.log('values', values)
+          setTimeout(() => {
+            // alert(JSON.stringify(values, null, 2));
+            setSubmitting(false)
+          }, 400)
+
+          setContactState(values)
+        }}
+        // validateOnChange={true}
+        // validateOnBlur={true}
+        // validateOnMount={true}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="bg-gray-50">
-            <div className="flex flex-col tracking-wide text-black ml-4 bg-gray-50 w-3/4 md:w-auto lg:w-auto">
-              {/* Eductional info */}
-              <div className="mt-10 p-4 leading-8 text-2xl font-semibold mb-3">
-                Educational Info
-              </div>
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+          /* and other goodies */
+        }) => {
+          // console.log('values', values)
+          return (
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                <div className="bg-gray-50">
+                  <div className="flex flex-col tracking-wide text-black ml-4 bg-gray-50 w-3/4 md:w-auto lg:w-auto">
+                    {/* Eductional info */}
+                    <div className="mt-10 p-4 leading-8 text-2xl font-semibold mb-3">
+                      Educational Info
+                    </div>
 
-              <div className="px-4 ">
-                <label className="block mb-2 text-lg font-medium text-gray-900">
-                  Degree (optional)
-                </label>
-                <TextField type="text" id="degree" placeholder="Degree" />
-              </div>
+                    <div className="px-4 ">
+                      <label className="block mb-2 text-lg font-medium text-gray-900">
+                        Degree (optional)
+                      </label>
+                      <TextField
+                        type="text"
+                        id="degree"
+                        placeholder="Degree"
+                        onChangeValue={handleChange}
+                      />
+                    </div>
 
-              <div className="px-4 mt-5">
-                <label className="leading-8 text-lg font-normal mt-5">
-                  College / University (optional)
-                </label>
-                <TextField
-                  type="text"
-                  id="college"
-                  placeholder="Gandhi University of applied sciences"
-                />
-                {/* <input
+                    <div className="px-4 mt-5">
+                      <label className="leading-8 text-lg font-normal mt-5">
+                        College / University (optional)
+                      </label>
+                      <TextField
+                        type="text"
+                        id="college"
+                        placeholder="Gandhi University of applied sciences"
+                        onChangeValue={handleChange}
+                      />
+                      {/* <input
                   type="text"
                   id="college"
                   className="h-16 block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-lg focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Gandhi University of applied sciences"
                 /> */}
-              </div>
+                    </div>
 
-              <div className="px-4 mt-1">
-                <label className="block mb-2 text-lg font-medium text-gray-900">
-                  Course
-                </label>
-                <TextField type="text" id="course" placeholder="Course" />
-              </div>
+                    <div className="px-4 mt-1">
+                      <label className="block mb-2 text-lg font-medium text-gray-900">
+                        Course
+                      </label>
+                      <TextField
+                        type="text"
+                        id="course"
+                        placeholder="Course"
+                        onChangeValue={handleChange}
+                      />
+                    </div>
 
-              <div className="px-4 mt-5">
-                <label className="block mb-2 text-lg font-medium text-gray-900">
-                  Graduation year
-                </label>
-                <select
-                  id="graduationyear"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                >
-                  <option value="" selected>
-                    Select
-                  </option>
-                  {years.map((year, index) => (
-                    <option key={index} value={year}>
-                      {year}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {/* Professional info */}
+                    <div className="px-4 mt-5">
+                      <label className="block mb-2 text-lg font-medium text-gray-900">
+                        Graduation year
+                      </label>
+                      <select
+                        id="graduationyear"
+                        onChange={handleChange}
+                        className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                      >
+                        <option value="" selected>
+                          Select
+                        </option>
+                        {years.map((year, index) => (
+                          <option key={index} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {/* Professional info */}
 
-              <div className="mt-10 p-4 leading-8 text-2xl font-semibold">
-                Professional Info
-              </div>
+                    <div className="mt-10 p-4 leading-8 text-2xl font-semibold">
+                      Professional Info
+                    </div>
 
-              <div className="px-4 ">
-                <label className="block mb-2 text-lg font-medium text-gray-900">
-                  Occupation (optional)
-                </label>
-                <TextField
-                  type="text"
-                  id="occupation"
-                  placeholder="Occupation"
-                />
-              </div>
+                    <div className="px-4 ">
+                      <label className="block mb-2 text-lg font-medium text-gray-900">
+                        Occupation (optional)
+                      </label>
+                      <TextField
+                        type="text"
+                        onChangeValue={handleChange}
+                        id="occupation"
+                        placeholder="Occupation"
+                      />
+                    </div>
 
-              <div className="px-4 mt-5">
-                <label className="leading-8 text-lg font-normal mt-5">
-                  Organisation (optional)
-                </label>
-                <TextField
-                  type="text"
-                  id="organisation"
-                  placeholder="Organization"
-                />
-                {/* <input
+                    <div className="px-4 mt-5">
+                      <label className="leading-8 text-lg font-normal mt-5">
+                        Organisation (optional)
+                      </label>
+                      <TextField
+                        type="text"
+                        onChangeValue={handleChange}
+                        id="organisation"
+                        placeholder="Organization"
+                      />
+                      {/* <input
                   type="text"
                   id="organisation"
                   className="h-16 block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-lg focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Grow"
                 /> */}
-              </div>
+                    </div>
 
-              <div className="px-4 mt-1">
-                <label className="block mb-2 text-lg font-medium text-gray-900">
-                  Location (optional)
-                </label>
-                <TextField type="text" id="location" placeholder="Location" />
-              </div>
+                    <div className="px-4 mt-1">
+                      <label className="block mb-2 text-lg font-medium text-gray-900">
+                        Location (optional)
+                      </label>
+                      <TextField
+                        type="text"
+                        id="location"
+                        onChangeValue={handleChange}
+                        placeholder="Location"
+                      />
+                    </div>
 
-              <div className="px-4 mt-5">
-                <label className="block mb-2 text-lg font-medium text-gray-900">
-                  Position (optional)
-                </label>
-                <TextField type="text" id="position" placeholder="Position" />
-              </div>
+                    <div className="px-4 mt-5">
+                      <label className="block mb-2 text-lg font-medium text-gray-900">
+                        Position (optional)
+                      </label>
+                      <TextField
+                        type="text"
+                        id="position"
+                        onChangeValue={handleChange}
+                        placeholder="Position"
+                      />
+                    </div>
 
-              <div className="px-4 mt-5">
-                <label className="block mb-2 text-lg font-medium text-gray-900">
-                  Experience (optional)
-                </label>
-                <div className="flex flex-row font-normal">
-                  <div className=" text-lg w-1/2">
-                    <label className="leading-8 text-lg font-normal mt-5">
-                      Years
-                    </label>
-                    <select
-                      id="expyears"
-                      className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                    >
-                      {Array.from({ length: 51 }, (x, i) => i).map((i) => (
-                        <option value={String(i).padStart(2, '0')}>
-                          {String(i).padStart(2, '0')}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="px-4 mt-5">
+                      <label className="block mb-2 text-lg font-medium text-gray-900">
+                        Experience (optional)
+                      </label>
+                      <div className="flex flex-row font-normal">
+                        <div className=" text-lg w-1/2">
+                          <label className="leading-8 text-lg font-normal mt-5">
+                            Years
+                          </label>
+                          <select
+                            id="expyears"
+                            onChange={handleChange}
+                            className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                          >
+                            {Array.from({ length: 51 }, (x, i) => i).map(
+                              (i) => (
+                                <option value={String(i).padStart(2, '0')}>
+                                  {String(i).padStart(2, '0')}
+                                </option>
+                              ),
+                            )}
+                          </select>
+                        </div>
+                        <div className="ml-2 text-lg w-1/2">
+                          <label className="leading-8 text-lg font-normal mt-5">
+                            Months
+                          </label>
+                          <select
+                            id="expmonths"
+                            onChange={handleChange}
+                            className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                          >
+                            {Array.from({ length: 12 }, (x, i) => i).map(
+                              (i) => (
+                                <option value={String(i + 1).padStart(2, '0')}>
+                                  {String(i + 1).padStart(2, '0')}
+                                </option>
+                              ),
+                            )}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="ml-2 text-lg w-1/2">
-                    <label className="leading-8 text-lg font-normal mt-5">
-                      Months
-                    </label>
-                    <select
-                      id="expmonths"
-                      className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                    >
-                      {Array.from({ length: 12 }, (x, i) => i).map((i) => (
-                        <option value={String(i + 1).padStart(2, '0')}>
-                          {String(i + 1).padStart(2, '0')}
-                        </option>
-                      ))}
-                    </select>
+                </div>
+
+                {/* 02 */}
+                <div className="bg-gray-50 basis-2/5 ">
+                  <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end mb-32">
+                    <button className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
+                      Save Changes
+                    </button>
+                  </div>
+
+                  <div className="flex justify-center md:justify-end lg:justify-end">
+                    <div className="flex justify-center items-center text-lg border-2 rounded-md  border-white h-auto w-auto">
+                      <Preview />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* 02 */}
-          <div className="bg-gray-50 basis-2/5 ">
-            <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end mb-32">
-              <button className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
-                Save Changes
-              </button>
-            </div>
-
-            <div className="flex justify-center md:justify-end lg:justify-end">
-              <div className="flex justify-center items-center text-lg border-2 rounded-md  border-white h-auto w-auto">
-                <Preview />
-              </div>
-            </div>
-          </div>
-        </div>
+            </form>
+          )
+        }}
       </Formik>
     </>
   )

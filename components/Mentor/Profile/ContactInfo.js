@@ -3,19 +3,19 @@ import { Formik } from 'formik'
 import TextField from '../../../pages/ui-kit/TextField'
 import Preview from './Preview'
 const ContactInfo = ({ contact_info, setContactState }) => {
-  const [phoneNumber, setPhoneNumber] = useState()
   const [state, setState] = useState({
     contact_info,
   })
 
   useEffect(() => {
-    setState(contact_info)
+    setState({ contact_info })
   }, [contact_info])
-  console.log('contact_info', state)
+  console.log('state', state)
   return (
     <>
       <Formik
         initialValues={state}
+        enableReinitialize={true}
         onSubmit={(values, { setSubmitting }) => {
           // console.log('values', values)
           setTimeout(() => {

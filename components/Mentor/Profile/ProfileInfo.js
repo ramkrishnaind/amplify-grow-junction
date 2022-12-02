@@ -25,7 +25,8 @@ const ProfileInfo = ({
   social,
   currency,
   time_zone,
-  profile_image,
+  // profile_image,
+  profile_image_url,
   setProfileState,
 }) => {
   const initialState = {}
@@ -37,33 +38,46 @@ const ProfileInfo = ({
     social,
     currency,
     time_zone,
-    profile_image,
+    profile_image_url,
     setProfileState,
   })
   const [timeZone, setTimeZone] = useState(
     time_zone || {},
     // Intl.DateTimeFormat().resolvedOptions().timeZone,
   )
+  useEffect(() => {
+    setTimeZone(time_zone)
+    setState({
+      about_yourself,
+      social,
+      currency,
+      time_zone,
+      profile_image_url,
+      // setProfileState,
+    })
+  }, [about_yourself, social, currency, time_zone, profile_image_url])
   // useEffect(()=>{
   //   console.log("ProfileValues",values)
   // },[values])
   const getImage = async () => {
     // const image_key = await Storage.get(profile_image)
-    setConvertedImage(profile_image)
+    setConvertedImage(profile_image_url)
   }
+  debugger
   console.log('app', {
     about_yourself,
     social,
     currency,
     time_zone,
-    profile_image,
+    profile_image_url,
+    // profile_image_url,
     setProfileState,
   })
   useEffect(() => {
-    if (profile_image) {
+    if (profile_image_url) {
       getImage()
     }
-  }, [profile_image])
+  }, [profile_image_url])
   const handleFileInput = (e) => {
     // handle validations
     if (e.target.files?.[0]) {
@@ -74,7 +88,7 @@ const ProfileInfo = ({
   return (
     <>
       <Formik
-        initialValues={state}
+        initialValues={{ ...state }}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             // alert(JSON.stringify(values, null, 2));
@@ -84,6 +98,7 @@ const ProfileInfo = ({
           values.profile_image_file = image
           setProfileState(values)
         }}
+        enableReinitialize={true}
         // validateOnChange={true}
         // validateOnBlur={true}
         // validateOnMount={true}
@@ -98,7 +113,7 @@ const ProfileInfo = ({
           isSubmitting,
           /* and other goodies */
         }) => {
-          console.log('values', values)
+          // console.log('values', values)
           return (
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col md:flex-row">
