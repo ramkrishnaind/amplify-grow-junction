@@ -2,320 +2,333 @@ import React, { useState } from 'react'
 //import DatePicker from 'react-datepicker'
 //import 'react-datepicker/dist/react-datepicker.css'
 
-
 const Upcoming = () => {
   const [startDate, setStartDate] = useState(new Date())
-  const [value, onChange] = useState(new Date());
+  const [value, onChange] = useState(new Date())
 
   const [showCallDetail, setShowCallDetail] = useState(false)
   const [showJoinCall, setShowJoinCall] = useState(false)
   const [showReschedule, setShowReschedule] = useState(false)
   const [showRescheduleBooking, setShowRescheduleBooking] = useState(false)
 
+  //No upcoming bookings to show
+  const [upcomingBooking, setUpcomingBooking] = useState(true)
+
   return (
     <>
       <div className="bg-gray-50 mt-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-          <div className="flex justify-center align-center bg-gray-50 mt-10">
-            <div className=" bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-auto  md:w-5/6 lg:w-5/6">
-              <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                <div className="flex justify-between p-2">
-                  <img
-                    src="../../../assets/icon/clock.png"
-                    alt=""
-                    className="w-3 h-3 mt-2"
-                  ></img>
-                  <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                    Today 05:00 - 05:30 pm (30min)
-                  </span>
-                </div>
+        {upcomingBooking && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
+            <div className="flex justify-center align-center bg-gray-50 mt-10">
+              <div className=" bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-auto  md:w-5/6 lg:w-5/6">
+                <div className="flex justify-between py-6 px-6 border-b border-gray-300">
+                  <div className="flex justify-between p-2">
+                    <img
+                      src="../../../assets/icon/clock.png"
+                      alt=""
+                      className="w-3 h-3 mt-2"
+                    ></img>
+                    <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
+                      Today 05:00 - 05:30 pm (30min)
+                    </span>
+                  </div>
 
-                <div>
-                  <div className="group relative text-base">
-                    <button className="py-4 px-4 rounded inline-flex items-center group">
-                      <img
-                        src="../../../assets/icon/menu.png"
-                        alt=""
-                        className=""
-                      ></img>
+                  <div>
+                    <div className="group relative text-base">
+                      <button className="py-4 px-4 rounded inline-flex items-center group">
+                        <img
+                          src="../../../assets/icon/menu.png"
+                          alt=""
+                          className=""
+                        ></img>
+                      </button>
+
+                      {/* menu list */}
+                      <ul className="rounded absolute hidden text-black group-hover:block w-30 border-2 border-gray-50 shadow-md">
+                        <li
+                          className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer border-b-2 border-gray-300"
+                          onClick={() => setShowReschedule(true)}
+                        >
+                          Reschedule
+                        </li>
+                        <li
+                          className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer"
+                          onClick={() => setShowCallDetail(true)}
+                        >
+                          Call details
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="flex justify-start text-black text-2xl font-semibold p-6">
+                    Mickey
+                  </div>
+                  <div className="flex justify-start text-black text-xl font-normal px-6 mb-10">
+                    1 on 1 mock interview
+                  </div>
+                </div>
+                <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
+                  <div className="flex justify-end">
+                    <button
+                      className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
+                      type="button"
+                    >
+                      <span className="text-sm font-semibold py-3">
+                        Call details
+                      </span>
                     </button>
 
-                    {/* menu list */}
-                    <ul className="rounded absolute hidden text-black group-hover:block w-30 border-2 border-gray-50 shadow-md">
-                      <li
-                        className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer border-b-2 border-gray-300"
-                        onClick={() => setShowReschedule(true)}
-                      >
-                        Reschedule
-                      </li>
-                      <li
-                        className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer"
-                        onClick={() => setShowCallDetail(true)}
-                      >
-                        Call details
-                      </li>
-                    </ul>
+                    <button
+                      className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
+                      type="button"
+                    >
+                      <span className="text-sm font-semibold py-2">
+                        Join call
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col">
-                <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                  Mickey
+            </div>
+
+            {/* 2nd */}
+            <div className="flex justify-center align-center bg-gray-50 mt-10">
+              <div className=" bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-auto md:w-5/6 lg:w-5/6">
+                <div className="flex justify-between py-6 px-6 border-b border-gray-300">
+                  <div className="flex justify-between p-2">
+                    <img
+                      src="../../../assets/icon/clock.png"
+                      alt=""
+                      className="w-3 h-3 mt-2"
+                    ></img>
+                    <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
+                      Today 05:00 - 05:30 pm (30min)
+                    </span>
+                  </div>
+
+                  <div>
+                    <div className="group relative text-base">
+                      <button className="py-4 px-4 rounded inline-flex items-center group">
+                        <img
+                          src="../../../assets/icon/menu.png"
+                          alt=""
+                          className=""
+                        ></img>
+                      </button>
+
+                      {/* menu list */}
+                      <ul className="rounded absolute hidden text-black group-hover:block w-30 border-2 border-gray-50 shadow-md">
+                        <li
+                          className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer border-b-2 border-gray-300"
+                          onClick={() => setShowReschedule(true)}
+                        >
+                          Reschedule
+                        </li>
+                        <li
+                          className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer"
+                          onClick={() => setShowCallDetail(true)}
+                        >
+                          Call details
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-start text-black text-xl font-normal px-6 mb-10">
-                  1 on 1 mock interview
+                <div className="flex flex-col">
+                  <div className="flex justify-start text-black text-2xl font-semibold p-6">
+                    Mickey
+                  </div>
+                  <div className="flex justify-start text-black text-xl font-normal px-6 mb-10">
+                    1 on 1 mock interview
+                  </div>
+                </div>
+                <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
+                  <div className="flex justify-end">
+                    <button
+                      className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
+                      type="button"
+                    >
+                      <span className="text-sm font-semibold py-3">
+                        Call details
+                      </span>
+                    </button>
+
+                    <button
+                      className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
+                      type="button"
+                    >
+                      <span className="text-sm font-semibold py-2">
+                        Join call
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
-                <div className="flex justify-end">
-                  <button
-                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
-                    type="button"
-                  >
-                    <span className="text-sm font-semibold py-3">
-                      Call details
-                    </span>
-                  </button>
+            </div>
 
-                  <button
-                    className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
-                    type="button"
-                  >
-                    <span className="text-sm font-semibold py-2">
-                      Join call
+            {/* 3rd */}
+
+            <div className="flex justify-center align-center bg-gray-50 mt-10">
+              <div className=" bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-auto  md:w-5/6 lg:w-5/6">
+                <div className="flex justify-between py-6 px-6 border-b border-gray-300">
+                  <div className="flex justify-between p-2">
+                    <img
+                      src="../../../assets/icon/clock.png"
+                      alt=""
+                      className="w-3 h-3 mt-2"
+                    ></img>
+                    <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
+                      Today 05:00 - 05:30 pm (30min)
                     </span>
-                  </button>
+                  </div>
+
+                  <div>
+                    <div className="group relative text-base">
+                      <button className="py-4 px-4 rounded inline-flex items-center group">
+                        <img
+                          src="../../../assets/icon/menu.png"
+                          alt=""
+                          className=""
+                        ></img>
+                      </button>
+
+                      {/* menu list */}
+                      <ul className="rounded absolute hidden text-black group-hover:block w-30 border-2 border-gray-50 shadow-md">
+                        <li
+                          className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer border-b-2 border-gray-300"
+                          onClick={() => setShowReschedule(true)}
+                        >
+                          Reschedule
+                        </li>
+                        <li
+                          className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer"
+                          onClick={() => setShowCallDetail(true)}
+                        >
+                          Call details
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="flex justify-start text-black text-2xl font-semibold p-6">
+                    Mickey
+                  </div>
+                  <div className="flex justify-start text-black text-xl font-normal px-6 mb-10">
+                    1 on 1 mock interview
+                  </div>
+                </div>
+                <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
+                  <div className="flex justify-end">
+                    <button
+                      className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
+                      type="button"
+                    >
+                      <span className="text-sm font-semibold py-3">
+                        Call details
+                      </span>
+                    </button>
+
+                    <button
+                      className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
+                      type="button"
+                    >
+                      <span className="text-sm font-semibold py-2">
+                        Join call
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 4th */}
+            <div className="flex justify-center align-center bg-gray-50 mt-10">
+              <div className=" bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-auto  md:w-5/6 lg:w-5/6">
+                <div className="flex justify-between py-6 px-6 border-b border-gray-300">
+                  <div className="flex justify-between p-2">
+                    <img
+                      src="../../../assets/icon/clock.png"
+                      alt=""
+                      className="w-3 h-3 mt-2"
+                    ></img>
+                    <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
+                      Today 05:00 - 05:30 pm (30min)
+                    </span>
+                  </div>
+
+                  <div>
+                    <div className="group relative text-base">
+                      <button className="py-4 px-4 rounded inline-flex items-center group">
+                        <img
+                          src="../../../assets/icon/menu.png"
+                          alt=""
+                          className=""
+                        ></img>
+                      </button>
+
+                      {/* menu list */}
+                      <ul className="rounded absolute hidden text-black group-hover:block w-30 border-2 border-gray-50 shadow-md">
+                        <li
+                          className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer border-b-2 border-gray-300"
+                          onClick={() => setShowReschedule(true)}
+                        >
+                          Reschedule
+                        </li>
+                        <li
+                          className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer"
+                          onClick={() => setShowCallDetail(true)}
+                        >
+                          Call details
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="flex justify-start text-black text-2xl font-semibold p-6">
+                    Mickey
+                  </div>
+                  <div className="flex justify-start text-black text-xl font-normal px-6 mb-10">
+                    1 on 1 mock interview
+                  </div>
+                </div>
+                <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
+                  <div className="flex justify-end">
+                    <button
+                      className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
+                      type="button"
+                    >
+                      <span className="text-sm font-semibold py-3">
+                        Call details
+                      </span>
+                    </button>
+
+                    <button
+                      className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
+                      type="button"
+                    >
+                      <span className="text-sm font-semibold py-2">
+                        Join call
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+        )}
 
-          {/* 2nd */}
-          <div className="flex justify-center align-center bg-gray-50 mt-10">
-            <div className=" bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-auto md:w-5/6 lg:w-5/6">
-              <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                <div className="flex justify-between p-2">
-                  <img
-                    src="../../../assets/icon/clock.png"
-                    alt=""
-                    className="w-3 h-3 mt-2"
-                  ></img>
-                  <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                    Today 05:00 - 05:30 pm (30min)
-                  </span>
-                </div>
-
-                <div>
-                  <div className="group relative text-base">
-                    <button className="py-4 px-4 rounded inline-flex items-center group">
-                      <img
-                        src="../../../assets/icon/menu.png"
-                        alt=""
-                        className=""
-                      ></img>
-                    </button>
-
-                    {/* menu list */}
-                    <ul className="rounded absolute hidden text-black group-hover:block w-30 border-2 border-gray-50 shadow-md">
-                      <li
-                        className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer border-b-2 border-gray-300"
-                        onClick={() => setShowReschedule(true)}
-                      >
-                        Reschedule
-                      </li>
-                      <li
-                        className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer"
-                        onClick={() => setShowCallDetail(true)}
-                      >
-                        Call details
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                  Mickey
-                </div>
-                <div className="flex justify-start text-black text-xl font-normal px-6 mb-10">
-                  1 on 1 mock interview
-                </div>
-              </div>
-              <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
-                <div className="flex justify-end">
-                  <button
-                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
-                    type="button"
-                  >
-                    <span className="text-sm font-semibold py-3">
-                      Call details
-                    </span>
-                  </button>
-
-                  <button
-                    className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
-                    type="button"
-                  >
-                    <span className="text-sm font-semibold py-2">
-                      Join call
-                    </span>
-                  </button>
-                </div>
-              </div>
+        {!upcomingBooking && (
+          <>
+            <div class="flex flex-col justify-center items-center h-screen">
+              <div className="w-40 h-40 md:w-1/5 md:h-1/5 lg:w-1/5 lg:h-1/5 bg-gray-400 -mt-40 mb-5"></div>
+              <p>No upcoming bookings to show</p>
             </div>
-          </div>
-
-          {/* 3rd */}
-
-          <div className="flex justify-center align-center bg-gray-50 mt-10">
-            <div className=" bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-auto  md:w-5/6 lg:w-5/6">
-              <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                <div className="flex justify-between p-2">
-                  <img
-                    src="../../../assets/icon/clock.png"
-                    alt=""
-                    className="w-3 h-3 mt-2"
-                  ></img>
-                  <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                    Today 05:00 - 05:30 pm (30min)
-                  </span>
-                </div>
-
-                <div>
-                  <div className="group relative text-base">
-                    <button className="py-4 px-4 rounded inline-flex items-center group">
-                      <img
-                        src="../../../assets/icon/menu.png"
-                        alt=""
-                        className=""
-                      ></img>
-                    </button>
-
-                    {/* menu list */}
-                    <ul className="rounded absolute hidden text-black group-hover:block w-30 border-2 border-gray-50 shadow-md">
-                      <li
-                        className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer border-b-2 border-gray-300"
-                        onClick={() => setShowReschedule(true)}
-                      >
-                        Reschedule
-                      </li>
-                      <li
-                        className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer"
-                        onClick={() => setShowCallDetail(true)}
-                      >
-                        Call details
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                  Mickey
-                </div>
-                <div className="flex justify-start text-black text-xl font-normal px-6 mb-10">
-                  1 on 1 mock interview
-                </div>
-              </div>
-              <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
-                <div className="flex justify-end">
-                  <button
-                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
-                    type="button"
-                  >
-                    <span className="text-sm font-semibold py-3">
-                      Call details
-                    </span>
-                  </button>
-
-                  <button
-                    className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
-                    type="button"
-                  >
-                    <span className="text-sm font-semibold py-2">
-                      Join call
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 4th */}
-          <div className="flex justify-center align-center bg-gray-50 mt-10">
-            <div className=" bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-auto  md:w-5/6 lg:w-5/6">
-              <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                <div className="flex justify-between p-2">
-                  <img
-                    src="../../../assets/icon/clock.png"
-                    alt=""
-                    className="w-3 h-3 mt-2"
-                  ></img>
-                  <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                    Today 05:00 - 05:30 pm (30min)
-                  </span>
-                </div>
-
-                <div>
-                  <div className="group relative text-base">
-                    <button className="py-4 px-4 rounded inline-flex items-center group">
-                      <img
-                        src="../../../assets/icon/menu.png"
-                        alt=""
-                        className=""
-                      ></img>
-                    </button>
-
-                    {/* menu list */}
-                    <ul className="rounded absolute hidden text-black group-hover:block w-30 border-2 border-gray-50 shadow-md">
-                      <li
-                        className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer border-b-2 border-gray-300"
-                        onClick={() => setShowReschedule(true)}
-                      >
-                        Reschedule
-                      </li>
-                      <li
-                        className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer"
-                        onClick={() => setShowCallDetail(true)}
-                      >
-                        Call details
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                  Mickey
-                </div>
-                <div className="flex justify-start text-black text-xl font-normal px-6 mb-10">
-                  1 on 1 mock interview
-                </div>
-              </div>
-              <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
-                <div className="flex justify-end">
-                  <button
-                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
-                    type="button"
-                  >
-                    <span className="text-sm font-semibold py-3">
-                      Call details
-                    </span>
-                  </button>
-
-                  <button
-                    className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
-                    type="button"
-                  >
-                    <span className="text-sm font-semibold py-2">
-                      Join call
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          </>
+        )}
 
         {/* outer */}
       </div>
@@ -592,33 +605,31 @@ const Upcoming = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row lg:flex-row mt-10 w-full">
-                  <div className="flex flex-row justify-between border-2 mb-5 px-4 py-3 rounded-lg md:w-1/2">
-                    <span className="text-lg  font-normal text-gray-700 mr-6">
-                      Select Date
-                    </span>
-                    <img
-                      src="../../../assets/icon/dateBlack.png"
-                      className="w-3 h-3 m-3"
-                    ></img>
-                    {/* <DatePicker
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                    /> */}
+                <div className="flex flex-row mt-10 w-full">
+                  <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
+                    <input type="date" id="date" name="date"></input>
                   </div>
-                  <div className="p-2"></div>
-                  <div className="flex flex-row justify-between border-2 mb-5 px-4 py-3 rounded-lg md:w-1/2">
-                    <span className="text-lg  font-normal  text-gray-700">
-                      Select Time
-                    </span>
-                    <img
-                      src="../../../assets/icon/timer.png"
-                      className="w-3 h-3 m-3"
-                    ></img>
-                    {/* <TimePicker
-                      onChange={(newValue) => setValue(value)}
-                      value={value}
-                    /> */}
+                  <div className="p-1"></div>
+                  <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
+                    <input type="time" id="time" name="time"></input>
+                  </div>
+                </div>
+                <div className="flex flex-row md:flex-row lg:flex-row mt-2 w-full">
+                  <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
+                    <input type="date" id="date" name="date"></input>
+                  </div>
+                  <div className="p-1"></div>
+                  <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
+                    <input type="time" id="time" name="time"></input>
+                  </div>
+                </div>
+                <div className="flex flex-row md:flex-row lg:flex-row mt-2 w-full">
+                  <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
+                    <input type="date" id="date" name="date"></input>
+                  </div>
+                  <div className="p-1"></div>
+                  <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
+                    <input type="time" id="time" name="time" className='fle'></input>
                   </div>
                 </div>
 
@@ -646,12 +657,12 @@ const Upcoming = () => {
               </div>
 
               <div className="py-4 px-6">
-                <div className="flex justify-center item-center w-auto border-2 mb-5 px-4 rounded-lg">
+                <div className="flex justify-center item-center w-auto border-2 mb-5 px-4 py-2 rounded-lg">
                   <img
                     src="../../../assets/icon/exclamationmarkcircle.png"
                     className="w-3 h-3"
                   ></img>
-                  <span className="text-xs  font-normal w-auto text-gray-700">
+                  <span className="text-xs  font-normal w-auto text-gray-900 ml-2">
                     Make sure to provide at least 3 slots to ensure attendee has
                     enough options to pick from
                   </span>
