@@ -4,7 +4,7 @@ import ContactInfo from './ContactInfo'
 import ProfessionalInfo from './ProfessionalInfo'
 import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
-
+import { toast } from 'react-toastify'
 // import nestedkeys from 'nested-keys'
 // import useWindowDimensions from '../../public/utils/useWindowDimensions'
 import {
@@ -126,16 +126,25 @@ const Profile = () => {
       })
     }
     if (isNew) {
-      await API.graphql({
-        query: createMentorRegister,
-        variables: { input: { ...state, ...remaining } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
-      })
+      try {
+        await API.graphql({
+          query: createMentorRegister,
+          variables: { input: { ...state, ...remaining } },
+          authMode: 'AMAZON_COGNITO_USER_POOLS',
+        })
+        toast.success('Profile added successfully')
+      } catch (err) {
+        toast.error(`Save Error:${error.errors[0].message}`)
+      }
     } else {
       const { createdAt, updatedAt, profile_image_url, ...rest } = {
         ...state,
         ...remaining,
       }
+      // const { createdAt, profile_image_url, ...rest } = {
+      //   ...state,
+      //   ...remaining,
+      // }
       try {
         await API.graphql({
           query: updateMentorRegister,
@@ -145,8 +154,10 @@ const Profile = () => {
           },
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         })
+        toast.success('Profile updated successfully')
       } catch (error) {
         debugger
+        toast.error(`Save Error:${error.errors[0].message}`)
         console.log(error)
       }
       // await API.graphql(
@@ -265,7 +276,8 @@ const Profile = () => {
                   <ProfessionalInfo
                     {...{
                       professional_info: state.professional_info,
-                      education_info: state.education_info,
+                      education: state.education,
+                      setProfessionalState: setModifiedState,
                     }}
                   />
                 </div>

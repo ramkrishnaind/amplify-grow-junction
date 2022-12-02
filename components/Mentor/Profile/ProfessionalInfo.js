@@ -2,19 +2,23 @@ import React, { useState, useEffect } from 'react'
 import { Formik } from 'formik'
 import TextField from '../../../pages/ui-kit/TextField'
 import Preview from './Preview'
-const ProfessionalInfo = ({ professional_info, education_info }) => {
+const ProfessionalInfo = ({
+  professional_info,
+  education,
+  setProfessionalState,
+}) => {
   const [years, setYears] = useState([])
   const [state, setState] = useState({
     professional_info,
-    education_info,
+    education,
   })
 
   useEffect(() => {
     setState({
       professional_info,
-      education_info,
+      education,
     })
-  }, [professional_info, education_info])
+  }, [professional_info, education])
   useEffect(() => {
     const d = new Date()
     const tmpYears = []
@@ -29,6 +33,7 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
     <>
       <Formik
         initialValues={state}
+        enableReinitialize={true}
         onSubmit={(values, { setSubmitting }) => {
           // console.log('values', values)
           setTimeout(() => {
@@ -36,7 +41,7 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
             setSubmitting(false)
           }, 400)
 
-          setContactState(values)
+          setProfessionalState(values)
         }}
         // validateOnChange={true}
         // validateOnBlur={true}
@@ -52,7 +57,7 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
           isSubmitting,
           /* and other goodies */
         }) => {
-          // console.log('values', values)
+          console.log('values', values)
           return (
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2">
@@ -70,8 +75,11 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
                       <TextField
                         type="text"
                         id="degree"
-                        placeholder="Degree"
+                        value={values.education.degree}
+                        name="education.degree"
                         onChangeValue={handleChange}
+                        placeholder="Degree"
+                        // onChangeValue={handleChange}
                       />
                     </div>
 
@@ -82,6 +90,8 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
                       <TextField
                         type="text"
                         id="college"
+                        value={values.education.college_university}
+                        name="education.college_university"
                         placeholder="Gandhi University of applied sciences"
                         onChangeValue={handleChange}
                       />
@@ -100,7 +110,9 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
                       <TextField
                         type="text"
                         id="course"
+                        name="education.course"
                         placeholder="Course"
+                        value={values.education.course}
                         onChangeValue={handleChange}
                       />
                     </div>
@@ -112,6 +124,8 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
                       <select
                         id="graduationyear"
                         onChange={handleChange}
+                        value={values.education.graduation_year}
+                        name="education.graduation_year"
                         className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                       >
                         <option value="" selected>
@@ -136,6 +150,8 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
                       </label>
                       <TextField
                         type="text"
+                        name="professional_info.occupation"
+                        value={values.professional_info.occupation}
                         onChangeValue={handleChange}
                         id="occupation"
                         placeholder="Occupation"
@@ -148,6 +164,8 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
                       </label>
                       <TextField
                         type="text"
+                        name="professional_info.organization"
+                        value={values.professional_info.organization}
                         onChangeValue={handleChange}
                         id="organisation"
                         placeholder="Organization"
@@ -167,6 +185,8 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
                       <TextField
                         type="text"
                         id="location"
+                        name="professional_info.location"
+                        value={values.professional_info.location}
                         onChangeValue={handleChange}
                         placeholder="Location"
                       />
@@ -179,6 +199,8 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
                       <TextField
                         type="text"
                         id="position"
+                        name="professional_info.position"
+                        value={values.professional_info.position}
                         onChangeValue={handleChange}
                         placeholder="Position"
                       />
@@ -196,6 +218,8 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
                           <select
                             id="expyears"
                             onChange={handleChange}
+                            value={values.professional_info.experience.years}
+                            name="professional_info.experience.years"
                             className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                           >
                             {Array.from({ length: 51 }, (x, i) => i).map(
@@ -214,6 +238,8 @@ const ProfessionalInfo = ({ professional_info, education_info }) => {
                           <select
                             id="expmonths"
                             onChange={handleChange}
+                            value={values.professional_info.experience.months}
+                            name="professional_info.experience.months"
                             className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                           >
                             {Array.from({ length: 12 }, (x, i) => i).map(

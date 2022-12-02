@@ -5,7 +5,14 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor } from '../redux/store'
 import { useRouter } from 'next/router'
 import Mentor from './mentor'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+// debugger
+// toast.configure()
+
 function MyApp({ Component, pageProps }) {
+  debugger
+  // console.log('toast', toast)
   const router = useRouter()
   if (router.asPath.includes('/mentor/')) {
     return (
@@ -15,6 +22,7 @@ function MyApp({ Component, pageProps }) {
             <Component {...pageProps} />
           </Mentor>
         </PersistGate>
+        <ToastContainer />
       </Provider>
     )
   }
@@ -23,6 +31,7 @@ function MyApp({ Component, pageProps }) {
       <PersistGate loading={null} persistor={persistor}>
         <Component {...pageProps} />
       </PersistGate>
+      <ToastContainer />
     </Provider>
   )
 }

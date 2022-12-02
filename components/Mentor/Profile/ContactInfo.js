@@ -39,7 +39,7 @@ const ContactInfo = ({ contact_info, setContactState }) => {
           isSubmitting,
           /* and other goodies */
         }) => {
-          console.log('values', values)
+          // console.log('values', values)
           return (
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 bg-gray-50 ">
