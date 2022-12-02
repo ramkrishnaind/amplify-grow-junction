@@ -247,13 +247,21 @@ const Profile = () => {
 
                 {/* contact */}
                 <div className={openTab === 2 ? 'block' : 'hidden'}>
-                  <ContactInfo {...{ contact_info: state.contact_info }} />
+                  <ContactInfo
+                    {...{
+                      contact_info: state.contact_info,
+                      setContactState: setModifiedState,
+                    }}
+                  />
                 </div>
 
                 {/* Professional */}
                 <div className={openTab === 3 ? 'block' : 'hidden'}>
                   <ProfessionalInfo
-                    {...{ professional_info: state.professional_info }}
+                    {...{
+                      professional_info: state.professional_info,
+                      education_info: state.education_info,
+                    }}
                   />
                 </div>
               </>
