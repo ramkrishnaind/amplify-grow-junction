@@ -6,7 +6,7 @@ import { setMentorTitle } from '../../redux/actions/MentorTitleAction'
 const BookingPage = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    setMentorTitle(dispatch, 'Booking')
+    setMentorTitle(dispatch, 'Bookings')
   }, [])
   return <Profile />
 }

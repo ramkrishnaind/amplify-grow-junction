@@ -14,7 +14,7 @@ const Completed = () => {
                     alt=""
                     className="w-3 h-3 mt-2"
                   ></img>
-                  <span className="text-base font-normal md:text-xl lg:text-xl">
+                  <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
                     Today 05:00 - 05:30 pm (30min)
                   </span>
                 </div>
@@ -85,7 +85,7 @@ const Completed = () => {
                     alt=""
                     className="w-3 h-3 mt-2"
                   ></img>
-                  <span className="text-base font-normal md:text-xl lg:text-xl">
+                  <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
                     Today 05:00 - 05:30 pm (30min)
                   </span>
                 </div>
@@ -122,9 +122,9 @@ const Completed = () => {
               </div>
               <div className="flex flex-col justify-between py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row lg:flex-row">
               <div className="flex justify-center w-full mb-2 md:w-1/4 lg:w-1/4">
-                  <button className="flex justify-center items-center bg-red-400 border-2 border-red-400 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full">
+                  <button className="flex justify-center items-center bg-blue-200 border-2 border-blue-200 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full">
                     <span className="text-sm font-semibold py-3">
-                      Cancelled
+                      Yet to start
                     </span>
                   </button>
                 </div>
@@ -156,7 +156,7 @@ const Completed = () => {
                     alt=""
                     className="w-3 h-3 mt-2"
                   ></img>
-                  <span className="text-base font-normal md:text-xl lg:text-xl">
+                  <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
                     Today 05:00 - 05:30 pm (30min)
                   </span>
                 </div>
@@ -226,7 +226,7 @@ const Completed = () => {
                     alt=""
                     className="w-3 h-3 mt-2"
                   ></img>
-                  <span className="text-base font-normal md:text-xl lg:text-xl">
+                  <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
                     Today 05:00 - 05:30 pm (30min)
                   </span>
                 </div>
