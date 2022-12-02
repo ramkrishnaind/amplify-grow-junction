@@ -545,7 +545,7 @@ const Upcoming = () => {
       {showRescheduleBooking ? (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-1/3 lg:w-1/3">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-1/4 lg:w-1/4">
               <div className="flex justify-between px-8 py-4 border-b border-gray-300">
                 <div className="flex flex-col justify-start items-start">
                   <span className="text-sm font-semibold mt-4">
@@ -607,29 +607,29 @@ const Upcoming = () => {
 
                 <div className="flex flex-row mt-10 w-full">
                   <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
-                    <input type="date" id="date" name="date"></input>
+                    <input type="date" id="date" name="date" className='text-sm font-normal'></input>
                   </div>
                   <div className="p-1"></div>
                   <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
-                    <input type="time" id="time" name="time"></input>
+                    <input type="time" id="time" name="time" className='text-sm font-normal'></input>
                   </div>
                 </div>
                 <div className="flex flex-row md:flex-row lg:flex-row mt-2 w-full">
                   <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
-                    <input type="date" id="date" name="date"></input>
+                    <input type="date" id="date" name="date" className='text-sm font-normal'></input>
                   </div>
                   <div className="p-1"></div>
                   <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
-                    <input type="time" id="time" name="time"></input>
+                    <input type="time" id="time" name="time" className='text-sm font-normal'></input>
                   </div>
                 </div>
                 <div className="flex flex-row md:flex-row lg:flex-row mt-2 w-full">
                   <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
-                    <input type="date" id="date" name="date"></input>
+                    <input type="date" id="date" name="date" className='text-sm font-normal'></input>
                   </div>
                   <div className="p-1"></div>
                   <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
-                    <input type="time" id="time" name="time" className='fle'></input>
+                    <input type="time" id="time" name="time" className='text-sm font-normal'></input>
                   </div>
                 </div>
 
