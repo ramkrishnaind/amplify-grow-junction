@@ -169,8 +169,29 @@ const StudentProfessionalDetails = () => {
                       }}
                       errMsg={touched.recent_college && errors.recent_college}
                     />
+                    <TextField
+                      value={values.degree}
+                      label="Choose your degree"
+                      placeholder="Choose college degree"
+                      onChangeValue={(text) => {
+                        if (spaceValidation.test(text.target.value)) {
+                          setFieldValue('degree', text.target.value)
+                        }
+                      }}
+                      styleOverride={{
+                        backgroundColor: color.white,
+                        height: 56,
+                        borderColor: color.borderGrey,
+                      }}
+                      textStyleOverride={{
+                        backgroundColor: color.white,
+                        paddingLeft: 8,
+                      }}
+                      errMsg={touched.degree && errors.degree}
+                    />
 
-<<<<<<< HEAD
+                    {/* 
+
               <div className="px-4 ">
                 <label className="block mb-2 text-sm font-medium text-gray-900">
                   Choose your degree
@@ -187,7 +208,6 @@ const StudentProfessionalDetails = () => {
                   <option value="bsc">BSC</option>
                 </select>
               </div>
-=======
                     <DropDown
                       value={values.degree}
                       label="Choose your degree"
@@ -206,7 +226,6 @@ const StudentProfessionalDetails = () => {
                       iconOverride={{ marginRight: 28 }}
                       errMsg={touched.degree && errors.degree}
                     />
->>>>>>> 322ba132a8475cdb89d81f8bbbbdfbba40dc9d62
 
                     {degreeDropDownBool ? (
                       <div
@@ -237,9 +256,31 @@ const StudentProfessionalDetails = () => {
                           )
                         })}
                       </div>
-                    ) : null}
+                    ) : null} */}
+                    <TextField
+                      value={values.current_employee}
+                      label="Current Employer (optional))"
+                      placeholder="Choose current employer"
+                      onChangeValue={(text) => {
+                        if (spaceValidation.test(text.target.value)) {
+                          setFieldValue('current_employee', text.target.value)
+                        }
+                      }}
+                      styleOverride={{
+                        backgroundColor: color.white,
+                        height: 56,
+                        borderColor: color.borderGrey,
+                      }}
+                      textStyleOverride={{
+                        backgroundColor: color.white,
+                        paddingLeft: 8,
+                      }}
+                      errMsg={
+                        touched.current_employee && errors.current_employee
+                      }
+                    />
 
-                    <DropDown
+                    {/* <DropDown
                       value={values.current_employee}
                       label="Current Employer (optional))"
                       placeholder="Choose current employer"
@@ -256,8 +297,6 @@ const StudentProfessionalDetails = () => {
                         setEmployeeDropDownBool(!employerDropDownBool)
                       }}
                     />
-
-<<<<<<< HEAD
               <div className="px-4 mt-5">
                 <label className="block mb-2 text-sm font-medium text-gray-900">
                   Experience in years (optional)
@@ -274,7 +313,7 @@ const StudentProfessionalDetails = () => {
                   <option value="04">04</option>
                 </select>
               </div>
-=======
+
                     {employerDropDownBool ? (
                       <div
                         style={{
@@ -303,8 +342,7 @@ const StudentProfessionalDetails = () => {
                           )
                         })}
                       </div>
-                    ) : null}
->>>>>>> 322ba132a8475cdb89d81f8bbbbdfbba40dc9d62
+                    ) : null} */}
 
                     <TextField
                       label="Your role (optional)"
@@ -330,7 +368,31 @@ const StudentProfessionalDetails = () => {
                       errMsg={touched.your_role && errors.your_role}
                     />
 
-                    <DropDown
+                    <TextField
+                      value={values.experience}
+                      label="Experience in years (optional)"
+                      placeholder="Choose experience in year"
+                      id="experience"
+                      type="role"
+                      //   icon={require('../../public/assets/icon/eye.png')}
+                      styleOverride={{
+                        backgroundColor: color.white,
+                        height: 56,
+                        borderColor: color.borderGrey,
+                      }}
+                      textStyleOverride={{
+                        backgroundColor: color.white,
+                        paddingLeft: 8,
+                      }}
+                      onChangeValue={(text) => {
+                        if (spaceValidation.test(text.target.value)) {
+                          setFieldValue(text.target.id, text.target.value)
+                        }
+                      }}
+                      errMsg={touched.your_role && errors.your_role}
+                    />
+
+                    {/* <DropDown
                       value={values.experience}
                       label="Experience in years (optional)"
                       placeholder="Choose experience in year"
@@ -376,7 +438,7 @@ const StudentProfessionalDetails = () => {
                           )
                         })}
                       </div>
-                    ) : null}
+                    ) : null} */}
 
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <Button

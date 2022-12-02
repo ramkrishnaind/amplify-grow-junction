@@ -19,6 +19,7 @@ const TextField = (props) => {
     textStyleOverride,
     infoMsg,
     imageType,
+    required,
     style,
     handleIncrement = () => {},
     handleDecrement = () => {},
@@ -83,7 +84,7 @@ const TextField = (props) => {
           id={id}
           name={name}
           type={type}
-          required
+          required={required}
           disabled={disabled}
           style={{
             backgroundColor: color.headerColor,

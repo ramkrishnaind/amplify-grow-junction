@@ -1,12 +1,132 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import ProfileInfo from './ProfileInfo'
 import ContactInfo from './ContactInfo'
 import ProfessionalInfo from './ProfessionalInfo'
+import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
+import { v4 as uuid } from 'uuid'
+
+// import nestedkeys from 'nested-keys'
 // import useWindowDimensions from '../../public/utils/useWindowDimensions'
+import {
+  createMentorRegister,
+  updateMentorRegister,
+} from '../../../src/graphql/mutations'
+
+import { listMentorRegisters } from '../../../src/graphql/queries'
+const initialState = {
+  about_yourself: {
+    grow_junction_url: '',
+    first_name: '',
+    last_name: '',
+    short_description: '',
+  },
+  social: {
+    linkedin_url: '',
+    facebook_url: '',
+    instagram_url: '',
+    personal_web_url: '',
+    other_url: '',
+  },
+  currency: '',
+  time_zone: '',
+  contact_info: {
+    email: '',
+    mobile: '',
+    whatsapp: '',
+  },
+  education: {
+    degree: '',
+    college_university: '',
+    course: '',
+    graduation_year: 0,
+  },
+  professional_info: {
+    occupation: '',
+    organization: '',
+    location: '',
+    position: '',
+    experience: {
+      years: '',
+      months: '',
+    },
+  },
+  profile_image: '',
+}
 
 const Profile = () => {
   // const { width, height } = useWindowDimensions()
-  const [openTab, setOpenTab] = React.useState(1)
+  // console.log("nestedkeys",nestedkeys)
+  const [openTab, setOpenTab] = useState(1)
+  const [state, setState] = useState(initialState)
+  const [user, setUser] = useState()
+  const [isNew, setIsNew] = useState(true)
+  const getUser = async () => {
+    const usr = await Auth.currentAuthenticatedUser()
+    if (usr) setUser(usr)
+    debugger
+    const results = await API.graphql(
+      graphqlOperation(listMentorRegisters, {
+        filter: { username: { contains: usr.username } },
+      }),
+    )
+    if (results.data.listMentorRegisters.items.length > 0) {
+      setIsNew(false)
+      const data = { ...results.data.listMentorRegisters.items[0] }
+      if (data.profile_image) {
+        const img = await Storage.get(data.profile_image)
+        data.profile_image = img
+      }
+      setState({ ...data })
+    }
+
+    // const results = await API.graphql(
+    //   graphqlOperation(listMentorRegisters, {
+    //     filter: {
+    //       username: usr.username + '1',
+    //     },
+    //   }),
+    // )
+
+    console.log('results', results)
+  }
+  useEffect(() => {
+    getUser()
+  }, [])
+  console.log('user', user)
+  const setModifiedState = async (profileState) => {
+    debugger
+    const { profile_image_file, ...remaining } = profileState
+    if (profile_image_file) {
+      const name = profile_image_file.name.substr(
+        0,
+        profile_image_file.name.lastIndexOf('.'),
+      )
+      const ext = profile_image_file.name.substr(
+        profile_image_file.name.lastIndexOf('.') + 1,
+      )
+      const filename = `${name}_${uuid()}.${ext}`
+      remaining.profile_image = filename
+      await Storage.put(filename, profile_image_file)
+    }
+    if (isNew) {
+      await API.graphql({
+        query: createMentorRegister,
+        variables: { input: { ...state, ...remaining } },
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+      })
+    } else {
+      await API.graphql({
+        query: updateMentorRegister,
+        variables: { input: { ...state, ...remaining } },
+      })
+    }
+
+    setState((prev) => {
+      const prevVal = { ...prev, ...remaining }
+      return prevVal
+    })
+  }
+  console.log('state', state)
   return (
     <>
       {/* <BoxBodyContainer
@@ -78,17 +198,28 @@ const Profile = () => {
             </ul>
             {/* Profile */}
             <div className={openTab === 1 ? 'block' : 'hidden'}>
-              <ProfileInfo />
+              <ProfileInfo
+                {...{
+                  about_yourself: state.about_yourself,
+                  social: state.social,
+                  currency: state.currency,
+                  time_zone: state.time_zone,
+                  setProfileState: setModifiedState,
+                  profile_image: state.profile_image,
+                }}
+              />
             </div>
 
             {/* contact */}
             <div className={openTab === 2 ? 'block' : 'hidden'}>
-              <ContactInfo />
+              <ContactInfo {...{ contact_info: state.contact_info }} />
             </div>
 
             {/* Professional */}
             <div className={openTab === 3 ? 'block' : 'hidden'}>
-              <ProfessionalInfo />
+              <ProfessionalInfo
+                {...{ professional_info: state.professional_info }}
+              />
             </div>
           </div>
         </div>

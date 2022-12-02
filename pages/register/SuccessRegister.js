@@ -1,20 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { color } from '../../public/theme/Color'
 import BoxBodyContainer from '../components/common/BoxBodyContainer'
-import KYC_header from '../components/registration/KYC_header'
 import Button from '../ui-kit/Button'
-import SkeletonLoader from '../ui-kit/SkeletonLoader'
-import * as mutations from '../../src/graphql/mutations'
-import * as queries from '../../src/graphql/queries'
-import { API, Auth } from 'aws-amplify'
-import TextField from '../ui-kit/TextField'
-
-import { countryCodeJson } from '../../public/utils/CountryCodeJson'
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
-import { Formik } from 'formik'
-import { verifyStep4 } from '../../public/utils/schema'
-import { v4 as uuid } from 'uuid'
 import Image from 'next/image'
 
 const numberValidation = new RegExp(/^[0-9]{0,10}$/)
@@ -36,7 +25,6 @@ const KYC_step4 = () => {
             display: 'flex',
             flex: 1,
             flexDirection: 'column',
-            // justifyContent: 'center',
           }}
         >
           <div
@@ -54,8 +42,6 @@ const KYC_step4 = () => {
                 justifyContent: 'center',
                 flexDirection: 'column',
                 alignItems: 'center',
-                // alignSelf: "center",
-                // backgroundColor: "red",
               }}
             >
               <Image
@@ -87,7 +73,11 @@ const KYC_step4 = () => {
                   marginBottom: 52,
                 }}
               >
-                Successfully registered as student
+                {`Successfully registered as ${
+                  registerType?.registerType === 'STUDENT'
+                    ? 'Student'
+                    : 'Mentor'
+                }`}
               </div>
               <Button
                 label={'Continue to dashboard'}
@@ -95,8 +85,6 @@ const KYC_step4 = () => {
                   height: 62,
                   backgroundColor: color.blackVariant,
                   color: color.white,
-                  //   alignSelf: 'center',
-                  //   marginTop: 40,
                   width: 494,
                   fontSize: 16,
                   fontWeight: 700,

@@ -8,11 +8,13 @@ import * as mutations from '../../src/graphql/mutations'
 import * as queries from '../../src/graphql/queries'
 import { API, Auth } from 'aws-amplify'
 import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import ACTION_KEYS from '../../constants/action-keys'
 
 const KYC_step2 = () => {
   const registerType = useSelector((state) => state.AuthReducer)
   const router = useRouter()
+  const dispatch = useDispatch()
   const [serviceList, setServiceList] = useState()
   const [showServiceInput, setShowServiceInput] = useState(false)
   const [serviceName, setServiceName] = useState({ value: '' })
@@ -141,7 +143,7 @@ const KYC_step2 = () => {
                     {serviceList?.map((item, index) => {
                       let selectedItem = false
                       selectedList?.map((key, index) => {
-                        if (key === item?.id) {
+                        if (key?.id === item?.id) {
                           selectedItem = true
                         }
                       })
@@ -171,11 +173,11 @@ const KYC_step2 = () => {
                             let count = 0
                             if (selectedList.length) {
                               selectedList.map((items, index) => {
-                                if (items === item?.id) {
+                                if (items?.id === item?.id) {
                                   count = 1
                                   setSelectedList(
                                     selectedList.filter(
-                                      (items) => items !== item?.id,
+                                      (items) => items?.id !== item?.id,
                                     ),
                                   )
                                 }
@@ -183,13 +185,13 @@ const KYC_step2 = () => {
                               if (count == 0) {
                                 setSelectedList((selectedList) => [
                                   ...selectedList,
-                                  item?.id,
+                                  item,
                                 ])
                               }
                             } else
                               setSelectedList((selectedList) => [
                                 ...selectedList,
-                                item?.id,
+                                item,
                               ])
                           }}
                         >
@@ -299,7 +301,15 @@ const KYC_step2 = () => {
                   }}
                   loader={loading}
                   onClick={() => {
-                    router.push('/register/MentorAvailability')
+                    if (selectedList?.length) {
+                      dispatch({
+                        type: ACTION_KEYS.KYCSTEP2,
+                        payload: {
+                          mentor_service_id: selectedList,
+                        },
+                      })
+                      router.push('/register/MentorAvailability')
+                    }
                   }}
                 />
               </div>

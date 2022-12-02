@@ -87,6 +87,7 @@ const Register = (props) => {
   const { width, height } = useWindowDimensions()
   const router = useRouter()
   const dispatch = useDispatch()
+  const [loader, setLoader] = useState(false)
 
   //   const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
   //     ssr: false,
@@ -145,6 +146,7 @@ const Register = (props) => {
             enableReinitialize={true}
             initialValues={initialState}
             onSubmit={async (values, { setErrors }) => {
+              setLoader(true)
               let username = values.email
               let first_name = values.first_name
               let last_name = values.last_name
@@ -172,20 +174,16 @@ const Register = (props) => {
 
                 if (user) {
                   StoreUserAuth(dispatch, user)
+                  setLoader(false)
                   router.push('/auth/VerifyEmail')
                 }
               } catch (e) {
                 console.log('err', e)
 
-                if (
-                  e
-                    ?.toString()
-                    ?.includes(
-                      'An account with the given email already exists.',
-                    )
-                ) {
+                if (e?.toString()?.includes('UsernameExistsException')) {
                   setErrors({ email: 'User email id is already registered' })
                 }
+                setLoader(false)
               }
             }}
             validationSchema={RegistrationSchema()}
@@ -297,6 +295,7 @@ const Register = (props) => {
                     marginTop: 40,
                     fontSize: 16,
                   }}
+                  loader={loader}
                   onClick={handleSubmit}
                   //   onClick={() => {
                   //     router.push('/auth/VerifyEmail');

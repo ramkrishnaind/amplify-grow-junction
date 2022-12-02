@@ -9,6 +9,7 @@ const initialState = {
   userAuth: null,
   layout: null,
   kycStep1: null,
+  kycStep2: null,
   professionalDetails: null,
 }
 
@@ -46,6 +47,11 @@ const AuthReducer = (state = initialState, action) => {
       return {
         ...state,
         professionalDetails: payload,
+      }
+    case ACTION_KEYS.KYCSTEP2:
+      return {
+        ...state,
+        kycStep2: payload,
       }
     // case
     default:

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Formik } from 'formik'
 import TextField from '../../../pages/ui-kit/TextField'
-
+import Preview from './Preview'
 const ProfessionalInfo = () => {
   const [years, setYears] = useState([])
   const initialState = {}
@@ -37,17 +37,7 @@ const ProfessionalInfo = () => {
                 <label className="block mb-2 text-lg font-medium text-gray-900">
                   Degree (optional)
                 </label>
-                <select
-                  id="degree"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                >
-                  <option value="mtech" selected>
-                    M.Tech
-                  </option>
-                  <option value="btech">B.Tech</option>
-                  <option value="msc">M.SC</option>
-                  <option value="bsc">BSC</option>
-                </select>
+                <TextField type="text" id="degree" placeholder="Degree" />
               </div>
 
               <div className="px-4 mt-5">
@@ -71,17 +61,7 @@ const ProfessionalInfo = () => {
                 <label className="block mb-2 text-lg font-medium text-gray-900">
                   Course
                 </label>
-                <select
-                  id="course"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                >
-                  <option value="course1" selected>
-                    Advanced Computers and integrations
-                  </option>
-                  <option value="course2">Course2</option>
-                  <option value="course3">Course3</option>
-                  <option value="course4">Course4</option>
-                </select>
+                <TextField type="text" id="course" placeholder="Course" />
               </div>
 
               <div className="px-4 mt-5">
@@ -112,24 +92,22 @@ const ProfessionalInfo = () => {
                 <label className="block mb-2 text-lg font-medium text-gray-900">
                   Occupation (optional)
                 </label>
-                <select
+                <TextField
+                  type="text"
                   id="occupation"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                >
-                  <option value="owner1" selected>
-                    Startup owner
-                  </option>
-                  <option value="owner2">Startup owner2</option>
-                  <option value="owner3">Startup owner3</option>
-                  <option value="owner4">Startup owner4</option>
-                </select>
+                  placeholder="Occupation"
+                />
               </div>
 
               <div className="px-4 mt-5">
                 <label className="leading-8 text-lg font-normal mt-5">
                   Organisation (optional)
                 </label>
-                <TextField type="text" id="organisation" placeholder="Grow" />
+                <TextField
+                  type="text"
+                  id="organisation"
+                  placeholder="Organization"
+                />
                 {/* <input
                   type="text"
                   id="organisation"
@@ -142,34 +120,14 @@ const ProfessionalInfo = () => {
                 <label className="block mb-2 text-lg font-medium text-gray-900">
                   Location (optional)
                 </label>
-                <select
-                  id="location"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                >
-                  <option value="location1" selected>
-                    Bangalore
-                  </option>
-                  <option value="location2">Mumbai</option>
-                  <option value="location3">Chennai</option>
-                  <option value="location4">Pune</option>
-                </select>
+                <TextField type="text" id="location" placeholder="Location" />
               </div>
 
               <div className="px-4 mt-5">
                 <label className="block mb-2 text-lg font-medium text-gray-900">
                   Position (optional)
                 </label>
-                <select
-                  id="position"
-                  className="h-16 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                >
-                  <option value="position1" selected>
-                    Chief design officer
-                  </option>
-                  <option value="position2">design officer</option>
-                  <option value="position3">officer</option>
-                  <option value="position4">executive officer</option>
-                </select>
+                <TextField type="text" id="position" placeholder="Position" />
               </div>
 
               <div className="px-4 mt-5">
@@ -213,22 +171,16 @@ const ProfessionalInfo = () => {
           </div>
 
           {/* 02 */}
-          <div className="bg-gray-50">
-            <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end">
+          <div className="bg-gray-50 basis-2/5 ">
+            <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end mb-32">
               <button className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
-                Save Changes 3
+                Save Changes
               </button>
             </div>
 
-            <div className="flex justify-center mt-20 md:justify-end lg:justify-end py-2 px-6">
-              <div className="flex justify-center items-center text-base text-semibold border-2 rounded-md bg-white h-8 w-1/2 md:w-1/2 lg:w-1/2">
-                Preview
-              </div>
-            </div>
-
-            <div className="flex justify-center px-6 md:justify-end lg:justify-end">
-              <div className="flex justify-center items-center text-lg border-2 rounded-md bg-gray-200 h-96 w-1/2 md:w-1/2 lg:w-1/2">
-                {' '}
+            <div className="flex justify-center md:justify-end lg:justify-end">
+              <div className="flex justify-center items-center text-lg border-2 rounded-md  border-white h-auto w-auto">
+                <Preview />
               </div>
             </div>
           </div>

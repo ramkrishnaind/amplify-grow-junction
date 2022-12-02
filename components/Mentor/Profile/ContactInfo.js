@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Formik } from 'formik'
 import TextField from '../../../pages/ui-kit/TextField'
-
+import Preview from './Preview'
 const ContactInfo = () => {
   const [phoneNumber, setPhoneNumber] = useState()
   const initialState = {}
@@ -139,22 +139,16 @@ const ContactInfo = () => {
           </div>
 
           {/* 02 */}
-          <div className="bg-gray-50">
-            <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end">
+          <div className="bg-gray-50 basis-2/5 ">
+            <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end mb-32">
               <button className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
-                Save Changes 2
+                Save Changes
               </button>
             </div>
 
-            <div className="flex justify-center mt-20 md:justify-end lg:justify-end py-2 px-6">
-              <div className="flex justify-center items-center text-base text-semibold border-2 rounded-md bg-white h-8 w-1/2 md:w-1/2 lg:w-1/2">
-                Preview
-              </div>
-            </div>
-
-            <div className="flex justify-center px-6 md:justify-end lg:justify-end">
-              <div className="flex justify-center items-center text-lg border-2 rounded-md bg-gray-200 h-96 w-1/2 md:w-1/2 lg:w-1/2">
-                {' '}
+            <div className="flex justify-center md:justify-end lg:justify-end">
+              <div className="flex justify-center items-center text-lg border-2 rounded-md  border-white h-auto w-auto">
+                <Preview />
               </div>
             </div>
           </div>
