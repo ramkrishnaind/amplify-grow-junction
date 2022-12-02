@@ -52,7 +52,15 @@ const initialState = {
   },
   profile_image: '',
 }
-
+function arrayBufferToBase64(buffer) {
+  var binary = ''
+  var bytes = new Uint8Array(buffer)
+  var len = bytes.byteLength
+  for (var i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i])
+  }
+  return window.btoa(binary)
+}
 const Profile = () => {
   // const { width, height } = useWindowDimensions()
   // console.log("nestedkeys",nestedkeys)
@@ -60,6 +68,7 @@ const Profile = () => {
   const [state, setState] = useState(initialState)
   const [user, setUser] = useState()
   const [isNew, setIsNew] = useState(true)
+  const [loading, setLoading] = useState(false)
   const getUser = async () => {
     const usr = await Auth.currentAuthenticatedUser()
     if (usr) setUser(usr)
@@ -74,6 +83,10 @@ const Profile = () => {
       const data = { ...results.data.listMentorRegisters.items[0] }
       if (data.profile_image) {
         const img = await Storage.get(data.profile_image)
+        // const response = await fetch(img)
+        // const arrBuf = await response.arrayBuffer()
+        // const base64String = arrayBufferToBase64(arrBuf)
+        // data.profile_image = `data:image/png;base64,${base64String}`
         data.profile_image = img
       }
       setState({ ...data })
@@ -90,7 +103,9 @@ const Profile = () => {
     console.log('results', results)
   }
   useEffect(() => {
+    setLoading(true)
     getUser()
+    setLoading(false)
   }, [])
   console.log('user', user)
   const setModifiedState = async (profileState) => {
@@ -106,7 +121,9 @@ const Profile = () => {
       )
       const filename = `${name}_${uuid()}.${ext}`
       remaining.profile_image = filename
-      await Storage.put(filename, profile_image_file)
+      await Storage.put(filename, profile_image_file, {
+        contentType: `image/${ext}`, // contentType is optional
+      })
     }
     if (isNew) {
       await API.graphql({
@@ -115,10 +132,26 @@ const Profile = () => {
         authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
     } else {
-      await API.graphql({
-        query: updateMentorRegister,
-        variables: { input: { ...state, ...remaining } },
-      })
+      const { createdAt, updatedAt, ...rest } = { ...state, ...remaining }
+      try {
+        await API.graphql({
+          query: updateMentorRegister,
+          variables: {
+            input: { ...rest },
+            // condition: { username: { contains: state.username } },
+          },
+          authMode: 'AMAZON_COGNITO_USER_POOLS',
+        })
+      } catch (error) {
+        debugger
+        console.log(error)
+      }
+      // await API.graphql(
+      //   graphqlOperation(updateMentorRegister, {
+      //     input: { ...state, ...remaining },
+      //     authMode: 'AMAZON_COGNITO_USER_POOLS',
+      //   }),
+      // )
     }
 
     setState((prev) => {
@@ -197,30 +230,34 @@ const Profile = () => {
               </li>
             </ul>
             {/* Profile */}
-            <div className={openTab === 1 ? 'block' : 'hidden'}>
-              <ProfileInfo
-                {...{
-                  about_yourself: state.about_yourself,
-                  social: state.social,
-                  currency: state.currency,
-                  time_zone: state.time_zone,
-                  setProfileState: setModifiedState,
-                  profile_image: state.profile_image,
-                }}
-              />
-            </div>
+            {!loading && (
+              <>
+                <div className={openTab === 1 ? 'block' : 'hidden'}>
+                  <ProfileInfo
+                    {...{
+                      about_yourself: state.about_yourself,
+                      social: state.social,
+                      currency: state.currency,
+                      time_zone: state.time_zone,
+                      setProfileState: setModifiedState,
+                      profile_image: state.profile_image,
+                    }}
+                  />
+                </div>
 
-            {/* contact */}
-            <div className={openTab === 2 ? 'block' : 'hidden'}>
-              <ContactInfo {...{ contact_info: state.contact_info }} />
-            </div>
+                {/* contact */}
+                <div className={openTab === 2 ? 'block' : 'hidden'}>
+                  <ContactInfo {...{ contact_info: state.contact_info }} />
+                </div>
 
-            {/* Professional */}
-            <div className={openTab === 3 ? 'block' : 'hidden'}>
-              <ProfessionalInfo
-                {...{ professional_info: state.professional_info }}
-              />
-            </div>
+                {/* Professional */}
+                <div className={openTab === 3 ? 'block' : 'hidden'}>
+                  <ProfessionalInfo
+                    {...{ professional_info: state.professional_info }}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
