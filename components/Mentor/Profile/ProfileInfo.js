@@ -162,6 +162,7 @@ const ProfileInfo = ({
                           </button>
                           <input
                             type="file"
+                            accept="image/*"
                             ref={imageInputref}
                             className="absolute w-0 h-0 left-0 top-0"
                             onChange={handleFileInput}
