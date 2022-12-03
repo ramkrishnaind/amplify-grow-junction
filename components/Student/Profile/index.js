@@ -58,6 +58,7 @@ const Profile = () => {
   const [user, setUser] = useState()
   const [isNew, setIsNew] = useState(true)
   const [loading, setLoading] = useState(false)
+  const [percentage, setPercentage] = useState(40)
   const getUser = async () => {
     const usr = await Auth.currentAuthenticatedUser()
     if (usr) setUser(usr)
@@ -91,6 +92,31 @@ const Profile = () => {
 
     console.log('results', results)
   }
+  useEffect(() => {
+    let total = 40
+    const keys = [
+      'about_yourself',
+      'social',
+      'contact_info',
+      'education',
+      'professional_info',
+      'profile_image',
+    ]
+    const percEachKey = 60 / keys.length
+    keys.forEach((key) => {
+      const subKeys = Object.keys(state[key])
+
+      if (subKeys.length > 0) {
+        const percEachSubKey = percEachKey / subKeys.length
+        subKeys.forEach((subKey) => {
+          total += !!state[key][subKey] ? percEachSubKey : 0
+        })
+      } else {
+        total += !!state[key] ? percEachKey : 0
+      }
+    })
+    setPercentage(Math.round(total, 2))
+  }, [state])
   useEffect(() => {
     setLoading(true)
     getUser()
@@ -242,6 +268,7 @@ const Profile = () => {
                       social: state.social,
                       profile_image_url: state.profile_image_url,
                       setProfileState: setModifiedState,
+                      percentage,
                       // ,
                       // profile_image: state.profile_image,
                     }}

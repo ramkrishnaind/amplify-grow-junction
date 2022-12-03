@@ -52,15 +52,7 @@ const initialState = {
   },
   profile_image: '',
 }
-function arrayBufferToBase64(buffer) {
-  var binary = ''
-  var bytes = new Uint8Array(buffer)
-  var len = bytes.byteLength
-  for (var i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i])
-  }
-  return window.btoa(binary)
-}
+
 const Profile = () => {
   // const { width, height } = useWindowDimensions()
   // console.log("nestedkeys",nestedkeys)
@@ -69,6 +61,7 @@ const Profile = () => {
   const [user, setUser] = useState()
   const [isNew, setIsNew] = useState(true)
   const [loading, setLoading] = useState(false)
+  const [percentage, setPercentage] = useState(40)
   const getUser = async () => {
     const usr = await Auth.currentAuthenticatedUser()
     if (usr) setUser(usr)
@@ -107,6 +100,33 @@ const Profile = () => {
     getUser()
     setLoading(false)
   }, [])
+  useEffect(() => {
+    let total = 40
+    const keys = [
+      'about_yourself',
+      'social',
+      'currency',
+      'time_zone',
+      'contact_info',
+      'education',
+      'professional_info',
+      'profile_image',
+    ]
+    const percEachKey = 60 / keys.length
+    keys.forEach((key) => {
+      const subKeys = Object.keys(state[key])
+
+      if (subKeys.length > 0) {
+        const percEachSubKey = percEachKey / subKeys.length
+        subKeys.forEach((subKey) => {
+          total += !!state[key][subKey] ? percEachSubKey : 0
+        })
+      } else {
+        total += !!state[key] ? percEachKey : 0
+      }
+    })
+    setPercentage(Math.round(total, 2))
+  }, [state])
   console.log('user', user)
   const setModifiedState = async (profileState) => {
     debugger
@@ -255,6 +275,7 @@ const Profile = () => {
                       time_zone: state.time_zone,
                       profile_image_url: state.profile_image_url,
                       setProfileState: setModifiedState,
+                      percentage,
                       // ,
                       // profile_image: state.profile_image,
                     }}

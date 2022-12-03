@@ -28,6 +28,7 @@ const ProfileInfo = ({
   // profile_image,
   profile_image_url,
   setProfileState,
+  percentage,
 }) => {
   const initialState = {}
   const imageInputref = useRef()
@@ -167,7 +168,7 @@ const ProfileInfo = ({
                       </div>
                     </div>
                     <div className="mb-16 ">
-                      <ProgressBar progressPercentage={40} />
+                      <ProgressBar progressPercentage={percentage} />
                     </div>
                     {/* <div className="flex flex-col ml-4 p-6 border-2 rounded-md bg-white">
                 <div className="text-lg">40% of profile completed</div>
