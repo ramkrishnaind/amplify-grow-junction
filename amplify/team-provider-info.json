@@ -16,7 +16,8 @@
         "testamplifyapi": {}
       },
       "auth": {
-        "testamplifyapi362703db": {}
+        "testamplifyapi362703db": {},
+        "userPoolGroups": {}
       },
       "storage": {
         "testAmplify": {}
