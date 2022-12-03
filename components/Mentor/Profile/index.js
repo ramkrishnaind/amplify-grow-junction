@@ -159,7 +159,14 @@ const Profile = () => {
         toast.error(`Save Error:${error.errors[0].message}`)
       }
     } else {
-      const { createdAt, updatedAt, profile_image_url, ...rest } = {
+      const {
+        createdAt,
+        updatedAt,
+        profile_image_url,
+        domain_id,
+        owner,
+        ...rest
+      } = {
         ...state,
         ...remaining,
       }
