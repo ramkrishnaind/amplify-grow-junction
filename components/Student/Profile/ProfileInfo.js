@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Formik, useFormikContext } from 'formik'
 import TextField from '../../../pages/ui-kit/TextField'
-import TimezoneSelect, { allTimezones } from 'react-timezone-select'
+// import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import classes from './ProfileInfo.module.css'
 import ProgressBar from '../../Utilities/ProgressBar'
-import Preview from './Preview'
+// import Preview from './Preview'
 import { Storage } from 'aws-amplify'
 const AutoSubmitToken = () => {
   // Grab values and submitForm from context
@@ -23,8 +23,8 @@ const AutoSubmitToken = () => {
 const ProfileInfo = ({
   about_yourself,
   social,
-  currency,
-  time_zone,
+  // currency,
+  // time_zone,
   // profile_image,
   profile_image_url,
   setProfileState,
@@ -36,26 +36,26 @@ const ProfileInfo = ({
   const [state, setState] = useState({
     about_yourself,
     social,
-    currency,
-    time_zone,
+    // currency,
+    // time_zone,
     profile_image_url,
     setProfileState,
   })
-  const [timeZone, setTimeZone] = useState(
-    time_zone || {},
-    // Intl.DateTimeFormat().resolvedOptions().timeZone,
-  )
+  // const [timeZone, setTimeZone] = useState(
+  //   time_zone || {},
+  //   // Intl.DateTimeFormat().resolvedOptions().timeZone,
+  // )
   useEffect(() => {
-    setTimeZone(time_zone)
+    // setTimeZone(time_zone)
     setState({
       about_yourself,
       social,
-      currency,
-      time_zone,
+      // currency,
+      // time_zone,
       profile_image_url,
       // setProfileState,
     })
-  }, [about_yourself, social, currency, time_zone, profile_image_url])
+  }, [about_yourself, social, profile_image_url])
   // useEffect(()=>{
   //   console.log("ProfileValues",values)
   // },[values])
@@ -67,8 +67,6 @@ const ProfileInfo = ({
   console.log('app', {
     about_yourself,
     social,
-    currency,
-    time_zone,
     profile_image_url,
     // profile_image_url,
     setProfileState,
@@ -94,7 +92,7 @@ const ProfileInfo = ({
             // alert(JSON.stringify(values, null, 2));
             setSubmitting(false)
           }, 400)
-          values.time_zone = timeZone?.value || ''
+          // values.time_zone = timeZone?.value || ''
           values.profile_image_file = image
           setProfileState(values)
         }}
@@ -113,9 +111,10 @@ const ProfileInfo = ({
           isSubmitting,
           /* and other goodies */
         }) => {
+          debugger
           // console.log('values', values)
           return (
-            <form onSubmit={handleSubmit}>
+            <form>
               <div className="flex flex-col md:flex-row">
                 <div className="bg-gray-50 basis-3/5">
                   <div className="flex flex-col tracking-wide text-black ml-4 bg-gray-50 w-full md:w-auto lg:w-auto">
@@ -146,12 +145,15 @@ const ProfileInfo = ({
                             alt=""
                             className="w-7 h-7"
                           />
-                          <span
+                          <button
                             className="ml-3 text-lg"
-                            onClick={() => imageInputref.current.click()}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              imageInputref.current.click()
+                            }}
                           >
                             Add image
-                          </span>
+                          </button>
                           <input
                             type="file"
                             ref={imageInputref}
@@ -261,7 +263,7 @@ const ProfileInfo = ({
                         <TextField
                           name="social.linkedin_url"
                           onChangeValue={handleChange}
-                          value={values.about_yourself.linkedin_url}
+                          value={values.social.linkedin_url}
                           type="url"
                           id="linkedurl"
                           placeholder="Enter URL here"
@@ -276,7 +278,7 @@ const ProfileInfo = ({
                         <TextField
                           name="social.facebook_url"
                           onChangeValue={handleChange}
-                          value={values.about_yourself.facebook_url}
+                          value={values.social.facebook_url}
                           type="url"
                           id="linkedurl"
                           placeholder="Enter URL here"
@@ -291,7 +293,7 @@ const ProfileInfo = ({
                         <TextField
                           name="social.instagram_url"
                           onChangeValue={handleChange}
-                          value={values.about_yourself.instagram_url}
+                          value={values.social.instagram_url}
                           type="url"
                           id="instagram"
                           placeholder="Enter URL here"
@@ -306,7 +308,7 @@ const ProfileInfo = ({
                         <TextField
                           name="social.personal_web_url"
                           onChangeValue={handleChange}
-                          value={values.about_yourself.personal_web_url}
+                          value={values.social.personal_web_url}
                           type="url"
                           id="personalurl"
                           placeholder="Enter URL here"
@@ -322,7 +324,7 @@ const ProfileInfo = ({
                         <TextField
                           name="social.other_url"
                           onChangeValue={handleChange}
-                          value={values.about_yourself.other_url}
+                          value={values.social.other_url}
                           type="url"
                           id="other"
                           placeholder="Enter URL here"
@@ -336,7 +338,11 @@ const ProfileInfo = ({
                 <div className="bg-gray-50 basis-2/5 ">
                   <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end mb-32">
                     <button
-                      type="submit"
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        handleSubmit(e)
+                      }}
                       className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded"
                     >
                       Save Changes
@@ -345,7 +351,7 @@ const ProfileInfo = ({
 
                   <div className="flex justify-center md:justify-end lg:justify-end">
                     <div className="flex justify-center items-center text-lg border-2 rounded-md bg-gray-100 h-auto w-auto">
-                      <Preview />
+                      {/* <Preview /> */}
                     </div>
                   </div>
                 </div>

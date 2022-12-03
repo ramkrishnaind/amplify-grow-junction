@@ -12,7 +12,7 @@ export const onCreateDemoSkillsList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onUpdateDemoSkillsList = /* GraphQL */ `
   subscription OnUpdateDemoSkillsList(
     $filter: ModelSubscriptionDemoSkillsListFilterInput
@@ -24,7 +24,7 @@ export const onUpdateDemoSkillsList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onDeleteDemoSkillsList = /* GraphQL */ `
   subscription OnDeleteDemoSkillsList(
     $filter: ModelSubscriptionDemoSkillsListFilterInput
@@ -36,7 +36,7 @@ export const onDeleteDemoSkillsList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onCreateSuggestedServiceList = /* GraphQL */ `
   subscription OnCreateSuggestedServiceList(
     $filter: ModelSubscriptionSuggestedServiceListFilterInput
@@ -48,7 +48,7 @@ export const onCreateSuggestedServiceList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onUpdateSuggestedServiceList = /* GraphQL */ `
   subscription OnUpdateSuggestedServiceList(
     $filter: ModelSubscriptionSuggestedServiceListFilterInput
@@ -60,7 +60,7 @@ export const onUpdateSuggestedServiceList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onDeleteSuggestedServiceList = /* GraphQL */ `
   subscription OnDeleteSuggestedServiceList(
     $filter: ModelSubscriptionSuggestedServiceListFilterInput
@@ -72,7 +72,7 @@ export const onDeleteSuggestedServiceList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onCreateTodo = /* GraphQL */ `
   subscription OnCreateTodo(
     $filter: ModelSubscriptionTodoFilterInput
@@ -87,7 +87,7 @@ export const onCreateTodo = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onUpdateTodo = /* GraphQL */ `
   subscription OnUpdateTodo(
     $filter: ModelSubscriptionTodoFilterInput
@@ -102,7 +102,7 @@ export const onUpdateTodo = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onDeleteTodo = /* GraphQL */ `
   subscription OnDeleteTodo(
     $filter: ModelSubscriptionTodoFilterInput
@@ -117,7 +117,7 @@ export const onDeleteTodo = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onCreateStudentRegister = /* GraphQL */ `
   subscription OnCreateStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
@@ -127,24 +127,50 @@ export const onCreateStudentRegister = /* GraphQL */ `
       domain_id
       username
       recent_college
-      degree
+      current_employee
+      your_role
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
       education {
         degree
         college_university
         course
         graduation_year
       }
-      current_employee
-      your_role
-      experience
-      phone_number
-      linkedIn_url
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
       id
       createdAt
       updatedAt
     }
   }
-`
+`;
 export const onUpdateStudentRegister = /* GraphQL */ `
   subscription OnUpdateStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
@@ -154,24 +180,50 @@ export const onUpdateStudentRegister = /* GraphQL */ `
       domain_id
       username
       recent_college
-      degree
+      current_employee
+      your_role
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
       education {
         degree
         college_university
         course
         graduation_year
       }
-      current_employee
-      your_role
-      experience
-      phone_number
-      linkedIn_url
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
       id
       createdAt
       updatedAt
     }
   }
-`
+`;
 export const onDeleteStudentRegister = /* GraphQL */ `
   subscription OnDeleteStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
@@ -181,24 +233,50 @@ export const onDeleteStudentRegister = /* GraphQL */ `
       domain_id
       username
       recent_college
-      degree
+      current_employee
+      your_role
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
       education {
         degree
         college_university
         course
         graduation_year
       }
-      current_employee
-      your_role
-      experience
-      phone_number
-      linkedIn_url
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
       id
       createdAt
       updatedAt
     }
   }
-`
+`;
 export const onCreateMentorRegister = /* GraphQL */ `
   subscription OnCreateMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput
@@ -252,7 +330,7 @@ export const onCreateMentorRegister = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onUpdateMentorRegister = /* GraphQL */ `
   subscription OnUpdateMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput
@@ -306,7 +384,7 @@ export const onUpdateMentorRegister = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onDeleteMentorRegister = /* GraphQL */ `
   subscription OnDeleteMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput
@@ -360,7 +438,7 @@ export const onDeleteMentorRegister = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onCreateMentorAvailability = /* GraphQL */ `
   subscription OnCreateMentorAvailability(
     $filter: ModelSubscriptionMentorAvailabilityFilterInput
@@ -416,7 +494,7 @@ export const onCreateMentorAvailability = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onUpdateMentorAvailability = /* GraphQL */ `
   subscription OnUpdateMentorAvailability(
     $filter: ModelSubscriptionMentorAvailabilityFilterInput
@@ -472,7 +550,7 @@ export const onUpdateMentorAvailability = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onDeleteMentorAvailability = /* GraphQL */ `
   subscription OnDeleteMentorAvailability(
     $filter: ModelSubscriptionMentorAvailabilityFilterInput
@@ -528,7 +606,7 @@ export const onDeleteMentorAvailability = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onCreateMentorWeekSchedule = /* GraphQL */ `
   subscription OnCreateMentorWeekSchedule(
     $filter: ModelSubscriptionMentorWeekScheduleFilterInput
@@ -580,7 +658,7 @@ export const onCreateMentorWeekSchedule = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onUpdateMentorWeekSchedule = /* GraphQL */ `
   subscription OnUpdateMentorWeekSchedule(
     $filter: ModelSubscriptionMentorWeekScheduleFilterInput
@@ -632,7 +710,7 @@ export const onUpdateMentorWeekSchedule = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onDeleteMentorWeekSchedule = /* GraphQL */ `
   subscription OnDeleteMentorWeekSchedule(
     $filter: ModelSubscriptionMentorWeekScheduleFilterInput
@@ -684,7 +762,7 @@ export const onDeleteMentorWeekSchedule = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onCreateTimeSchedule = /* GraphQL */ `
   subscription OnCreateTimeSchedule(
     $filter: ModelSubscriptionTimeScheduleFilterInput
@@ -743,7 +821,7 @@ export const onCreateTimeSchedule = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onUpdateTimeSchedule = /* GraphQL */ `
   subscription OnUpdateTimeSchedule(
     $filter: ModelSubscriptionTimeScheduleFilterInput
@@ -802,7 +880,7 @@ export const onUpdateTimeSchedule = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onDeleteTimeSchedule = /* GraphQL */ `
   subscription OnDeleteTimeSchedule(
     $filter: ModelSubscriptionTimeScheduleFilterInput
@@ -861,4 +939,4 @@ export const onDeleteTimeSchedule = /* GraphQL */ `
       owner
     }
   }
-`
+`;

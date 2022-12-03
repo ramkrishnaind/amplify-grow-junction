@@ -8,14 +8,13 @@ import { toast } from 'react-toastify'
 // import nestedkeys from 'nested-keys'
 // import useWindowDimensions from '../../public/utils/useWindowDimensions'
 import {
-  createMentorRegister,
-  updateMentorRegister,
+  createStudentRegister,
+  updateStudentRegister,
 } from '../../../src/graphql/mutations'
 
-import { listMentorRegisters } from '../../../src/graphql/queries'
+import { listStudentRegisters } from '../../../src/graphql/queries'
 const initialState = {
   about_yourself: {
-    grow_junction_url: '',
     first_name: '',
     last_name: '',
     short_description: '',
@@ -27,8 +26,6 @@ const initialState = {
     personal_web_url: '',
     other_url: '',
   },
-  currency: '',
-  time_zone: '',
   contact_info: {
     email: '',
     mobile: '',
@@ -52,15 +49,7 @@ const initialState = {
   },
   profile_image: '',
 }
-function arrayBufferToBase64(buffer) {
-  var binary = ''
-  var bytes = new Uint8Array(buffer)
-  var len = bytes.byteLength
-  for (var i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i])
-  }
-  return window.btoa(binary)
-}
+
 const Profile = () => {
   // const { width, height } = useWindowDimensions()
   // console.log("nestedkeys",nestedkeys)
@@ -74,13 +63,13 @@ const Profile = () => {
     if (usr) setUser(usr)
     debugger
     const results = await API.graphql(
-      graphqlOperation(listMentorRegisters, {
+      graphqlOperation(listStudentRegisters, {
         filter: { username: { contains: usr.username } },
       }),
     )
-    if (results.data.listMentorRegisters.items.length > 0) {
+    if (results.data.listStudentRegisters.items.length > 0) {
       setIsNew(false)
-      const data = { ...results.data.listMentorRegisters.items[0] }
+      const data = { ...results.data.listStudentRegisters.items[0] }
       if (data.profile_image) {
         const img = await Storage.get(data.profile_image)
         // const response = await fetch(img)
@@ -128,7 +117,7 @@ const Profile = () => {
     if (isNew) {
       try {
         await API.graphql({
-          query: createMentorRegister,
+          query: createStudentRegister,
           variables: { input: { ...state, ...remaining } },
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         })
@@ -147,7 +136,7 @@ const Profile = () => {
       // }
       try {
         await API.graphql({
-          query: updateMentorRegister,
+          query: updateStudentRegister,
           variables: {
             input: { ...rest },
             // condition: { username: { contains: state.username } },
@@ -251,8 +240,6 @@ const Profile = () => {
                     {...{
                       about_yourself: state.about_yourself,
                       social: state.social,
-                      currency: state.currency,
-                      time_zone: state.time_zone,
                       profile_image_url: state.profile_image_url,
                       setProfileState: setModifiedState,
                       // ,

@@ -79,6 +79,8 @@ const ProfileInfo = ({
     }
   }, [profile_image_url])
   const handleFileInput = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
     // handle validations
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
@@ -89,7 +91,9 @@ const ProfileInfo = ({
     <>
       <Formik
         initialValues={{ ...state }}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, e) => {
+          debugger
+          const { setSubmitting } = e
           setTimeout(() => {
             // alert(JSON.stringify(values, null, 2));
             setSubmitting(false)
@@ -115,7 +119,7 @@ const ProfileInfo = ({
         }) => {
           // console.log('values', values)
           return (
-            <form onSubmit={handleSubmit}>
+            <form>
               <div className="flex flex-col md:flex-row">
                 <div className="bg-gray-50 basis-3/5">
                   <div className="flex flex-col tracking-wide text-black ml-4 bg-gray-50 w-full md:w-auto lg:w-auto">
@@ -146,12 +150,15 @@ const ProfileInfo = ({
                             alt=""
                             className="w-7 h-7"
                           />
-                          <span
+                          <button
                             className="ml-3 text-lg"
-                            onClick={() => imageInputref.current.click()}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              imageInputref.current.click()
+                            }}
                           >
                             Add image
-                          </span>
+                          </button>
                           <input
                             type="file"
                             ref={imageInputref}
@@ -292,7 +299,7 @@ const ProfileInfo = ({
                         <TextField
                           name="social.linkedin_url"
                           onChangeValue={handleChange}
-                          value={values.about_yourself.linkedin_url}
+                          value={values.social.linkedin_url}
                           type="url"
                           id="linkedurl"
                           placeholder="Enter URL here"
@@ -307,7 +314,7 @@ const ProfileInfo = ({
                         <TextField
                           name="social.facebook_url"
                           onChangeValue={handleChange}
-                          value={values.about_yourself.facebook_url}
+                          value={values.social.facebook_url}
                           type="url"
                           id="linkedurl"
                           placeholder="Enter URL here"
@@ -322,7 +329,7 @@ const ProfileInfo = ({
                         <TextField
                           name="social.instagram_url"
                           onChangeValue={handleChange}
-                          value={values.about_yourself.instagram_url}
+                          value={values.social.instagram_url}
                           type="url"
                           id="instagram"
                           placeholder="Enter URL here"
@@ -337,7 +344,7 @@ const ProfileInfo = ({
                         <TextField
                           name="social.personal_web_url"
                           onChangeValue={handleChange}
-                          value={values.about_yourself.personal_web_url}
+                          value={values.social.personal_web_url}
                           type="url"
                           id="personalurl"
                           placeholder="Enter URL here"
@@ -353,7 +360,7 @@ const ProfileInfo = ({
                         <TextField
                           name="social.other_url"
                           onChangeValue={handleChange}
-                          value={values.about_yourself.other_url}
+                          value={values.social.other_url}
                           type="url"
                           id="other"
                           placeholder="Enter URL here"
@@ -450,7 +457,11 @@ const ProfileInfo = ({
                 <div className="bg-gray-50 basis-2/5 ">
                   <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end mb-32">
                     <button
-                      type="submit"
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        handleSubmit(e)
+                      }}
                       className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded"
                     >
                       Save Changes

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Formik } from 'formik'
 import TextField from '../../../pages/ui-kit/TextField'
-import Preview from './Preview'
+// import Preview from './Preview'
 const EducationalInfo = ({
   professional_info,
   education,
@@ -266,7 +266,7 @@ const EducationalInfo = ({
 
                   <div className="flex justify-center md:justify-end lg:justify-end">
                     <div className="flex justify-center items-center text-lg border-2 rounded-md  border-white h-auto w-auto">
-                      <Preview />
+                      {/* <Preview /> */}
                     </div>
                   </div>
                 </div>

@@ -10,7 +10,7 @@ export const getDemoSkillsList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const listDemoSkillsLists = /* GraphQL */ `
   query ListDemoSkillsLists(
     $filter: ModelDemoSkillsListFilterInput
@@ -27,7 +27,7 @@ export const listDemoSkillsLists = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getSuggestedServiceList = /* GraphQL */ `
   query GetSuggestedServiceList($id: ID!) {
     getSuggestedServiceList(id: $id) {
@@ -37,7 +37,7 @@ export const getSuggestedServiceList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const listSuggestedServiceLists = /* GraphQL */ `
   query ListSuggestedServiceLists(
     $filter: ModelSuggestedServiceListFilterInput
@@ -58,7 +58,7 @@ export const listSuggestedServiceLists = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getTodo = /* GraphQL */ `
   query GetTodo($id: ID!) {
     getTodo(id: $id) {
@@ -70,7 +70,7 @@ export const getTodo = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const listTodos = /* GraphQL */ `
   query ListTodos(
     $filter: ModelTodoFilterInput
@@ -89,31 +89,57 @@ export const listTodos = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getStudentRegister = /* GraphQL */ `
   query GetStudentRegister($id: ID!) {
     getStudentRegister(id: $id) {
       domain_id
       username
       recent_college
-      degree
+      current_employee
+      your_role
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
       education {
         degree
         college_university
         course
         graduation_year
       }
-      current_employee
-      your_role
-      experience
-      phone_number
-      linkedIn_url
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
       id
       createdAt
       updatedAt
     }
   }
-`
+`;
 export const listStudentRegisters = /* GraphQL */ `
   query ListStudentRegisters(
     $filter: ModelStudentRegisterFilterInput
@@ -129,18 +155,44 @@ export const listStudentRegisters = /* GraphQL */ `
         domain_id
         username
         recent_college
-        degree
+        current_employee
+        your_role
+        about_yourself {
+          grow_junction_url
+          first_name
+          last_name
+          short_description
+          about_yourself
+        }
+        social {
+          linkedin_url
+          facebook_url
+          instagram_url
+          personal_web_url
+          other_url
+        }
+        contact_info {
+          email
+          mobile
+          whatsapp
+        }
         education {
           degree
           college_university
           course
           graduation_year
         }
-        current_employee
-        your_role
-        experience
-        phone_number
-        linkedIn_url
+        professional_info {
+          occupation
+          organization
+          location
+          position
+          experience {
+            years
+            months
+          }
+        }
+        profile_image
         id
         createdAt
         updatedAt
@@ -148,7 +200,7 @@ export const listStudentRegisters = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getMentorRegister = /* GraphQL */ `
   query GetMentorRegister($id: ID!) {
     getMentorRegister(id: $id) {
@@ -199,7 +251,7 @@ export const getMentorRegister = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const listMentorRegisters = /* GraphQL */ `
   query ListMentorRegisters(
     $filter: ModelMentorRegisterFilterInput
@@ -257,7 +309,7 @@ export const listMentorRegisters = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getMentorAvailability = /* GraphQL */ `
   query GetMentorAvailability($id: ID!) {
     getMentorAvailability(id: $id) {
@@ -305,7 +357,7 @@ export const getMentorAvailability = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const listMentorAvailabilities = /* GraphQL */ `
   query ListMentorAvailabilities(
     $filter: ModelMentorAvailabilityFilterInput
@@ -354,7 +406,7 @@ export const listMentorAvailabilities = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getMentorWeekSchedule = /* GraphQL */ `
   query GetMentorWeekSchedule($id: ID!) {
     getMentorWeekSchedule(id: $id) {
@@ -398,7 +450,7 @@ export const getMentorWeekSchedule = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const listMentorWeekSchedules = /* GraphQL */ `
   query ListMentorWeekSchedules(
     $filter: ModelMentorWeekScheduleFilterInput
@@ -450,7 +502,7 @@ export const listMentorWeekSchedules = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getTimeSchedule = /* GraphQL */ `
   query GetTimeSchedule($id: ID!) {
     getTimeSchedule(id: $id) {
@@ -505,7 +557,7 @@ export const getTimeSchedule = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const listTimeSchedules = /* GraphQL */ `
   query ListTimeSchedules(
     $filter: ModelTimeScheduleFilterInput
@@ -557,7 +609,7 @@ export const listTimeSchedules = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const timeSchedulesByMentorWeekScheduleId = /* GraphQL */ `
   query TimeSchedulesByMentorWeekScheduleId(
     $MentorWeekScheduleId: ID!
@@ -617,4 +669,4 @@ export const timeSchedulesByMentorWeekScheduleId = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
