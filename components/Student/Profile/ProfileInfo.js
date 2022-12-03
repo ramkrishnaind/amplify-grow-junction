@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Formik, useFormikContext } from 'formik'
 import TextField from '../../../pages/ui-kit/TextField'
-import TimezoneSelect, { allTimezones } from 'react-timezone-select'
+// import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import classes from './ProfileInfo.module.css'
 import ProgressBar from '../../Utilities/ProgressBar'
-import Preview from './Preview'
+// import Preview from './Preview'
 import { Storage } from 'aws-amplify'
 const AutoSubmitToken = () => {
   // Grab values and submitForm from context
@@ -23,8 +23,8 @@ const AutoSubmitToken = () => {
 const ProfileInfo = ({
   about_yourself,
   social,
-  currency,
-  time_zone,
+  // currency,
+  // time_zone,
   // profile_image,
   profile_image_url,
   setProfileState,
@@ -37,26 +37,26 @@ const ProfileInfo = ({
   const [state, setState] = useState({
     about_yourself,
     social,
-    currency,
-    time_zone,
+    // currency,
+    // time_zone,
     profile_image_url,
     setProfileState,
   })
-  const [timeZone, setTimeZone] = useState(
-    time_zone || {},
-    // Intl.DateTimeFormat().resolvedOptions().timeZone,
-  )
+  // const [timeZone, setTimeZone] = useState(
+  //   time_zone || {},
+  //   // Intl.DateTimeFormat().resolvedOptions().timeZone,
+  // )
   useEffect(() => {
-    setTimeZone(time_zone)
+    // setTimeZone(time_zone)
     setState({
       about_yourself,
       social,
-      currency,
-      time_zone,
+      // currency,
+      // time_zone,
       profile_image_url,
       // setProfileState,
     })
-  }, [about_yourself, social, currency, time_zone, profile_image_url])
+  }, [about_yourself, social, profile_image_url])
   // useEffect(()=>{
   //   console.log("ProfileValues",values)
   // },[values])
@@ -68,8 +68,6 @@ const ProfileInfo = ({
   console.log('app', {
     about_yourself,
     social,
-    currency,
-    time_zone,
     profile_image_url,
     // profile_image_url,
     setProfileState,
@@ -80,8 +78,6 @@ const ProfileInfo = ({
     }
   }, [profile_image_url])
   const handleFileInput = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
     // handle validations
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
@@ -92,14 +88,12 @@ const ProfileInfo = ({
     <>
       <Formik
         initialValues={{ ...state }}
-        onSubmit={(values, e) => {
-          debugger
-          const { setSubmitting } = e
+        onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             // alert(JSON.stringify(values, null, 2));
             setSubmitting(false)
           }, 400)
-          values.time_zone = timeZone?.value || ''
+          // values.time_zone = timeZone?.value || ''
           values.profile_image_file = image
           setProfileState(values)
         }}
@@ -118,6 +112,7 @@ const ProfileInfo = ({
           isSubmitting,
           /* and other goodies */
         }) => {
+          debugger
           // console.log('values', values)
           return (
             <form>
@@ -188,37 +183,6 @@ const ProfileInfo = ({
                     <h2 className="p-2 leading-8 text-2xl font-semibold">
                       About Yourself
                     </h2>
-
-                    <div className="px-2">
-                      <label className="leading-8 text-sm font-normal mt-5">
-                        Growjunction URL
-                      </label>
-
-                      <div className="flex flex-wrap items-start w-full relative flex-col md:flex-row md-flex-row">
-                        <div class="focus-outline flex flex-row rounded-md border border-gray-300 px-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 pr-1">
-                          <label className="text-black py-2 flex-1 text-right pr-0  text-sm font-normal">
-                            Growjunction.io/
-                          </label>
-                        </div>
-                        <TextField
-                          type="text"
-                          name="about_yourself.grow_junction_url"
-                          onChangeValue={handleChange}
-                          value={values.about_yourself.grow_junction_url}
-                          style={{
-                            marginBottom: 0,
-                            paddingLeft: 4,
-                            paddingLeft: 0,
-                          }}
-                          id="url"
-                          placeholder="Grow Junction url"
-                          textStyleOverride={{
-                            marginBottom: 0,
-                            paddingLeft: 0,
-                          }}
-                        />
-                      </div>
-                    </div>
 
                     <div className="flex flex-col font-normal mt-5 md:flex-row lg:flex-row">
                       <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
@@ -368,89 +332,6 @@ const ProfileInfo = ({
                         />
                       </div>
                     </div>
-
-                    <h2 className="p-4 leading-8 text-2xl font-semibold mt-10 mb-5">
-                      Other details
-                    </h2>
-
-                    <div className="px-2">
-                      <div>
-                        <label className="leading-8 text-sm font-normal mt-5">
-                          Select Currency
-                        </label>
-                      </div>
-                      {/* todo currency*/}
-                      <div className="inline-block relative w-full">
-                        <select
-                          id="currency"
-                          name="currency"
-                          value={values.currency}
-                          onChange={handleChange}
-                          className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                        >
-                          <option value=""></option>
-                          <option value="₹">₹</option>
-                          <option value="$">$</option>
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                          <svg
-                            className="fill-current h-6 w-6"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                          </svg>
-                        </div>
-                      </div>
-                      <p className="text-sm">
-                        Want to change currency? Contact us at
-                        support@growjunction.io
-                      </p>
-                    </div>
-
-                    {/* TimeZone */}
-
-                    <div className="px-2 mt-5">
-                      <div>
-                        <label className="leading-8 text-sm font-normal mt-5">
-                          TimeZone
-                        </label>
-                      </div>
-
-                      <div className="inline-block relative w-full">
-                        {/* <select 
-                id="timezone"
-                className="h-12 block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                  <option>GMT (+05:30) Mumbai, New Delhi</option>
-                  <option>Option 2</option>
-                  <option>Option 3</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg
-                    className="fill-current h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
-                </div> */}
-                        <div className="select-wrapper w-full">
-                          <TimezoneSelect
-                            value={timeZone}
-                            // value={values.time_zone}
-
-                            // onChange={(val)=>handleChange(val)}
-                            onChange={setTimeZone}
-                            // labelStyle="altName"
-                            timezones={{
-                              ...allTimezones,
-                              'America/Lima': 'Pittsburgh',
-                              'Europe/Berlin': 'Frankfurt',
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
 
@@ -471,7 +352,7 @@ const ProfileInfo = ({
 
                   <div className="flex justify-center md:justify-end lg:justify-end">
                     <div className="flex justify-center items-center text-lg border-2 rounded-md bg-gray-100 h-auto w-auto">
-                      <Preview />
+                      {/* <Preview /> */}
                     </div>
                   </div>
                 </div>

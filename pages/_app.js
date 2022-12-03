@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor } from '../redux/store'
 import { useRouter } from 'next/router'
+import Student from './student'
 import Mentor from './mentor'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -21,6 +22,18 @@ function MyApp({ Component, pageProps }) {
           <Mentor>
             <Component {...pageProps} />
           </Mentor>
+        </PersistGate>
+        <ToastContainer />
+      </Provider>
+    )
+  }
+  if (router.asPath.includes('/student/')) {
+    return (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Student>
+            <Component {...pageProps} />
+          </Student>
         </PersistGate>
         <ToastContainer />
       </Provider>

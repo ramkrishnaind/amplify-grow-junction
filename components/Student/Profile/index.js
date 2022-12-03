@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import ProfileInfo from './ProfileInfo'
 import ContactInfo from './ContactInfo'
-import ProfessionalInfo from './ProfessionalInfo'
+import EducationalInfo from './EducationalInfo'
 import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
 import { toast } from 'react-toastify'
 // import nestedkeys from 'nested-keys'
 // import useWindowDimensions from '../../public/utils/useWindowDimensions'
 import {
-  createMentorRegister,
-  updateMentorRegister,
+  createStudentRegister,
+  updateStudentRegister,
 } from '../../../src/graphql/mutations'
 
-import { listMentorRegisters } from '../../../src/graphql/queries'
+import { listStudentRegisters } from '../../../src/graphql/queries'
 const initialState = {
   about_yourself: {
-    grow_junction_url: '',
     first_name: '',
     last_name: '',
     short_description: '',
@@ -27,8 +26,6 @@ const initialState = {
     personal_web_url: '',
     other_url: '',
   },
-  currency: '',
-  time_zone: '',
   contact_info: {
     email: '',
     mobile: '',
@@ -67,13 +64,13 @@ const Profile = () => {
     if (usr) setUser(usr)
     debugger
     const results = await API.graphql(
-      graphqlOperation(listMentorRegisters, {
+      graphqlOperation(listStudentRegisters, {
         filter: { username: { contains: usr.username } },
       }),
     )
-    if (results.data.listMentorRegisters.items.length > 0) {
+    if (results.data.listStudentRegisters.items.length > 0) {
       setIsNew(false)
-      const data = { ...results.data.listMentorRegisters.items[0] }
+      const data = { ...results.data.listStudentRegisters.items[0] }
       if (data.profile_image) {
         const img = await Storage.get(data.profile_image)
         // const response = await fetch(img)
@@ -96,17 +93,10 @@ const Profile = () => {
     console.log('results', results)
   }
   useEffect(() => {
-    setLoading(true)
-    getUser()
-    setLoading(false)
-  }, [])
-  useEffect(() => {
     let total = 40
     const keys = [
       'about_yourself',
       'social',
-      'currency',
-      'time_zone',
       'contact_info',
       'education',
       'professional_info',
@@ -127,6 +117,11 @@ const Profile = () => {
     })
     setPercentage(Math.round(total, 2))
   }, [state])
+  useEffect(() => {
+    setLoading(true)
+    getUser()
+    setLoading(false)
+  }, [])
   console.log('user', user)
   const setModifiedState = async (profileState) => {
     debugger
@@ -148,7 +143,7 @@ const Profile = () => {
     if (isNew) {
       try {
         await API.graphql({
-          query: createMentorRegister,
+          query: createStudentRegister,
           variables: { input: { ...state, ...remaining } },
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         })
@@ -167,7 +162,7 @@ const Profile = () => {
       // }
       try {
         await API.graphql({
-          query: updateMentorRegister,
+          query: updateStudentRegister,
           variables: {
             input: { ...rest },
             // condition: { username: { contains: state.username } },
@@ -227,7 +222,7 @@ const Profile = () => {
                     setOpenTab(1)
                   }}
                 >
-                  Profile
+                  Profile Info
                 </a>
               </li>
               <li className="mr-2">
@@ -243,7 +238,7 @@ const Profile = () => {
                     setOpenTab(2)
                   }}
                 >
-                  Contact
+                  Contact Info
                 </a>
               </li>
               <li className="mr-2">
@@ -259,7 +254,7 @@ const Profile = () => {
                     setOpenTab(3)
                   }}
                 >
-                  Professional
+                  Educational Info
                 </a>
               </li>
             </ul>
@@ -271,8 +266,6 @@ const Profile = () => {
                     {...{
                       about_yourself: state.about_yourself,
                       social: state.social,
-                      currency: state.currency,
-                      time_zone: state.time_zone,
                       profile_image_url: state.profile_image_url,
                       setProfileState: setModifiedState,
                       percentage,
@@ -292,9 +285,9 @@ const Profile = () => {
                   />
                 </div>
 
-                {/* Professional */}
+                {/* Educational */}
                 <div className={openTab === 3 ? 'block' : 'hidden'}>
-                  <ProfessionalInfo
+                  <EducationalInfo
                     {...{
                       professional_info: state.professional_info,
                       education: state.education,
