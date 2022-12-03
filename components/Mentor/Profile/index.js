@@ -165,6 +165,7 @@ const Profile = () => {
         updatedAt,
         profile_image_url,
         domain_id,
+        mentor_service_id,
         owner,
         ...rest
       } = {
