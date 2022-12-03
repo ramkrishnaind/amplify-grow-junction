@@ -176,6 +176,7 @@ const Profile = () => {
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         })
         toast.success('Profile added successfully')
+        window.location.href = window.location.href
       } catch (error) {
         toast.error(`Save Error:${error.errors[0].message}`)
       }
