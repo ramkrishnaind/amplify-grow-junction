@@ -147,13 +147,15 @@ const Profile = () => {
     }
     if (isNew) {
       try {
+        remaining.id = uuid()
+        remaining.mentor_id = uuid()
         await API.graphql({
           query: createMentorRegister,
           variables: { input: { ...state, ...remaining } },
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         })
         toast.success('Profile added successfully')
-      } catch (err) {
+      } catch (error) {
         toast.error(`Save Error:${error.errors[0].message}`)
       }
     } else {

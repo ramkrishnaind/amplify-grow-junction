@@ -41,7 +41,7 @@ const ContactInfo = ({ contact_info, setContactState }) => {
         }) => {
           // console.log('values', values)
           return (
-            <form onSubmit={handleSubmit}>
+            <form>
               <div className="grid grid-cols-1 md:grid-cols-2 bg-gray-50 ">
                 <div className="bg-gray-50 mt-10">
                   <div className="flex flex-col tracking-wide text-black ml-4 bg-gray-50 w-4/5 md:w-auto lg:w-auto">
@@ -175,7 +175,14 @@ const ContactInfo = ({ contact_info, setContactState }) => {
                 {/* 02 */}
                 <div className="bg-gray-50 basis-2/5 ">
                   <div className="flex justify-start mt-10 px-8 md:justify-end lg:justify-end mb-32">
-                    <button className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded">
+                    <button
+                      className="text-base bg-black hover:bg-blue-700 text-white font-bold py-4 px-6 border border-blue rounded"
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        handleSubmit(e)
+                      }}
+                    >
                       Save Changes
                     </button>
                   </div>

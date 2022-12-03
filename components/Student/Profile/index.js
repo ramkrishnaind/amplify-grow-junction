@@ -47,6 +47,7 @@ const initialState = {
       months: '',
     },
   },
+  student_profile: '',
   profile_image: '',
 }
 
@@ -79,6 +80,14 @@ const Profile = () => {
         // data.profile_image = `data:image/png;base64,${base64String}`
         data.profile_image_url = img
       }
+      if (data.student_profile) {
+        const profile = await Storage.get(data.student_profile)
+        // const response = await fetch(img)
+        // const arrBuf = await response.arrayBuffer()
+        // const base64String = arrayBufferToBase64(arrBuf)
+        // data.profile_image = `data:image/png;base64,${base64String}`
+        data.student_profile_url = profile
+      }
       setState({ ...data })
     }
 
@@ -101,18 +110,21 @@ const Profile = () => {
       'education',
       'professional_info',
       'profile_image',
+      'student_profile',
     ]
     const percEachKey = 60 / keys.length
     keys.forEach((key) => {
-      const subKeys = Object.keys(state[key])
+      if (state[key]) {
+        const subKeys = Object.keys(state[key])
 
-      if (subKeys.length > 0) {
-        const percEachSubKey = percEachKey / subKeys.length
-        subKeys.forEach((subKey) => {
-          total += !!state[key][subKey] ? percEachSubKey : 0
-        })
-      } else {
-        total += !!state[key] ? percEachKey : 0
+        if (subKeys.length > 0) {
+          const percEachSubKey = percEachKey / subKeys.length
+          subKeys.forEach((subKey) => {
+            total += !!state[key][subKey] ? percEachSubKey : 0
+          })
+        } else {
+          total += !!state[key] ? percEachKey : 0
+        }
       }
     })
     setPercentage(Math.round(total, 2))
@@ -125,7 +137,9 @@ const Profile = () => {
   console.log('user', user)
   const setModifiedState = async (profileState) => {
     debugger
-    const { profile_image_file, ...remaining } = profileState
+    const { profile_image_file, student_profile_file, ...remaining } =
+      profileState
+
     if (profile_image_file) {
       const name = profile_image_file.name.substr(
         0,
@@ -140,7 +154,21 @@ const Profile = () => {
         contentType: `image/${ext}`, // contentType is optional
       })
     }
+    if (student_profile_file) {
+      const name = student_profile_file.name.substr(
+        0,
+        student_profile_file.name.lastIndexOf('.'),
+      )
+      const ext = student_profile_file.name.substr(
+        student_profile_file.name.lastIndexOf('.') + 1,
+      )
+      const filename = `${name}_${uuid()}.${ext}`
+      remaining.student_profile = filename
+      await Storage.put(filename, student_profile_file)
+    }
     if (isNew) {
+      remaining.id = uuid()
+      remaining.student_id = uuid()
       try {
         await API.graphql({
           query: createStudentRegister,
@@ -148,14 +176,24 @@ const Profile = () => {
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         })
         toast.success('Profile added successfully')
-      } catch (err) {
+      } catch (error) {
         toast.error(`Save Error:${error.errors[0].message}`)
       }
     } else {
-      const { createdAt, updatedAt, profile_image_url, ...rest } = {
+      const {
+        createdAt,
+        updatedAt,
+        domain_id,
+        owner,
+        student_profile_file,
+        profile_image_url,
+        ...rest
+      } = {
         ...state,
         ...remaining,
       }
+      if (rest?.student_profile_url) delete rest.student_profile_url
+
       // const { createdAt, profile_image_url, ...rest } = {
       //   ...state,
       //   ...remaining,
@@ -267,8 +305,10 @@ const Profile = () => {
                       about_yourself: state.about_yourself,
                       social: state.social,
                       profile_image_url: state.profile_image_url,
-                      setProfileState: setModifiedState,
                       percentage,
+                      student_profile_url: state.student_profile_url,
+                      setProfileState: setModifiedState,
+                      student_profile: state.student_profile,
                       // ,
                       // profile_image: state.profile_image,
                     }}

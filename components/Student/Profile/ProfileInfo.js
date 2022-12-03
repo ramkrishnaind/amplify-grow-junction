@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Formik, useFormikContext } from 'formik'
 import TextField from '../../../pages/ui-kit/TextField'
-// import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import classes from './ProfileInfo.module.css'
 import ProgressBar from '../../Utilities/ProgressBar'
-// import Preview from './Preview'
-import { Storage } from 'aws-amplify'
+
 const AutoSubmitToken = () => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
@@ -29,19 +27,28 @@ const ProfileInfo = ({
   profile_image_url,
   setProfileState,
   percentage,
+  student_profile_url,
+  student_profile,
 }) => {
-  const initialState = {}
   const imageInputref = useRef()
+  const profileInputref = useRef()
   const [image, setImage] = useState()
+  const [profile, setProfile] = useState()
+
   const [convertedImage, setConvertedImage] = useState()
   const [state, setState] = useState({
     about_yourself,
     social,
     // currency,
     // time_zone,
+
     profile_image_url,
+    percentage,
+    student_profile_url,
     setProfileState,
+    student_profile,
   })
+  debugger
   // const [timeZone, setTimeZone] = useState(
   //   time_zone || {},
   //   // Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -54,9 +61,17 @@ const ProfileInfo = ({
       // currency,
       // time_zone,
       profile_image_url,
+      student_profile_url,
+      student_profile,
       // setProfileState,
     })
-  }, [about_yourself, social, profile_image_url])
+  }, [
+    about_yourself,
+    social,
+    profile_image_url,
+    student_profile_url,
+    student_profile,
+  ])
   // useEffect(()=>{
   //   console.log("ProfileValues",values)
   // },[values])
@@ -69,6 +84,7 @@ const ProfileInfo = ({
     about_yourself,
     social,
     profile_image_url,
+    student_profile_url,
     // profile_image_url,
     setProfileState,
   })
@@ -81,6 +97,16 @@ const ProfileInfo = ({
     // handle validations
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
+    } else {
+      setImage(null)
+    }
+  }
+  const handleProfileInput = (e) => {
+    // handle validations
+    if (e.target.files?.[0]) {
+      setProfile(e.target.files[0])
+    } else {
+      setProfile(null)
     }
   }
 
@@ -95,7 +121,8 @@ const ProfileInfo = ({
           }, 400)
           // values.time_zone = timeZone?.value || ''
           values.profile_image_file = image
-          setProfileState(values)
+          values.student_profile_file = profile
+          setProfileState({ ...values })
         }}
         enableReinitialize={true}
         // validateOnChange={true}
@@ -113,7 +140,7 @@ const ProfileInfo = ({
           /* and other goodies */
         }) => {
           debugger
-          // console.log('values', values)
+          console.log('values', values)
           return (
             <form>
               <div className="flex flex-col md:flex-row">
@@ -158,6 +185,7 @@ const ProfileInfo = ({
                           <input
                             type="file"
                             ref={imageInputref}
+                            accept="image/*"
                             className="absolute w-0 h-0 left-0 top-0"
                             onChange={handleFileInput}
                           />
@@ -252,7 +280,43 @@ const ProfileInfo = ({
                         Describe yourself in 500 characters or less
                       </span>
                     </div>
+                    <div className="px-2 mt-10 flex flex-col">
+                      <label className="leading-8 cursor-pointer text-sm font-normal mt-5">
+                        Upload Resume / CV (optional)
+                      </label>
 
+                      <input
+                        type="file"
+                        ref={profileInputref}
+                        accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,application/pdf"
+                        className="absolute w-0 h-0 left-0 top-0"
+                        onChange={handleProfileInput}
+                      />
+
+                      <div
+                        className="flex cursor-pointer justify-between text-gray-400 bg-gray-50 border-2 p-3 flex-wrap items-stretch w-full mb-5 relative"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          profileInputref.current.click()
+                        }}
+                      >
+                        <span>Upload file (Max Size 5 MB)</span>
+                        <img src="/assets/icon/mentor-dashboard/upload.svg" />
+                      </div>
+                      {profile ? (
+                        <div className="flex mt-5 justify-start text-sm">
+                          {`Your Resume: ${profile?.name}`}
+                        </div>
+                      ) : (
+                        values.student_profile_url && (
+                          <div className="flex justify-start text-sm -mt-4">
+                            <a href={values.student_profile_url}>
+                              {`Your Resume: ${values.student_profile}`}
+                            </a>
+                          </div>
+                        )
+                      )}
+                    </div>
                     <h2 className="p-2 leading-8 text-2xl font-semibold mt-10 mb-5">
                       Social Links
                     </h2>
