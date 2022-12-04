@@ -6,7 +6,7 @@ export const NavigationLinks = [
   },
   {
     title: 'Bookings',
-    url: '',
+    url: '/mentor/booking',
     image: 'bookings.png',
   },
   {
