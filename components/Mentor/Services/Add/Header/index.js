@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Pill from './Pill'
-const Header = ({ currentService, setCurrentService, items }) => {
+const Header = ({ currentService, setCurrentService, items, saveClick }) => {
   return (
     <>
       <section className="flex md:flex-row flex-col min-h-[10vh] justify-between">
@@ -8,8 +8,16 @@ const Header = ({ currentService, setCurrentService, items }) => {
           <span className="text-4xl ">Launch New Service</span>
         </div>
         <div className="flex justify-center items-center">
-          <span className="mr-3 text-2xl">Reset all</span>
-          <span className="text-2xl rounded-xl py-6 px-16 bg-gray-500 text-white">
+          <span
+            onClick={() => setCurrentService('')}
+            className="mr-3 text-2xl hover:bg-gray-200 px-10 py-5 cursor-pointer rounded-full"
+          >
+            Reset all
+          </span>
+          <span
+            className="text-2xl rounded-xl py-6 px-16 bg-gray-500 text-white"
+            onClick={saveClick}
+          >
             Add Service
           </span>
         </div>
@@ -23,7 +31,7 @@ const Header = ({ currentService, setCurrentService, items }) => {
                 selected={item === currentService}
                 title={item}
                 key={index}
-                setCurrentService={setCurrentService}
+                onSelected={setCurrentService}
                 className="mr-3"
               />
             )

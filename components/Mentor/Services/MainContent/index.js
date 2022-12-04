@@ -1,5 +1,4 @@
 import React from 'react'
-// import Header from './Header'
 import classes from './MainContent.module.css'
 import Home from '../Home'
 const MainContent = ({ content }) => {

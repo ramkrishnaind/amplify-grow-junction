@@ -1,11 +1,62 @@
 import React, { useState } from 'react'
-import { Formik } from 'formik'
+import { Formik, useFormikContext } from 'formik'
 import Pill from '../../Header/Pill'
 import TextField from '../../../../../../pages/ui-kit/TextField'
-const OneOnOne = () => {
+import { v4 as uuid } from 'uuid'
+const AutoSubmitToken = ({ setValues, questions }) => {
+  // Grab values and submitForm from context
+  const { values, submitForm } = useFormikContext()
+
+  React.useEffect(() => {
+    console.log('context_values', values)
+    values.questions = questions
+    setValues(values)
+    // setProfile(values)
+    // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
+    // if (values.token.length === 6) {
+    //   submitForm();
+    // }
+  }, [values, submitForm])
+  return null
+}
+const OneOnOne = ({ setValues }) => {
+  const initialState = {
+    sessionTitle: '',
+    listedPrice: '',
+    finalPrice: '',
+    numberOfSessions: '',
+    sessionDuration: '',
+    sessionDurationIn: '',
+    description: '',
+    // questions: [],
+  }
   const items = ['Text', 'Upload (Pdf,jpeg)']
   const [questionType, setQuestionType] = useState(items[0])
-  const [state, setState] = useState({})
+  const [state, setState] = useState(initialState)
+  const [question, setQuestion] = useState('')
+  const [questions, setQuestions] = useState([])
+  const handleQuestionChange = (e) => {
+    setQuestion(e.target.value)
+  }
+  const addQuestion = () => {
+    const found = questions.find(
+      (item) => item.text === question && item.type === questionType,
+    )
+    if (!found) {
+      questions.push({
+        id: uuid(),
+        text: question,
+        type: questionType,
+      })
+    }
+    setQuestionType(items[0])
+    setQuestion('')
+  }
+  const handleRemoveQuestion = (id) => {
+    debugger
+    const newQuestions = questions.filter((item) => item.id !== id)
+    setQuestions(newQuestions)
+  }
   return (
     <>
       <Formik
@@ -17,9 +68,8 @@ const OneOnOne = () => {
             // alert(JSON.stringify(values, null, 2));
             setSubmitting(false)
           }, 400)
-          values.time_zone = timeZone?.value || ''
-          values.profile_image_file = image
-          setProfileState(values)
+          values.questions = questions
+          // setProfileState(values)
         }}
         enableReinitialize={true}
         // validateOnChange={true}
@@ -36,7 +86,7 @@ const OneOnOne = () => {
           isSubmitting,
           /* and other goodies */
         }) => {
-          // console.log('values', values)
+          console.log('values', values)
           return (
             <form>
               <div className="flex flex-col md:flex-row">
@@ -69,9 +119,9 @@ const OneOnOne = () => {
                         </div> */}
                         <TextField
                           type="text"
-                          name="about_yourself.grow_junction_url"
+                          name="sessionTitle"
                           onChangeValue={handleChange}
-                          //   value={values.about_yourself.grow_junction_url}
+                          value={values.sessionTitle}
                           id="url"
                           placeholder="Session Title"
                           textStyleOverride={{
@@ -90,11 +140,10 @@ const OneOnOne = () => {
                         <div className="flex flex-wrap items-stretch w-full relative">
                           <TextField
                             onChangeValue={handleChange}
-                            // value={values.about_yourself.first_name}
+                            value={values.listedPrice}
                             placeholder="₹"
-                            name="about_yourself.first_name"
-                            type="text"
-                            id="fname"
+                            name="listedPrice"
+                            type="number"
                           />
                         </div>
                       </div>
@@ -106,10 +155,9 @@ const OneOnOne = () => {
                           <TextField
                             type="text"
                             placeholder="₹"
-                            // value={values.about_yourself.last_name}
+                            value={values.finalPrice}
                             onChangeValue={handleChange}
-                            name="about_yourself.last_name"
-                            id="lname"
+                            name="finalPrice"
                           />
                         </div>
                       </div>
@@ -124,11 +172,17 @@ const OneOnOne = () => {
                             onChangeValue={handleChange}
                             type="number"
                             min="0"
-                            // value={values.about_yourself.first_name}
+                            value={values.numberOfSessions}
                             placeholder="₹"
-                            name="about_yourself.first_name"
+                            name="numberOfSessions"
                             id="fname"
                           />
+                          {/* <input
+                            type="number"
+                            value={values.numberOfSessions}
+                            onChange={handleChange}
+                            name="numberOfSessions"
+                          /> */}
                         </div>
                       </div>
                       <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
@@ -141,15 +195,20 @@ const OneOnOne = () => {
                             min="0"
                             textStyleOverride={{ width: '80%' }}
                             placeholder="₹"
-                            // value={values.about_yourself.last_name}
+                            value={values.sessionDuration}
                             onChangeValue={handleChange}
-                            name="about_yourself.last_name"
+                            name="sessionDuration"
                             id="lname"
                             widthPartial
                           />
-                          <select className="absolute p-2 top-3 text-lg right-0">
-                            <option>min</option>
-                            <option>hours</option>
+                          <select
+                            className="absolute p-2 top-3 text-lg right-0"
+                            value="values.sessionDurationIn"
+                            name="sessionDurationIn"
+                            onChange={handleChange}
+                          >
+                            <option value="min">min</option>
+                            <option value="hours">hours</option>
                           </select>
                         </div>
                       </div>
@@ -161,9 +220,9 @@ const OneOnOne = () => {
                       <div className="flex flex-wrap items-stretch w-full relative">
                         <textarea
                           onChange={handleChange}
-                          placeholder="About yourself"
-                          //   value={values.about_yourself.about_yourself}
-                          name="about_yourself.about_yourself"
+                          placeholder="Description"
+                          value={values.description}
+                          name="description"
                           className="w-full p-3"
                         ></textarea>
                       </div>
@@ -174,9 +233,13 @@ const OneOnOne = () => {
                     <div className="bg-white mt-10">
                       <h2 className="p-2 leading-8 text-2xl font-semibold flex justify-between items-center">
                         <span> Additional questions</span>
-                        <span className="text-lg rounded-2xl border-black p-5 border-2">
+                        <button
+                          className="cursor-pointer text-lg rounded-2xl border-black p-5 border-2  disabled:bg-gray-300 disabled:border-gray-50 disabled:text-gray-700    disabled:cursor-wait"
+                          disabled={!question}
+                          onClick={addQuestion}
+                        >
                           Add another question
-                        </span>
+                        </button>
                       </h2>
                       <div className="flex p-2 justify-start rounded-xl border-2 ">
                         <img
@@ -188,16 +251,42 @@ const OneOnOne = () => {
                           specific question
                         </span>
                       </div>
+                      <div>
+                        {questions.length > 0 && (
+                          <div className="grid gap-2 grid-cols-3 px-10 py-5 text-lg uppercase border-b-2">
+                            <span>Question</span>
+                            <span>Type</span>
+                            <span className="px-5">Action</span>
+                          </div>
+                        )}
+
+                        {questions.map((qns) => (
+                          <div
+                            key={qns.id}
+                            className="grid grid-cols-3 px-10 py-5 items-center gap-2  text-lg "
+                          >
+                            <span>{qns.text}</span>
+                            <span>{qns.type}</span>
+                            <span
+                              className="text-red-700 cursor-pointer py-3 px-5 rounded-full hover:bg-gray-100 w-32 "
+                              onClick={handleRemoveQuestion.bind(null, qns.id)}
+                            >
+                              Remove
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                       <div className="py-3 px-10">
                         <div className="bg-gray-50 text-lg">
                           <label>Enter question</label>
                           <TextField
                             name="social.facebook_url"
-                            onChangeValue={handleChange}
+                            value={question}
+                            onChangeValue={handleQuestionChange}
                             // styleOverride={{ backgroundColor: '#fff' }}
                             classOverride="bg-white"
                             //   value={values.social.facebook_url}
-                            type="url"
+                            type="text"
                             id="linkedurl"
                             placeholder="Enter URL here"
                           />
@@ -215,7 +304,7 @@ const OneOnOne = () => {
                                   selected={item === questionType}
                                   title={item}
                                   key={index}
-                                  setCurrentService={setQuestionType}
+                                  onSelected={setQuestionType}
                                   className="mr-3"
                                 />
                               )
@@ -227,6 +316,7 @@ const OneOnOne = () => {
                   </div>
                 </div>
               </div>
+              <AutoSubmitToken setValues={setValues} questions={questions} />
             </form>
           )
         }}
