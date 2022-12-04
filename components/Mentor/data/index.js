@@ -21,8 +21,9 @@ export const NavigationLinks = [
   },
   {
     title: 'Services',
-    url: '',
+    url: '/mentor/services',
     image: 'services.png',
+    partial: true,
   },
   {
     title: 'Availability',

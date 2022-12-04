@@ -18,7 +18,7 @@
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
               "apiKeyExpirationDays": 365,
-              "apiKeyExpirationDate": "2023-11-18T06:08:25.625Z",
+              "apiKeyExpirationDate": "2023-12-03T08:09:41.764Z",
               "description": "default api key"
             }
           },
@@ -62,6 +62,8 @@
   },
   "storage": {
     "testAmplify": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
       "dependsOn": []
     }
   }

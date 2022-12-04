@@ -3,7 +3,7 @@ import LeftMenu from '../../components/Mentor/LeftMenu'
 import MainContent from '../../components/Mentor/MainContent'
 import { useDispatch } from 'react-redux'
 import { setMentorTitle } from '../../redux/actions/MentorTitleAction'
-import { Auth, withAuthenticator } from '@aws-amplify/ui-react'
+import { withAuthenticator } from '@aws-amplify/ui-react'
 // import withAuthenticator from '../add-todo'
 const Mentor = ({ children }) => {
   const dispatch = useDispatch()
