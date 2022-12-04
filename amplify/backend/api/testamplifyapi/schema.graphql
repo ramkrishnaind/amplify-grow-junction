@@ -58,7 +58,30 @@ type StudentRegister
   profile_image: String
   student_profile: String
 }
-
+type OneOnOne
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create, delete] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  sessionTitle: String
+  username: String
+  listedPrice: Float
+  finalPrice: Float
+  numberOfSessions: Int
+  sessionDuration: Int
+  sessionDurationIn: String
+  description: String
+  questions: [OneOnOneQuestions]
+}
+type OneOnOneQuestions {
+  id: String
+  text: String
+  type: String
+}
 type MentorRegister
   @model
   @auth(

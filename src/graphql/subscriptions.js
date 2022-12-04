@@ -12,7 +12,7 @@ export const onCreateDemoSkillsList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onUpdateDemoSkillsList = /* GraphQL */ `
   subscription OnUpdateDemoSkillsList(
     $filter: ModelSubscriptionDemoSkillsListFilterInput
@@ -24,7 +24,7 @@ export const onUpdateDemoSkillsList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onDeleteDemoSkillsList = /* GraphQL */ `
   subscription OnDeleteDemoSkillsList(
     $filter: ModelSubscriptionDemoSkillsListFilterInput
@@ -36,7 +36,7 @@ export const onDeleteDemoSkillsList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onCreateSuggestedServiceList = /* GraphQL */ `
   subscription OnCreateSuggestedServiceList(
     $filter: ModelSubscriptionSuggestedServiceListFilterInput
@@ -48,7 +48,7 @@ export const onCreateSuggestedServiceList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onUpdateSuggestedServiceList = /* GraphQL */ `
   subscription OnUpdateSuggestedServiceList(
     $filter: ModelSubscriptionSuggestedServiceListFilterInput
@@ -60,7 +60,7 @@ export const onUpdateSuggestedServiceList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onDeleteSuggestedServiceList = /* GraphQL */ `
   subscription OnDeleteSuggestedServiceList(
     $filter: ModelSubscriptionSuggestedServiceListFilterInput
@@ -72,7 +72,7 @@ export const onDeleteSuggestedServiceList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onCreateMentorWeekSchedule = /* GraphQL */ `
   subscription OnCreateMentorWeekSchedule(
     $filter: ModelSubscriptionMentorWeekScheduleFilterInput
@@ -96,7 +96,7 @@ export const onCreateMentorWeekSchedule = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onUpdateMentorWeekSchedule = /* GraphQL */ `
   subscription OnUpdateMentorWeekSchedule(
     $filter: ModelSubscriptionMentorWeekScheduleFilterInput
@@ -120,7 +120,7 @@ export const onUpdateMentorWeekSchedule = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onDeleteMentorWeekSchedule = /* GraphQL */ `
   subscription OnDeleteMentorWeekSchedule(
     $filter: ModelSubscriptionMentorWeekScheduleFilterInput
@@ -144,7 +144,7 @@ export const onDeleteMentorWeekSchedule = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onCreateTimeSchedule = /* GraphQL */ `
   subscription OnCreateTimeSchedule(
     $filter: ModelSubscriptionTimeScheduleFilterInput
@@ -161,7 +161,7 @@ export const onCreateTimeSchedule = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onUpdateTimeSchedule = /* GraphQL */ `
   subscription OnUpdateTimeSchedule(
     $filter: ModelSubscriptionTimeScheduleFilterInput
@@ -178,7 +178,7 @@ export const onUpdateTimeSchedule = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onDeleteTimeSchedule = /* GraphQL */ `
   subscription OnDeleteTimeSchedule(
     $filter: ModelSubscriptionTimeScheduleFilterInput
@@ -195,7 +195,7 @@ export const onDeleteTimeSchedule = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onCreateTodo = /* GraphQL */ `
   subscription OnCreateTodo(
     $filter: ModelSubscriptionTodoFilterInput
@@ -210,7 +210,7 @@ export const onCreateTodo = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onUpdateTodo = /* GraphQL */ `
   subscription OnUpdateTodo(
     $filter: ModelSubscriptionTodoFilterInput
@@ -225,7 +225,7 @@ export const onUpdateTodo = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onDeleteTodo = /* GraphQL */ `
   subscription OnDeleteTodo(
     $filter: ModelSubscriptionTodoFilterInput
@@ -240,7 +240,7 @@ export const onDeleteTodo = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const onCreateStudentRegister = /* GraphQL */ `
   subscription OnCreateStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
@@ -261,8 +261,11 @@ export const onCreateStudentRegister = /* GraphQL */ `
         updatedAt
       }
       recent_college
+      degree
       current_employee
       your_role
+      experience
+      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -307,7 +310,7 @@ export const onCreateStudentRegister = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onUpdateStudentRegister = /* GraphQL */ `
   subscription OnUpdateStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
@@ -377,7 +380,7 @@ export const onUpdateStudentRegister = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onDeleteStudentRegister = /* GraphQL */ `
   subscription OnDeleteStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
@@ -447,7 +450,88 @@ export const onDeleteStudentRegister = /* GraphQL */ `
       owner
     }
   }
-`
+`;
+export const onCreateOneOnOne = /* GraphQL */ `
+  subscription OnCreateOneOnOne(
+    $filter: ModelSubscriptionOneOnOneFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateOneOnOne(filter: $filter, username: $username, owner: $owner) {
+      sessionTitle
+      username
+      listedPrice
+      finalPrice
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      description
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateOneOnOne = /* GraphQL */ `
+  subscription OnUpdateOneOnOne(
+    $filter: ModelSubscriptionOneOnOneFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateOneOnOne(filter: $filter, username: $username, owner: $owner) {
+      sessionTitle
+      username
+      listedPrice
+      finalPrice
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      description
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteOneOnOne = /* GraphQL */ `
+  subscription OnDeleteOneOnOne(
+    $filter: ModelSubscriptionOneOnOneFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteOneOnOne(filter: $filter, username: $username, owner: $owner) {
+      sessionTitle
+      username
+      listedPrice
+      finalPrice
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      description
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const onCreateMentorRegister = /* GraphQL */ `
   subscription OnCreateMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput
@@ -521,7 +605,7 @@ export const onCreateMentorRegister = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onUpdateMentorRegister = /* GraphQL */ `
   subscription OnUpdateMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput
@@ -595,7 +679,7 @@ export const onUpdateMentorRegister = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onDeleteMentorRegister = /* GraphQL */ `
   subscription OnDeleteMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput
@@ -669,7 +753,7 @@ export const onDeleteMentorRegister = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onCreateMentorAvailability = /* GraphQL */ `
   subscription OnCreateMentorAvailability(
     $filter: ModelSubscriptionMentorAvailabilityFilterInput
@@ -707,7 +791,7 @@ export const onCreateMentorAvailability = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onUpdateMentorAvailability = /* GraphQL */ `
   subscription OnUpdateMentorAvailability(
     $filter: ModelSubscriptionMentorAvailabilityFilterInput
@@ -745,7 +829,7 @@ export const onUpdateMentorAvailability = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const onDeleteMentorAvailability = /* GraphQL */ `
   subscription OnDeleteMentorAvailability(
     $filter: ModelSubscriptionMentorAvailabilityFilterInput
@@ -783,4 +867,4 @@ export const onDeleteMentorAvailability = /* GraphQL */ `
       owner
     }
   }
-`
+`;
