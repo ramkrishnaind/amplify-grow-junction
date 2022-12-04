@@ -15,7 +15,7 @@ const Header = ({ currentService, setCurrentService, items, saveClick }) => {
             Reset all
           </span>
           <span
-            className="text-2xl rounded-xl py-6 px-16 bg-gray-500 text-white"
+            className="text-2xl rounded-xl py-6 px-16 bg-gray-500 text-white cursor-pointer"
             onClick={saveClick}
           >
             Add Service

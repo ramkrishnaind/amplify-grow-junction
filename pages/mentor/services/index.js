@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import LeftMenu from '../../../components/Mentor/Services/LeftMenu'
+// import LeftMenu from '../../../components/Mentor/Services/LeftMenu'
 import MainContent from '../../../components/Mentor/Services/MainContent'
 import { useDispatch } from 'react-redux'
 import { setServicesTitle } from '../../../redux/actions/ServicesTitleAction'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Formik, useFormikContext } from 'formik'
 import Pill from '../../Header/Pill'
 import TextField from '../../../../../../pages/ui-kit/TextField'
@@ -8,6 +8,7 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   const { values, submitForm } = useFormikContext()
 
   React.useEffect(() => {
+    debugger
     console.log('context_values', values)
     values.questions = questions
     setValues(values)
@@ -19,7 +20,10 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   }, [values, submitForm])
   return null
 }
-const OneOnOne = ({ setValues }) => {
+const OneOnOne = ({ setValues, state: initial }) => {
+  useEffect(() => {
+    setState(initial)
+  }, [initial])
   const initialState = {
     sessionTitle: '',
     listedPrice: '',

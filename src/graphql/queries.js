@@ -10,7 +10,7 @@ export const getDemoSkillsList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const listDemoSkillsLists = /* GraphQL */ `
   query ListDemoSkillsLists(
     $filter: ModelDemoSkillsListFilterInput
@@ -27,7 +27,7 @@ export const listDemoSkillsLists = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getSuggestedServiceList = /* GraphQL */ `
   query GetSuggestedServiceList($id: ID!) {
     getSuggestedServiceList(id: $id) {
@@ -37,7 +37,7 @@ export const getSuggestedServiceList = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const listSuggestedServiceLists = /* GraphQL */ `
   query ListSuggestedServiceLists(
     $filter: ModelSuggestedServiceListFilterInput
@@ -58,7 +58,7 @@ export const listSuggestedServiceLists = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getMentorWeekSchedule = /* GraphQL */ `
   query GetMentorWeekSchedule($id: ID!) {
     getMentorWeekSchedule(id: $id) {
@@ -80,7 +80,7 @@ export const getMentorWeekSchedule = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const listMentorWeekSchedules = /* GraphQL */ `
   query ListMentorWeekSchedules(
     $filter: ModelMentorWeekScheduleFilterInput
@@ -113,7 +113,7 @@ export const listMentorWeekSchedules = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getTimeSchedule = /* GraphQL */ `
   query GetTimeSchedule($id: ID!) {
     getTimeSchedule(id: $id) {
@@ -128,7 +128,7 @@ export const getTimeSchedule = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const listTimeSchedules = /* GraphQL */ `
   query ListTimeSchedules(
     $filter: ModelTimeScheduleFilterInput
@@ -150,7 +150,7 @@ export const listTimeSchedules = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getTodo = /* GraphQL */ `
   query GetTodo($id: ID!) {
     getTodo(id: $id) {
@@ -162,7 +162,7 @@ export const getTodo = /* GraphQL */ `
       updatedAt
     }
   }
-`
+`;
 export const listTodos = /* GraphQL */ `
   query ListTodos(
     $filter: ModelTodoFilterInput
@@ -181,7 +181,7 @@ export const listTodos = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getStudentRegister = /* GraphQL */ `
   query GetStudentRegister($id: ID!) {
     getStudentRegister(id: $id) {
@@ -243,7 +243,7 @@ export const getStudentRegister = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const listStudentRegisters = /* GraphQL */ `
   query ListStudentRegisters(
     $filter: ModelStudentRegisterFilterInput
@@ -316,7 +316,60 @@ export const listStudentRegisters = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
+export const getOneOnOne = /* GraphQL */ `
+  query GetOneOnOne($id: ID!) {
+    getOneOnOne(id: $id) {
+      sessionTitle
+      username
+      listedPrice
+      finalPrice
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      description
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listOneOnOnes = /* GraphQL */ `
+  query ListOneOnOnes(
+    $filter: ModelOneOnOneFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOneOnOnes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        sessionTitle
+        username
+        listedPrice
+        finalPrice
+        numberOfSessions
+        sessionDuration
+        sessionDurationIn
+        description
+        questions {
+          id
+          text
+          type
+        }
+        id
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const getMentorRegister = /* GraphQL */ `
   query GetMentorRegister($id: ID!) {
     getMentorRegister(id: $id) {
@@ -382,7 +435,7 @@ export const getMentorRegister = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const listMentorRegisters = /* GraphQL */ `
   query ListMentorRegisters(
     $filter: ModelMentorRegisterFilterInput
@@ -455,7 +508,7 @@ export const listMentorRegisters = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
 export const getMentorAvailability = /* GraphQL */ `
   query GetMentorAvailability($id: ID!) {
     getMentorAvailability(id: $id) {
@@ -485,7 +538,7 @@ export const getMentorAvailability = /* GraphQL */ `
       owner
     }
   }
-`
+`;
 export const listMentorAvailabilities = /* GraphQL */ `
   query ListMentorAvailabilities(
     $filter: ModelMentorAvailabilityFilterInput
@@ -526,4 +579,4 @@ export const listMentorAvailabilities = /* GraphQL */ `
       nextToken
     }
   }
-`
+`;
