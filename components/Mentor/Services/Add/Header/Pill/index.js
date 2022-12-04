@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Pill = ({ title, selected, className, setCurrentService }) => {
+const Pill = ({ title, selected, className, onSelected }) => {
   return (
     <div
       className={`${className} ${
@@ -8,7 +8,7 @@ const Pill = ({ title, selected, className, setCurrentService }) => {
           ? 'border-orange-400 text-orange-400 '
           : 'border-black text-black'
       } border-black align-middle flex items-center rounded-full text-lg py-3 px-5 border-2 cursor-pointer`}
-      onClick={() => setCurrentService(title)}
+      onClick={() => onSelected(title)}
     >
       {title}{' '}
     </div>
