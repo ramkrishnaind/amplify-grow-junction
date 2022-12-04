@@ -31,15 +31,17 @@ const OneOnOne = ({ setValues, state: initial }) => {
     description,
     // questions: [],
   } = initial
-  useEffect(() => {
-    setState(initial)
-  }, [sessionTitle,
-    listedPrice,
-    finalPrice,
-    numberOfSessions,
-    sessionDuration,
-    sessionDurationIn,
-    description,])
+  // useEffect(() => {
+  //   setState(initial)
+  // }, [
+  //   sessionTitle,
+  //   listedPrice,
+  //   finalPrice,
+  //   numberOfSessions,
+  //   sessionDuration,
+  //   sessionDurationIn,
+  //   description,
+  // ])
   const initialState = {
     sessionTitle: '',
     listedPrice: '',
@@ -91,7 +93,7 @@ const OneOnOne = ({ setValues, state: initial }) => {
           values.questions = questions
           // setProfileState(values)
         }}
-        enableReinitialize={true}
+        // enableReinitialize={true}
         // validateOnChange={true}
         // validateOnBlur={true}
         // validateOnMount={true}

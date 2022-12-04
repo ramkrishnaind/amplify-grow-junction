@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import Link from 'next/link'
 import { API, Auth } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
@@ -7,8 +7,17 @@ import classes from './OneOnOne.module.css'
 import { toast } from 'react-toastify'
 import { deleteOneOnOne } from '../../../../../src/graphql/mutations'
 const OneOnOne = ({ services }) => {
-  debugger
-  const handleChange = () => {}
+  const searchRef = useRef()
+  const [results, setResults] = useState(services)
+  const searchClick = () => {
+    const filtered = services.filter((i) =>
+      i.sessionTitle
+        .toLowerCase()
+        .includes(searchRef.current.value.toLowerCase()),
+    )
+    setResults(filtered)
+    searchRef.current.value = ''
+  }
   const deletePost = async (id) => {
     debugger
     console.log('id', id)
@@ -30,8 +39,9 @@ const OneOnOne = ({ services }) => {
     <>
       <div className="py-5 relative items-center flex-col md:flex-row md:flex md:justify-between">
         <TextField
-          onChangeValue={handleChange}
+          ref={searchRef}
           // value={values.listedPrice}
+          onChangeValue={() => {}}
           placeholder=""
           name="listedPrice"
           type="text"
@@ -40,19 +50,20 @@ const OneOnOne = ({ services }) => {
         />
         <img
           src="/assets/icon/mentor-dashboard/search.svg"
-          className="absolute md:right-44 top-10"
+          className="absolute md:right-44 cursor-pointer top-10"
+          onClick={searchClick}
         />
         <button className="text-lg py-2 block mx-auto mt-5 md:mt-0 rounded-md text-white px-5 bg-gray-800">
           <Link href="/mentor/services/add">Add Service</Link>
         </button>
       </div>
-      {services.length > 0 && (
+      {results.length > 0 ? (
         <div className="my-3 bg-white p-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-            {services.map((item, index) => (
-              <div className="flex justify-center align-center mb-10">
+            {results.map((item, index) => (
+              <div className="flex justify-center align-center mb-10  ">
                 <div
-                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-auto  md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
+                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
                 >
                   <div className="flex justify-between py-6 px-6 border-b border-gray-300">
                     <div className="flex justify-between p-2">
@@ -98,16 +109,19 @@ const OneOnOne = ({ services }) => {
                     <div className="flex justify-start text-black text-2xl font-semibold p-6">
                       {item.sessionTitle}
                     </div>
+                    <div className="flex justify-start text-black text-lg font-semibold p-6">
+                      {item.description}
+                    </div>
                     <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
                   </div>
-                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 flex justify-between">
+                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
                     {/* <div className="flex justify-end"> */}
                     <div className="flex">
                       {/* <button
                           className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
                           type="button"
                         > */}
-                      <div className="flex items-center py-1 px-3 border-2 mr-5 border-black rounded-full">
+                      <div className="flex items-center py-1 px-3 border-2 mr-5 border-black rounded-full min-w-[20%]">
                         <img
                           src="/assets/icon/mentor-dashboard/clock-two.svg"
                           className="h-5 mr-5"
@@ -123,7 +137,7 @@ const OneOnOne = ({ services }) => {
                           className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
                           type="button"
                         > */}
-                      <div className="flex items-center  py-1 px-4 border-2 border-black rounded-full">
+                      <div className="flex items-center  py-1 px-4 border-2 border-black rounded-full min-w-[20%]">
                         <img
                           src="/assets/icon/mentor-dashboard/price.svg"
                           className="h-5 mr-5"
@@ -144,13 +158,13 @@ const OneOnOne = ({ services }) => {
                       </div>
                       {/* </button> */}
                     </div>
-                    <div className="flex items-center bg-black text-white py-1 px-3 border-2 mr-5 border-white rounded-full">
+                    <div className="flex items-center bg-black text-white py-1 px-3 border-2 mr-5 border-white rounded-full justify-center w-[25%] md:w-auto">
                       <img
                         src="/assets/icon/mentor-dashboard/link.svg"
                         className="h-5 mr-5"
                       />
                       <span className="text-sm font-semibold py-3">
-                        {item.sessionDuration || 0} {item.sessionDurationIn}
+                        Copy link
                       </span>
                     </div>
                     {/* </div> */}
@@ -161,6 +175,13 @@ const OneOnOne = ({ services }) => {
           </div>
 
           {/* outer */}
+        </div>
+      ) : (
+        <div
+          className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer"
+          onClick={searchClick}
+        >
+          No sessions found
         </div>
       )}
     </>
