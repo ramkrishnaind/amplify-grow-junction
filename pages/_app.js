@@ -5,9 +5,11 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor } from '../redux/store'
 import { useRouter } from 'next/router'
 import Student from './student'
+// import Services from './mentor/services'
 import Mentor from './mentor'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Formik } from 'formik'
 // debugger
 // toast.configure()
 
@@ -39,6 +41,18 @@ function MyApp({ Component, pageProps }) {
       </Provider>
     )
   }
+  // if (router.asPath.includes('/services/')) {
+  //   return (
+  //     <Provider store={store}>
+  //       <PersistGate loading={null} persistor={persistor}>
+  //         <Services>
+  //           <Component {...pageProps} />
+  //         </Services>
+  //       </PersistGate>
+  //       <ToastContainer />
+  //     </Provider>
+  //   )
+  // }
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

@@ -13,13 +13,16 @@ const TextField = (props) => {
     disabled = false,
     icon,
     styleOverride,
+    classOverride,
     value,
     errMsg,
+    min,
     phoneNumber = false,
     textStyleOverride,
     infoMsg,
     imageType,
     required,
+    widthPartial,
     style,
     handleIncrement = () => {},
     handleDecrement = () => {},
@@ -86,8 +89,9 @@ const TextField = (props) => {
           type={type}
           required={required}
           disabled={disabled}
+          min={min}
           style={{
-            backgroundColor: color.headerColor,
+            // backgroundColor: color.headerColor,
             fontSize: 14,
             ...textStyleOverride,
           }}
@@ -95,7 +99,11 @@ const TextField = (props) => {
           onChange={(text) => {
             onChangeValue(text)
           }}
-          className="w-full text-lg rounded-md  text-black border-none focus:outline-none "
+          className={`${
+            !widthPartial ? 'w-full' : ''
+          } bg-gray-50 text-lg rounded-md  text-black border-none focus:outline-none ${
+            classOverride ? classOverride : ''
+          }`}
           placeholder={placeholder}
           {...rest}
         />

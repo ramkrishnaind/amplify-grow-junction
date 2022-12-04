@@ -8,7 +8,7 @@ import { Auth, withAuthenticator } from '@aws-amplify/ui-react'
 const Student = ({ children }) => {
   const dispatch = useDispatch()
   useEffect(() => {
-    if (!children) setStudentTitle(dispatch, 'Home')
+    if (!children) setStudentTitle(dispatch, 'Students')
   }, [])
   return (
     <main className="flex flex-row min-h-screen">

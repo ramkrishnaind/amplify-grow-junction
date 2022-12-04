@@ -4,7 +4,7 @@ import Child from '../Child'
 import NavLink from '../../../../../Utilities/NavLink'
 
 import Collapsed from '../../../Collapsed/index'
-const Parent = ({ title, image, url, hasItems, items }) => {
+const Parent = ({ title, image, url, hasItems, items, partial }) => {
   const [collapsed, setCollapsed] = useState(true)
   const [isHeaderActive, setIsHeaderActive] = useState(true)
   const [headerActive, setHeaderActive] = useState([])
@@ -63,7 +63,7 @@ const Parent = ({ title, image, url, hasItems, items }) => {
       )}
     </>
   ) : (
-    <NavLink href={url} exact className="cursor-pointer">
+    <NavLink href={url} exact={!partial} className="cursor-pointer">
       <div
         className={`${classes.container} my-2 text-2xl flex items-center cursor-pointer`}
       >

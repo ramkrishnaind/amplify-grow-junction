@@ -4,7 +4,7 @@ import Child from '../Child'
 import NavLink from '../../../../../Utilities/NavLink'
 
 import Collapsed from '../../../Collapsed/index'
-const Parent = ({ image, url, hasItems, items }) => {
+const Parent = ({ image, url, hasItems, items, partial }) => {
   // const [collapsed, setCollapsed] = useState(true)
   // const [headerActive, setHeaderActive] = useState(true)
   // const setActiveHandler = (value) => {
@@ -36,7 +36,7 @@ const Parent = ({ image, url, hasItems, items }) => {
       </ul>
     </>
   ) : (
-    <NavLink href={url} exact className="cursor-pointer">
+    <NavLink href={url} exact={!partial} className="cursor-pointer">
       <div
         className={`${classes.container} w-full my-2 text-2xl flex justify-center items-center cursor-pointer`}
       >

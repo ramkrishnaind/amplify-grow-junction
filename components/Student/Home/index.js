@@ -54,11 +54,11 @@ const Home = () => {
           <section className={`p-6 flex flex-col justify-between`}>
             <section className="flex flex-col md:flex-row">
               <article className=" order-2 md:order-1 mx-auto md:mx-0 mb-16 md:mb-0">
-                <h2 className="text-2xl md:text-6xl ">Start spreading your</h2>
-                <h2 className="text-2xl md:text-6xl mb-5">Knowledge</h2>
+                <h2 className="text-6xl mb-16">Start your learning journey</h2>
+
                 <p className="text-xl">
                   Get started with grow junction, fill out your profile <br />{' '}
-                  and visit your page for more insights
+                  and explore mentors and services offered
                 </p>
               </article>
               <div className="h-52  order-1 md:order-2 mb-32 mx-auto md:mx-0  md:mb-0">
