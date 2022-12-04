@@ -15,17 +15,17 @@ const Home = () => {
             className={`${classes.container} p-6 flex flex-col justify-center`}
           >
             <section className="flex flex-col md:flex-row">
-              <article className="leading-loose px-7  order-2 md:order-1 mx-auto md:mx-0 mb-20 md:mb-10">
-                <h2 className="text-6xl mb-6">
+              <article className="leading-loose px-7 w-3/4  order-2 md:order-1 mx-auto md:mx-0 mb-20 md:mb-10">
+                <h2 className="text-4xl mb-6">
                   Launch your 1 on 1 sessions, workshops, courses and
                 </h2>
-                <h2 className="text-6xl mb-6">Text query services</h2>
+                <h2 className="text-4xl mb-6">Text query services</h2>
 
-                <p>
+                <p className="text-xl">
                   Monetise your knowledge and help students in need at same time
                 </p>
               </article>
-              <div className="h-52  order-1 md:order-2 mb-32 mx-auto md:mx-0  md:mb-0">
+              <div className="h-52 w-1/4 order-1 md:order-2 mb-32 mx-auto md:mx-0  md:mb-0">
                 <img
                   className=" object-cover"
                   src="/assets/icon/mentor-dashboard/article-image.png"
