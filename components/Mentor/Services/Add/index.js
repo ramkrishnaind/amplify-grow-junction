@@ -13,7 +13,7 @@ const AddService = () => {
       finalPrice: '',
       numberOfSessions: '',
       sessionDuration: '',
-      sessionDurationIn: '',
+      sessionDurationIn: 'min',
       description: '',
       // questions: [],
     },
@@ -25,6 +25,16 @@ const AddService = () => {
   }
   const oneOnOneSave = async () => {
     debugger
+    if (
+      !state.oneOnOne.sessionTitle ||
+      !state.oneOnOne.finalPrice ||
+      !state.oneOnOne.listedPrice ||
+      !state.oneOnOne.sessionDuration ||
+      !state.oneOnOne.numberOfSessions
+    ) {
+      toast.error('Mandatory fields not entered')
+      return
+    }
     try {
       await API.graphql({
         query: createOneOnOne,

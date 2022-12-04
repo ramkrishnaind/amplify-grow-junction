@@ -1,10 +1,164 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import classes from './Home.module.css'
 // import { useRouter } from 'next/router'
+import OneOnOne from './OneOnOne'
 import Link from 'next/link'
+import { API, Auth, graphqlOperation } from 'aws-amplify'
+import { listOneOnOnes } from '/src/graphql/queries'
 const Home = () => {
   // return <div>Hi</div>
   // const router= useRouter()
+  const checkIfItems = () => {
+    const keys = Object.keys(services)
+    let itemsExist = false
+    keys.forEach((key) => {
+      if (services[key].length > 0) {
+        itemsExist = true
+        return
+      }
+    })
+    return itemsExist
+  }
+  const [openTab, setOpenTab] = useState(1)
+  const [loading, setLoading] = useState(true)
+  const [services, setServices] = useState({
+    oneOnOne: [],
+    workshop: [],
+    courses: [],
+    textQuesry: [],
+  })
+  const loadOneOnOne = async () => {
+    try {
+      setLoading(true)
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listOneOnOnes, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listOneOnOnes.items.length > 0) {
+        setServices({ ...services, oneOnOne: results.data.listOneOnOnes.items })
+      }
+    } catch (error) {
+      toast.error(`Load Error:${error.errors[0].message}`)
+    }
+    setLoading(false)
+  }
+  useEffect(() => {
+    loadOneOnOne()
+  }, [])
+  if (loading) return null
+  if (checkIfItems()) {
+    return (
+      <div>
+        {' '}
+        <div className="flex flex-row w-full">
+          <div className="w-full">
+            <div className="bg-grey-50">
+              <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200">
+                <li className="mr-2">
+                  <a
+                    href="#"
+                    className={
+                      openTab === 1
+                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                    }
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setOpenTab(1)
+                    }}
+                  >
+                    1 on 1 Session
+                  </a>
+                </li>
+                <li className="mr-2">
+                  <a
+                    href="#"
+                    className={
+                      openTab === 2
+                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                    }
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setOpenTab(2)
+                    }}
+                  >
+                    Workshop
+                  </a>
+                </li>
+                <li className="mr-2">
+                  <a
+                    href="#"
+                    className={
+                      openTab === 3
+                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                    }
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setOpenTab(3)
+                    }}
+                  >
+                    Courses
+                  </a>
+                </li>
+                <li className="mr-2">
+                  <a
+                    href="#"
+                    className={
+                      openTab === 4
+                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                    }
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setOpenTab(4)
+                    }}
+                  >
+                    Text query
+                  </a>
+                </li>
+                <li className="mr-2">
+                  <a
+                    href="#"
+                    className={
+                      openTab === 5
+                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                    }
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setOpenTab(5)
+                    }}
+                  >
+                    Packages
+                  </a>
+                </li>
+              </ul>
+              <div className={openTab === 1 ? 'block' : 'hidden'}>
+                <OneOnOne services={services.oneOnOne} />
+              </div>
+              <div className={openTab === 2 ? 'block' : 'hidden'}>
+                <div> text2</div>
+              </div>
+              <div className={openTab === 3 ? 'block' : 'hidden'}>
+                <div> text3</div>
+              </div>
+              <div className={openTab === 4 ? 'block' : 'hidden'}>
+                <div> text4</div>
+              </div>
+              <div className={openTab === 5 ? 'block' : 'hidden'}>
+                <div> text5</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
   return (
     <>
       <section

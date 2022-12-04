@@ -21,9 +21,25 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   return null
 }
 const OneOnOne = ({ setValues, state: initial }) => {
+  const {
+    sessionTitle,
+    listedPrice,
+    finalPrice,
+    numberOfSessions,
+    sessionDuration,
+    sessionDurationIn,
+    description,
+    // questions: [],
+  } = initial
   useEffect(() => {
     setState(initial)
-  }, [initial])
+  }, [sessionTitle,
+    listedPrice,
+    finalPrice,
+    numberOfSessions,
+    sessionDuration,
+    sessionDurationIn,
+    description,])
   const initialState = {
     sessionTitle: '',
     listedPrice: '',
