@@ -2,11 +2,12 @@ import Image from 'next/image'
 import React from 'react'
 import { color } from '../../public/theme/Color'
 
-const TextField = (props) => {
+const TextField = React.forwardRef((props, ref) => {
   const {
     label,
     placeholder,
     type,
+
     id,
     name,
     onChangeValue,
@@ -87,6 +88,7 @@ const TextField = (props) => {
           id={id}
           name={name}
           type={type}
+          ref={ref}
           required={required}
           disabled={disabled}
           min={min}
@@ -177,5 +179,5 @@ const TextField = (props) => {
       )}
     </div>
   )
-}
+})
 export default TextField
