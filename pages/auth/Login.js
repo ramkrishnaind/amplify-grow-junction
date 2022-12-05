@@ -226,12 +226,18 @@ const Login = (props) => {
                       setLoader(false)
                       console.log(res?.attributes?.email)
                       Object.entries(res?.attributes).map((item, index) => {
-                        // console.log('ityem', item)
+                        let registerType
                         if (item[0] === 'custom:register_type') {
                           RegisterTypeRequest(dispatch, item[1])
+                          registerType = item[1]
                         }
                         if (item[0] === 'custom:kyc_done') {
-                          console.log('entry')
+                          if (registerType === 'STUDENT') {
+                            router.push('/student')
+                          } else {
+                            router.push('/mentor')
+                          }
+                          router.push('/')
                           if (item[1] === 'true') {
                           } else {
                             router.push('/register/KYC_step1')
@@ -243,6 +249,7 @@ const Login = (props) => {
                 }
               } catch (e) {
                 console.log('e', e)
+                setLoader(false)
                 if (
                   e
                     ?.toString()
@@ -253,6 +260,10 @@ const Login = (props) => {
                   setErrors({ email: 'User email id is already registered' })
                 } else if (e?.toString()?.includes('User is not confirmed.')) {
                   router.push('/auth/VerifyEmail')
+                } else if (
+                  e?.toString()?.includes('ResourceNotFoundException')
+                ) {
+                  setErrors({ email: 'User email id is not registered' })
                 }
               }
             }}
