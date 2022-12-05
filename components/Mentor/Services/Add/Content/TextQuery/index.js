@@ -32,14 +32,14 @@ const TextQuery = ({ setValues, state: initial }) => {
   //   // questions: [],
   // } = initial
 
-  // const {
-  // title,
-  // description,
-  // responseTime,
-  // responseTimeIn,
-  // listedPrice,
-  // finalPrice,
-  // } = initial
+  const {
+  title,
+  description,
+  responseTime,
+  responseTimeIn,
+  listedPrice,
+  finalPrice,
+  } = initial
 
   const initialState = {
     title: '',
