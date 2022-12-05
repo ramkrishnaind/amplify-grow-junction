@@ -12,12 +12,8 @@
       "AmplifyAppId": "d17un6itwxe1e6"
     },
     "categories": {
-      "api": {
-        "testamplifyapi": {}
-      },
       "auth": {
-        "testamplifyapi362703db": {},
-        "userPoolGroups": {}
+        "testamplifyapi362703db": {}
       },
       "storage": {
         "testAmplify": {}
