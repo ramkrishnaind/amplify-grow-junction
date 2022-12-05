@@ -91,7 +91,13 @@ const KYC_step4 = () => {
                   marginBottom: 208,
                 }}
                 // link={!verifyMail}
-                onClick={() => {}}
+                onClick={() => {
+                  if (registerType?.registerType === 'STUDENT') {
+                    router.push('/student')
+                  } else {
+                    router.push('/mentor')
+                  }
+                }}
               />
             </div>
           </div>

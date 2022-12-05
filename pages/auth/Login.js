@@ -232,13 +232,12 @@ const Login = (props) => {
                           registerType = item[1]
                         }
                         if (item[0] === 'custom:kyc_done') {
-                          if (registerType === 'STUDENT') {
-                            router.push('/student')
-                          } else {
-                            router.push('/mentor')
-                          }
-                          router.push('/')
                           if (item[1] === 'true') {
+                            if (registerType === 'STUDENT') {
+                              router.push('/student')
+                            } else {
+                              router.push('/mentor')
+                            }
                           } else {
                             router.push('/register/KYC_step1')
                           }
@@ -261,7 +260,8 @@ const Login = (props) => {
                 } else if (e?.toString()?.includes('User is not confirmed.')) {
                   router.push('/auth/VerifyEmail')
                 } else if (
-                  e?.toString()?.includes('ResourceNotFoundException')
+                  e?.toString()?.includes('ResourceNotFoundException') ||
+                  e?.toString()?.includes('UserNotFoundException')
                 ) {
                   setErrors({ email: 'User email id is not registered' })
                 }

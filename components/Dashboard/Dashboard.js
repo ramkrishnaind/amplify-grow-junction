@@ -1,21 +1,41 @@
-import React from "react";
-import RightSideImages from "./RightSideImages";
-import classes from "./Dashboard.module.css";
-import { useRouter } from "next/router";
+import React from 'react'
+import RightSideImages from './RightSideImages'
+import classes from './Dashboard.module.css'
+import { useRouter } from 'next/router'
+import { RegisterTypeRequest } from '../../redux/actions/AuthAction'
+import { useDispatch } from 'react-redux'
 
 const Dashboard = () => {
-  const router = useRouter();
+  const router = useRouter()
+  const dispatch = useDispatch()
   return (
     <section className={classes.main}>
       <header className={`flex-col md:flex-row ${classes.header}`}>
         <div className={classes.logo}></div>
-        <div className={`flex-col md:flex-row ${classes["right-side"]}`}>
-          <a className={classes.link}>Become a mentor</a>
-          <a className={classes.link}>Become a student</a>
+        <div className={`flex-col md:flex-row ${classes['right-side']}`}>
+          <a
+            className={classes.link}
+            onClick={() => {
+              RegisterTypeRequest(dispatch, 'MENTOR')
+
+              router.push('/auth/Register')
+            }}
+          >
+            Become a mentor
+          </a>
+          <a
+            className={classes.link}
+            onClick={() => {
+              RegisterTypeRequest(dispatch, 'STUDENT')
+              router.push('/auth/Register')
+            }}
+          >
+            Become a student
+          </a>
           <a
             className={classes.button}
             onClick={() => {
-              router.push("/auth/Login");
+              router.push('/auth/Login')
             }}
           >
             Log In
@@ -36,7 +56,7 @@ const Dashboard = () => {
         </div>
       </section>
     </section>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard
