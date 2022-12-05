@@ -24,13 +24,6 @@ type DemoSkillsList
   value: String!
 }
 
-type DomainInterestedList
-  @model
-  @auth(rules: [{ allow: public, operations: [read, create] }]) {
-  id: ID!
-  value: String!
-}
-
 type SuggestedServiceList
   @model
   @auth(rules: [{ allow: public, operations: [read, create] }]) {
@@ -49,6 +42,7 @@ type StudentRegister
   ) {
   student_id: ID
   student_name: String
+  domain_id: [DemoSkillsList]
   recent_college: String
   degree: String
   current_employee: String
@@ -101,6 +95,7 @@ type MentorRegister
   ) {
   mentor_id: ID
   mentor_name: String
+  profile_url: String
   mentor_availability_id: String
   phone_number: String
   about_yourself: AboutYourself
@@ -113,8 +108,8 @@ type MentorRegister
   professional_info: Professionalinfo
   profile_image: String
   domain_id: [String!]
-  url: String!
-  mentor_service_id: [String!]
+  url: String
+  mentor_service_id: [String]
 }
 type Professionalinfo {
   occupation: String
