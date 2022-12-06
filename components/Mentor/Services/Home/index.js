@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react'
 import classes from './Home.module.css'
 // import { useRouter } from 'next/router'
 import OneOnOne from './OneOnOne'
+import TextQuery from './TextQuery'
 import Link from 'next/link'
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import { listOneOnOnes } from '/src/graphql/queries'
+import {listTextQueries} from '/src/graphql/queries'
+
 const Home = () => {
   // return <div>Hi</div>
   // const router= useRouter()
@@ -25,7 +28,7 @@ const Home = () => {
     oneOnOne: [],
     workshop: [],
     courses: [],
-    textQuesry: [],
+    textQuery: [],
   })
   const loadOneOnOne = async () => {
     try {
@@ -45,8 +48,29 @@ const Home = () => {
     }
     setLoading(false)
   }
+
+  const loadTextQuery = async () => {
+    try {
+      setLoading(true)
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listTextQueries, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listTextQueries.items.length > 0) {
+        setServices({ ...services, textQuery: results.data.listTextQueries.items })
+      }
+    } catch (error) {
+      toast.error(`Load Error:${error.errors[0].message}`)
+    }
+    setLoading(false)
+  }
+
   useEffect(() => {
     loadOneOnOne()
+    loadTextQuery()
   }, [])
   if (loading) return null
   if (checkIfItems()) {
@@ -142,13 +166,14 @@ const Home = () => {
                 <OneOnOne services={services.oneOnOne} />
               </div>
               <div className={openTab === 2 ? 'block' : 'hidden'}>
-                <div> text2</div>
+              <div> text2</div>
               </div>
               <div className={openTab === 3 ? 'block' : 'hidden'}>
                 <div> text3</div>
               </div>
               <div className={openTab === 4 ? 'block' : 'hidden'}>
-                <div> text4</div>
+              <TextQuery services={services.textQuery}/>
+              {/* <div>Test Query</div> */}
               </div>
               <div className={openTab === 5 ? 'block' : 'hidden'}>
                 <div> text5</div>
