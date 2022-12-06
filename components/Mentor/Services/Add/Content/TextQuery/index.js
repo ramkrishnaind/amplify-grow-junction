@@ -22,30 +22,19 @@ const AutoSubmitToken = ({ setValues, questions }) => {
 }
 const TextQuery = ({ setValues, state: initial }) => {
   // const {
-  //   sessionTitle,
+  //   title,
+  //   description,
+  //   responseTime,
+  //   responseTimeIn,
   //   listedPrice,
   //   finalPrice,
-  //   numberOfSessions,
-  //   sessionDuration,
-  //   sessionDurationIn,
-  //   description,
-  //   // questions: [],
   // } = initial
-
-  const {
-  title,
-  description,
-  responseTime,
-  responseTimeIn,
-  listedPrice,
-  finalPrice,
-  } = initial
 
   const initialState = {
     title: '',
     description: '',
     responseTime: '',
-    responseTimeIn:'',
+    responseTimeIn: '',
     listedPrice: '',
     finalPrice: '',
    // questions: [],
