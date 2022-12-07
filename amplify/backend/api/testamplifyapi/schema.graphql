@@ -124,10 +124,6 @@ type MentorRegister
   ) {
   mentor_id: ID
   mentor_name: String
-<<<<<<< HEAD
-  profile_url: String
-=======
->>>>>>> 13d9775112052c1c5e69b06457b90fad6acb7ec1
   mentor_availability_id: String
   phone_number: String
   about_yourself: AboutYourself
@@ -140,13 +136,8 @@ type MentorRegister
   professional_info: Professionalinfo
   profile_image: String
   domain_id: [String!]
-<<<<<<< HEAD
-  url: String
-  mentor_service_id: [String]
-=======
   url: String!
   mentor_service_id: [String!]
->>>>>>> 13d9775112052c1c5e69b06457b90fad6acb7ec1
 }
 type Professionalinfo {
   occupation: String
