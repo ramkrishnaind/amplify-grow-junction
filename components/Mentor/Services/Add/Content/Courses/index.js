@@ -287,7 +287,7 @@ const Courses = ({ setValues, state: initial }) => {
                   </div>
                 </div>
                 <div className="bg-white basis-2/5">
-                  <div className="flex flex-col ml-10 mt-10 mr-10  w-auto">
+                  <div className="flex flex-col ml-10 mt-10 mr-10 mb-10 w-auto">
                     <p className="flex justify-start items-start text-sm ">
                       Upload workshop thumbnail
                     </p>
@@ -343,7 +343,7 @@ const Courses = ({ setValues, state: initial }) => {
                   </div>
 
                   <div className="flex flex-col justify-center items-center font-normal mt-5 ml-5 md:flex-row lg:flex-row bg-gray-50">
-                    <div className="px-6 text-sm w-full md:w-1/2 lg:w-1/2">
+                    <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
                     <label className="leading-8 text-lg font-normal mt-5">
                         Session
                       </label>
@@ -369,9 +369,9 @@ const Courses = ({ setValues, state: initial }) => {
                       <div className="flex flex-wrap items-stretch w-auto mr-4 md:mr-1 lg:mr-1 relative">
                         <TextField
                           onChangeValue={handleChange}
-                          value={values.listedPrice}
+                          //value={values.listedPrice}
                           placeholder="₹"
-                          name="listedPrice"
+                          name="startDate"
                           type="date"
                           className="w-full"
                         />
@@ -385,9 +385,9 @@ const Courses = ({ setValues, state: initial }) => {
                         <TextField
                           type="time"
                           placeholder="₹"
-                          value={values.finalPrice}
+                          //value={values.startTime}
                           onChangeValue={handleChange}
-                          name="finalPrice"
+                          name="startTime"
                           className="w-full"
                         />
                       </div>
