@@ -37,6 +37,42 @@ export const onDeleteDemoSkillsList = /* GraphQL */ `
     }
   }
 `;
+export const onCreateDomainInterestedList = /* GraphQL */ `
+  subscription OnCreateDomainInterestedList(
+    $filter: ModelSubscriptionDomainInterestedListFilterInput
+  ) {
+    onCreateDomainInterestedList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateDomainInterestedList = /* GraphQL */ `
+  subscription OnUpdateDomainInterestedList(
+    $filter: ModelSubscriptionDomainInterestedListFilterInput
+  ) {
+    onUpdateDomainInterestedList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteDomainInterestedList = /* GraphQL */ `
+  subscription OnDeleteDomainInterestedList(
+    $filter: ModelSubscriptionDomainInterestedListFilterInput
+  ) {
+    onDeleteDomainInterestedList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateSuggestedServiceList = /* GraphQL */ `
   subscription OnCreateSuggestedServiceList(
     $filter: ModelSubscriptionSuggestedServiceListFilterInput
@@ -131,12 +167,6 @@ export const onCreateStudentRegister = /* GraphQL */ `
     ) {
       student_id
       student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
       recent_college
       degree
       current_employee
@@ -203,12 +233,6 @@ export const onUpdateStudentRegister = /* GraphQL */ `
     ) {
       student_id
       student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
       recent_college
       degree
       current_employee
@@ -275,12 +299,6 @@ export const onDeleteStudentRegister = /* GraphQL */ `
     ) {
       student_id
       student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
       recent_college
       degree
       current_employee
@@ -415,6 +433,84 @@ export const onDeleteOneOnOne = /* GraphQL */ `
     }
   }
 `;
+export const onCreateTextQuery = /* GraphQL */ `
+  subscription OnCreateTextQuery(
+    $filter: ModelSubscriptionTextQueryFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateTextQuery(filter: $filter, username: $username, owner: $owner) {
+      title
+      username
+      description
+      responseTime
+      responseTimeIn
+      listedPrice
+      finalPrice
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateTextQuery = /* GraphQL */ `
+  subscription OnUpdateTextQuery(
+    $filter: ModelSubscriptionTextQueryFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateTextQuery(filter: $filter, username: $username, owner: $owner) {
+      title
+      username
+      description
+      responseTime
+      responseTimeIn
+      listedPrice
+      finalPrice
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteTextQuery = /* GraphQL */ `
+  subscription OnDeleteTextQuery(
+    $filter: ModelSubscriptionTextQueryFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteTextQuery(filter: $filter, username: $username, owner: $owner) {
+      title
+      username
+      description
+      responseTime
+      responseTimeIn
+      listedPrice
+      finalPrice
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const onCreateMentorRegister = /* GraphQL */ `
   subscription OnCreateMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput
@@ -428,7 +524,10 @@ export const onCreateMentorRegister = /* GraphQL */ `
     ) {
       mentor_id
       mentor_name
+<<<<<<< HEAD
       profile_url
+=======
+>>>>>>> 13d9775112052c1c5e69b06457b90fad6acb7ec1
       mentor_availability_id
       phone_number
       about_yourself {
@@ -493,7 +592,10 @@ export const onUpdateMentorRegister = /* GraphQL */ `
     ) {
       mentor_id
       mentor_name
+<<<<<<< HEAD
       profile_url
+=======
+>>>>>>> 13d9775112052c1c5e69b06457b90fad6acb7ec1
       mentor_availability_id
       phone_number
       about_yourself {
@@ -558,7 +660,10 @@ export const onDeleteMentorRegister = /* GraphQL */ `
     ) {
       mentor_id
       mentor_name
+<<<<<<< HEAD
       profile_url
+=======
+>>>>>>> 13d9775112052c1c5e69b06457b90fad6acb7ec1
       mentor_availability_id
       phone_number
       about_yourself {

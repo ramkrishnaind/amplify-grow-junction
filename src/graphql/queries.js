@@ -28,6 +28,37 @@ export const listDemoSkillsLists = /* GraphQL */ `
     }
   }
 `;
+export const getDomainInterestedList = /* GraphQL */ `
+  query GetDomainInterestedList($id: ID!) {
+    getDomainInterestedList(id: $id) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listDomainInterestedLists = /* GraphQL */ `
+  query ListDomainInterestedLists(
+    $filter: ModelDomainInterestedListFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listDomainInterestedLists(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        value
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getSuggestedServiceList = /* GraphQL */ `
   query GetSuggestedServiceList($id: ID!) {
     getSuggestedServiceList(id: $id) {
@@ -95,12 +126,6 @@ export const getStudentRegister = /* GraphQL */ `
     getStudentRegister(id: $id) {
       student_id
       student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
       recent_college
       degree
       current_employee
@@ -168,12 +193,6 @@ export const listStudentRegisters = /* GraphQL */ `
       items {
         student_id
         student_name
-        domain_id {
-          id
-          value
-          createdAt
-          updatedAt
-        }
         recent_college
         degree
         current_employee
@@ -282,12 +301,66 @@ export const listOneOnOnes = /* GraphQL */ `
     }
   }
 `;
+export const getTextQuery = /* GraphQL */ `
+  query GetTextQuery($id: ID!) {
+    getTextQuery(id: $id) {
+      title
+      username
+      description
+      responseTime
+      responseTimeIn
+      listedPrice
+      finalPrice
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listTextQueries = /* GraphQL */ `
+  query ListTextQueries(
+    $filter: ModelTextQueryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTextQueries(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        title
+        username
+        description
+        responseTime
+        responseTimeIn
+        listedPrice
+        finalPrice
+        questions {
+          id
+          text
+          type
+        }
+        id
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const getMentorRegister = /* GraphQL */ `
   query GetMentorRegister($id: ID!) {
     getMentorRegister(id: $id) {
       mentor_id
       mentor_name
+<<<<<<< HEAD
       profile_url
+=======
+>>>>>>> 13d9775112052c1c5e69b06457b90fad6acb7ec1
       mentor_availability_id
       phone_number
       about_yourself {
@@ -349,7 +422,10 @@ export const listMentorRegisters = /* GraphQL */ `
       items {
         mentor_id
         mentor_name
+<<<<<<< HEAD
         profile_url
+=======
+>>>>>>> 13d9775112052c1c5e69b06457b90fad6acb7ec1
         mentor_availability_id
         phone_number
         about_yourself {
