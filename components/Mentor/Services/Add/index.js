@@ -23,7 +23,16 @@ const AddService = () => {
       title: '',
       description: '',
       responseTime: '',
-      responseTimeIn:'day',
+      responseTimeIn: 'day',
+      listedPrice: '',
+      finalPrice: '',
+     // questions: [],
+    },
+    workshop:{
+      title: '',
+      description: '',
+      responseTime: '',
+      responseTimeIn: 'day',
       listedPrice: '',
       finalPrice: '',
      // questions: [],
@@ -58,17 +67,21 @@ const AddService = () => {
       toast.error(`Save Error:${error.errors[0].message}`)
     }
   }
+
+
+
   const handleTextQueryChange = (values) => {
-    setState((prev) => ({ ...prev, oneOnOne: values }))
+  
+    setState((prev) => ({ ...prev, textQuery: values }))
   }
   const textQuerySave = async () => {
+    debugger;
     if (
       !state.textQuery.title ||
-      !state.textQuery.description||
+      !state.textQuery.description ||
       !state.textQuery.responseTime||
-      !state.textQuery.responseTimeIn||
-      !state.oneOnOne.listedPrice||
-      !state.oneOnOne.finalPrice
+      !state.textQuery.listedPrice ||
+      !state.textQuery.finalPrice
     ) {
       toast.error('Mandatory fields not entered')
       return
@@ -79,12 +92,54 @@ const AddService = () => {
         variables: { input: { ...state.textQuery } },
         authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
-      toast.success('Profile added successfully')
+      toast.success('Text query added successfully')
       window.location.href = '/mentor/services'
     } catch (error) {
       toast.error(`Save Error:${error.errors[0].message}`)
     }
   }
+
+  const setValues = (values)=>{
+    switch (currentService){
+      case items[0]:
+        handleOneOnOneChange(values)
+        break
+      case items[3]:
+      default:
+        handleTextQueryChange(values)
+    
+    }
+  }
+
+  const handleWorkshopChange = (values) => {
+  
+    setState((prev) => ({ ...prev, textQuery: values }))
+  }
+  const workshopSave = async () => {
+    debugger;
+    if (
+      !state.workshop.title ||
+      !state.workshop.description ||
+      !state.workshop.responseTime||
+      !state.workshop.listedPrice ||
+      !state.workshop.finalPrice
+    ) {
+      toast.error('Mandatory fields not entered')
+      return
+    }
+    try {
+      await API.graphql({
+        query: createTextQuery,
+        variables: { input: { ...state.textQuery } },
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+      })
+      toast.success('Text query added successfully')
+      window.location.href = '/mentor/services'
+    } catch (error) {
+      toast.error(`Save Error:${error.errors[0].message}`)
+    }
+  }
+
   const saveClick = () => {
     switch (currentService) {
       case '1 on 1 Session':
@@ -92,6 +147,9 @@ const AddService = () => {
         break
         case 'Text query':
           textQuerySave()
+          break
+        case 'Workshop':
+          workshopSave()
           break
     }
   }
@@ -104,16 +162,12 @@ const AddService = () => {
         items={items}
         saveClick={saveClick}
       />
-      <Content
-        currentService={currentService}
-        state={state}
-        setValues={handleOneOnOneChange}
-      />
        <Content
         currentService={currentService}
         state={state}
-        setValues={handleTextQueryChange}
+        setValues={setValues}
       />
+    
     </main>
   )
 }

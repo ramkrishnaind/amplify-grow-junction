@@ -20,7 +20,15 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   }, [values, submitForm])
   return null
 }
-const TextQuery = ({ setValues, state: initial }) => {
+const TextQuery = ({ setValues, state: initial, textQuery =  {
+  title: '',
+  description: '',
+  responseTime: '',
+  responseTimeIn: '',
+  listedPrice: '',
+  finalPrice: '',
+ // questions: [],
+} }) => {
   // const {
   //   title,
   //   description,
@@ -47,6 +55,7 @@ const TextQuery = ({ setValues, state: initial }) => {
   const handleQuestionChange = (e) => {
     setQuestion(e.target.value)
   }
+  console.log("textquery-", textQuery)
   const addQuestion = () => {
     const found = questions.find(
       (item) => item.text === question && item.type === questionType,
@@ -69,7 +78,7 @@ const TextQuery = ({ setValues, state: initial }) => {
   return (
     <>
       <Formik
-        initialValues={{ ...state }}
+        initialValues={{ ...textQuery }}
         onSubmit={(values, e) => {
           debugger
           const { setSubmitting } = e
@@ -215,10 +224,10 @@ const TextQuery = ({ setValues, state: initial }) => {
                   </span>
                   <div className="m-3 p-2 flex justify-start rounded-xl border-2 w-auto mr-6 md:mr-1 lg:mr-1">
                     <img
-                      className="px-3"
+                      className=" w-4 h-4 mt-2"
                       src="/assets/icon/exclamationmarkcircle.png"
                     />
-                    <span className="text-sm text-gray-400">
+                    <span className="text-sm text-gray-400 px-3">
                       you can collect links to resume, Linkedin or ask any
                       specific question
                     </span>

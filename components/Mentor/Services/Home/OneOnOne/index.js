@@ -60,8 +60,11 @@ const OneOnOne = ({ services }) => {
       {results.length > 0 ? (
         <div className="my-3 bg-white p-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-            {results.map((item, index) => (
-              <div className="flex justify-center align-center mb-10  ">
+            {results.map((item, index) => {
+              return (
+              <div 
+              key={index}
+              className="flex justify-center align-center mb-10  ">
                 <div
                   className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
                 >
@@ -171,7 +174,7 @@ const OneOnOne = ({ services }) => {
                   </div>
                 </div>
               </div>
-            ))}
+            )})}
           </div>
 
           {/* outer */}
