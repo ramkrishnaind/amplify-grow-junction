@@ -295,14 +295,15 @@ const TextQuery = ({ services }) => {
               <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
               <div className="flex justify-between item-center w-auto">
                 <button
-                  className="flex justify-center items-center bg-gray-900 border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-black text-white w-1/2 rounded-md mr-5"
+                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
                   type="button"
+                  onClick={() => setShowReschedule(false)}
                 >
                   <span className="text-sm font-semibold py-2">Cancel</span>
                 </button>
 
                 <button
-                  className="flex justify-center items-center bg-gray-900 border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-black text-white w-1/2 rounded-md"
+                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
                   type="button"
                   onClick={() => editPost(id)}
                 >
