@@ -20,17 +20,25 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   }, [values, submitForm])
   return null
 }
-const OneOnOne = ({ setValues, state: initial }) => {
-  const {
-    sessionTitle,
-    listedPrice,
-    finalPrice,
-    numberOfSessions,
-    sessionDuration,
-    sessionDurationIn,
-    description,
-    // questions: [],
-  } = initial
+const OneOnOne = ({ setValues, state: initial, oneOnOne = {
+  sessionTitle: '',
+  listedPrice: '',
+  finalPrice: '',
+  numberOfSessions: '',
+  sessionDuration: '',
+  sessionDurationIn: '',
+  description: '',
+} }) => {
+  // const {
+  //   sessionTitle,
+  //   listedPrice,
+  //   finalPrice,
+  //   numberOfSessions,
+  //   sessionDuration,
+  //   sessionDurationIn,
+  //   description,
+  //   // questions: [],
+  // } = initial
   // useEffect(() => {
   //   setState(initial)
   // }, [
@@ -82,7 +90,7 @@ const OneOnOne = ({ setValues, state: initial }) => {
   return (
     <>
       <Formik
-        initialValues={{ ...state }}
+        initialValues={{ ...oneOnOne }}
         onSubmit={(values, e) => {
           debugger
           const { setSubmitting } = e
@@ -270,11 +278,11 @@ const OneOnOne = ({ setValues, state: initial }) => {
                 </span>
                 <div className="m-3 p-2 flex justify-start rounded-xl border-2 w-auto mr-6 md:mr-1 lg:mr-1">
                   <img
-                    className="px-3"
+                     className=" w-4 h-4"
                     src="/assets/icon/exclamationmarkcircle.png"
                   />
-                  <span className="text-sm text-gray-400">
-                    you can collect links to resume, Linkedin or ask any
+                  <span className="text-sm text-gray-400 px-3">
+                    You can collect links to resume, Linkedin or ask any
                     specific question
                   </span>
                 </div>

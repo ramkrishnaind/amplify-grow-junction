@@ -224,11 +224,11 @@ const TextQuery = ({ setValues, state: initial, textQuery =  {
                   </span>
                   <div className="m-3 p-2 flex justify-start rounded-xl border-2 w-auto mr-6 md:mr-1 lg:mr-1">
                     <img
-                      className=" w-4 h-4 mt-2"
+                      className=" w-4 h-4 "
                       src="/assets/icon/exclamationmarkcircle.png"
                     />
                     <span className="text-sm text-gray-400 px-3">
-                      you can collect links to resume, Linkedin or ask any
+                      You can collect links to resume, Linkedin or ask any
                       specific question
                     </span>
                   </div>
