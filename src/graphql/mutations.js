@@ -499,6 +499,99 @@ export const deleteTextQuery = /* GraphQL */ `
     }
   }
 `;
+export const createWorkshop = /* GraphQL */ `
+  mutation CreateWorkshop(
+    $input: CreateWorkshopInput!
+    $condition: ModelWorkshopConditionInput
+  ) {
+    createWorkshop(input: $input, condition: $condition) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updateWorkshop = /* GraphQL */ `
+  mutation UpdateWorkshop(
+    $input: UpdateWorkshopInput!
+    $condition: ModelWorkshopConditionInput
+  ) {
+    updateWorkshop(input: $input, condition: $condition) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deleteWorkshop = /* GraphQL */ `
+  mutation DeleteWorkshop(
+    $input: DeleteWorkshopInput!
+    $condition: ModelWorkshopConditionInput
+  ) {
+    deleteWorkshop(input: $input, condition: $condition) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const createMentorRegister = /* GraphQL */ `
   mutation CreateMentorRegister(
     $input: CreateMentorRegisterInput!

@@ -3,10 +3,12 @@ import classes from './Home.module.css'
 // import { useRouter } from 'next/router'
 import OneOnOne from './OneOnOne'
 import TextQuery from './TextQuery'
+import Workshop from './Workshop'
 import Link from 'next/link'
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import { listOneOnOnes } from '/src/graphql/queries'
 import {listTextQueries} from '/src/graphql/queries'
+import { listWorkshops } from '/src/graphql/queries'
 
 const Home = () => {
   // return <div>Hi</div>
@@ -68,9 +70,30 @@ const Home = () => {
     setLoading(false)
   }
 
+  const loadWorkshop = async () => {
+    debugger
+    try {
+      setLoading(true)
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listWorkshops, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listWorkshops.items.length> 0) {
+        setServices({ ...services, workshop: results.data.listWorkshops.items })
+      }
+    } catch (error) {
+      toast.error(`Load Error:${error.errors[0].message}`)
+    }
+    setLoading(false)
+  }
+
   useEffect(() => {
     loadOneOnOne()
     loadTextQuery()
+    loadWorkshop()
   }, [])
   if (loading) return null
   if (checkIfItems()) {
@@ -166,14 +189,13 @@ const Home = () => {
                 <OneOnOne services={services.oneOnOne} />
               </div>
               <div className={openTab === 2 ? 'block' : 'hidden'}>
-              <div> text2</div>
+              <Workshop services={services.workshop}/>
               </div>
               <div className={openTab === 3 ? 'block' : 'hidden'}>
                 <div> text3</div>
               </div>
               <div className={openTab === 4 ? 'block' : 'hidden'}>
               <TextQuery services={services.textQuery}/>
-              {/* <div>Test Query</div> */}
               </div>
               <div className={openTab === 5 ? 'block' : 'hidden'}>
                 <div> text5</div>

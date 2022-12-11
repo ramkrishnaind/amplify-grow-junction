@@ -113,6 +113,35 @@ type TextQueryQuestions {
   text: String
   type: String
 }
+type Workshop
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create, delete] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  title: String
+  username: String
+  description: String
+  callDuration: Int
+  callDurationIn: String
+  listedPrice: Float
+  finalPrice: Float
+  workshopDate: String
+  workshopTime: String
+  workshopImage: String
+  hideService: Boolean
+  limitedParticipants: Boolean
+  audienceSize: Int
+  questions: [WorkshopQuestions]
+}
+type WorkshopQuestions {
+  id: String
+  text: String
+  type: String
+}
 type MentorRegister
   @model
   @auth(

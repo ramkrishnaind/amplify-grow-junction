@@ -352,6 +352,69 @@ export const listTextQueries = /* GraphQL */ `
     }
   }
 `;
+export const getWorkshop = /* GraphQL */ `
+  query GetWorkshop($id: ID!) {
+    getWorkshop(id: $id) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listWorkshops = /* GraphQL */ `
+  query ListWorkshops(
+    $filter: ModelWorkshopFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listWorkshops(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        title
+        username
+        description
+        callDuration
+        callDurationIn
+        listedPrice
+        finalPrice
+        workshopDate
+        workshopTime
+        workshopImage
+        hideService
+        limitedParticipants
+        audienceSize
+        questions {
+          id
+          text
+          type
+        }
+        id
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const getMentorRegister = /* GraphQL */ `
   query GetMentorRegister($id: ID!) {
     getMentorRegister(id: $id) {

@@ -3,8 +3,11 @@ import Header from './Header'
 import Content from './Content'
 import { API } from 'aws-amplify'
 import { toast } from 'react-toastify'
-import { createOneOnOne } from '../../../../src/graphql/mutations'
-import {createTextQuery} from '../../../../src/graphql/mutations'
+import {
+  createOneOnOne,
+  createWorkshop,
+} from '../../../../src/graphql/mutations'
+import { createTextQuery } from '../../../../src/graphql/mutations'
 
 const AddService = () => {
   const items = ['1 on 1 Session', 'Workshop', 'Courses', 'Text query']
@@ -19,23 +22,29 @@ const AddService = () => {
       description: '',
       // questions: [],
     },
-    textQuery:{
+    textQuery: {
       title: '',
       description: '',
       responseTime: '',
       responseTimeIn: 'day',
       listedPrice: '',
       finalPrice: '',
-     // questions: [],
+      // questions: [],
     },
-    workshop:{
+    workshop: {
       title: '',
       description: '',
-      responseTime: '',
-      responseTimeIn: 'day',
+      callDuration: '',
+      callDurationIn: 'min',
       listedPrice: '',
       finalPrice: '',
-     // questions: [],
+      workshopDate: '',
+      workshopTime: '',
+      workshopImage: '',
+      hideService: '',
+      limitedParticipants: '',
+      audienceSize: '',
+      // questions: [],
     },
   })
   const [currentService, setCurrentService] = useState(items[0])
@@ -68,18 +77,15 @@ const AddService = () => {
     }
   }
 
-
-
   const handleTextQueryChange = (values) => {
-  
     setState((prev) => ({ ...prev, textQuery: values }))
   }
   const textQuerySave = async () => {
-    debugger;
+    debugger
     if (
       !state.textQuery.title ||
       !state.textQuery.description ||
-      !state.textQuery.responseTime||
+      !state.textQuery.responseTime ||
       !state.textQuery.listedPrice ||
       !state.textQuery.finalPrice
     ) {
@@ -99,41 +105,44 @@ const AddService = () => {
     }
   }
 
-  const setValues = (values)=>{
-    switch (currentService){
+  const setValues = (values) => {
+    switch (currentService) {
       case items[0]:
         handleOneOnOneChange(values)
+        break
+      case items[1]:
+        handleWorkshopChange(values)
         break
       case items[3]:
       default:
         handleTextQueryChange(values)
-    
     }
   }
 
   const handleWorkshopChange = (values) => {
-  
-    setState((prev) => ({ ...prev, textQuery: values }))
+    setState((prev) => ({ ...prev, workshop: values }))
   }
   const workshopSave = async () => {
-    debugger;
+    debugger
     if (
       !state.workshop.title ||
       !state.workshop.description ||
-      !state.workshop.responseTime||
+      !state.workshop.callDuration ||
       !state.workshop.listedPrice ||
-      !state.workshop.finalPrice
+      !state.workshop.finalPrice ||
+      !state.workshop.workshopDate ||
+      !state.workshop.workshopTime
     ) {
       toast.error('Mandatory fields not entered')
       return
     }
     try {
       await API.graphql({
-        query: createTextQuery,
-        variables: { input: { ...state.textQuery } },
+        query: createWorkshop,
+        variables: { input: { ...state.workshop } },
         authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
-      toast.success('Text query added successfully')
+      toast.success('Workshop added successfully')
       window.location.href = '/mentor/services'
     } catch (error) {
       toast.error(`Save Error:${error.errors[0].message}`)
@@ -145,12 +154,12 @@ const AddService = () => {
       case '1 on 1 Session':
         oneOnOneSave()
         break
-        case 'Text query':
-          textQuerySave()
-          break
-        case 'Workshop':
-          workshopSave()
-          break
+      case 'Text query':
+        textQuerySave()
+        break
+      case 'Workshop':
+        workshopSave()
+        break
     }
   }
   console.log('state', state)
@@ -162,12 +171,11 @@ const AddService = () => {
         items={items}
         saveClick={saveClick}
       />
-       <Content
+      <Content
         currentService={currentService}
         state={state}
         setValues={setValues}
       />
-    
     </main>
   )
 }
