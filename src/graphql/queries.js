@@ -415,6 +415,73 @@ export const listWorkshops = /* GraphQL */ `
     }
   }
 `;
+export const getCourses = /* GraphQL */ `
+  query GetCourses($id: ID!) {
+    getCourses(id: $id) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listCourses = /* GraphQL */ `
+  query ListCourses(
+    $filter: ModelCoursesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCourses(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        courseTitle
+        username
+        description
+        numberOfSessions
+        sessionDuration
+        sessionDurationIn
+        listedPrice
+        finalPrice
+        courseDate
+        courseTime
+        hideService
+        limitParticipants
+        audienceSize
+        courseImage
+        sessions {
+          id
+          text
+          sessionDate
+          sessionTime
+        }
+        id
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const getMentorRegister = /* GraphQL */ `
   query GetMentorRegister($id: ID!) {
     getMentorRegister(id: $id) {

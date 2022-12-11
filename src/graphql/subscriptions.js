@@ -607,6 +607,108 @@ export const onDeleteWorkshop = /* GraphQL */ `
     }
   }
 `;
+export const onCreateCourses = /* GraphQL */ `
+  subscription OnCreateCourses(
+    $filter: ModelSubscriptionCoursesFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateCourses(filter: $filter, username: $username, owner: $owner) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateCourses = /* GraphQL */ `
+  subscription OnUpdateCourses(
+    $filter: ModelSubscriptionCoursesFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateCourses(filter: $filter, username: $username, owner: $owner) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteCourses = /* GraphQL */ `
+  subscription OnDeleteCourses(
+    $filter: ModelSubscriptionCoursesFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteCourses(filter: $filter, username: $username, owner: $owner) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const onCreateMentorRegister = /* GraphQL */ `
   subscription OnCreateMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput

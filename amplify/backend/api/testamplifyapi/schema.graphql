@@ -142,6 +142,37 @@ type WorkshopQuestions {
   text: String
   type: String
 }
+type Courses
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create, delete] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  courseTitle: String
+  username: String
+  description: String
+  numberOfSessions: Int
+  sessionDuration: Int
+  sessionDurationIn: String
+  listedPrice: Float
+  finalPrice: Float
+  courseDate: String
+  courseTime: String
+  hideService: Boolean
+  limitParticipants: Boolean
+  audienceSize: Int
+  courseImage: String
+  sessions: [CourseSessions]
+}
+type CourseSessions {
+  id: String
+  text: String
+  sessionDate: String
+  sessionTime: String
+}
 type MentorRegister
   @model
   @auth(

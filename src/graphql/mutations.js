@@ -592,6 +592,105 @@ export const deleteWorkshop = /* GraphQL */ `
     }
   }
 `;
+export const createCourses = /* GraphQL */ `
+  mutation CreateCourses(
+    $input: CreateCoursesInput!
+    $condition: ModelCoursesConditionInput
+  ) {
+    createCourses(input: $input, condition: $condition) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updateCourses = /* GraphQL */ `
+  mutation UpdateCourses(
+    $input: UpdateCoursesInput!
+    $condition: ModelCoursesConditionInput
+  ) {
+    updateCourses(input: $input, condition: $condition) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deleteCourses = /* GraphQL */ `
+  mutation DeleteCourses(
+    $input: DeleteCoursesInput!
+    $condition: ModelCoursesConditionInput
+  ) {
+    deleteCourses(input: $input, condition: $condition) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const createMentorRegister = /* GraphQL */ `
   mutation CreateMentorRegister(
     $input: CreateMentorRegisterInput!
