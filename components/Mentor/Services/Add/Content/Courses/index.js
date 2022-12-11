@@ -4,7 +4,7 @@ import Pill from '../../Header/Pill'
 import TextField from '../../../../../../pages/ui-kit/TextField'
 import { v4 as uuid } from 'uuid'
 
-const AutoSubmitToken = ({ setValues, questions }) => {
+const AutoSubmitToken = ({ setValues, questions, hideService, limitedParticipants }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
 
@@ -12,6 +12,8 @@ const AutoSubmitToken = ({ setValues, questions }) => {
     debugger
     console.log('context_values', values)
     values.questions = questions
+    values.limitedParticipants = limitedParticipants
+    values.hideService = hideService
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
@@ -75,8 +77,8 @@ const Courses = ({ setValues, state: initial, courses = {
   //sessions: []
   }
 
-  const [toggle1, setToggle1] = useState(true)
-  const [toggle2, setToggle2] = useState(true)
+  const [hideService, setHideService] = useState(true)
+  const [limitedParticipants, setLimitedParticipants] = useState(true)
   const toggleClass = ' transform translate-x-5'
 
   const items = ['Text', 'Upload (Pdf,jpeg)']
@@ -156,7 +158,7 @@ const Courses = ({ setValues, state: initial, courses = {
                           type="text"
                           name="courseTitle"
                           onChangeValue={handleChange}
-                          value={values.sessionTitle}
+                          value={values.courseTitle}
                           id="url"
                           placeholder="Course Title"
                           textStyleOverride={{
@@ -281,9 +283,9 @@ const Courses = ({ setValues, state: initial, courses = {
                         <div className="flex flex-wrap items-stretch w-auto mr-4 md:mr-1 lg:mr-1 relative">
                           <TextField
                             onChangeValue={handleChange}
-                            value={values.listedPrice}
+                            value={values.courseDate}
                             placeholder="₹"
-                            name="listedPrice"
+                            name="courseDate"
                             type="date"
                             className="w-full"
                           />
@@ -297,9 +299,9 @@ const Courses = ({ setValues, state: initial, courses = {
                           <TextField
                             type="time"
                             placeholder="₹"
-                            value={values.finalPrice}
+                            value={values.courseTime}
                             onChangeValue={handleChange}
-                            name="finalPrice"
+                            name="courseTime"
                             className="w-full"
                           />
                         </div>
@@ -448,14 +450,14 @@ const Courses = ({ setValues, state: initial, courses = {
                     <div
                       className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-gray-400 rounded-full p-1 cursor-pointer"
                       onClick={() => {
-                        setToggle1(!toggle1)
+                        setHideService(!hideService)
                       }}
                     >
                       {/* Switch */}
                       <div
                         className={
                           'bg-black md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
-                          (toggle1 ? null : toggleClass)
+                          (hideService ? null : toggleClass)
                         }
                       ></div>
                     </div>
@@ -468,14 +470,14 @@ const Courses = ({ setValues, state: initial, courses = {
                     <div
                       className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-green-800 rounded-full p-1 cursor-pointer"
                       onClick={() => {
-                        setToggle2(!toggle2)
+                        setLimitedParticipants(!limitedParticipants)
                       }}
                     >
                       {/* Switch */}
                       <div
                         className={
                           'bg-white md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
-                          (toggle2 ? null : toggleClass)
+                          (limitedParticipants ? null : toggleClass)
                         }
                       ></div>
                     </div>
@@ -483,12 +485,29 @@ const Courses = ({ setValues, state: initial, courses = {
                     Limit participants
                     </div>
                   </div>
+                  <div className="px-2 text-sm ml-5 w-full md:w-1/2 lg:w-1/2">
+                    <label className="leading-8 text-sm font-normal mt-5">
+                      Audience size
+                    </label>
+                    <div className="flex items-center flex-wrap w-auto mr-4 md:mr-1 lg:mr-1 relative">
+                      <TextField
+                        onChangeValue={handleChange}
+                        type="number"
+                        min="0"
+                        value={values.audienceSize}
+                        textStyleOverride={{ width: '100%' }}
+                        name="audienceSize"
+                        id="audienceSize"
+                        className=""
+                      />
+                    </div>
+                  </div>
                   <div className=" mt-5  bg-white"></div>
                 </div>
                 <div className="bg-white basis-2/5"></div>
               </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken setValues={setValues} questions={questions} />
+              <AutoSubmitToken setValues={setValues} questions={questions} hideService={hideService} limitedParticipants={limitedParticipants} />
             </form>
           )
         }}

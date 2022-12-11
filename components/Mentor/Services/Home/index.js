@@ -4,11 +4,13 @@ import classes from './Home.module.css'
 import OneOnOne from './OneOnOne'
 import TextQuery from './TextQuery'
 import Workshop from './Workshop'
+import Courses from './Courses'
 import Link from 'next/link'
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import { listOneOnOnes } from '/src/graphql/queries'
 import {listTextQueries} from '/src/graphql/queries'
 import { listWorkshops } from '/src/graphql/queries'
+import { listCourses } from '/src/graphql/queries'
 
 const Home = () => {
   // return <div>Hi</div>
@@ -51,25 +53,6 @@ const Home = () => {
     setLoading(false)
   }
 
-  const loadTextQuery = async () => {
-    try {
-      setLoading(true)
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
-      const results = await API.graphql(
-        graphqlOperation(listTextQueries, {
-          filter: { username: { contains: usr.username } },
-        }),
-      )
-      if (results.data.listTextQueries.items.length > 0) {
-        setServices({ ...services, textQuery: results.data.listTextQueries.items })
-      }
-    } catch (error) {
-      toast.error(`Load Error:${error.errors[0].message}`)
-    }
-    setLoading(false)
-  }
-
   const loadWorkshop = async () => {
     debugger
     try {
@@ -90,10 +73,52 @@ const Home = () => {
     setLoading(false)
   }
 
+  const loadCourses = async () => {
+    debugger
+    try {
+      setLoading(true)
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listCourses, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listCourses.items.length> 0) {
+        setServices({ ...services, courses: results.data.listCourses.items })
+      }
+    } catch (error) {
+      toast.error(`Load Error:${error.errors[0].message}`)
+    }
+    setLoading(false)
+  }
+
+  const loadTextQuery = async () => {
+    try {
+      setLoading(true)
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listTextQueries, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listTextQueries.items.length > 0) {
+        setServices({ ...services, textQuery: results.data.listTextQueries.items })
+      }
+    } catch (error) {
+      toast.error(`Load Error:${error.errors[0].message}`)
+    }
+    setLoading(false)
+  }
+
+
+
   useEffect(() => {
     loadOneOnOne()
     loadTextQuery()
     loadWorkshop()
+    loadCourses()
   }, [])
   if (loading) return null
   if (checkIfItems()) {
@@ -192,7 +217,7 @@ const Home = () => {
               <Workshop services={services.workshop}/>
               </div>
               <div className={openTab === 3 ? 'block' : 'hidden'}>
-                <div> text3</div>
+              <Courses services={services.courses}/>
               </div>
               <div className={openTab === 4 ? 'block' : 'hidden'}>
               <TextQuery services={services.textQuery}/>

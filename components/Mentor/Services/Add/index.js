@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import {
   createOneOnOne,
   createWorkshop,
+  createCourses,
 } from '../../../../src/graphql/mutations'
 import { createTextQuery } from '../../../../src/graphql/mutations'
 
@@ -45,6 +46,22 @@ const AddService = () => {
       limitedParticipants: '',
       audienceSize: '',
       // questions: [],
+    },
+    courses: {
+      courseTitle: '',
+      description: '',
+      numberOfSessions: '',
+      sessionDuration: '',
+      sessionDurationIn: 'min',
+      listedPrice: '',
+      finalPrice: '',
+      courseDate: '',
+      courseTime: '',
+      hideService: '',
+      limitParticipants: '',
+      audienceSize: '',
+      courseImage: '',
+      // session: [],
     },
   })
   const [currentService, setCurrentService] = useState(items[0])
@@ -105,20 +122,6 @@ const AddService = () => {
     }
   }
 
-  const setValues = (values) => {
-    switch (currentService) {
-      case items[0]:
-        handleOneOnOneChange(values)
-        break
-      case items[1]:
-        handleWorkshopChange(values)
-        break
-      case items[3]:
-      default:
-        handleTextQueryChange(values)
-    }
-  }
-
   const handleWorkshopChange = (values) => {
     setState((prev) => ({ ...prev, workshop: values }))
   }
@@ -149,10 +152,61 @@ const AddService = () => {
     }
   }
 
+  const handleCoursesChange = (values) => {
+    setState((prev) => ({ ...prev, courses: values }))
+  }
+  const coursesSave = async () => {
+    debugger
+    if (
+      !state.courses.courseTitle ||
+      !state.courses.description ||
+      !state.courses.numberOfSessions ||
+      !state.courses.sessionDuration||
+      !state.courses.listedPrice ||
+      !state.courses.finalPrice ||
+      !state.courses.courseDate ||
+      !state.courses.courseTime
+    ) {
+      toast.error('Mandatory fields not entered')
+      return
+    }
+    try {
+      await API.graphql({
+        query: createCourses,
+        variables: { input: { ...state.courses } },
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+      })
+      toast.success('Courses added successfully')
+      window.location.href = '/mentor/services'
+    } catch (error) {
+      toast.error(`Save Error:${error.errors[0].message}`)
+    }
+  }
+
+  const setValues = (values) => {
+    switch (currentService) {
+      case items[0]:
+        handleOneOnOneChange(values)
+        break
+      case items[1]:
+        handleWorkshopChange(values)
+        break
+      case items[2]:
+        handleCoursesChange(values)
+        break
+      case items[3]:
+      default:
+        handleTextQueryChange(values)
+    }
+  }
+
   const saveClick = () => {
     switch (currentService) {
       case '1 on 1 Session':
         oneOnOneSave()
+        break
+      case 'Courses':
+        coursesSave()
         break
       case 'Text query':
         textQuerySave()
