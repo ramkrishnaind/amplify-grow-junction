@@ -5,7 +5,7 @@ import TextField from '../../../../../../pages/ui-kit/TextField'
 import { v4 as uuid } from 'uuid'
 import classes from './Workshop.module.css'
 
-const AutoSubmitToken = ({ setValues, questions }) => {
+const AutoSubmitToken = ({ setValues, questions, hideService, limitedParticipants }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
 
@@ -13,6 +13,8 @@ const AutoSubmitToken = ({ setValues, questions }) => {
     debugger
     console.log('context_values', values)
     values.questions = questions
+    values.limitedParticipants = limitedParticipants
+    values.hideService = hideService
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
@@ -24,7 +26,6 @@ const AutoSubmitToken = ({ setValues, questions }) => {
 }
 const Workshop = ({ setValues, state: initial , workshop={
   title: '',
-  username: '',
   description: '',
   callDuration: '',
   callDurationIn:'',
@@ -62,7 +63,6 @@ const Workshop = ({ setValues, state: initial , workshop={
   // ])
   const initialState = {
     title: '',
-    username: '',
     description: '',
     callDuration: '',
     callDurationIn: '',
@@ -131,6 +131,8 @@ const Workshop = ({ setValues, state: initial , workshop={
           }, 400)
           values.questions = questions
           values.workshopImage = image
+          values.limitedParticipants = limitedParticipants
+          values.hideService = hideService
           console.log("onsubmit - ", values)
           // setProfileState(values)
         }}
@@ -320,8 +322,8 @@ const Workshop = ({ setValues, state: initial , workshop={
                             />
                           ) : null}
                         </div>
-                        <div className="flex justify-center items-center mt-16 px-8 py-2">
-                        <button className="flex justify-center items-center bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 min-w-40">
+                        <div className="flex flex-col justify-start items-start mt-16 px-2 py-2">
+                        <button className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md min-w-40">
                           <button
                             className="ml-3 text-lg"
                             onClick={(e) => {
@@ -519,7 +521,7 @@ const Workshop = ({ setValues, state: initial , workshop={
                 <div className="bg-white basis-2/5"></div>
               </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken setValues={setValues} questions={questions} />
+              <AutoSubmitToken setValues={setValues} questions={questions} hideService={hideService} limitedParticipants={limitedParticipants} />
             </form>
           )
         }}

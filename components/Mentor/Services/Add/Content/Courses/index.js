@@ -21,17 +21,32 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   }, [values, submitForm])
   return null
 }
-const Courses = ({ setValues, state: initial }) => {
-  const {
-    sessionTitle,
-    listedPrice,
-    finalPrice,
-    numberOfSessions,
-    sessionDuration,
-    sessionDurationIn,
-    description,
-    // questions: [],
-  } = initial
+const Courses = ({ setValues, state: initial, courses = {
+  courseTitle: '',
+  description: '',
+  numberOfSessions: '',
+  sessionDuration: '',
+  sessionDurationIn: '',
+  listedPrice: '',
+  finalPrice: '',
+  courseDate: '',
+  courseTime: '',
+  hideService: '',
+  limitParticipants: '',
+  audienceSize: '',
+  courseImage: '',
+  //sessions: []
+} }) => {
+  // const {
+  //   sessionTitle,
+  //   listedPrice,
+  //   finalPrice,
+  //   numberOfSessions,
+  //   sessionDuration,
+  //   sessionDurationIn,
+  //   description,
+  //   // questions: [],
+  // } = initial
   // useEffect(() => {
   //   setState(initial)
   // }, [
@@ -44,14 +59,20 @@ const Courses = ({ setValues, state: initial }) => {
   //   description,
   // ])
   const initialState = {
-    sessionTitle: '',
-    listedPrice: '',
-    finalPrice: '',
-    numberOfSessions: '',
-    sessionDuration: '',
-    sessionDurationIn: '',
-    description: '',
-    // questions: [],
+  courseTitle: '',
+  description: '',
+  numberOfSessions: '',
+  sessionDuration: '',
+  sessionDurationIn: '',
+  listedPrice: '',
+  finalPrice: '',
+  courseDate: '',
+  courseTime: '',
+  hideService: '',
+  limitParticipants: '',
+  audienceSize: '',
+  courseImage: '',
+  //sessions: []
   }
 
   const [toggle1, setToggle1] = useState(true)

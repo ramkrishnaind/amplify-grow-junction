@@ -210,7 +210,7 @@ const Workshop = ({ services }) => {
                             className="h-5 mr-5"
                           />
                           <span className="text-sm font-semibold py-3">
-                            {item.responseTime} {item.responseTimeIn}
+                            {item.callDuration} {item.callDurationIn}
                           </span>
                         </div>
 
