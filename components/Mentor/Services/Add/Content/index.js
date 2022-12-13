@@ -3,6 +3,7 @@ import OneOnOne from './OneOnOne'
 import TextQuery from './TextQuery'
 import Workshop from './Workshop';
 import Courses from './Courses';
+import Packages from './Packages'
 
 const Content = ({ currentService, setValues, state }) => {
   if (currentService === '1 on 1 Session') {
@@ -16,6 +17,9 @@ const Content = ({ currentService, setValues, state }) => {
   }
   if (currentService === 'Courses') {
     return <Courses setValues={setValues} state={state.courses} />
+  }
+  if (currentService === 'Packages') {
+    return <Packages setValues={setValues} state={state.courses} />
   }
   return <div>Content</div>
 }

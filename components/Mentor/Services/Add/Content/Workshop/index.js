@@ -1,11 +1,18 @@
-import React, { useState, useEffect,useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Formik, useFormikContext } from 'formik'
 import Pill from '../../Header/Pill'
 import TextField from '../../../../../../pages/ui-kit/TextField'
 import { v4 as uuid } from 'uuid'
 import classes from './Workshop.module.css'
+import { Storage } from 'aws-amplify'
 
-const AutoSubmitToken = ({ setValues, questions, hideService, limitedParticipants }) => {
+const AutoSubmitToken = ({
+  setValues,
+  questions,
+  hideService,
+  limitedParticipants,
+  imageUrl,
+}) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
 
@@ -15,6 +22,7 @@ const AutoSubmitToken = ({ setValues, questions, hideService, limitedParticipant
     values.questions = questions
     values.limitedParticipants = limitedParticipants
     values.hideService = hideService
+    values.workshopImage = imageUrl
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
@@ -24,22 +32,25 @@ const AutoSubmitToken = ({ setValues, questions, hideService, limitedParticipant
   }, [values, submitForm])
   return null
 }
-const Workshop = ({ setValues, state: initial , workshop={
-  title: '',
-  description: '',
-  callDuration: '',
-  callDurationIn:'',
-  listedPrice: '',
-  finalPrice: '',
-  workshopDate: '',
-  workshopTime: '',
-  workshopImage: '',
-  hideService: '',
-  limitedParticipants: '',
-  audienceSize: '',
-  questions: []
-}}) => {
-  
+const Workshop = ({
+  setValues,
+  state: initial,
+  workshop = {
+    title: '',
+    description: '',
+    callDuration: '',
+    callDurationIn: '',
+    listedPrice: '',
+    finalPrice: '',
+    workshopDate: '',
+    workshopTime: '',
+    workshopImage: '',
+    hideService: '',
+    limitedParticipants: '',
+    audienceSize: '',
+    questions: [],
+  },
+}) => {
   // const {
   //   sessionTitle,
   //   listedPrice,
@@ -77,7 +88,7 @@ const Workshop = ({ setValues, state: initial , workshop={
     //questions: []
   }
   const imageInputref = useRef()
-  const [image, setImage] = useState()
+  const [image, setImage] = useState(null)
   const [convertedImage, setConvertedImage] = useState()
   const [hideService, setHideService] = useState(true)
   const [limitedParticipants, setLimitedParticipants] = useState(true)
@@ -88,11 +99,42 @@ const Workshop = ({ setValues, state: initial , workshop={
   const [state, setState] = useState(initialState)
   const [question, setQuestion] = useState('')
   const [questions, setQuestions] = useState([])
+  const [imageUrl, setImageUrl] = useState()
 
-  const handleFileInput = (e) => {
+  // if (!workshop) {
+  //   const getImage = async () => {
+  //     if (workshop.workshopImage) {
+  //       const img = await Storage.get(data.profile_image)
+  //       setConvertedImage(img)
+  //     }
+  //   }
+  // }
+
+  const handleFileInput = async (e) => {
     e.preventDefault()
+    debugger
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
+    }
+    // else{
+    //   console.log(this.imageInputref.current.e.target.files[0])
+    // }
+    //setImage(imageInputref.current.files[0].name)
+    console.log('image -', image)
+    if (e.target.files[0]) {
+      const name = e.target.files[0].name.substr(
+        0,
+        e.target.files[0].name.lastIndexOf('.'),
+      )
+      const ext = e.target.files[0].name.substr(
+        e.target.files[0].name.lastIndexOf('.') + 1,
+      )
+      const filename = `${name}_${uuid()}.${ext}`
+      setImageUrl(filename)
+      console.log(imageUrl)
+      await Storage.put(filename, e.target.files[0], {
+        contentType: `image/${ext}`, // contentType is optional
+      })
     }
   }
 
@@ -130,10 +172,10 @@ const Workshop = ({ setValues, state: initial , workshop={
             setSubmitting(false)
           }, 400)
           values.questions = questions
-          values.workshopImage = image
+          values.workshopImage = imageUrl
           values.limitedParticipants = limitedParticipants
           values.hideService = hideService
-          console.log("onsubmit - ", values)
+          console.log('onsubmit - ', values)
           // setProfileState(values)
         }}
         // enableReinitialize={true}
@@ -323,30 +365,29 @@ const Workshop = ({ setValues, state: initial , workshop={
                           ) : null}
                         </div>
                         <div className="flex flex-col justify-start items-start mt-16 px-2 py-2">
-                        <button className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md min-w-40">
-                          <button
-                            className="ml-3 text-lg"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              imageInputref.current.click()
-                            }}
-                          >
-                            Upload image
+                          <button className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md min-w-40">
+                            <button
+                              className="ml-3 text-lg"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                imageInputref.current.click()
+                              }}
+                            >
+                              Upload image
+                            </button>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              ref={imageInputref}
+                              className="absolute w-0 h-0 left-0 top-0"
+                              onChange={handleFileInput}
+                            />
                           </button>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            ref={imageInputref}
-                            className="absolute w-0 h-0 left-0 top-0"
-                            onChange={handleFileInput}
-                          />
-                        </button>
-                        <p className="w-auto ml-3 mt-3 text-xs tracking-wide">
-                        Max file size 5mb
-                        </p>
+                          <p className="w-auto ml-3 mt-3 text-xs tracking-wide">
+                            Max file size 5mb
+                          </p>
+                        </div>
                       </div>
-                      </div>
-
                     </div>
                   </div>
                 </div>
@@ -496,7 +537,7 @@ const Workshop = ({ setValues, state: initial , workshop={
                       ></div>
                     </div>
                     <div className="flex items-center text-sm">
-                    Limit participants
+                      Limit participants
                     </div>
                   </div>
                   <div className="px-2 text-sm ml-5 w-full md:w-1/2 lg:w-1/2">
@@ -521,7 +562,13 @@ const Workshop = ({ setValues, state: initial , workshop={
                 <div className="bg-white basis-2/5"></div>
               </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken setValues={setValues} questions={questions} hideService={hideService} limitedParticipants={limitedParticipants} />
+              <AutoSubmitToken
+                setValues={setValues}
+                questions={questions}
+                hideService={hideService}
+                limitedParticipants={limitedParticipants}
+                workshopImage={imageUrl}
+              />
             </form>
           )
         }}

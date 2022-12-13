@@ -11,7 +11,7 @@ import {
 import { createTextQuery } from '../../../../src/graphql/mutations'
 
 const AddService = () => {
-  const items = ['1 on 1 Session', 'Workshop', 'Courses', 'Text query']
+  const items = ['1 on 1 Session', 'Workshop', 'Courses', 'Text query', 'Packages']
   const [state, setState] = useState({
     oneOnOne: {
       sessionTitle: '',
