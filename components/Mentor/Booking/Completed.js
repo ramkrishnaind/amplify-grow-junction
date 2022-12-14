@@ -7,9 +7,13 @@ const Completed = () => {
   const [showReschedule, setShowReschedule] = useState(false)
   const [showRescheduleBooking, setShowRescheduleBooking] = useState(false)
 
+    //No completed bookings to show
+    const [completedBooking, setCompletedBooking] = useState(true)
+
   return (
     <>
       <div className="bg-gray-50 mt-10">
+      {completedBooking && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
           <div className="flex justify-center align-center bg-gray-50 mt-10">
             <div className=" bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-auto  md:w-5/6 lg:w-5/6">
@@ -316,7 +320,18 @@ const Completed = () => {
             </div>
           </div>
         </div>
+)}
 
+{!completedBooking && (
+<>
+
+<div class="flex flex-col justify-center items-center h-screen">
+  <div className='w-40 h-40 md:w-1/5 md:h-1/5 lg:w-1/5 lg:h-1/5 bg-gray-400 -mt-40 mb-5'></div>
+  <p>There are no completed bookings at this moment</p>
+</div>
+</>
+
+)}
         {/* outer */}
       </div>
 
@@ -529,10 +544,10 @@ const Completed = () => {
         </>
       ) : null}
 
-      {showRescheduleBooking ? (
+{showRescheduleBooking ? (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-1/3 lg:w-1/3">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-1/4 lg:w-1/4">
               <div className="flex justify-between px-8 py-4 border-b border-gray-300">
                 <div className="flex flex-col justify-start items-start">
                   <span className="text-sm font-semibold mt-4">
@@ -592,33 +607,31 @@ const Completed = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row lg:flex-row mt-10 w-full">
-                  <div className="flex flex-row justify-between border-2 mb-5 px-4 py-3 rounded-lg md:w-1/2">
-                    <span className="text-lg  font-normal text-gray-700 mr-6">
-                      Select Date
-                    </span>
-                    <img
-                      src="../../../assets/icon/dateBlack.png"
-                      className="w-3 h-3 m-3"
-                    ></img>
-                    {/* <DatePicker
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                    /> */}
+                <div className="flex flex-row mt-10 w-full">
+                  <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
+                    <input type="date" id="date" name="date" className='text-sm font-normal'></input>
                   </div>
-                  <div className="p-2"></div>
-                  <div className="flex flex-row justify-between border-2 mb-5 px-4 py-3 rounded-lg md:w-1/2">
-                    <span className="text-lg  font-normal  text-gray-700">
-                      Select Time
-                    </span>
-                    <img
-                      src="../../../assets/icon/timer.png"
-                      className="w-3 h-3 m-3"
-                    ></img>
-                    {/* <TimePicker
-                      onChange={(newValue) => setValue(value)}
-                      value={value}
-                    /> */}
+                  <div className="p-1"></div>
+                  <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
+                    <input type="time" id="time" name="time" className='text-sm font-normal'></input>
+                  </div>
+                </div>
+                <div className="flex flex-row md:flex-row lg:flex-row mt-2 w-full">
+                  <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
+                    <input type="date" id="date" name="date" className='text-sm font-normal'></input>
+                  </div>
+                  <div className="p-1"></div>
+                  <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
+                    <input type="time" id="time" name="time" className='text-sm font-normal'></input>
+                  </div>
+                </div>
+                <div className="flex flex-row md:flex-row lg:flex-row mt-2 w-full">
+                  <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
+                    <input type="date" id="date" name="date" className='text-sm font-normal'></input>
+                  </div>
+                  <div className="p-1"></div>
+                  <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
+                    <input type="time" id="time" name="time" className='text-sm font-normal'></input>
                   </div>
                 </div>
 
@@ -646,12 +659,12 @@ const Completed = () => {
               </div>
 
               <div className="py-4 px-6">
-                <div className="flex justify-center item-center w-auto border-2 mb-5 px-4 rounded-lg">
+                <div className="flex justify-center item-center w-auto border-2 mb-5 px-4 py-2 rounded-lg">
                   <img
                     src="../../../assets/icon/exclamationmarkcircle.png"
                     className="w-3 h-3"
                   ></img>
-                  <span className="text-xs  font-normal w-auto text-gray-700">
+                  <span className="text-xs  font-normal w-auto text-gray-900 ml-2">
                     Make sure to provide at least 3 slots to ensure attendee has
                     enough options to pick from
                   </span>

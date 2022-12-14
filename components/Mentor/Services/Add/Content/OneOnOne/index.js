@@ -20,17 +20,25 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   }, [values, submitForm])
   return null
 }
-const OneOnOne = ({ setValues, state: initial }) => {
-  const {
-    sessionTitle,
-    listedPrice,
-    finalPrice,
-    numberOfSessions,
-    sessionDuration,
-    sessionDurationIn,
-    description,
-    // questions: [],
-  } = initial
+const OneOnOne = ({ setValues, state: initial, oneOnOne = {
+  sessionTitle: '',
+  listedPrice: '',
+  finalPrice: '',
+  numberOfSessions: '',
+  sessionDuration: '',
+  sessionDurationIn: '',
+  description: '',
+} }) => {
+  // const {
+  //   sessionTitle,
+  //   listedPrice,
+  //   finalPrice,
+  //   numberOfSessions,
+  //   sessionDuration,
+  //   sessionDurationIn,
+  //   description,
+  //   // questions: [],
+  // } = initial
   // useEffect(() => {
   //   setState(initial)
   // }, [
@@ -82,7 +90,7 @@ const OneOnOne = ({ setValues, state: initial }) => {
   return (
     <>
       <Formik
-        initialValues={{ ...state }}
+        initialValues={{ ...oneOnOne }}
         onSubmit={(values, e) => {
           debugger
           const { setSubmitting } = e
@@ -111,235 +119,252 @@ const OneOnOne = ({ setValues, state: initial }) => {
           console.log('values', values)
           return (
             <form>
-              <div className="flex flex-col md:flex-row">
-                <div className="bg-gray-50 basis-3/5">
-                  <div className="flex flex-col tracking-wide text-black ml-4 bg-gray-50 w-full md:w-auto lg:w-auto">
-                    {/* <div className="flex flex-col ml-4 p-6 border-2 rounded-md bg-white">
-            <div className="text-lg">40% of profile completed</div>
-            <div className="flex w-1/2">
-              <div className="w-2/5 bg-gray-600 h-2 rounded-l-lg"></div>
-              <div className="w-3/5 bg-gray-300 h-2 rounded-r-lg"></div>
-            </div>
-            <p className="text-lg">
-              Complete 100% of the profile to get a better reach
-            </p>
-          </div> */}
-                    {/* <h2 className="p-2 leading-8 text-2xl font-semibold">
-                      About Yourself
-                    </h2> */}
+            <div className="flex flex-col md:flex-row lg:flex-row">
+              <div className="bg-white basis-3/5">
+                <div className="flex flex-col tracking-wide text-black ml-4 w-full md:w-auto lg:w-auto">
+                  {/* <div className="flex flex-col ml-4 p-6 border-2 rounded-md bg-white">
+          <div className="text-lg">40% of profile completed</div>
+          <div className="flex w-1/2">
+            <div className="w-2/5 bg-gray-600 h-2 rounded-l-lg"></div>
+            <div className="w-3/5 bg-gray-300 h-2 rounded-r-lg"></div>
+          </div>
+          <p className="text-lg">
+            Complete 100% of the profile to get a better reach
+          </p>
+        </div> */}
+                  {/* <h2 className="p-2 leading-8 text-2xl font-semibold">
+                    About Yourself
+                  </h2> */}
 
-                    <div className="px-2">
-                      <label className="leading-8 text-sm font-normal mt-5">
-                        Session Title
+                  <div className="px-2 mt-5">
+                    <label className="leading-8 text-sm font-normal mt-5">
+                      Session Title
+                    </label>
+
+                    <div className="flex flex-wrap items-start w-auto  mr-4 md:mr-1 lg:mr-1 relative">
+                      {/* <div class="focus-outline flex flex-row rounded-md border border-gray-300 px-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 pr-1">
+                        <label className="text-black py-2 flex-1 text-right pr-0  text-sm font-normal">
+                          Growjunction.io/
+                        </label>
+                      </div> */}
+                      <TextField
+                        type="text"
+                        name="sessionTitle"
+                        onChangeValue={handleChange}
+                        value={values.sessionTitle}
+                        id="url"
+                        placeholder="Session Title"
+                        textStyleOverride={{
+                          marginBottom: 0,
+                          paddingLeft: 0,
+                          width: '100%',
+                        }}
+                        className="text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col font-normal mt-5 md:flex-row lg:flex-row">
+                    <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
+                      <label className="leading-8 text-lg font-normal mt-5">
+                        Listed Price
                       </label>
-
-                      <div className="flex flex-wrap items-start w-full relative flex-col md:flex-row md-flex-row">
-                        {/* <div class="focus-outline flex flex-row rounded-md border border-gray-300 px-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 pr-1">
-                          <label className="text-black py-2 flex-1 text-right pr-0  text-sm font-normal">
-                            Growjunction.io/
-                          </label>
-                        </div> */}
+                      <div className="flex flex-wrap items-stretch w-auto mr-4 md:mr-1 lg:mr-1 relative">
+                        <TextField
+                          onChangeValue={handleChange}
+                          value={values.listedPrice}
+                          placeholder="₹"
+                          name="listedPrice"
+                          type="text"
+                          className="w-full"
+                        />
+                      </div>
+                    </div>
+                    <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
+                      <label className="leading-8 text-lg font-normal mt-5">
+                        Final Price
+                      </label>
+                      <div className="flex flex-wrap items-stretch w-auto mr-4 md:mr-1 lg:mr-1 relative">
                         <TextField
                           type="text"
-                          name="sessionTitle"
+                          placeholder="₹"
+                          value={values.finalPrice}
                           onChangeValue={handleChange}
-                          value={values.sessionTitle}
-                          id="url"
-                          placeholder="Session Title"
-                          textStyleOverride={{
-                            marginBottom: 0,
-                            paddingLeft: 0,
-                          }}
+                          name="finalPrice"
+                          className="w-full"
                         />
                       </div>
                     </div>
-
-                    <div className="flex flex-col font-normal mt-5 md:flex-row lg:flex-row">
-                      <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
-                        <label className="leading-8 text-lg font-normal mt-5">
-                          Listed Price
-                        </label>
-                        <div className="flex flex-wrap items-stretch w-full relative">
-                          <TextField
-                            onChangeValue={handleChange}
-                            value={values.listedPrice}
-                            placeholder="₹"
-                            name="listedPrice"
-                            type="number"
-                          />
-                        </div>
-                      </div>
-                      <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
-                        <label className="leading-8 text-lg font-normal mt-5">
-                          Final Price
-                        </label>
-                        <div className="flex flex-wrap items-stretch w-full relative">
-                          <TextField
-                            type="text"
-                            placeholder="₹"
-                            value={values.finalPrice}
-                            onChangeValue={handleChange}
-                            name="finalPrice"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col font-normal mt-5 md:flex-row lg:flex-row">
-                      <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
-                        <label className="leading-8 text-lg font-normal mt-5">
-                          Number of sessions
-                        </label>
-                        <div className="flex flex-wrap items-stretch w-full relative">
-                          <TextField
-                            onChangeValue={handleChange}
-                            type="number"
-                            min="0"
-                            value={values.numberOfSessions}
-                            placeholder="₹"
-                            name="numberOfSessions"
-                            id="fname"
-                          />
-                          {/* <input
-                            type="number"
-                            value={values.numberOfSessions}
-                            onChange={handleChange}
-                            name="numberOfSessions"
-                          /> */}
-                        </div>
-                      </div>
-                      <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
-                        <label className="leading-8 text-lg font-normal mt-5">
-                          Session duration
-                        </label>
-                        <div className="flex items-center flex-wrap relative">
-                          <TextField
-                            type="number"
-                            min="0"
-                            textStyleOverride={{ width: '80%' }}
-                            placeholder="₹"
-                            value={values.sessionDuration}
-                            onChangeValue={handleChange}
-                            name="sessionDuration"
-                            id="lname"
-                            widthPartial
-                          />
-                          <select
-                            className="absolute p-2 top-3 text-lg right-0"
-                            value="values.sessionDurationIn"
-                            name="sessionDurationIn"
-                            onChange={handleChange}
-                          >
-                            <option value="min">min</option>
-                            <option value="hours">hours</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="px-2 mt-10">
-                      <label className="leading-8 text-sm font-normal mt-5">
-                        Description
+                  </div>
+                  <div className="flex flex-col font-normal mt-5 md:flex-row lg:flex-row">
+                    <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
+                      <label className="leading-8 text-lg font-normal mt-5">
+                        Number of sessions
                       </label>
-                      <div className="flex flex-wrap items-stretch w-full relative">
-                        <textarea
+                      <div className="flex items-center flex-wrap w-auto mr-4 md:mr-1 lg:mr-1 relative">
+                        <TextField
+                          onChangeValue={handleChange}
+                          type="number"
+                          min="0"
+                          value={values.numberOfSessions}
+                          textStyleOverride={{ width: '100%' }}
+                          name="numberOfSessions"
+                          id="fname"
+                          className=""
+                        />
+                        {/* <input
+                          type="number"
+                          value={values.numberOfSessions}
                           onChange={handleChange}
-                          placeholder="Description"
-                          value={values.description}
-                          name="description"
-                          className="w-full p-3"
-                        ></textarea>
-                      </div>
-                      <div className="flex justify-start text-xs mt-3">
-                        Describe yourself in 500 characters or less
+                          name="numberOfSessions"
+                        /> */}
                       </div>
                     </div>
-                    <div className="bg-white mt-10">
-                      <h2 className="p-2 leading-8 text-2xl font-semibold flex justify-between items-center">
-                        <span> Additional questions</span>
-                        <button
-                          className="cursor-pointer text-lg rounded-2xl border-black p-5 border-2  disabled:bg-gray-300 disabled:border-gray-50 disabled:text-gray-700    disabled:cursor-wait"
-                          disabled={!question}
-                          onClick={addQuestion}
-                        >
-                          Add another question
-                        </button>
-                      </h2>
-                      <div className="flex p-2 justify-start rounded-xl border-2 ">
-                        <img
-                          className="pr-3"
-                          src="/assets/icon/mentor-dashboard/info.svg"
+                    <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
+                      <label className="leading-8 text-lg font-normal mt-5">
+                        Session duration
+                      </label>
+                      <div className="flex items-center flex-wrap w-auto mr-4 md:mr-1 lg:mr-1 relative">
+                        <TextField
+                          type="number"
+                          min="0"
+                          textStyleOverride={{ width: '80%' }}
+                          value={values.sessionDuration}
+                          onChangeValue={handleChange}
+                          name="sessionDuration"
+                          id="lname"
+                          widthPartial
+                          className=""
                         />
-                        <span className="text-lg">
-                          you can collect links to resume, Linkedin or ask any
-                          specific question
-                        </span>
+                        <select
+                          className="absolute px-3 py-3 top-1  text-lg right-1 bg-gray-50"
+                          value="values.sessionDurationIn"
+                          name="sessionDurationIn"
+                          onChange={handleChange}
+                        >
+                          <option value="min">Min</option>
+                          <option value="hours">Hours</option>
+                        </select>
                       </div>
-                      <div>
-                        {questions.length > 0 && (
-                          <div className="grid gap-2 grid-cols-3 px-10 py-5 text-lg uppercase border-b-2">
-                            <span>Question</span>
-                            <span>Type</span>
-                            <span className="px-5">Action</span>
-                          </div>
-                        )}
-
-                        {questions.map((qns) => (
-                          <div
-                            key={qns.id}
-                            className="grid grid-cols-3 px-10 py-5 items-center gap-2  text-lg "
-                          >
-                            <span>{qns.text}</span>
-                            <span>{qns.type}</span>
-                            <span
-                              className="text-red-700 cursor-pointer py-3 px-5 rounded-full hover:bg-gray-100 w-32 "
-                              onClick={handleRemoveQuestion.bind(null, qns.id)}
-                            >
-                              Remove
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="py-3 px-10">
-                        <div className="bg-gray-50 text-lg">
-                          <label>Enter question</label>
-                          <TextField
-                            name="social.facebook_url"
-                            value={question}
-                            onChangeValue={handleQuestionChange}
-                            // styleOverride={{ backgroundColor: '#fff' }}
-                            classOverride="bg-white"
-                            //   value={values.social.facebook_url}
-                            type="text"
-                            id="linkedurl"
-                            placeholder="Enter URL here"
-                          />
-                        </div>
-                        <div className="flex items-center">
-                          <input type="checkbox" className="py3 mr-3"></input>
-                          <span className="text-lg">Required</span>
-                        </div>
-                        <div className="text-lg bg-gray-50 py-5">
-                          <label className="my-6 mb-5">Answer Type</label>
-                          <section className="flex mt-6">
-                            {items.map((item, index) => {
-                              return (
-                                <Pill
-                                  selected={item === questionType}
-                                  title={item}
-                                  key={index}
-                                  onSelected={setQuestionType}
-                                  className="mr-3"
-                                />
-                              )
-                            })}
-                          </section>
-                        </div>
-                      </div>
+                    </div>
+                  </div>
+                  <div className="px-2 mt-5">
+                    <label className="leading-8 text-sm font-normal mt-5">
+                      Description
+                    </label>
+                    <div className="flex flex-wrap items-stretch w-auto mr-4 md:mr-1 lg:mr-1 relative">
+                      <textarea
+                        onChange={handleChange}
+                        placeholder="Description"
+                        value={values.description}
+                        name="description"
+                        className="w-full p-3 bg-gray-50 text-sm"
+                      ></textarea>
+                    </div>
+                    <div className="flex justify-start text-xs mt-3 mb-10">
+                      Describe yourself in 500 characters or less
                     </div>
                   </div>
                 </div>
               </div>
-              <AutoSubmitToken setValues={setValues} questions={questions} />
-            </form>
+              <div className="bg-white basis-2/5"></div>
+            </div>
+            <div className="w-full h-px bg-gray-200 border-0"></div>
+
+            <div className="flex flex-col-reverse md:flex-row lg:flex-row">
+              <div className="bg-white basis-3/5 ">
+                <span className="text-xl font-semibold px-4">
+                  Additional question
+                </span>
+                <div className="m-3 p-2 flex justify-start rounded-xl border-2 w-auto mr-6 md:mr-1 lg:mr-1">
+                  <img
+                     className=" w-4 h-4"
+                    src="/assets/icon/exclamationmarkcircle.png"
+                  />
+                  <span className="text-sm text-gray-400 px-3">
+                    You can collect links to resume, Linkedin or ask any
+                    specific question
+                  </span>
+                </div>
+                <div>
+                  {questions.length > 0 && (
+                    <div className="grid gap-2 grid-cols-3 px-10 py-5 text-lg uppercase border-b-2">
+                      <span>Question</span>
+                      <span>Type</span>
+                      <span className="px-5">Action</span>
+                    </div>
+                  )}
+
+                  {questions.map((qns) => (
+                    <div
+                      key={qns.id}
+                      className="grid grid-cols-3 px-10 py-5 items-center gap-2  text-lg "
+                    >
+                      <span>{qns.text}</span>
+                      <span>{qns.type}</span>
+                      <span
+                        className="text-red-700 cursor-pointer py-3 px-5 rounded-full hover:bg-gray-100 w-32 "
+                        onClick={handleRemoveQuestion.bind(null, qns.id)}
+                      >
+                        Remove
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="ml-5 px-10 mt-5 bg-gray-50 rounded-md mr-4 md:mr-1 lg:mr-1 w-2/3">
+                  <div className="bg-gray-50 text-base ">
+                    <label>Enter question</label>
+                    <TextField
+                      name="social.facebook_url"
+                      value={question}
+                      onChangeValue={handleQuestionChange}
+                      // styleOverride={{ backgroundColor: '#fff' }}
+                      classOverride="bg-white"
+                      //   value={values.social.facebook_url}
+                      type="text"
+                      id="linkedurl"
+                      placeholder="Enter URL here"
+                      
+                    />
+                  </div>
+                  <div className="flex items-center">
+                    <input type="checkbox" className="mr-3"></input>
+                    <span className="text-sm">Required</span>
+                  </div>
+                  <div className="text-lg bg-gray-50 py-4">
+                    <label className="mb-3 text-sm">Answer type (Select)</label>
+                    <section className="flex mt-3">
+                      {items.map((item, index) => {
+                        return (
+                          <Pill
+                            selected={item === questionType}
+                            title={item}
+                            key={index}
+                            onSelected={setQuestionType}
+                            className="mr-3 text-sm"
+                          />
+                        )
+                      })}
+                    </section>
+                  </div>
+                </div>
+                <div className=" mt-5  bg-white"></div>
+              </div>
+              <div className="bg-white basis-2/5">
+                <div className="flex justify-center md:justify-end lg:justify-end w-auto mr-2">
+                  <button
+                    className="cursor-pointer mt-3 mr-3 px-6 py-3 leading-8 text-sm font-semibold  border-2 border-gray-900 rounded-md items-center  disabled:bg-gray-300 disabled:border-gray-50 disabled:text-gray-700    disabled:cursor-wait"
+                    disabled={!question}
+                    onClick={addQuestion}
+                  >
+                    Add another question
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="w-full h-px bg-gray-300 border-0"></div>
+            <AutoSubmitToken setValues={setValues} questions={questions} />
+          </form>
           )
         }}
       </Formik>

@@ -282,6 +282,248 @@ export const listOneOnOnes = /* GraphQL */ `
     }
   }
 `;
+export const getTextQuery = /* GraphQL */ `
+  query GetTextQuery($id: ID!) {
+    getTextQuery(id: $id) {
+      title
+      username
+      description
+      responseTime
+      responseTimeIn
+      listedPrice
+      finalPrice
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listTextQueries = /* GraphQL */ `
+  query ListTextQueries(
+    $filter: ModelTextQueryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTextQueries(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        title
+        username
+        description
+        responseTime
+        responseTimeIn
+        listedPrice
+        finalPrice
+        questions {
+          id
+          text
+          type
+        }
+        id
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getWorkshop = /* GraphQL */ `
+  query GetWorkshop($id: ID!) {
+    getWorkshop(id: $id) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listWorkshops = /* GraphQL */ `
+  query ListWorkshops(
+    $filter: ModelWorkshopFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listWorkshops(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        title
+        username
+        description
+        callDuration
+        callDurationIn
+        listedPrice
+        finalPrice
+        workshopDate
+        workshopTime
+        workshopImage
+        hideService
+        limitedParticipants
+        audienceSize
+        questions {
+          id
+          text
+          type
+        }
+        id
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getCourses = /* GraphQL */ `
+  query GetCourses($id: ID!) {
+    getCourses(id: $id) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listCourses = /* GraphQL */ `
+  query ListCourses(
+    $filter: ModelCoursesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCourses(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        courseTitle
+        username
+        description
+        numberOfSessions
+        sessionDuration
+        sessionDurationIn
+        listedPrice
+        finalPrice
+        courseDate
+        courseTime
+        hideService
+        limitParticipants
+        audienceSize
+        courseImage
+        sessions {
+          id
+          text
+          sessionDate
+          sessionTime
+        }
+        id
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getPackages = /* GraphQL */ `
+  query GetPackages($id: ID!) {
+    getPackages(id: $id) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageServices {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listPackages = /* GraphQL */ `
+  query ListPackages(
+    $filter: ModelPackagesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPackages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        packageTitle
+        username
+        description
+        listedPrice
+        finalPrice
+        packageImage
+        emailContent
+        uploadFile
+        hideService
+        limitParticipants
+        audienceSize
+        packageServices {
+          id
+          text
+          duration
+          price
+        }
+        id
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const getMentorRegister = /* GraphQL */ `
   query GetMentorRegister($id: ID!) {
     getMentorRegister(id: $id) {

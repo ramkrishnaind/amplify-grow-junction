@@ -12,7 +12,7 @@ const Dashboard = () => {
     <section className={classes.main}>
       <header className={`flex-col md:flex-row ${classes.header}`}>
         <div className={classes.logo}></div>
-        <div className={`flex-col md:flex-row ${classes['right-side']}`}>
+        <div className={`flex-col md:flex-row cursor-pointer ${classes['right-side']}`}>
           <a
             className={classes.link}
             onClick={() => {

@@ -6,8 +6,8 @@ const Pill = ({ title, selected, className, onSelected }) => {
       className={`${className} ${
         selected
           ? 'border-orange-400 text-orange-400 '
-          : 'border-black text-black'
-      } border-black align-middle flex items-center rounded-full text-lg py-3 px-5 border-2 cursor-pointer`}
+          : 'border-gray-900 text-black'
+      } border-black align-middle flex flex-row items-center rounded-full text-sm font-semibold py-2 px-6 border-2 cursor-pointer`}
       onClick={() => onSelected(title)}
     >
       {title}{' '}

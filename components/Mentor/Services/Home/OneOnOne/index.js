@@ -5,10 +5,45 @@ import TextField from '../../../../../pages/ui-kit/TextField'
 import services from '../../../../../pages/services'
 import classes from './OneOnOne.module.css'
 import { toast } from 'react-toastify'
-import { deleteOneOnOne } from '../../../../../src/graphql/mutations'
+import { deleteOneOnOne, updateOneOnOne } from '../../../../../src/graphql/mutations'
+import  AddOneOnOne from '../../Add/Content/OneOnOne'
+import { getOneOnOne } from '../../../../../src/graphql/queries'
+
+const AutoSubmitToken = ({ setValues, questions }) => {
+  // Grab values and submitForm from context
+  const { values, submitForm } = useFormikContext()
+
+  React.useEffect(() => {
+    debugger
+    console.log('context_values', values)
+    values.questions = questions
+    setValues(values)
+    // setProfile(values)
+    // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
+    // if (values.token.length === 6) {
+    //   submitForm();
+    // }
+  }, [values, submitForm])
+  return null
+}
+
+
 const OneOnOne = ({ services }) => {
   const searchRef = useRef()
   const [results, setResults] = useState(services)
+  const [showReschedule, setShowReschedule] = useState(false)
+  const [oneOnOne, setoneOnOne]= useState({})
+  const [id, setId]= useState()
+  const [state, setState] = useState({})
+
+  const setValues = (values) => {
+    setoneOnOne(values)
+    console.log("values - ",values)
+  }
+
+  console.log("OneOnOne - ", oneOnOne)
+
+  
   const searchClick = () => {
     const filtered = services.filter((i) =>
       i.sessionTitle
@@ -18,6 +53,51 @@ const OneOnOne = ({ services }) => {
     setResults(filtered)
     searchRef.current.value = ''
   }
+
+  const findPost = async (id) => {
+    debugger
+    console.log('id - ', id)
+    setId(id)
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const oneOnOneResult = await API.graphql({
+        query: getOneOnOne,
+        variables: { id },
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+      })
+      if (oneOnOneResult.data.getOneOnOne.id !== null) {
+        setState({ ...state, oneOnOne: oneOnOneResult.data.getOneOnOne })
+      }
+      console.log( "getOneonOne - ", oneOnOneResult.data.getOneOnOne)
+      console.log("state - ", JSON.stringify(state))
+      setShowReschedule(true)
+    } catch (error) {
+      toast.error(`Get Error:${error.errors[0].message}`)
+    }
+  }
+
+  const editPost = async (id) => {
+    debugger
+    console.log('id', id)
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      const {createdAt, updatedAt, owner, ...rest}= oneOnOne
+      await API.graphql({
+        query: updateOneOnOne,
+        variables: { input: { ...rest } },
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+      })
+      toast.success('OneOnOne update successfully')
+      setTimeout(() => {
+        window.location.href = window.location.href
+      }, 2000);
+      
+    } catch (error) {
+      toast.error(`Update Error:${error.errors[0].message}`)
+    }
+  }
+
   const deletePost = async (id) => {
     debugger
     console.log('id', id)
@@ -60,8 +140,11 @@ const OneOnOne = ({ services }) => {
       {results.length > 0 ? (
         <div className="my-3 bg-white p-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-            {results.map((item, index) => (
-              <div className="flex justify-center align-center mb-10  ">
+            {results.map((item, index) => {
+              return (
+              <div 
+              key={index}
+              className="flex justify-center align-center mb-10  ">
                 <div
                   className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
                 >
@@ -91,7 +174,7 @@ const OneOnOne = ({ services }) => {
                         <ul className="rounded absolute hidden text-black group-hover:block w-30 border-2 border-gray-50 shadow-md">
                           <li
                             className="bg-white hover:bg-gray-300 py-4 px-2 cursor-pointer border-b-2 border-gray-300 text-left"
-                            onClick={() => setShowReschedule(true)}
+                            onClick={() => findPost(item.id)}
                           >
                             Reschedule
                           </li>
@@ -171,7 +254,7 @@ const OneOnOne = ({ services }) => {
                   </div>
                 </div>
               </div>
-            ))}
+            )})}
           </div>
 
           {/* outer */}
@@ -183,6 +266,52 @@ const OneOnOne = ({ services }) => {
         >
           No sessions found
         </div>
+      )}
+
+{showReschedule && (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/3 lg:w-1/3">
+              <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                <div className="text-sm font-semibold mt-4">1 on 1 Session</div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setShowReschedule(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+              <AddOneOnOne oneOnOne={state.oneOnOne} setValues={setValues} />
+              <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
+              <div className="flex justify-between item-center w-auto">
+                <button
+                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
+                  type="button"
+                  onClick={() => setShowReschedule(false)}
+                >
+                  <span className="text-sm font-semibold py-2">Cancel</span>
+                </button>
+
+                <button
+                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
+                  type="button"
+                  onClick={() => editPost(id)}
+                >
+                  <span className="text-sm font-semibold py-2">Save</span>
+                </button>
+              </div>
+            </div>
+            </div>
+
+          </div>
+        </>
       )}
     </>
   )
