@@ -258,7 +258,7 @@ const AddService = () => {
       case 'Workshop':
         workshopSave()
         break
-      case 'Workshop':
+      case 'Packages':
         packagesSave()
         break
     }

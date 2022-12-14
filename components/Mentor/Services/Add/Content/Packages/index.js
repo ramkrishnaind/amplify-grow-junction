@@ -6,9 +6,13 @@ import { v4 as uuid } from 'uuid'
 import classes from './Packages.module.css'
 import { Storage } from 'aws-amplify'
 
-const AutoSubmitToken = ({ setValues, packageServices,  hideService,
+const AutoSubmitToken = ({
+  setValues,
+  packageServices,
+  hideService,
   limitParticipants,
-  imageUrl, }) => {
+  imageUrl,
+}) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
 
@@ -28,17 +32,33 @@ const AutoSubmitToken = ({ setValues, packageServices,  hideService,
   }, [values, submitForm])
   return null
 }
-const Packages = ({ setValues, state: initial }) => {
-  const {
-    sessionTitle,
-    listedPrice,
-    finalPrice,
-    numberOfSessions,
-    sessionDuration,
-    sessionDurationIn,
-    description,
-    // questions: [],
-  } = initial
+const Packages = ({
+  setValues,
+  state: initial,
+  packages = {
+    packageTitle: '',
+    description: '',
+    listedPrice: '',
+    finalPrice: '',
+    packageImage: '',
+    emailContent: '',
+    uploadFile: '',
+    hideService: '',
+    limitParticipants: '',
+    audienceSize: '',
+    //packageServices: []
+  },
+}) => {
+  // const {
+  //   sessionTitle,
+  //   listedPrice,
+  //   finalPrice,
+  //   numberOfSessions,
+  //   sessionDuration,
+  //   sessionDurationIn,
+  //   description,
+  //   // questions: [],
+  // } = initial
   // useEffect(() => {
   //   setState(initial)
   // }, [
@@ -51,14 +71,17 @@ const Packages = ({ setValues, state: initial }) => {
   //   description,
   // ])
   const initialState = {
-    sessionTitle: '',
+    packageTitle: '',
+    description: '',
     listedPrice: '',
     finalPrice: '',
-    numberOfSessions: '',
-    sessionDuration: '',
-    sessionDurationIn: '',
-    description: '',
-    // questions: [],
+    packageImage: '',
+    emailContent: '',
+    uploadFile: '',
+    hideService: '',
+    limitParticipants: '',
+    audienceSize: '',
+    //packageServices: []
   }
 
   const imageInputref = useRef()
@@ -69,10 +92,10 @@ const Packages = ({ setValues, state: initial }) => {
   const toggleClass = ' transform translate-x-5'
 
   const items = ['Text', 'Upload (Pdf,jpeg)']
-  const [questionType, setQuestionType] = useState(items[0])
-  const [state, setState] = useState(initialState)
-  const [question, setQuestion] = useState('')
-  const [questions, setQuestions] = useState([])
+  // const [questionType, setQuestionType] = useState(items[0])
+  // const [state, setState] = useState(initialState)
+  // const [question, setQuestion] = useState('')
+  // const [questions, setQuestions] = useState([])
   const [imageUrl, setImageUrl] = useState()
 
   const storeImage = async () => {
@@ -100,7 +123,7 @@ const Packages = ({ setValues, state: initial }) => {
   return (
     <>
       <Formik
-        initialValues={{ ...state }}
+        initialValues={{ ...packages }}
         onSubmit={(values, e) => {
           debugger
           const { setSubmitting } = e
@@ -108,7 +131,11 @@ const Packages = ({ setValues, state: initial }) => {
             // alert(JSON.stringify(values, null, 2));
             setSubmitting(false)
           }, 400)
-          values.questions = questions
+          values.packageServices = packageServices
+          values.packageImage = imageUrl
+          values.limitParticipants = limitParticipants
+          values.hideService = hideService
+          console.log('onsubmit - ', values)
           // setProfileState(values)
         }}
         // enableReinitialize={true}
@@ -147,7 +174,7 @@ const Packages = ({ setValues, state: initial }) => {
                           type="text"
                           name="packageTitle"
                           onChangeValue={handleChange}
-                          value={values.sessionTitle}
+                          value={values.packageTitle}
                           id="url"
                           placeholder="Package Title"
                           textStyleOverride={{
@@ -347,14 +374,14 @@ const Packages = ({ setValues, state: initial }) => {
                     <div
                       className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-gray-400 rounded-full p-1 cursor-pointer"
                       onClick={() => {
-                        setToggle1(!toggle1)
+                        setHideService(!hideService)
                       }}
                     >
                       {/* Switch */}
                       <div
                         className={
                           'bg-black md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
-                          (toggle1 ? null : toggleClass)
+                          (hideService ? null : toggleClass)
                         }
                       ></div>
                     </div>
@@ -367,19 +394,36 @@ const Packages = ({ setValues, state: initial }) => {
                     <div
                       className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-green-800 rounded-full p-1 cursor-pointer"
                       onClick={() => {
-                        setToggle2(!toggle2)
+                        setLimitParticipants(!limitParticipants)
                       }}
                     >
                       {/* Switch */}
                       <div
                         className={
                           'bg-white md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
-                          (toggle2 ? null : toggleClass)
+                          (limitParticipants ? null : toggleClass)
                         }
                       ></div>
                     </div>
                     <div className="flex items-center text-sm">
                       Limit participants
+                    </div>
+                  </div>
+                  <div className="px-2 text-sm ml-5 mt-5 w-full md:w-1/2 lg:w-1/2">
+                    <label className="leading-8 text-sm font-normal mt-5">
+                      Audience size
+                    </label>
+                    <div className="flex items-center flex-wrap w-auto mr-4 md:mr-1 lg:mr-1 relative">
+                      <TextField
+                        onChangeValue={handleChange}
+                        type="number"
+                        min="0"
+                        value={values.audienceSize}
+                        textStyleOverride={{ width: '100%' }}
+                        name="audienceSize"
+                        id="audienceSize"
+                        className=""
+                      />
                     </div>
                   </div>
                   <div className=" mt-5  bg-white"></div>
@@ -442,7 +486,9 @@ const Packages = ({ setValues, state: initial }) => {
                 <div className="bg-white basis-2/5"></div>
               </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken setValues={setValues} questions={questions} />
+              <AutoSubmitToken setValues={setValues} hideService={hideService}
+                limitParticipants={limitParticipants}
+                packageImage={imageUrl}/>
             </form>
           )
         }}

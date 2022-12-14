@@ -19,7 +19,7 @@ const Content = ({ currentService, setValues, state }) => {
     return <Courses setValues={setValues} state={state.courses} />
   }
   if (currentService === 'Packages') {
-    return <Packages setValues={setValues} state={state.courses} />
+    return <Packages setValues={setValues} state={state.packages} />
   }
   return <div>Content</div>
 }
