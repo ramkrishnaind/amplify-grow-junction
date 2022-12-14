@@ -193,7 +193,7 @@ type Packages
   hideService: Boolean
   limitParticipants: Boolean
   audienceSize: Int
-  packageService: [PackageServices]
+  packageServices: [PackageServices]
 }
 type PackageServices {
   id: String

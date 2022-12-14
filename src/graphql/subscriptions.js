@@ -727,7 +727,7 @@ export const onCreatePackages = /* GraphQL */ `
       hideService
       limitParticipants
       audienceSize
-      packageService {
+      packageServices {
         id
         text
         duration
@@ -758,7 +758,7 @@ export const onUpdatePackages = /* GraphQL */ `
       hideService
       limitParticipants
       audienceSize
-      packageService {
+      packageServices {
         id
         text
         duration
@@ -789,7 +789,7 @@ export const onDeletePackages = /* GraphQL */ `
       hideService
       limitParticipants
       audienceSize
-      packageService {
+      packageServices {
         id
         text
         duration

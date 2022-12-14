@@ -496,7 +496,7 @@ export const getPackages = /* GraphQL */ `
       hideService
       limitParticipants
       audienceSize
-      packageService {
+      packageServices {
         id
         text
         duration
@@ -528,7 +528,7 @@ export const listPackages = /* GraphQL */ `
         hideService
         limitParticipants
         audienceSize
-        packageService {
+        packageServices {
           id
           text
           duration

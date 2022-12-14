@@ -7,6 +7,7 @@ import {
   createOneOnOne,
   createWorkshop,
   createCourses,
+  createPackages
 } from '../../../../src/graphql/mutations'
 import { createTextQuery } from '../../../../src/graphql/mutations'
 
@@ -62,6 +63,19 @@ const AddService = () => {
       audienceSize: '',
       courseImage: '',
       // session: [],
+    },
+    packages: {
+      packageTitle: '',
+      description: '',
+      listedPrice: '',
+      finalPrice: '',
+      packageImage: '',
+      emailContent: '',
+      uploadFile:'',
+      hideService: '',
+      limitParticipants: '',
+      audienceSize: '',
+      // packageService: [],
     },
   })
   const [currentService, setCurrentService] = useState(items[0])
@@ -183,6 +197,34 @@ const AddService = () => {
     }
   }
 
+  const handlePackagesChange = (values) => {
+    setState((prev) => ({ ...prev, packages: values }))
+  }
+  const packagesSave = async () => {
+    debugger
+    if (
+      !state.packages.packageTitle ||
+      !state.packages.description ||
+      !state.packages.listedPrice ||
+      !state.packages.finalPrice
+    ) {
+      toast.error('Mandatory fields not entered')
+      return
+    }
+    try {
+      await API.graphql({
+        query: createPackages,
+        variables: { input: { ...state.packages } },
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+      })
+      toast.success('Packages added successfully')
+      window.location.href = '/mentor/services'
+    } catch (error) {
+      toast.error(`Save Error:${error.errors[0].message}`)
+    }
+  }
+
+
   const setValues = (values) => {
     switch (currentService) {
       case items[0]:
@@ -195,8 +237,10 @@ const AddService = () => {
         handleCoursesChange(values)
         break
       case items[3]:
-      default:
         handleTextQueryChange(values)
+      case items[4]:
+      default:
+        handlePackagesChange(values)
     }
   }
 
@@ -213,6 +257,9 @@ const AddService = () => {
         break
       case 'Workshop':
         workshopSave()
+        break
+      case 'Workshop':
+        packagesSave()
         break
     }
   }

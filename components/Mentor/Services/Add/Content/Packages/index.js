@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Formik, useFormikContext } from 'formik'
 import Pill from '../../Header/Pill'
 import TextField from '../../../../../../pages/ui-kit/TextField'
@@ -6,14 +6,19 @@ import { v4 as uuid } from 'uuid'
 import classes from './Packages.module.css'
 import { Storage } from 'aws-amplify'
 
-const AutoSubmitToken = ({ setValues, questions }) => {
+const AutoSubmitToken = ({ setValues, packageServices,  hideService,
+  limitParticipants,
+  imageUrl, }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
 
   React.useEffect(() => {
     debugger
     console.log('context_values', values)
-    values.questions = questions
+    values.packageServices = packageServices
+    values.limitParticipants = limitParticipants
+    values.hideService = hideService
+    values.packageImage = imageUrl
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
@@ -57,10 +62,10 @@ const Packages = ({ setValues, state: initial }) => {
   }
 
   const imageInputref = useRef()
-  const [image, setImage] = useState()
+  const [image, setImage] = useState(null)
   const [convertedImage, setConvertedImage] = useState()
-  const [toggle1, setToggle1] = useState(true)
-  const [toggle2, setToggle2] = useState(true)
+  const [hideService, setHideService] = useState(true)
+  const [limitParticipants, setLimitParticipants] = useState(true)
   const toggleClass = ' transform translate-x-5'
 
   const items = ['Text', 'Upload (Pdf,jpeg)']
@@ -73,13 +78,8 @@ const Packages = ({ setValues, state: initial }) => {
   const storeImage = async () => {
     debugger
     if (image) {
-      const name = image.name.substr(
-        0,
-        image.name.lastIndexOf('.'),
-      )
-      const ext = image.name.substr(
-        image.name.lastIndexOf('.') + 1,
-      )
+      const name = image.name.substr(0, image.name.lastIndexOf('.'))
+      const ext = image.name.substr(image.name.lastIndexOf('.') + 1)
       const filename = `${name}_${uuid()}.${ext}`
       setImageUrl(filename)
       await Storage.put(filename, image, {
@@ -88,16 +88,15 @@ const Packages = ({ setValues, state: initial }) => {
     }
   }
 
-
   const handleFileInput = (e) => {
     e.preventDefault()
     debugger
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
     }
-    console.log("image -", image)
+    console.log('image -', image)
   }
-  
+
   return (
     <>
       <Formik
@@ -214,7 +213,7 @@ const Packages = ({ setValues, state: initial }) => {
                   </div>
                 </div>
                 <div className="bg-white basis-2/5">
-                <div className="flex flex-col ml-10 mt-10 mr-10  w-auto">
+                  <div className="flex flex-col ml-10 mt-10 mr-10  w-auto">
                     <p className="flex justify-start items-start text-sm ">
                       Upload packages thumbnail
                     </p>
@@ -238,30 +237,29 @@ const Packages = ({ setValues, state: initial }) => {
                           ) : null}
                         </div>
                         <div className="flex flex-col justify-start items-start mt-16 px-2 py-2">
-                        <button className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md min-w-40">
-                        <button
-                            className="ml-3 text-lg"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              imageInputref.current.click()
-                            }}
-                          >
-                            Upload image
+                          <button className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md min-w-40">
+                            <button
+                              className="ml-3 text-lg"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                imageInputref.current.click()
+                              }}
+                            >
+                              Upload image
+                            </button>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              ref={imageInputref}
+                              className="absolute w-0 h-0 left-0 top-0"
+                              onChange={handleFileInput}
+                            />
                           </button>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            ref={imageInputref}
-                            className="absolute w-0 h-0 left-0 top-0"
-                            onChange={handleFileInput}
-                          />
-                        </button>
-                        <p className="w-auto ml-3 mt-3 text-xs tracking-wide">
-                        Max file size 5mb
-                        </p>
+                          <p className="w-auto ml-3 mt-3 text-xs tracking-wide">
+                            Max file size 5mb
+                          </p>
+                        </div>
                       </div>
-                      </div>
-
                     </div>
                   </div>
                 </div>
@@ -390,59 +388,59 @@ const Packages = ({ setValues, state: initial }) => {
               </div>
               <div className="w-full h-px bg-gray-200 border-0"></div>
 
-<div className="flex flex-col-reverse md:flex-row lg:flex-row">
-  <div className="bg-white basis-3/5 ">
-    <span className="text-xl font-semibold px-4">
-      Available services
-    </span>
-    <div className="m-3 p-2 flex justify-start rounded-xl border-2 w-auto mr-6 md:mr-1 lg:mr-1">
-      <img
-        className="px-3 w-4 h-4"
-        src="/assets/icon/exclamationmarkcircle.png"
-      />
-      <span className="text-sm text-gray-400">
-        Select services added by you to create a package
-      </span>
-    </div>
-    {/* todo - dynamic data comes from all service to be displayed here seems */}
+              <div className="flex flex-col-reverse md:flex-row lg:flex-row">
+                <div className="bg-white basis-3/5 ">
+                  <span className="text-xl font-semibold px-4">
+                    Available services
+                  </span>
+                  <div className="m-3 p-2 flex justify-start rounded-xl border-2 w-auto mr-6 md:mr-1 lg:mr-1">
+                    <img
+                      className="px-3 w-4 h-4"
+                      src="/assets/icon/exclamationmarkcircle.png"
+                    />
+                    <span className="text-sm text-gray-400">
+                      Select services added by you to create a package
+                    </span>
+                  </div>
+                  {/* todo - dynamic data comes from all service to be displayed here seems */}
 
-    <div className="flex flex-row justify-center items-center font-normal py-4 mb-5 mt-5 ml-5 md:flex-row lg:flex-row bg-gray-50">
-      <div className="flex justify-center item-center text-sm w-1/6">
-        <p className="leading-8 text-lg font-normal mt-5">
-          <input type="checkbox" className="mr-3"></input>
-        </p>
-      </div>
+                  <div className="flex flex-row justify-center items-center font-normal py-4 mb-5 mt-5 ml-5 md:flex-row lg:flex-row bg-gray-50">
+                    <div className="flex justify-center item-center text-sm w-1/6">
+                      <p className="leading-8 text-lg font-normal mt-5">
+                        <input type="checkbox" className="mr-3"></input>
+                      </p>
+                    </div>
 
-      <div className="flex flex-col px-2 text-sm w-1/2 md:w-1/2 lg:w-1/2">
-        <label className="leading-8 text-base font-semibold mt-5">
-          Mock Interview
-        </label>
-        <label className="flex flex-wrap leading-8 text-base font-normal">
-          1 on 1 Session
-        </label>
-      </div>
-      <div className="flex flex-col px-2 text-sm w-1/3">
-        <label className="leading-8 text-base font-semibold mt-5">
-          30 minutes
-        </label>
-        <label className="leading-8 text-base font-normal">
-          Duration
-        </label>
-      </div>
-      <div className="flex flex-col px-2 text-sm w-1/3">
-        <label className="leading-8 text-base font-semibold mt-5">
-          1000
-        </label>
-        <label className="leading-8 text-base font-normal">
-          Price
-        </label>
-      </div>
-    </div>
+                    <div className="flex flex-col px-2 text-sm w-1/2 md:w-1/2 lg:w-1/2">
+                      <label className="leading-8 text-base font-semibold mt-5">
+                        Mock Interview
+                      </label>
+                      <label className="flex flex-wrap leading-8 text-base font-normal">
+                        1 on 1 Session
+                      </label>
+                    </div>
+                    <div className="flex flex-col px-2 text-sm w-1/3">
+                      <label className="leading-8 text-base font-semibold mt-5">
+                        30 minutes
+                      </label>
+                      <label className="leading-8 text-base font-normal">
+                        Duration
+                      </label>
+                    </div>
+                    <div className="flex flex-col px-2 text-sm w-1/3">
+                      <label className="leading-8 text-base font-semibold mt-5">
+                        1000
+                      </label>
+                      <label className="leading-8 text-base font-normal">
+                        Price
+                      </label>
+                    </div>
+                  </div>
 
-    <div className=" mt-5  bg-white"></div>
-  </div>
-  <div className="bg-white basis-2/5"></div>
-</div>
+                  <div className=" mt-5  bg-white"></div>
+                </div>
+                <div className="bg-white basis-2/5"></div>
+              </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
               <AutoSubmitToken setValues={setValues} questions={questions} />
             </form>
