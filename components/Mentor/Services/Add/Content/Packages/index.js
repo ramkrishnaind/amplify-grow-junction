@@ -216,7 +216,7 @@ const Packages = ({ setValues, state: initial }) => {
                 <div className="bg-white basis-2/5">
                 <div className="flex flex-col ml-10 mt-10 mr-10  w-auto">
                     <p className="flex justify-start items-start text-sm ">
-                      Upload workshop thumbnail
+                      Upload packages thumbnail
                     </p>
                     <div className="flex flex-col md:flex-row lg:flex-row">
                       <div className="flex flex-col">

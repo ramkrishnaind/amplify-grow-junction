@@ -173,6 +173,34 @@ type CourseSessions {
   sessionDate: String
   sessionTime: String
 }
+type Packages
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create, delete] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  packageTitle: String
+  username: String
+  description: String
+  listedPrice: Float
+  finalPrice: Float
+  packageImage: String
+  emailContent: String
+  uploadFile: String
+  hideService: Boolean
+  limitParticipants: Boolean
+  audienceSize: Int
+  packageService: [PackageServices]
+}
+type PackageServices {
+  id: String
+  text: String
+  duration: String
+  price : Float
+}
 type MentorRegister
   @model
   @auth(

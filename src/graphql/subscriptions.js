@@ -709,6 +709,99 @@ export const onDeleteCourses = /* GraphQL */ `
     }
   }
 `;
+export const onCreatePackages = /* GraphQL */ `
+  subscription OnCreatePackages(
+    $filter: ModelSubscriptionPackagesFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreatePackages(filter: $filter, username: $username, owner: $owner) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageService {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdatePackages = /* GraphQL */ `
+  subscription OnUpdatePackages(
+    $filter: ModelSubscriptionPackagesFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdatePackages(filter: $filter, username: $username, owner: $owner) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageService {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeletePackages = /* GraphQL */ `
+  subscription OnDeletePackages(
+    $filter: ModelSubscriptionPackagesFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeletePackages(filter: $filter, username: $username, owner: $owner) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageService {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const onCreateMentorRegister = /* GraphQL */ `
   subscription OnCreateMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput

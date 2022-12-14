@@ -5,12 +5,14 @@ import OneOnOne from './OneOnOne'
 import TextQuery from './TextQuery'
 import Workshop from './Workshop'
 import Courses from './Courses'
+import Packages from './Packages'
 import Link from 'next/link'
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import { listOneOnOnes } from '/src/graphql/queries'
 import {listTextQueries} from '/src/graphql/queries'
 import { listWorkshops } from '/src/graphql/queries'
 import { listCourses } from '/src/graphql/queries'
+import { listPackages } from '/src/graphql/queries'
 
 const Home = () => {
   // return <div>Hi</div>
@@ -33,6 +35,7 @@ const Home = () => {
     workshop: [],
     courses: [],
     textQuery: [],
+    packages:[],
   })
   const loadOneOnOne = async () => {
     try {
@@ -112,6 +115,25 @@ const Home = () => {
     setLoading(false)
   }
 
+  const loadPackages = async () => {
+    debugger
+    try {
+      setLoading(true)
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listPackages, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listPackages.items.length> 0) {
+        setServices({ ...services, courses: results.data.listPackages.items })
+      }
+    } catch (error) {
+      toast.error(`Load Error:${error.errors[0].message}`)
+    }
+    setLoading(false)
+  }
 
 
   useEffect(() => {
@@ -119,6 +141,7 @@ const Home = () => {
     loadTextQuery()
     loadWorkshop()
     loadCourses()
+    loadPackages()
   }, [])
   if (loading) return null
   if (checkIfItems()) {
@@ -223,7 +246,7 @@ const Home = () => {
               <TextQuery services={services.textQuery}/>
               </div>
               <div className={openTab === 5 ? 'block' : 'hidden'}>
-                <div> text5</div>
+              <Packages services={services.packages}/>
               </div>
             </div>
           </div>

@@ -482,6 +482,67 @@ export const listCourses = /* GraphQL */ `
     }
   }
 `;
+export const getPackages = /* GraphQL */ `
+  query GetPackages($id: ID!) {
+    getPackages(id: $id) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageService {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listPackages = /* GraphQL */ `
+  query ListPackages(
+    $filter: ModelPackagesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPackages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        packageTitle
+        username
+        description
+        listedPrice
+        finalPrice
+        packageImage
+        emailContent
+        uploadFile
+        hideService
+        limitParticipants
+        audienceSize
+        packageService {
+          id
+          text
+          duration
+          price
+        }
+        id
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const getMentorRegister = /* GraphQL */ `
   query GetMentorRegister($id: ID!) {
     getMentorRegister(id: $id) {

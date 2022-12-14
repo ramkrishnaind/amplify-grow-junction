@@ -691,6 +691,96 @@ export const deleteCourses = /* GraphQL */ `
     }
   }
 `;
+export const createPackages = /* GraphQL */ `
+  mutation CreatePackages(
+    $input: CreatePackagesInput!
+    $condition: ModelPackagesConditionInput
+  ) {
+    createPackages(input: $input, condition: $condition) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageService {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updatePackages = /* GraphQL */ `
+  mutation UpdatePackages(
+    $input: UpdatePackagesInput!
+    $condition: ModelPackagesConditionInput
+  ) {
+    updatePackages(input: $input, condition: $condition) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageService {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deletePackages = /* GraphQL */ `
+  mutation DeletePackages(
+    $input: DeletePackagesInput!
+    $condition: ModelPackagesConditionInput
+  ) {
+    deletePackages(input: $input, condition: $condition) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageService {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const createMentorRegister = /* GraphQL */ `
   mutation CreateMentorRegister(
     $input: CreateMentorRegisterInput!
