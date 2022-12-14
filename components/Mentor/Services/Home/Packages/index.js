@@ -156,7 +156,7 @@ const Packages = ({ services }) => {
                           className="w-3 h-3 mt-2"
                         ></img>
                         <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                          1 on 1 mock interview
+                          Packages
                         </span>
                       </div>
 
@@ -190,7 +190,7 @@ const Packages = ({ services }) => {
                     </div>
                     <div className="flex flex-col">
                       <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                        {item.title}
+                        {item.packageTitle}
                       </div>
                       <div className="flex justify-start text-black text-lg font-semibold p-6">
                         {item.description}
@@ -200,26 +200,6 @@ const Packages = ({ services }) => {
                     <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
                       {/* <div className="flex justify-end"> */}
                       <div className="flex">
-                        {/* <button
-                              className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
-                              type="button"
-                            > */}
-                        <div className="flex items-center py-1 px-3 border-2 mr-5 border-black rounded-full min-w-[20%]">
-                          <img
-                            src="/assets/icon/mentor-dashboard/clock-two.svg"
-                            className="h-5 mr-5"
-                          />
-                          <span className="text-sm font-semibold py-3">
-                            {item.callDuration} {item.callDurationIn}
-                          </span>
-                        </div>
-
-                        {/* </button> */}
-
-                        {/* <button
-                              className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
-                              type="button"
-                            > */}
                         <div className="flex items-center  py-1 px-4 border-2 border-black rounded-full min-w-[20%]">
                           <img
                             src="/assets/icon/mentor-dashboard/price.svg"

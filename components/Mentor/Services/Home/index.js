@@ -127,7 +127,7 @@ const Home = () => {
         }),
       )
       if (results.data.listPackages.items.length> 0) {
-        setServices({ ...services, courses: results.data.listPackages.items })
+        setServices({ ...services, packages: results.data.listPackages.items })
       }
     } catch (error) {
       toast.error(`Load Error:${error.errors[0].message}`)

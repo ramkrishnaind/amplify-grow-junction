@@ -5,6 +5,15 @@ import TextField from '../../../../../../pages/ui-kit/TextField'
 import { v4 as uuid } from 'uuid'
 import classes from './Packages.module.css'
 import { Storage } from 'aws-amplify'
+// import OneOnOne from '../OneOnOne'
+// import TextQuery from '../TextQuery'
+// import Workshop from '../Workshop'
+// import Courses from '../Courses'
+import { API, Auth, graphqlOperation } from 'aws-amplify'
+import { listOneOnOnes } from '/src/graphql/queries'
+import { listTextQueries } from '/src/graphql/queries'
+import { listWorkshops } from '/src/graphql/queries'
+import { listCourses } from '/src/graphql/queries'
 
 const AutoSubmitToken = ({
   setValues,
@@ -12,6 +21,7 @@ const AutoSubmitToken = ({
   hideService,
   limitParticipants,
   imageUrl,
+  fileUrl,
 }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
@@ -23,6 +33,7 @@ const AutoSubmitToken = ({
     values.limitParticipants = limitParticipants
     values.hideService = hideService
     values.packageImage = imageUrl
+    values.uploadFile = fileUrl
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
@@ -32,6 +43,7 @@ const AutoSubmitToken = ({
   }, [values, submitForm])
   return null
 }
+
 const Packages = ({
   setValues,
   state: initial,
@@ -46,7 +58,7 @@ const Packages = ({
     hideService: '',
     limitParticipants: '',
     audienceSize: '',
-    //packageServices: []
+    packageServices: [],
   },
 }) => {
   // const {
@@ -84,8 +96,121 @@ const Packages = ({
     //packageServices: []
   }
 
+  // const [services, setServices] = useState({
+  //   oneOnOne: [],
+  //   workshop: [],
+  //   courses: [],
+  //   textQuery: [],
+  // })
+
+  useEffect(() => {
+    loadOneOnOne()
+    loadTextQuery()
+    loadWorkshop()
+    loadCourses()
+  }, [])
+
+  const [sessionResults, setSessionResults] = useState(null)
+  const [workshopResults, setWorkshopResults] = useState(null)
+  const [textQueryResults, setTextQueryResults] = useState(null)
+  const [coursesResults, setCoursesResults] = useState(null)
+
+  const loadOneOnOne = async () => {
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listOneOnOnes, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listOneOnOnes.items.length > 0) {
+        setSessionResults(results.data.listOneOnOnes.items)
+        console.log('oneonone- ', sessionResults)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
+
+  //console.log('results - ', results)
+
+  // const addPackage = (title, duration,price) => {
+
+  //   debugger
+  //    const found = packageServices.find(
+  //      (item) => item.text === title && item.duration === duration && item.price === price,
+  //    )
+  //   if (!found) {
+  //     packageServices.push({
+  //       id: uuid(),
+  //       text: title,
+  //       duration: duration,
+  //       price: price
+  //     })
+  //   }
+  // }
+  const loadWorkshop = async () => {
+    debugger
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listWorkshops, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listWorkshops.items.length > 0) {
+        setWorkshopResults(results.data.listWorkshops.items)
+        console.log('oneonone- ', workshopResults)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
+
+  const loadCourses = async () => {
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listCourses, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listCourses.items.length > 0) {
+        setCoursesResults(results.data.listCourses.items)
+        console.log('oneonone- ', coursesResults)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
+
+  const loadTextQuery = async () => {
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listTextQueries, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listTextQueries.items.length > 0) {
+        setTextQueryResults(results.data.listTextQueries.items)
+        console.log('oneonone- ', textQueryResults)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
+
+  //console.log("Services - ", services)
+
   const imageInputref = useRef()
+  const fileInputref = useRef()
   const [image, setImage] = useState(null)
+  const [uploadFile, setUploadFile] = useState(null)
   const [convertedImage, setConvertedImage] = useState()
   const [hideService, setHideService] = useState(true)
   const [limitParticipants, setLimitParticipants] = useState(true)
@@ -95,29 +220,57 @@ const Packages = ({
   // const [questionType, setQuestionType] = useState(items[0])
   // const [state, setState] = useState(initialState)
   // const [question, setQuestion] = useState('')
-  // const [questions, setQuestions] = useState([])
+  const [packageServices, setPackageServices] = useState([])
   const [imageUrl, setImageUrl] = useState()
+  const [fileUrl, setFileUrl] = useState()
+  const[flag] = useState(false)
 
-  const storeImage = async () => {
-    debugger
-    if (image) {
-      const name = image.name.substr(0, image.name.lastIndexOf('.'))
-      const ext = image.name.substr(image.name.lastIndexOf('.') + 1)
-      const filename = `${name}_${uuid()}.${ext}`
-      setImageUrl(filename)
-      await Storage.put(filename, image, {
-        contentType: `image/${ext}`, // contentType is optional
-      })
-    }
-  }
-
-  const handleFileInput = (e) => {
+  const handleFileInput = async (e) => {
     e.preventDefault()
     debugger
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
     }
     console.log('image -', image)
+    if (e.target.files[0]) {
+      const name = e.target.files[0].name.substr(
+        0,
+        e.target.files[0].name.lastIndexOf('.'),
+      )
+      const ext = e.target.files[0].name.substr(
+        e.target.files[0].name.lastIndexOf('.') + 1,
+      )
+      const filename = `${name}_${uuid()}.${ext}`
+      setImageUrl(filename)
+      console.log(imageUrl)
+      await Storage.put(filename, e.target.files[0], {
+        contentType: `image/${ext}`, // contentType is optional
+      })
+    }
+  }
+
+  const handleFileUpload = async (e) => {
+    e.preventDefault()
+    debugger
+    if (e.target.files?.[0]) {
+      setUploadFile(e.target.files[0])
+    }
+    console.log('file -', uploadFile)
+    if (e.target.files[0]) {
+      const name = e.target.files[0].name.substr(
+        0,
+        e.target.files[0].name.lastIndexOf('.'),
+      )
+      const ext = e.target.files[0].name.substr(
+        e.target.files[0].name.lastIndexOf('.') + 1,
+      )
+      const filename = `${name}_${uuid()}.${ext}`
+      setFileUrl(filename)
+      console.log(fileUrl)
+      await Storage.put(filename, e.target.files[0], {
+        contentType: `text/${ext}`, // contentType is optional
+      })
+    }
   }
 
   return (
@@ -133,6 +286,7 @@ const Packages = ({
           }, 400)
           values.packageServices = packageServices
           values.packageImage = imageUrl
+          values.uploadFile = fileUrl
           values.limitParticipants = limitParticipants
           values.hideService = hideService
           console.log('onsubmit - ', values)
@@ -310,7 +464,7 @@ const Packages = ({
                           <textarea
                             onChange={handleChange}
                             placeholder="emailContent"
-                            //value={values.description}
+                            value={values.emailContent}
                             name="emailContent"
                             className="w-full p-3  text-sm border-2"
                           ></textarea>
@@ -321,39 +475,24 @@ const Packages = ({
                         <p className="flex justify-start items-start text-sm ">
                           Upload file (optional)
                         </p>
-                        <label
-                          for="dropzone-file"
-                          className="flex flex-col items-center justify-center w-full h-30 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
-                        >
-                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                            <svg
-                              aria-hidden="true"
-                              className="w-10 h-10 mb-3 text-gray-400"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                              ></path>
-                            </svg>
-                            <p className="mb-2 text-sm text-gray-500">
-                              <span className="font-semibold">
-                                Click to upload
-                              </span>{' '}
-                              or Drag & drop file
-                            </p>
-                          </div>
+                        <button className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md min-w-40">
+                          <button
+                            className="ml-3 text-lg"
+                            onClick={(e) => {
+                              e.preventDefault()
+                              fileInputref.current.click()
+                            }}
+                          >
+                            Upload file
+                          </button>
                           <input
-                            id="dropzone-file"
                             type="file"
-                            class="hidden"
+                            accept="text/*"
+                            ref={fileInputref}
+                            className="absolute w-0 h-0 left-0 top-0"
+                            onChange={handleFileUpload}
                           />
-                        </label>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -448,47 +587,392 @@ const Packages = ({
                   </div>
                   {/* todo - dynamic data comes from all service to be displayed here seems */}
 
-                  <div className="flex flex-row justify-center items-center font-normal py-4 mb-5 mt-5 ml-5 md:flex-row lg:flex-row bg-gray-50">
-                    <div className="flex justify-center item-center text-sm w-1/6">
-                      <p className="leading-8 text-lg font-normal mt-5">
-                        <input type="checkbox" className="mr-3"></input>
-                      </p>
-                    </div>
-
-                    <div className="flex flex-col px-2 text-sm w-1/2 md:w-1/2 lg:w-1/2">
-                      <label className="leading-8 text-base font-semibold mt-5">
-                        Mock Interview
-                      </label>
-                      <label className="flex flex-wrap leading-8 text-base font-normal">
-                        1 on 1 Session
-                      </label>
-                    </div>
-                    <div className="flex flex-col px-2 text-sm w-1/3">
-                      <label className="leading-8 text-base font-semibold mt-5">
-                        30 minutes
-                      </label>
-                      <label className="leading-8 text-base font-normal">
-                        Duration
-                      </label>
-                    </div>
-                    <div className="flex flex-col px-2 text-sm w-1/3">
-                      <label className="leading-8 text-base font-semibold mt-5">
-                        1000
-                      </label>
-                      <label className="leading-8 text-base font-normal">
-                        Price
-                      </label>
-                    </div>
-                  </div>
-
                   <div className=" mt-5  bg-white"></div>
                 </div>
                 <div className="bg-white basis-2/5"></div>
               </div>
+              
+              <div className="bg-white w-full p-4">
+                <div className="flex flex-col font-normal py-4 mb-5 mr-5 ml-5">
+                  {/* session start */}
+                  <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
+                    Sessions
+                  </div>
+                  <div className="flex justify-start p-4 w-full">
+                    {sessionResults !== null && sessionResults.length > 0 ? (
+                      <div className="my-3 bg-white p-10">
+                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-0 w-full">
+                          {sessionResults.map((item, index) => {
+                            return (
+                              <div
+                                key={index}
+                                className="flex justify-center align-center mb-10 hover:shadow-[0px_22px_70px_4px_rgba(0,0,0,0.56)] "
+                              >
+                                <div
+                                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
+                                >
+                                  <div className="flex justify-between py-6 px-6 border-b border-gray-300">
+                                    <div className="flex justify-between p-2">
+                                      <img
+                                        src="../../../assets/icon/clock.png"
+                                        alt=""
+                                        className="w-3 h-3 mt-2"
+                                      ></img>
+                                      <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
+                                        1 on 1 mock interview
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col">
+                                    <div className="flex justify-start text-black text-2xl font-semibold p-6">
+                                      {item.sessionTitle}
+                                    </div>
+                                    <div className="flex items-center px-6 mr-5 min-w-[30%]">
+                                      <img
+                                        src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                        className="h-5 mr-5"
+                                      />
+                                      <span className="text-sm font-semibold py-3">
+                                        {item.sessionDuration}{' '}
+                                        {item.sessionDurationIn}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center  py-1 px-6 ">
+                                      <img
+                                        src="/assets/icon/mentor-dashboard/price.svg"
+                                        className="h-5 mr-5"
+                                      />
+                                      <span className="text-sm font-semibold py-3">
+                                        ₹
+                                        {item.listedPrice ===
+                                        item.finalPrice ? (
+                                          item.finalPrice
+                                        ) : (
+                                          <>
+                                            <span className="  text-red-800 bold">
+                                              <s className="bold">
+                                                {item.listedPrice}
+                                              </s>
+                                            </span>{' '}
+                                            <span className="bold">
+                                              {item.finalPrice}
+                                            </span>
+                                          </>
+                                        )}
+                                      </span>
+                                    </div>
+                                    <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
+                                  </div>
+                                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
+                                    <button className="flex justify-center items-center hover:bg-gray-900 hover:text-white text-black border-2 broder-gray rounded-full w-full">
+                                      <span className="text-sm font-semibold py-3">
+                                        Add to package
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+
+                        {/* outer */}
+                      </div>
+                    ) : (
+                      <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                        No sessions found
+                      </div>
+                    )}
+                  </div>
+                  {/*session  end */}
+
+                  {/* workshop start */}
+                  <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
+                    workshop
+                  </div>
+                  <div className="flex justify-start p-4">
+                    {workshopResults !== null && workshopResults.length > 0 ? (
+                      <div className="my-3 bg-white p-10">
+                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-0 w-full">
+                          {workshopResults.map((item, index) => {
+                            return (
+                              <div
+                                key={index}
+                                className="flex justify-center align-center mb-10 hover:shadow-[0px_22px_70px_4px_rgba(0,0,0,0.56)]"
+                              >
+                                <div
+                                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
+                                >
+                                  <div className="flex justify-between py-6 px-6 border-b border-gray-300">
+                                    <div className="flex justify-between p-2">
+                                      <img
+                                        src="../../../assets/icon/clock.png"
+                                        alt=""
+                                        className="w-3 h-3 mt-2"
+                                      ></img>
+                                      <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
+                                        1 on 1 mock interview
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col">
+                                    <div className="flex justify-start text-black text-2xl font-semibold p-6">
+                                      {item.sessionTitle}
+                                    </div>
+                                    <div className="flex items-center px-6 mr-5 min-w-[30%]">
+                                      <img
+                                        src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                        className="h-5 mr-5"
+                                      />
+                                      <span className="text-sm font-semibold py-3">
+                                        {item.sessionDuration}{' '}
+                                        {item.sessionDurationIn}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center  py-1 px-6 ">
+                                      <img
+                                        src="/assets/icon/mentor-dashboard/price.svg"
+                                        className="h-5 mr-5"
+                                      />
+                                      <span className="text-sm font-semibold py-3">
+                                        ₹
+                                        {item.listedPrice ===
+                                        item.finalPrice ? (
+                                          item.finalPrice
+                                        ) : (
+                                          <>
+                                            <span className="  text-red-800 bold">
+                                              <s className="bold">
+                                                {item.listedPrice}
+                                              </s>
+                                            </span>{' '}
+                                            <span className="bold">
+                                              {item.finalPrice}
+                                            </span>
+                                          </>
+                                        )}
+                                      </span>
+                                    </div>
+                                    <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
+                                  </div>
+                                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
+                                    <button className="flex justify-center items-center hover:bg-gray-900 hover:text-white text-black border-2 broder-gray rounded-full w-full">
+                                      <span className="text-sm font-semibold py-3">
+                                        Add to package
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+
+                        {/* outer */}
+                      </div>
+                    ) : (
+                      <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                        No sessions found
+                      </div>
+                    )}
+                  </div>
+                  {/*workshop  end */}
+
+                  {/* TextQuery start */}
+                  <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
+                    TextQuery
+                  </div>
+                  <div className="flex justify-start p-4">
+                    {textQueryResults !== null &&
+                    textQueryResults.length > 0 ? (
+                      <div className="my-3 bg-white p-10">
+                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-0 w-full">
+                          {textQueryResults.map((item, index) => {
+                            return (
+                              <div
+                                key={index}
+                                className="flex justify-center align-center mb-10 hover:shadow-[0px_22px_70px_4px_rgba(0,0,0,0.56)]"
+                              >
+                                <div
+                                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
+                                >
+                                  <div className="flex justify-between py-6 px-6 border-b border-gray-300">
+                                    <div className="flex justify-between p-2">
+                                      <img
+                                        src="../../../assets/icon/clock.png"
+                                        alt=""
+                                        className="w-3 h-3 mt-2"
+                                      ></img>
+                                      <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
+                                        1 on 1 mock interview
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col">
+                                    <div className="flex justify-start text-black text-2xl font-semibold p-6">
+                                      {item.sessionTitle}
+                                    </div>
+                                    <div className="flex items-center px-6 mr-5 min-w-[30%]">
+                                      <img
+                                        src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                        className="h-5 mr-5"
+                                      />
+                                      <span className="text-sm font-semibold py-3">
+                                        {item.sessionDuration}{' '}
+                                        {item.sessionDurationIn}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center  py-1 px-6 ">
+                                      <img
+                                        src="/assets/icon/mentor-dashboard/price.svg"
+                                        className="h-5 mr-5"
+                                      />
+                                      <span className="text-sm font-semibold py-3">
+                                        ₹
+                                        {item.listedPrice ===
+                                        item.finalPrice ? (
+                                          item.finalPrice
+                                        ) : (
+                                          <>
+                                            <span className="  text-red-800 bold">
+                                              <s className="bold">
+                                                {item.listedPrice}
+                                              </s>
+                                            </span>{' '}
+                                            <span className="bold">
+                                              {item.finalPrice}
+                                            </span>
+                                          </>
+                                        )}
+                                      </span>
+                                    </div>
+                                    <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
+                                  </div>
+                                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
+                                    <button className="flex justify-center items-center hover:bg-gray-900 hover:text-white text-black border-2 broder-gray rounded-full w-full">
+                                      <span className="text-sm font-semibold py-3">
+                                        Add to package
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+
+                        {/* outer */}
+                      </div>
+                    ) : (
+                      <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                        No sessions found
+                      </div>
+                    )}
+                  </div>
+                  {/*TextQuery  end */}
+
+                  {/* Courses start */}
+                  <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
+                    Courses
+                  </div>
+                  <div className="flex justify-start p-4">
+                    {coursesResults !== null && coursesResults.length > 0 ? (
+                      <div className="my-3 bg-white p-10">
+                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-0 w-full">
+                          {coursesResults.map((item, index) => {
+                            return (
+                              <div
+                                key={index}
+                                className="flex justify-center align-center mb-10 hover:shadow-[0px_22px_70px_4px_rgba(0,0,0,0.56)]"
+                              >
+                                <div
+                                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
+                                >
+                                  <div className="flex justify-between py-6 px-6 border-b border-gray-300">
+                                    <div className="flex justify-between p-2">
+                                      <img
+                                        src="../../../assets/icon/clock.png"
+                                        alt=""
+                                        className="w-3 h-3 mt-2"
+                                      ></img>
+                                      <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
+                                        1 on 1 mock interview
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col">
+                                    <div className="flex justify-start text-black text-2xl font-semibold p-6">
+                                      {item.sessionTitle}
+                                    </div>
+                                    <div className="flex items-center px-6 mr-5 min-w-[30%]">
+                                      <img
+                                        src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                        className="h-5 mr-5"
+                                      />
+                                      <span className="text-sm font-semibold py-3">
+                                        {item.sessionDuration}{' '}
+                                        {item.sessionDurationIn}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center  py-1 px-6 ">
+                                      <img
+                                        src="/assets/icon/mentor-dashboard/price.svg"
+                                        className="h-5 mr-5"
+                                      />
+                                      <span className="text-sm font-semibold py-3">
+                                        ₹
+                                        {item.listedPrice ===
+                                        item.finalPrice ? (
+                                          item.finalPrice
+                                        ) : (
+                                          <>
+                                            <span className="  text-red-800 bold">
+                                              <s className="bold">
+                                                {item.listedPrice}
+                                              </s>
+                                            </span>{' '}
+                                            <span className="bold">
+                                              {item.finalPrice}
+                                            </span>
+                                          </>
+                                        )}
+                                      </span>
+                                    </div>
+                                    <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
+                                  </div>
+                                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
+                                    <button className="flex justify-center items-center hover:bg-gray-900 hover:text-white text-black border-2 broder-gray rounded-full w-full">
+                                      <span className="text-sm font-semibold py-3">
+                                        Add to package
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+
+                        {/* outer */}
+                      </div>
+                    ) : (
+                      <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                        No sessions found
+                      </div>
+                    )}
+                  </div>
+                  {/*Courses  end */}
+                </div>
+              </div>
+        
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken setValues={setValues} hideService={hideService}
+              <AutoSubmitToken
+                setValues={setValues}
+                hideService={hideService}
                 limitParticipants={limitParticipants}
-                packageImage={imageUrl}/>
+                packageImage={imageUrl}
+                uploadFile={fileUrl}
+              />
             </form>
           )
         }}
