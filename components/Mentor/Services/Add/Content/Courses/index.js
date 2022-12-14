@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Formik, useFormikContext } from 'formik'
 import Pill from '../../Header/Pill'
 import TextField from '../../../../../../pages/ui-kit/TextField'
 import { v4 as uuid } from 'uuid'
+import classes from './Courses.module.css'
 
-const AutoSubmitToken = ({ setValues, questions }) => {
+const AutoSubmitToken = ({ setValues, sessions, hideService, limitParticipants }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
 
   React.useEffect(() => {
     debugger
     console.log('context_values', values)
-    values.questions = questions
+    values.sessions = sessions
+    values.limitParticipants = limitParticipants
+    values.hideService = hideService
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
@@ -21,17 +24,32 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   }, [values, submitForm])
   return null
 }
-const Courses = ({ setValues, state: initial }) => {
-  const {
-    sessionTitle,
-    listedPrice,
-    finalPrice,
-    numberOfSessions,
-    sessionDuration,
-    sessionDurationIn,
-    description,
-    // questions: [],
-  } = initial
+const Courses = ({ setValues, state: initial, courses = {
+  courseTitle: '',
+  description: '',
+  numberOfSessions: '',
+  sessionDuration: '',
+  sessionDurationIn: '',
+  listedPrice: '',
+  finalPrice: '',
+  courseDate: '',
+  courseTime: '',
+  hideService: '',
+  limitParticipants: '',
+  audienceSize: '',
+  courseImage: '',
+  sessions: []
+} }) => {
+  // const {
+  //   sessionTitle,
+  //   listedPrice,
+  //   finalPrice,
+  //   numberOfSessions,
+  //   sessionDuration,
+  //   sessionDurationIn,
+  //   description,
+  //   // sessions: [],
+  // } = initial
   // useEffect(() => {
   //   setState(initial)
   // }, [
@@ -44,51 +62,76 @@ const Courses = ({ setValues, state: initial }) => {
   //   description,
   // ])
   const initialState = {
-    sessionTitle: '',
-    listedPrice: '',
-    finalPrice: '',
-    numberOfSessions: '',
-    sessionDuration: '',
-    sessionDurationIn: '',
-    description: '',
-    // questions: [],
+  courseTitle: '',
+  description: '',
+  numberOfSessions: '',
+  sessionDuration: '',
+  sessionDurationIn: '',
+  listedPrice: '',
+  finalPrice: '',
+  courseDate: '',
+  courseTime: '',
+  hideService: '',
+  limitParticipants: '',
+  audienceSize: '',
+  courseImage: '',
+  sessions: []
   }
-
-  const [toggle1, setToggle1] = useState(true)
-  const [toggle2, setToggle2] = useState(true)
+  const imageInputref = useRef()
+  const [image, setImage] = useState()
+  const [convertedImage, setConvertedImage] = useState()
+  const [hideService, setHideService] = useState(true)
+  const [limitParticipants, setLimitParticipants] = useState(true)
   const toggleClass = ' transform translate-x-5'
 
   const items = ['Text', 'Upload (Pdf,jpeg)']
-  const [questionType, setQuestionType] = useState(items[0])
+ // const [questionType, setQuestionType] = useState(items[0])
   const [state, setState] = useState(initialState)
-  const [question, setQuestion] = useState('')
-  const [questions, setQuestions] = useState([])
-  const handleQuestionChange = (e) => {
-    setQuestion(e.target.value)
+  const [session, setSession] = useState('')
+  const [sDate, setSDate] = useState('')
+  const [sTime, setSTime] = useState('')
+  const [sessions, setSessions] = useState([])
+  const handleSessionChange = (e) => {
+    setSession(e.target.value)
   }
-  const addQuestion = () => {
-    const found = questions.find(
-      (item) => item.text === question && item.type === questionType,
+
+  const handleSessionDateChange = (e) =>{
+    setSDate(e.target.value)
+  }
+
+  const handleSessionTimeChange = (e) =>{
+    setSTime(e.target.value)
+  }
+  const handleFileInput = (e) => {
+    e.preventDefault()
+    if (e.target.files?.[0]) {
+      setImage(e.target.files[0])
+    }
+  }
+
+  const addSession = () => {
+    const found = sessions.find(
+      (item) => item.text === session && item.sessionDate === sDate && item.sessionTime === sTime,
     )
     if (!found) {
-      questions.push({
+      sessions.push({
         id: uuid(),
-        text: question,
-        type: questionType,
+        text: session,
+        sessionDate: sDate,
+        sessionTime: sTime
       })
     }
-    setQuestionType(items[0])
-    setQuestion('')
+    setSession('')
   }
-  const handleRemoveQuestion = (id) => {
+  const handleRemoveSession = (id) => {
     debugger
-    const newQuestions = questions.filter((item) => item.id !== id)
-    setQuestions(newQuestions)
+    const newSessions = sessions.filter((item) => item.id !== id)
+    setSessions(newSessions)
   }
   return (
     <>
       <Formik
-        initialValues={{ ...state }}
+        initialValues={{ ...courses }}
         onSubmit={(values, e) => {
           debugger
           const { setSubmitting } = e
@@ -96,7 +139,11 @@ const Courses = ({ setValues, state: initial }) => {
             // alert(JSON.stringify(values, null, 2));
             setSubmitting(false)
           }, 400)
-          values.questions = questions
+          values.sessions = sessions
+          values.courseImage = image
+          values.limitParticipants = limitParticipants
+          values.hideService = hideService
+          console.log("onsubmit - ", values)
           // setProfileState(values)
         }}
         // enableReinitialize={true}
@@ -135,7 +182,7 @@ const Courses = ({ setValues, state: initial }) => {
                           type="text"
                           name="courseTitle"
                           onChangeValue={handleChange}
-                          value={values.sessionTitle}
+                          value={values.courseTitle}
                           id="url"
                           placeholder="Course Title"
                           textStyleOverride={{
@@ -260,9 +307,9 @@ const Courses = ({ setValues, state: initial }) => {
                         <div className="flex flex-wrap items-stretch w-auto mr-4 md:mr-1 lg:mr-1 relative">
                           <TextField
                             onChangeValue={handleChange}
-                            value={values.listedPrice}
+                            value={values.courseDate}
                             placeholder="₹"
-                            name="listedPrice"
+                            name="courseDate"
                             type="date"
                             className="w-full"
                           />
@@ -276,9 +323,9 @@ const Courses = ({ setValues, state: initial }) => {
                           <TextField
                             type="time"
                             placeholder="₹"
-                            value={values.finalPrice}
+                            value={values.courseTime}
                             onChangeValue={handleChange}
-                            name="finalPrice"
+                            name="courseTime"
                             className="w-full"
                           />
                         </div>
@@ -287,40 +334,55 @@ const Courses = ({ setValues, state: initial }) => {
                   </div>
                 </div>
                 <div className="bg-white basis-2/5">
-                  <div className="flex flex-col ml-10 mt-10 mr-10 mb-10 w-auto">
+                  <div className="flex flex-col ml-10 mt-10 mr-10  w-auto">
                     <p className="flex justify-start items-start text-sm ">
                       Upload workshop thumbnail
                     </p>
-                    <label
-                      for="dropzone-file"
-                      className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
-                    >
-                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg
-                          aria-hidden="true"
-                          className="w-10 h-10 mb-3 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
+                    <div className="flex flex-col md:flex-row lg:flex-row">
+                      <div className="flex flex-col">
+                        <div
+                          className={`${classes['img-profile']} bg-gray-300 rounded-md border-dashed`}
                         >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                          ></path>
-                        </svg>
-                        <p className="mb-2 text-sm text-gray-500">
-                          <span className="font-semibold">Click to upload</span>{' '}
-                          or drag and drop
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          SVG, PNG, JPG or GIF (Max file size 5mb)
+                          {image ? (
+                            <img
+                              src={URL.createObjectURL(image)}
+                              alt=""
+                              className={`${classes['img-profile']}`}
+                            />
+                          ) : convertedImage ? (
+                            <img
+                              src={convertedImage}
+                              alt=""
+                              className={`${classes['img-profile']}`}
+                            />
+                          ) : null}
+                        </div>
+                        <div className="flex flex-col justify-start items-start mt-16 px-2 py-2">
+                        <button className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md min-w-40">
+                          <button
+                            className="ml-3 text-lg"
+                            onClick={(e) => {
+                              e.preventDefault()
+                              imageInputref.current.click()
+                            }}
+                          >
+                            Upload image
+                          </button>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            ref={imageInputref}
+                            className="absolute w-0 h-0 left-0 top-0"
+                            onChange={handleFileInput}
+                          />
+                        </button>
+                        <p className="w-auto ml-3 mt-3 text-xs tracking-wide">
+                        Max file size 5mb
                         </p>
                       </div>
-                      <input id="dropzone-file" type="file" class="hidden" />
-                    </label>
+                      </div>
+
+                    </div>
                   </div>
                 </div>
               </div>
@@ -341,6 +403,32 @@ const Courses = ({ setValues, state: initial }) => {
                       specific question
                     </span>
                   </div>
+                  <div>
+                  {sessions.length > 0 && (
+                    <div className="grid gap-2 grid-cols-4 px-10 py-5 text-lg uppercase border-b-2">
+                      <span className="px-5">Session</span>
+                      <span>Start Date</span>
+                      <span>Start Time</span>
+                    </div>
+                  )}
+
+                  {sessions.map((sns) => (
+                    <div
+                      key={sns.id}
+                      className="grid grid-cols-4 px-10 py-5 items-center gap-2  text-lg "
+                    >
+                      <span className="px-5">{sns.text}</span>
+                      <span>{sns.sessionDate}</span>
+                      <span>{sns.sessionTime}</span>
+                      <span
+                        className="text-red-700 cursor-pointer  rounded-full hover:bg-gray-100  "
+                        onClick={handleRemoveSession.bind(null, sns.id)}
+                      >
+                        Remove
+                      </span>
+                    </div>
+                  ))}
+                </div>
 
                   <div className="flex flex-col justify-center items-center font-normal mt-5 ml-5 md:flex-row lg:flex-row bg-gray-50">
                     <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
@@ -350,7 +438,7 @@ const Courses = ({ setValues, state: initial }) => {
                       <TextField
                         type="text"
                         name="session"
-                        onChangeValue={handleChange}
+                        onChangeValue={handleSessionChange}
                         //value={values.sessionTitle}
                         id="session"
                         placeholder="Session"
@@ -368,7 +456,7 @@ const Courses = ({ setValues, state: initial }) => {
                       </label>
                       <div className="flex flex-wrap items-stretch w-auto mr-4 md:mr-1 lg:mr-1 relative">
                         <TextField
-                          onChangeValue={handleChange}
+                          onChangeValue={handleSessionDateChange}
                           //value={values.listedPrice}
                           placeholder="₹"
                           name="startDate"
@@ -386,7 +474,7 @@ const Courses = ({ setValues, state: initial }) => {
                           type="time"
                           placeholder="₹"
                           //value={values.startTime}
-                          onChangeValue={handleChange}
+                          onChangeValue={handleSessionTimeChange}
                           name="startTime"
                           className="w-full"
                         />
@@ -400,8 +488,8 @@ const Courses = ({ setValues, state: initial }) => {
                   <div className="flex justify-center md:justify-end lg:justify-end w-auto mr-2">
                     <button
                       className="cursor-pointer mt-3 mr-3 px-6 py-3 leading-8 text-sm font-semibold  border-2 border-gray-900 rounded-md items-center  disabled:bg-gray-300 disabled:border-gray-50 disabled:text-gray-700    disabled:cursor-wait"
-                      disabled={!question}
-                      onClick={addQuestion}
+                      disabled={!session}
+                      onClick={addSession}
                     >
                       Add another session
                     </button>
@@ -427,14 +515,14 @@ const Courses = ({ setValues, state: initial }) => {
                     <div
                       className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-gray-400 rounded-full p-1 cursor-pointer"
                       onClick={() => {
-                        setToggle1(!toggle1)
+                        setHideService(!hideService)
                       }}
                     >
                       {/* Switch */}
                       <div
                         className={
                           'bg-black md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
-                          (toggle1 ? null : toggleClass)
+                          (hideService ? null : toggleClass)
                         }
                       ></div>
                     </div>
@@ -447,14 +535,14 @@ const Courses = ({ setValues, state: initial }) => {
                     <div
                       className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-green-800 rounded-full p-1 cursor-pointer"
                       onClick={() => {
-                        setToggle2(!toggle2)
+                        setLimitedParticipants(!limitParticipants)
                       }}
                     >
                       {/* Switch */}
                       <div
                         className={
                           'bg-white md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
-                          (toggle2 ? null : toggleClass)
+                          (limitParticipants ? null : toggleClass)
                         }
                       ></div>
                     </div>
@@ -462,12 +550,29 @@ const Courses = ({ setValues, state: initial }) => {
                     Limit participants
                     </div>
                   </div>
+                  <div className="px-2 text-sm ml-5 w-full md:w-1/2 lg:w-1/2">
+                    <label className="leading-8 text-sm font-normal mt-5">
+                      Audience size
+                    </label>
+                    <div className="flex items-center flex-wrap w-auto mr-4 md:mr-1 lg:mr-1 relative">
+                      <TextField
+                        onChangeValue={handleChange}
+                        type="number"
+                        min="0"
+                        value={values.audienceSize}
+                        textStyleOverride={{ width: '100%' }}
+                        name="audienceSize"
+                        id="audienceSize"
+                        className=""
+                      />
+                    </div>
+                  </div>
                   <div className=" mt-5  bg-white"></div>
                 </div>
                 <div className="bg-white basis-2/5"></div>
               </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken setValues={setValues} questions={questions} />
+              <AutoSubmitToken setValues={setValues} sessions={sessions} hideService={hideService} limitParticipants={limitParticipants} />
             </form>
           )
         }}

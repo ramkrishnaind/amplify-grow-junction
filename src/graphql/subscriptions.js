@@ -493,6 +493,297 @@ export const onDeleteTextQuery = /* GraphQL */ `
     }
   }
 `;
+export const onCreateWorkshop = /* GraphQL */ `
+  subscription OnCreateWorkshop(
+    $filter: ModelSubscriptionWorkshopFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateWorkshop(filter: $filter, username: $username, owner: $owner) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateWorkshop = /* GraphQL */ `
+  subscription OnUpdateWorkshop(
+    $filter: ModelSubscriptionWorkshopFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateWorkshop(filter: $filter, username: $username, owner: $owner) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteWorkshop = /* GraphQL */ `
+  subscription OnDeleteWorkshop(
+    $filter: ModelSubscriptionWorkshopFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteWorkshop(filter: $filter, username: $username, owner: $owner) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateCourses = /* GraphQL */ `
+  subscription OnCreateCourses(
+    $filter: ModelSubscriptionCoursesFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateCourses(filter: $filter, username: $username, owner: $owner) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateCourses = /* GraphQL */ `
+  subscription OnUpdateCourses(
+    $filter: ModelSubscriptionCoursesFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateCourses(filter: $filter, username: $username, owner: $owner) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteCourses = /* GraphQL */ `
+  subscription OnDeleteCourses(
+    $filter: ModelSubscriptionCoursesFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteCourses(filter: $filter, username: $username, owner: $owner) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreatePackages = /* GraphQL */ `
+  subscription OnCreatePackages(
+    $filter: ModelSubscriptionPackagesFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreatePackages(filter: $filter, username: $username, owner: $owner) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageServices {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdatePackages = /* GraphQL */ `
+  subscription OnUpdatePackages(
+    $filter: ModelSubscriptionPackagesFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdatePackages(filter: $filter, username: $username, owner: $owner) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageServices {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeletePackages = /* GraphQL */ `
+  subscription OnDeletePackages(
+    $filter: ModelSubscriptionPackagesFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeletePackages(filter: $filter, username: $username, owner: $owner) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageServices {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const onCreateMentorRegister = /* GraphQL */ `
   subscription OnCreateMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput

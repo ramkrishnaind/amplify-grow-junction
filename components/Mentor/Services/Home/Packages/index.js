@@ -3,13 +3,13 @@ import Link from 'next/link'
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
 //import services from '../../../../../pages/services'
-import classes from './TextQuery.module.css'
+import classes from './Packages.module.css'
 import { toast } from 'react-toastify'
-import { deleteTextQuery } from '../../../../../src/graphql/mutations'
-import { updateTextQuery } from '../../../../../src/graphql/mutations'
-import { getTextQuery } from '../../../../../src/graphql/queries'
-import Pill from '../../../../Mentor/Services/Add/Header'
-import AddTextQuery from '../../Add/Content/TextQuery'
+import { deletePackages } from '../../../../../src/graphql/mutations'
+import { updatePackages } from '../../../../../src/graphql/mutations'
+import { getPackages } from '../../../../../src/graphql/queries'
+import Pill from '../../Add/Header/Pill'
+import AddPackages from '../../Add/Content/Packages'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
@@ -31,20 +31,20 @@ const AutoSubmitToken = ({ setValues, questions }) => {
 
 
 
-const TextQuery = ({ services }) => {
+const Packages = ({ services }) => {
   const searchRef = useRef()
   const [results, setResults] = useState(services)
   const [showReschedule, setShowReschedule] = useState(false)
-   const [textQuery, setTextQuery]= useState({})
+   const [packages, setPackages]= useState({})
   const [id, setId]= useState()
   const [state, setState] = useState({})
 
   const setValues = (values) => {
-    setTextQuery(values)
+    setPackages(values)
     console.log("values - ",values)
   }
 
-  console.log("textQuery - ", textQuery)
+  console.log("packages - ", packages)
 
   const searchClick = () => {
     const filtered = services.filter((i) =>
@@ -61,17 +61,15 @@ const TextQuery = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
-      const textQueryResult = await API.graphql({
-        query: getTextQuery,
+      const packagesResult = await API.graphql({
+        query: getPackages,
         variables: { id },
         authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
-      // toast.success('TextQuery get successfully')
-      // window.location.href = window.location.href
-      if (textQueryResult.data.getTextQuery.id !== null) {
-        setState({ ...state, textQuery: textQueryResult.data.getTextQuery })
+      if (packagesResult.data.getPackages.id !== null) {
+        setState({ ...state, packages: packagesResult.data.getPackages })
       }
-      console.log(textQueryResult.data.getTextQuery)
+      console.log(packagesResult.data.getPackages)
       console.log('idResult - ', JSON.stringify(state))
       setShowReschedule(true)
     } catch (error) {
@@ -84,13 +82,13 @@ const TextQuery = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
-      const {createdAt, updatedAt, owner, ...rest}= textQuery
+      const {createdAt, updatedAt, owner, ...rest}= packages
       await API.graphql({
-        query: updateTextQuery,
+        query: updatePackages,
         variables: { input: { ...rest } },
         authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
-      toast.success('TextQuery update successfully')
+      toast.success('Packages update successfully')
       setTimeout(() => {
         window.location.href = window.location.href
       }, 2000);
@@ -106,11 +104,11 @@ const TextQuery = ({ services }) => {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
       await API.graphql({
-        query: deleteTextQuery,
+        query: deletePackages,
         variables: { input: { id } },
         authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
-      toast.success('TextQuery deleted successfully')
+      toast.success('Packages deleted successfully')
       window.location.href = window.location.href
     } catch (error) {
       toast.error(`Delete Error:${error.errors[0].message}`)
@@ -212,7 +210,7 @@ const TextQuery = ({ services }) => {
                             className="h-5 mr-5"
                           />
                           <span className="text-sm font-semibold py-3">
-                            {item.responseTime} {item.responseTimeIn}
+                            {item.callDuration} {item.callDurationIn}
                           </span>
                         </div>
 
@@ -276,7 +274,7 @@ const TextQuery = ({ services }) => {
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/3 lg:w-1/3">
               <div className="flex justify-between px-8 py-4 border-b border-gray-300">
-                <div className="text-sm font-semibold mt-4">Text Query</div>
+                <div className="text-sm font-semibold mt-4">Packages</div>
                 <div>
                   <button
                     className=""
@@ -291,7 +289,7 @@ const TextQuery = ({ services }) => {
                   </button>
                 </div>
               </div>
-              <AddTextQuery textQuery={state.textQuery} setValues={setValues} />
+              <AddPackages packages={state.packages} setValues={setValues} />
               <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
               <div className="flex justify-between item-center w-auto">
                 <button
@@ -320,4 +318,4 @@ const TextQuery = ({ services }) => {
   )
 }
 
-export default TextQuery
+export default Packages

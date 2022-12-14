@@ -478,6 +478,288 @@ export const deleteTextQuery = /* GraphQL */ `
     }
   }
 `;
+export const createWorkshop = /* GraphQL */ `
+  mutation CreateWorkshop(
+    $input: CreateWorkshopInput!
+    $condition: ModelWorkshopConditionInput
+  ) {
+    createWorkshop(input: $input, condition: $condition) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updateWorkshop = /* GraphQL */ `
+  mutation UpdateWorkshop(
+    $input: UpdateWorkshopInput!
+    $condition: ModelWorkshopConditionInput
+  ) {
+    updateWorkshop(input: $input, condition: $condition) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deleteWorkshop = /* GraphQL */ `
+  mutation DeleteWorkshop(
+    $input: DeleteWorkshopInput!
+    $condition: ModelWorkshopConditionInput
+  ) {
+    deleteWorkshop(input: $input, condition: $condition) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const createCourses = /* GraphQL */ `
+  mutation CreateCourses(
+    $input: CreateCoursesInput!
+    $condition: ModelCoursesConditionInput
+  ) {
+    createCourses(input: $input, condition: $condition) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updateCourses = /* GraphQL */ `
+  mutation UpdateCourses(
+    $input: UpdateCoursesInput!
+    $condition: ModelCoursesConditionInput
+  ) {
+    updateCourses(input: $input, condition: $condition) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deleteCourses = /* GraphQL */ `
+  mutation DeleteCourses(
+    $input: DeleteCoursesInput!
+    $condition: ModelCoursesConditionInput
+  ) {
+    deleteCourses(input: $input, condition: $condition) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const createPackages = /* GraphQL */ `
+  mutation CreatePackages(
+    $input: CreatePackagesInput!
+    $condition: ModelPackagesConditionInput
+  ) {
+    createPackages(input: $input, condition: $condition) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageServices {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updatePackages = /* GraphQL */ `
+  mutation UpdatePackages(
+    $input: UpdatePackagesInput!
+    $condition: ModelPackagesConditionInput
+  ) {
+    updatePackages(input: $input, condition: $condition) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageServices {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deletePackages = /* GraphQL */ `
+  mutation DeletePackages(
+    $input: DeletePackagesInput!
+    $condition: ModelPackagesConditionInput
+  ) {
+    deletePackages(input: $input, condition: $condition) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageServices {
+        id
+        text
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const createMentorRegister = /* GraphQL */ `
   mutation CreateMentorRegister(
     $input: CreateMentorRegisterInput!

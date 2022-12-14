@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Formik, useFormikContext } from 'formik'
 import Pill from '../../Header/Pill'
 import TextField from '../../../../../../pages/ui-kit/TextField'
 import { v4 as uuid } from 'uuid'
+import classes from './Workshop.module.css'
+import { Storage } from 'aws-amplify'
 
-const AutoSubmitToken = ({ setValues, questions }) => {
+const AutoSubmitToken = ({
+  setValues,
+  questions,
+  hideService,
+  limitedParticipants,
+  imageUrl,
+}) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
 
@@ -12,6 +20,9 @@ const AutoSubmitToken = ({ setValues, questions }) => {
     debugger
     console.log('context_values', values)
     values.questions = questions
+    values.limitedParticipants = limitedParticipants
+    values.hideService = hideService
+    values.workshopImage = imageUrl
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
@@ -21,17 +32,35 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   }, [values, submitForm])
   return null
 }
-const Workshop = ({ setValues, state: initial }) => {
-  const {
-    sessionTitle,
-    listedPrice,
-    finalPrice,
-    numberOfSessions,
-    sessionDuration,
-    sessionDurationIn,
-    description,
-    // questions: [],
-  } = initial
+const Workshop = ({
+  setValues,
+  state: initial,
+  workshop = {
+    title: '',
+    description: '',
+    callDuration: '',
+    callDurationIn: '',
+    listedPrice: '',
+    finalPrice: '',
+    workshopDate: '',
+    workshopTime: '',
+    workshopImage: '',
+    hideService: '',
+    limitedParticipants: '',
+    audienceSize: '',
+    questions: [],
+  },
+}) => {
+  // const {
+  //   sessionTitle,
+  //   listedPrice,
+  //   finalPrice,
+  //   numberOfSessions,
+  //   sessionDuration,
+  //   sessionDurationIn,
+  //   description,
+  //   // questions: [],
+  // } = initial
   // useEffect(() => {
   //   setState(initial)
   // }, [
@@ -44,18 +73,25 @@ const Workshop = ({ setValues, state: initial }) => {
   //   description,
   // ])
   const initialState = {
-    sessionTitle: '',
+    title: '',
+    description: '',
+    callDuration: '',
+    callDurationIn: '',
     listedPrice: '',
     finalPrice: '',
-    numberOfSessions: '',
-    sessionDuration: '',
-    sessionDurationIn: '',
-    description: '',
-    // questions: [],
+    workshopDate: '',
+    workshopTime: '',
+    workshopImage: '',
+    hideService: '',
+    limitedParticipants: '',
+    audienceSize: '',
+    //questions: []
   }
-
-  const [toggle1, setToggle1] = useState(true)
-  const [toggle2, setToggle2] = useState(true)
+  const imageInputref = useRef()
+  const [image, setImage] = useState(null)
+  const [convertedImage, setConvertedImage] = useState()
+  const [hideService, setHideService] = useState(true)
+  const [limitedParticipants, setLimitedParticipants] = useState(true)
   const toggleClass = ' transform translate-x-5'
 
   const items = ['Text', 'Upload (Pdf,jpeg)']
@@ -63,6 +99,45 @@ const Workshop = ({ setValues, state: initial }) => {
   const [state, setState] = useState(initialState)
   const [question, setQuestion] = useState('')
   const [questions, setQuestions] = useState([])
+  const [imageUrl, setImageUrl] = useState()
+
+  // if (!workshop) {
+  //   const getImage = async () => {
+  //     if (workshop.workshopImage) {
+  //       const img = await Storage.get(data.profile_image)
+  //       setConvertedImage(img)
+  //     }
+  //   }
+  // }
+
+  const handleFileInput = async (e) => {
+    e.preventDefault()
+    debugger
+    if (e.target.files?.[0]) {
+      setImage(e.target.files[0])
+    }
+    // else{
+    //   console.log(this.imageInputref.current.e.target.files[0])
+    // }
+    //setImage(imageInputref.current.files[0].name)
+    console.log('image -', image)
+    if (e.target.files[0]) {
+      const name = e.target.files[0].name.substr(
+        0,
+        e.target.files[0].name.lastIndexOf('.'),
+      )
+      const ext = e.target.files[0].name.substr(
+        e.target.files[0].name.lastIndexOf('.') + 1,
+      )
+      const filename = `${name}_${uuid()}.${ext}`
+      setImageUrl(filename)
+      console.log(imageUrl)
+      await Storage.put(filename, e.target.files[0], {
+        contentType: `image/${ext}`, // contentType is optional
+      })
+    }
+  }
+
   const handleQuestionChange = (e) => {
     setQuestion(e.target.value)
   }
@@ -88,7 +163,7 @@ const Workshop = ({ setValues, state: initial }) => {
   return (
     <>
       <Formik
-        initialValues={{ ...state }}
+        initialValues={{ ...workshop }}
         onSubmit={(values, e) => {
           debugger
           const { setSubmitting } = e
@@ -97,6 +172,10 @@ const Workshop = ({ setValues, state: initial }) => {
             setSubmitting(false)
           }, 400)
           values.questions = questions
+          values.workshopImage = imageUrl
+          values.limitedParticipants = limitedParticipants
+          values.hideService = hideService
+          console.log('onsubmit - ', values)
           // setProfileState(values)
         }}
         // enableReinitialize={true}
@@ -133,10 +212,10 @@ const Workshop = ({ setValues, state: initial }) => {
                       </div> */}
                         <TextField
                           type="text"
-                          name="workshopTitle"
+                          name="title"
                           onChangeValue={handleChange}
-                          value={values.sessionTitle}
-                          id="url"
+                          value={values.title}
+                          id="title"
                           placeholder="Workshop Title"
                           textStyleOverride={{
                             marginBottom: 0,
@@ -175,17 +254,17 @@ const Workshop = ({ setValues, state: initial }) => {
                           type="number"
                           min="0"
                           textStyleOverride={{ width: '80%' }}
-                          value={values.sessionDuration}
+                          value={values.callDuration}
                           onChangeValue={handleChange}
                           name="callDuration"
-                          id="lname"
+                          id="callDuration"
                           widthPartial
                           className=""
                         />
                         <select
                           className="absolute px-3 py-3 top-1  text-lg right-1 bg-gray-50"
-                          value="values.sessionDurationIn"
-                          name="sessionDurationIn"
+                          value="values.callDurationIn"
+                          name="callDurationIn"
                           onChange={handleChange}
                         >
                           <option value="min">Min</option>
@@ -235,9 +314,9 @@ const Workshop = ({ setValues, state: initial }) => {
                         <div className="flex flex-wrap items-stretch w-auto mr-4 md:mr-1 lg:mr-1 relative">
                           <TextField
                             onChangeValue={handleChange}
-                            value={values.listedPrice}
+                            value={values.workshopDate}
                             placeholder="₹"
-                            name="listedPrice"
+                            name="workshopDate"
                             type="date"
                             className="w-full"
                           />
@@ -251,9 +330,9 @@ const Workshop = ({ setValues, state: initial }) => {
                           <TextField
                             type="time"
                             placeholder="₹"
-                            value={values.finalPrice}
+                            value={values.workshopTime}
                             onChangeValue={handleChange}
-                            name="finalPrice"
+                            name="workshopTime"
                             className="w-full"
                           />
                         </div>
@@ -266,36 +345,50 @@ const Workshop = ({ setValues, state: initial }) => {
                     <p className="flex justify-start items-start text-sm ">
                       Upload workshop thumbnail
                     </p>
-                    <label
-                      for="dropzone-file"
-                      className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
-                    >
-                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg
-                          aria-hidden="true"
-                          className="w-10 h-10 mb-3 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
+                    <div className="flex flex-col md:flex-row lg:flex-row">
+                      <div className="flex flex-col">
+                        <div
+                          className={`${classes['img-profile']} bg-gray-300 rounded-md border-dashed`}
                         >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                          ></path>
-                        </svg>
-                        <p className="mb-2 text-sm text-gray-500">
-                          <span className="font-semibold">Click to upload</span>{' '}
-                          or drag and drop
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          SVG, PNG, JPG or GIF (Max file size 5mb)
-                        </p>
+                          {image ? (
+                            <img
+                              src={URL.createObjectURL(image)}
+                              alt=""
+                              className={`${classes['img-profile']}`}
+                            />
+                          ) : convertedImage ? (
+                            <img
+                              src={convertedImage}
+                              alt=""
+                              className={`${classes['img-profile']}`}
+                            />
+                          ) : null}
+                        </div>
+                        <div className="flex flex-col justify-start items-start mt-16 px-2 py-2">
+                          <button className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md min-w-40">
+                            <button
+                              className="ml-3 text-lg"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                imageInputref.current.click()
+                              }}
+                            >
+                              Upload image
+                            </button>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              ref={imageInputref}
+                              className="absolute w-0 h-0 left-0 top-0"
+                              onChange={handleFileInput}
+                            />
+                          </button>
+                          <p className="w-auto ml-3 mt-3 text-xs tracking-wide">
+                            Max file size 5mb
+                          </p>
+                        </div>
                       </div>
-                      <input id="dropzone-file" type="file" class="hidden" />
-                    </label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -412,14 +505,14 @@ const Workshop = ({ setValues, state: initial }) => {
                     <div
                       className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-gray-400 rounded-full p-1 cursor-pointer"
                       onClick={() => {
-                        setToggle1(!toggle1)
+                        setHideService(!hideService)
                       }}
                     >
                       {/* Switch */}
                       <div
                         className={
                           'bg-black md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
-                          (toggle1 ? null : toggleClass)
+                          (hideService ? null : toggleClass)
                         }
                       ></div>
                     </div>
@@ -432,19 +525,19 @@ const Workshop = ({ setValues, state: initial }) => {
                     <div
                       className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-green-800 rounded-full p-1 cursor-pointer"
                       onClick={() => {
-                        setToggle2(!toggle2)
+                        setLimitedParticipants(!limitedParticipants)
                       }}
                     >
                       {/* Switch */}
                       <div
                         className={
                           'bg-white md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
-                          (toggle2 ? null : toggleClass)
+                          (limitedParticipants ? null : toggleClass)
                         }
                       ></div>
                     </div>
                     <div className="flex items-center text-sm">
-                    Limit participants
+                      Limit participants
                     </div>
                   </div>
                   <div className="px-2 text-sm ml-5 w-full md:w-1/2 lg:w-1/2">
@@ -456,10 +549,10 @@ const Workshop = ({ setValues, state: initial }) => {
                         onChangeValue={handleChange}
                         type="number"
                         min="0"
-                        value={values.numberOfSessions}
+                        value={values.audienceSize}
                         textStyleOverride={{ width: '100%' }}
-                        name="numberOfSessions"
-                        id="fname"
+                        name="audienceSize"
+                        id="audienceSize"
                         className=""
                       />
                     </div>
@@ -469,7 +562,13 @@ const Workshop = ({ setValues, state: initial }) => {
                 <div className="bg-white basis-2/5"></div>
               </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken setValues={setValues} questions={questions} />
+              <AutoSubmitToken
+                setValues={setValues}
+                questions={questions}
+                hideService={hideService}
+                limitedParticipants={limitedParticipants}
+                workshopImage={imageUrl}
+              />
             </form>
           )
         }}
