@@ -29,16 +29,16 @@ export const RegistrationSchema = () =>
       }),
   })
 
-export const SignInSchema = () => {
-  Yup.object({
-    email: Yup.string()
-      .email('Please enter valid email address')
-      .required('Please enter your email id'),
-    password: Yup.string()
-      .required('Please enter your password')
-      .min(6, ({ min }) => 'password must be atleast 6 character'),
-  })
-}
+export const SignInSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Please enter valid email address')
+    .required('Please enter your email id'),
+  // .nullable(),
+  password: Yup.string()
+    .required('Please enter your password')
+    // .nullable()
+    .min(6, ({ min }) => 'password must be atleast 6 character'),
+})
 
 export const ProfessionalDetailSchema = () =>
   Yup.object({

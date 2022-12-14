@@ -30,7 +30,7 @@ const TextField = React.forwardRef((props, ref) => {
     link,
     ...rest
   } = props
-
+  debugger
   return (
     <div className="mb-5 flex-1" style={style ? { ...style } : {}}>
       <label
@@ -84,12 +84,14 @@ const TextField = React.forwardRef((props, ref) => {
             </div>
           </div>
         ) : null}
+        {/* <input type="hidden" value="prayer" /> */}
         <input
           id={id}
           name={name}
           type={type}
           ref={ref}
           required={required}
+          autoComplete="new-password"
           disabled={disabled}
           min={min}
           style={{
@@ -97,6 +99,10 @@ const TextField = React.forwardRef((props, ref) => {
             fontSize: 14,
             ...textStyleOverride,
           }}
+          // onFocus={(event) => {
+          //   event.target.setAttribute('autocomplete', 'new-password')
+          //   console.log(event.target.autocomplete)
+          // }}
           value={value}
           onChange={(text) => {
             onChangeValue(text)

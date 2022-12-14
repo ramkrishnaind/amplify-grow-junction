@@ -24,6 +24,13 @@ type DemoSkillsList
   value: String!
 }
 
+type DomainInterestedList
+  @model
+  @auth(rules: [{ allow: public, operations: [read, create] }]) {
+  id: ID!
+  value: String!
+}
+
 type SuggestedServiceList
   @model
   @auth(rules: [{ allow: public, operations: [read, create] }]) {
@@ -42,7 +49,6 @@ type StudentRegister
   ) {
   student_id: ID
   student_name: String
-  domain_id: [DemoSkillsList]
   recent_college: String
   degree: String
   current_employee: String
@@ -107,6 +113,94 @@ type TextQueryQuestions {
   text: String
   type: String
 }
+type Workshop
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create, delete] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  title: String
+  username: String
+  description: String
+  callDuration: Int
+  callDurationIn: String
+  listedPrice: Float
+  finalPrice: Float
+  workshopDate: String
+  workshopTime: String
+  workshopImage: String
+  hideService: Boolean
+  limitedParticipants: Boolean
+  audienceSize: Int
+  questions: [WorkshopQuestions]
+}
+type WorkshopQuestions {
+  id: String
+  text: String
+  type: String
+}
+type Courses
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create, delete] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  courseTitle: String
+  username: String
+  description: String
+  numberOfSessions: Int
+  sessionDuration: Int
+  sessionDurationIn: String
+  listedPrice: Float
+  finalPrice: Float
+  courseDate: String
+  courseTime: String
+  hideService: Boolean
+  limitParticipants: Boolean
+  audienceSize: Int
+  courseImage: String
+  sessions: [CourseSessions]
+}
+type CourseSessions {
+  id: String
+  text: String
+  sessionDate: String
+  sessionTime: String
+}
+type Packages
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create, delete] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  packageTitle: String
+  username: String
+  description: String
+  listedPrice: Float
+  finalPrice: Float
+  packageImage: String
+  emailContent: String
+  uploadFile: String
+  hideService: Boolean
+  limitParticipants: Boolean
+  audienceSize: Int
+  packageServices: [PackageServices]
+}
+type PackageServices {
+  id: String
+  text: String
+  duration: String
+  price : Float
+}
 type MentorRegister
   @model
   @auth(
@@ -118,7 +212,6 @@ type MentorRegister
   ) {
   mentor_id: ID
   mentor_name: String
-  profile_url: String
   mentor_availability_id: String
   phone_number: String
   about_yourself: AboutYourself
@@ -131,8 +224,8 @@ type MentorRegister
   professional_info: Professionalinfo
   profile_image: String
   domain_id: [String!]
-  url: String
-  mentor_service_id: [String]
+  url: String!
+  mentor_service_id: [String!]
 }
 type Professionalinfo {
   occupation: String

@@ -209,6 +209,7 @@ const Login = (props) => {
             enableReinitialize={true}
             initialValues={initialState}
             onSubmit={async (values, { setErrors }) => {
+              debugger
               setLoader(true)
               let username = values.email
               let password = values.password
@@ -231,15 +232,16 @@ const Login = (props) => {
                           RegisterTypeRequest(dispatch, item[1])
                           registerType = item[1]
                         }
-                        if (item[0] === 'custom:kyc_done') {
-                          if (item[1] === 'true') {
-                            if (registerType === 'STUDENT') {
-                              router.push('/student')
-                            } else {
-                              router.push('/mentor')
-                            }
+                        debugger
+                        if (registerType) {
+                          if (registerType === 'STUDENT') {
+                            router.push('/student')
                           } else {
-                            router.push('/register/KYC_step1')
+                            if (item[0] === 'custom:kyc_done') {
+                              router.push('/mentor')
+                            } else {
+                              router.push('/register/KYC_step1')
+                            }
                           }
                         }
                       })
@@ -267,7 +269,7 @@ const Login = (props) => {
                 }
               }
             }}
-            validationSchema={SignInSchema()}
+            validationSchema={SignInSchema}
             validateOnChange={true}
             validateOnBlur={true}
             validateOnMount={true}
@@ -285,51 +287,57 @@ const Login = (props) => {
               ...restProps
             }) => (
               <>
-                <TextField
-                  label="Email"
-                  id="email"
-                  type="Email"
-                  placeholder="examplemail@gmail.com"
-                  value={values.email}
-                  onChangeValue={(text) => {
-                    if (spaceValidation.test(text.target.value)) {
-                      setFieldValue(text.target.id, text.target.value)
-                    }
-                  }}
-                  errMsg={touched.email && errors.email}
-                />
+                <form autoComplete="off">
+                  <input type="hidden" value="prayer" />
+                  {/* <input type="email" /> */}
+                  <TextField
+                    label="Email"
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="examplemail@gmail.com"
+                    value={values.email}
+                    onChangeValue={(text) => {
+                      if (spaceValidation.test(text.target.value)) {
+                        setFieldValue(text.target.id, text.target.value)
+                      }
+                    }}
+                    errMsg={errors.email}
+                  />
 
-                <TextField
-                  label="Password"
-                  id="password"
-                  type="Password"
-                  placeholder="Enter Password"
-                  icon={require('../../public/assets/icon/eye.png')}
-                  value={values.password}
-                  onChangeValue={(text) => {
-                    if (spaceValidation.test(text.target.value)) {
-                      setFieldValue(text.target.id, text.target.value)
-                    }
-                  }}
-                  errMsg={touched.password && errors.password}
-                />
+                  <TextField
+                    label="Password"
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    icon={require('../../public/assets/icon/eye.png')}
+                    value={values.password}
+                    onChangeValue={(text) => {
+                      if (spaceValidation.test(text.target.value)) {
+                        setFieldValue(text.target.id, text.target.value)
+                      }
+                    }}
+                    errMsg={errors.password}
+                  />
 
-                <Button
-                  label="Sign-in"
-                  styleOverride={{
-                    height: 62,
-                    backgroundColor: color.btnColor,
-                    color: color.blackVariant,
-                    marginTop: 40,
-                    fontSize: 16,
-                  }}
-                  loader={loader}
-                  onClick={handleSubmit}
-                  //   onClick={() => {
-                  //     // router.prefetch('www.google.com')
-                  //     window.open('https://www.codexworld.com/', '_self')
-                  //   }}
-                />
+                  <Button
+                    label="Sign-in"
+                    styleOverride={{
+                      height: 62,
+                      backgroundColor: color.btnColor,
+                      color: color.blackVariant,
+                      marginTop: 40,
+                      fontSize: 16,
+                    }}
+                    loader={loader}
+                    onClick={handleSubmit}
+                    //   onClick={() => {
+                    //     // router.prefetch('www.google.com')
+                    //     window.open('https://www.codexworld.com/', '_self')
+                    //   }}
+                  />
+                </form>
               </>
             )}
           </Formik>
