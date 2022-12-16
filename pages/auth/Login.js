@@ -232,17 +232,18 @@ const Login = (props) => {
                           RegisterTypeRequest(dispatch, item[1])
                           registerType = item[1]
                         }
-                        debugger
-                        if (registerType) {
-                          if (registerType === 'STUDENT') {
-                            router.push('/student')
-                          } else {
-                            if (item[0] === 'custom:kyc_done') {
-                              router.push('/mentor')
+                        if (item[0] === 'custom:kyc_done') {
+                          if (registerType) {
+                            if (registerType === 'STUDENT') {
+                              router.push('/student')
                             } else {
-                              router.push('/register/KYC_step1')
+                              {
+                                router.push('/mentor')
+                              }
                             }
                           }
+                        } else {
+                          router.push('/register/KYC_step1')
                         }
                       })
                     })
@@ -266,6 +267,8 @@ const Login = (props) => {
                   e?.toString()?.includes('UserNotFoundException')
                 ) {
                   setErrors({ email: 'User email id is not registered' })
+                } else {
+                  setErrors({ email: e?.toString() })
                 }
               }
             }}

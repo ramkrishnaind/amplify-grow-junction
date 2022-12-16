@@ -25,7 +25,20 @@ const KYC_step2 = () => {
   useEffect(() => {
     getCurrentUser()
   }, [])
-
+  useEffect(() => {
+    debugger
+    // if (registerType?.registerType) {
+    // if (registerType?.registerType === 'STUDENT') {
+    //   if (registerType?.kycStep1?.interestedSkills?.length > 0) {
+    //     setSelectedList(registerType?.kycStep1?.interestedSkills)
+    //   }
+    // } else {
+    // if (registerType?.kycStep2?.domain_id?.length > 0) {
+    // setSelectedList(registerType?.kycStep2)
+    // }
+    // }
+    // }
+  }, [registerType])
   const getCurrentUser = async () => {
     const { username } = await Auth.currentAuthenticatedUser({
       bypassCache: true,
@@ -263,6 +276,7 @@ const KYC_step2 = () => {
               <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <Button
                   label={'Previous'}
+                  className="cursor-pointer"
                   styleOverride={{
                     paddingLeft: 20,
                     paddingRight: 20,
@@ -285,6 +299,7 @@ const KYC_step2 = () => {
                 />
                 <Button
                   label={'Continue'}
+                  className="cursor-pointer"
                   styleOverride={{
                     paddingLeft: 20,
                     paddingRight: 20,

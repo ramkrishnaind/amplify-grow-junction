@@ -38,21 +38,45 @@ const AuthReducer = (state = initialState, action) => {
         ...state,
         layout: payload,
       }
-    case ACTION_KEYS.KYCSTEP1:
+    case ACTION_KEYS.KYCSTEP1: {
+      const { registerType, ...remaining } = payload
+      const prevState = { ...state }
+      if (prevState.kycStep1)
+        prevState.kycStep1[payload.registerType] = remaining
+      else
+        prevState.kycStep1 = {
+          ...prevState.kycStep1,
+          [payload.registerType]: remaining,
+        }
       return {
-        ...state,
-        kycStep1: payload,
+        ...prevState,
       }
+    }
     case ACTION_KEYS.PROFESSIONAL_DETAILS:
       return {
         ...state,
         professionalDetails: payload,
       }
+
     case ACTION_KEYS.KYCSTEP2:
       return {
         ...state,
         kycStep2: payload,
       }
+    case ACTION_KEYS.KYCSTEP4: {
+      const { registerType, ...remaining } = payload
+      const prevState = { ...state }
+      if (prevState.kycStep4)
+        prevState.kycStep4[payload.registerType] = remaining
+      else
+        prevState.kycStep4 = {
+          ...prevState.kycStep4,
+          [payload.registerType]: remaining,
+        }
+      return {
+        ...prevState,
+      }
+    }
     // case
     default:
       return state

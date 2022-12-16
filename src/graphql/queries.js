@@ -28,6 +28,37 @@ export const listDemoSkillsLists = /* GraphQL */ `
     }
   }
 `;
+export const getDomainInterestedList = /* GraphQL */ `
+  query GetDomainInterestedList($id: ID!) {
+    getDomainInterestedList(id: $id) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listDomainInterestedLists = /* GraphQL */ `
+  query ListDomainInterestedLists(
+    $filter: ModelDomainInterestedListFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listDomainInterestedLists(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        value
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getSuggestedServiceList = /* GraphQL */ `
   query GetSuggestedServiceList($id: ID!) {
     getSuggestedServiceList(id: $id) {
@@ -95,12 +126,6 @@ export const getStudentRegister = /* GraphQL */ `
     getStudentRegister(id: $id) {
       student_id
       student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
       recent_college
       degree
       current_employee
@@ -168,12 +193,6 @@ export const listStudentRegisters = /* GraphQL */ `
       items {
         student_id
         student_name
-        domain_id {
-          id
-          value
-          createdAt
-          updatedAt
-        }
         recent_college
         degree
         current_employee
@@ -529,7 +548,6 @@ export const getMentorRegister = /* GraphQL */ `
     getMentorRegister(id: $id) {
       mentor_id
       mentor_name
-      profile_url
       mentor_availability_id
       phone_number
       about_yourself {
@@ -591,7 +609,6 @@ export const listMentorRegisters = /* GraphQL */ `
       items {
         mentor_id
         mentor_name
-        profile_url
         mentor_availability_id
         phone_number
         about_yourself {

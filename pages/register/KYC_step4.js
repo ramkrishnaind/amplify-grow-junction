@@ -8,10 +8,10 @@ import * as mutations from '../../src/graphql/mutations'
 import * as queries from '../../src/graphql/queries'
 import { API, Auth } from 'aws-amplify'
 import TextField from '../ui-kit/TextField'
-
+import ACTION_KEYS from '../../constants/action-keys'
 import { countryCodeJson } from '../../public/utils/CountryCodeJson'
 import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Formik } from 'formik'
 import { verifyStep4 } from '../../public/utils/schema'
 import { v4 as uuid } from 'uuid'
@@ -20,11 +20,13 @@ const numberValidation = new RegExp(/^[0-9]{0,10}$/)
 const KYC_step4 = () => {
   const registerType = useSelector((state) => state.AuthReducer)
   const router = useRouter()
+  const dispatch = useDispatch()
   //   const [phoneNumber, setPhoneNumber] = useState()
   const [loading, setLoading] = useState()
-
+  debugger
   const initialState = {
-    phoneNumber: '',
+    phoneNumber:
+      registerType?.kycStep4?.[registerType.registerType]?.phoneNumber,
   }
   return (
     <BoxBodyContainer
@@ -88,7 +90,9 @@ const KYC_step4 = () => {
                 enableReinitialize={true}
                 initialValues={initialState}
                 onSubmit={async (values, { setErrors, setSubmitting }) => {
+                  debugger
                   setSubmitting(true)
+
                   const id = uuid()
                   console.log('entry')
                   if (registerType?.registerType === 'STUDENT') {
@@ -156,7 +160,7 @@ const KYC_step4 = () => {
                     }
                   }
                 }}
-                validationSchema={verifyStep4()}
+                validationSchema={verifyStep4}
                 validateOnChange={true}
                 validateOnBlur={true}
                 validateOnMount={true}
@@ -199,6 +203,7 @@ const KYC_step4 = () => {
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <Button
                         label={'Previous'}
+                        className="cursor-pointer"
                         styleOverride={{
                           paddingLeft: 20,
                           paddingRight: 20,
@@ -216,6 +221,14 @@ const KYC_step4 = () => {
                         }}
                         loader={loading}
                         onClick={() => {
+                          debugger
+                          dispatch({
+                            type: ACTION_KEYS.KYCSTEP4,
+                            payload: {
+                              phoneNumber: values.phoneNumber,
+                              registerType: registerType?.registerType,
+                            },
+                          })
                           //   setShowDomainInput(true);
                           //   if (showDomainInput) {
                           //     saveDomainSkills();
@@ -226,6 +239,7 @@ const KYC_step4 = () => {
                       />
                       <Button
                         label={'Continue'}
+                        className="cursor-pointer"
                         styleOverride={{
                           paddingLeft: 20,
                           paddingRight: 20,
@@ -248,7 +262,10 @@ const KYC_step4 = () => {
                         //   //   }
                         //   // router.push("/register/MentorAvailability");
                         // }}
-                        onClick={handleSubmit}
+                        onClick={(e) => {
+                          debugger
+                          handleSubmit(e)
+                        }}
                       />
                     </div>
                   </>
