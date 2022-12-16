@@ -213,8 +213,10 @@ type Configurations
   timezone: String
   calender: String
   personalMeetingLink: String
-  bookingPeriod: String
-  noticePeriod: String
+  bookingPeriod: Int
+  bookingPeriodIn: String
+  noticePeriod: Int
+  noticePeriodIn: String
 }
 type MentorRegister
   @model

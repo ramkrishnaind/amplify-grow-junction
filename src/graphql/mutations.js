@@ -791,7 +791,9 @@ export const createConfigurations = /* GraphQL */ `
       calender
       personalMeetingLink
       bookingPeriod
+      bookingPeriodIn
       noticePeriod
+      noticePeriodIn
       id
       createdAt
       updatedAt
@@ -810,7 +812,9 @@ export const updateConfigurations = /* GraphQL */ `
       calender
       personalMeetingLink
       bookingPeriod
+      bookingPeriodIn
       noticePeriod
+      noticePeriodIn
       id
       createdAt
       updatedAt
@@ -829,7 +833,9 @@ export const deleteConfigurations = /* GraphQL */ `
       calender
       personalMeetingLink
       bookingPeriod
+      bookingPeriodIn
       noticePeriod
+      noticePeriodIn
       id
       createdAt
       updatedAt
