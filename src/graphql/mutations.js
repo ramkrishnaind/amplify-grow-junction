@@ -781,6 +781,63 @@ export const deletePackages = /* GraphQL */ `
     }
   }
 `;
+export const createConfigurations = /* GraphQL */ `
+  mutation CreateConfigurations(
+    $input: CreateConfigurationsInput!
+    $condition: ModelConfigurationsConditionInput
+  ) {
+    createConfigurations(input: $input, condition: $condition) {
+      timezone
+      calender
+      personalMeetingLink
+      bookingPeriod
+      noticePeriod
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const updateConfigurations = /* GraphQL */ `
+  mutation UpdateConfigurations(
+    $input: UpdateConfigurationsInput!
+    $condition: ModelConfigurationsConditionInput
+  ) {
+    updateConfigurations(input: $input, condition: $condition) {
+      timezone
+      calender
+      personalMeetingLink
+      bookingPeriod
+      noticePeriod
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const deleteConfigurations = /* GraphQL */ `
+  mutation DeleteConfigurations(
+    $input: DeleteConfigurationsInput!
+    $condition: ModelConfigurationsConditionInput
+  ) {
+    deleteConfigurations(input: $input, condition: $condition) {
+      timezone
+      calender
+      personalMeetingLink
+      bookingPeriod
+      noticePeriod
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
 export const createMentorRegister = /* GraphQL */ `
   mutation CreateMentorRegister(
     $input: CreateMentorRegisterInput!

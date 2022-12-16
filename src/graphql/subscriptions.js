@@ -802,6 +802,78 @@ export const onDeletePackages = /* GraphQL */ `
     }
   }
 `;
+export const onCreateConfigurations = /* GraphQL */ `
+  subscription OnCreateConfigurations(
+    $filter: ModelSubscriptionConfigurationsFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateConfigurations(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      timezone
+      calender
+      personalMeetingLink
+      bookingPeriod
+      noticePeriod
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onUpdateConfigurations = /* GraphQL */ `
+  subscription OnUpdateConfigurations(
+    $filter: ModelSubscriptionConfigurationsFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateConfigurations(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      timezone
+      calender
+      personalMeetingLink
+      bookingPeriod
+      noticePeriod
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const onDeleteConfigurations = /* GraphQL */ `
+  subscription OnDeleteConfigurations(
+    $filter: ModelSubscriptionConfigurationsFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteConfigurations(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      timezone
+      calender
+      personalMeetingLink
+      bookingPeriod
+      noticePeriod
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
 export const onCreateMentorRegister = /* GraphQL */ `
   subscription OnCreateMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput

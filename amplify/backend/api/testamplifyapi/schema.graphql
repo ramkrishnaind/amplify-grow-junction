@@ -201,6 +201,21 @@ type PackageServices {
   duration: String
   price : Float
 }
+type Configurations
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create, delete] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  timezone: String
+  calender: String
+  personalMeetingLink: String
+  bookingPeriod: String
+  noticePeriod: String
+}
 type MentorRegister
   @model
   @auth(

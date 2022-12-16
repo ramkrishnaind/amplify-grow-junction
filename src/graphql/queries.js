@@ -543,6 +543,45 @@ export const listPackages = /* GraphQL */ `
     }
   }
 `;
+export const getConfigurations = /* GraphQL */ `
+  query GetConfigurations($id: ID!) {
+    getConfigurations(id: $id) {
+      timezone
+      calender
+      personalMeetingLink
+      bookingPeriod
+      noticePeriod
+      id
+      createdAt
+      updatedAt
+      username
+      owner
+    }
+  }
+`;
+export const listConfigurations = /* GraphQL */ `
+  query ListConfigurations(
+    $filter: ModelConfigurationsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listConfigurations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        timezone
+        calender
+        personalMeetingLink
+        bookingPeriod
+        noticePeriod
+        id
+        createdAt
+        updatedAt
+        username
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const getMentorRegister = /* GraphQL */ `
   query GetMentorRegister($id: ID!) {
     getMentorRegister(id: $id) {
