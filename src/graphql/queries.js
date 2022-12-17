@@ -547,6 +547,7 @@ export const getConfigurations = /* GraphQL */ `
   query GetConfigurations($id: ID!) {
     getConfigurations(id: $id) {
       timezone
+      username
       calender
       personalMeetingLink
       bookingPeriod
@@ -556,7 +557,6 @@ export const getConfigurations = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
       owner
     }
   }
@@ -570,6 +570,7 @@ export const listConfigurations = /* GraphQL */ `
     listConfigurations(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         timezone
+        username
         calender
         personalMeetingLink
         bookingPeriod
@@ -579,7 +580,6 @@ export const listConfigurations = /* GraphQL */ `
         id
         createdAt
         updatedAt
-        username
         owner
       }
       nextToken

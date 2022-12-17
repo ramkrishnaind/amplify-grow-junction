@@ -814,6 +814,7 @@ export const onCreateConfigurations = /* GraphQL */ `
       owner: $owner
     ) {
       timezone
+      username
       calender
       personalMeetingLink
       bookingPeriod
@@ -823,7 +824,6 @@ export const onCreateConfigurations = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
       owner
     }
   }
@@ -840,6 +840,7 @@ export const onUpdateConfigurations = /* GraphQL */ `
       owner: $owner
     ) {
       timezone
+      username
       calender
       personalMeetingLink
       bookingPeriod
@@ -849,7 +850,6 @@ export const onUpdateConfigurations = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
       owner
     }
   }
@@ -866,6 +866,7 @@ export const onDeleteConfigurations = /* GraphQL */ `
       owner: $owner
     ) {
       timezone
+      username
       calender
       personalMeetingLink
       bookingPeriod
@@ -875,7 +876,6 @@ export const onDeleteConfigurations = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      username
       owner
     }
   }

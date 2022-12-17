@@ -211,6 +211,7 @@ type Configurations
     ]
   ) {
   timezone: String
+  username: String
   calender: String
   personalMeetingLink: String
   bookingPeriod: Int

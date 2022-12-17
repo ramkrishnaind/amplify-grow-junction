@@ -1,25 +1,117 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Formik, useFormikContext } from 'formik'
 import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import TextField from '../../../pages/ui-kit/TextField'
+import {
+  createConfigurations,
+  updateConfigurations,
+} from '../../../src/graphql/mutations'
+import { listConfigurations } from '../../../src/graphql/queries'
+import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
+import { v4 as uuid } from 'uuid'
+import { toast } from 'react-toastify'
 
 const Configurations = () => {
-  const [timeZone, setTimeZone] = useState(
-    Intl.DateTimeFormat().resolvedOptions().timeZone,
-  )
+  const [timezone, setTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
+
+  const initialState = {
+    timezone: '',
+    calender: '',
+    personalMeetingLink: '',
+    bookingPeriod: 0,
+    bookingPeriodIn: '',
+    noticePeriod: 0,
+    noticePeriodIn: '',
+  }
+
+  const [state, setState] = useState(initialState)
+  const [user, setUser] = useState()
+  const [isNew, setIsNew] = useState(true)
+
+  useEffect(() => {
+    getUser()
+  }, [])
+
+  useEffect(() => {
+    const keys = [
+    'timezone',
+    'calender',
+    'personalMeetingLink',
+    'bookingPeriod',
+    'bookingPeriodIn',
+    'noticePeriod',
+    'noticePeriodIn',
+    ]
+  }, [state])
+  
+
+
+  const getUser = async () => {
+    debugger
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listConfigurations, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listConfigurations.items.length > 0) {
+        setIsNew(false)
+        const data = { ...results.data.listConfigurations.items[0] }
+        console.log("data - ", data)
+        setState({ ...data })
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
 
   return (
     <>
       <Formik
-        initialValues={{}}
-        onSubmit={(values, e) => {
-          const { setSubmitting } = e
-          setTimeout(() => {
-            setSubmitting(false)
-          }, 400)
-          setProfileState(values)
-        }}
+        initialValues={{ ...state }}
         enableReinitialize={true}
+        onSubmit={async (values, e) => {
+          try {
+            if (isNew) {
+              try {
+                debugger;
+                values.id = uuid()
+                await API.graphql({
+                  query: createConfigurations,
+                  variables: { input: { ...values } },
+                  authMode: 'AMAZON_COGNITO_USER_POOLS',
+                })
+                toast.success('Configuration added successfully')
+                window.location.href = window.location.href
+              } catch (error) {
+                toast.error(`Save Error:${error.errors[0].message}`)
+              }
+            } else {
+              const { createdAt, updatedAt, domain_id, owner, ...rest } = {
+                ...values,
+              }
+              try {
+                await API.graphql({
+                  query: updateConfigurations,
+                  variables: {
+                    input: { ...rest },
+                    // condition: { username: { contains: state.username } },
+                  },
+                  authMode: 'AMAZON_COGNITO_USER_POOLS',
+                })
+                toast.success('Configuration updated successfully')
+              } catch (error) {
+                debugger
+                toast.error(`Save Error:${error.errors[0].message}`)
+                console.log(error)
+              }
+            }
+          } catch (e) {
+            console.log('error-', e)
+          }
+        }}
       >
         {({
           values,
@@ -77,11 +169,11 @@ const Configurations = () => {
                   <div className="basis-1.2">
                     <div className="p-8 w-full ">
                       <TimezoneSelect
-                        value={timeZone}
+                        value={timezone}
                         // value={values.time_zone}
 
                         // onChange={(val)=>handleChange(val)}
-                        onChange={setTimeZone}
+                        onChange={setTimezone}
                         // labelStyle="altName"
                         timezones={{
                           ...allTimezones,
@@ -142,8 +234,11 @@ const Configurations = () => {
                   <div className="basis-1/2">
                     <div className="p-8 w-full ">
                       <TextField
-                        type="text"
-                        id="fname"
+                        name="personalMeetingLink"
+                        onChangeValue={handleChange}
+                        value={values.personalMeetingLink}
+                        type="url"
+                        id="personalMeetingLink"
                         placeholder="+ Add meeting link (Ex: Google meet, Zoom link)"
                       />
                     </div>
@@ -172,23 +267,23 @@ const Configurations = () => {
                           type="number"
                           min="0"
                           textStyleOverride={{ width: '87%' }}
-                          value={values.sessionDuration}
+                          value={values.bookingPeriod}
                           onChangeValue={handleChange}
-                          name="sessionDuration"
-                          id="lname"
+                          name="bookingPeriod"
+                          id="bookingPeriod"
                           widthPartial
                           className=""
                         />
                         <select
                           className="absolute px-3 py-3 top-1  text-lg right-1 bg-gray-50"
-                          value="values.sessionDurationIn"
-                          name="sessionDurationIn"
+                          value={values.bookingPeriodIn}
+                          name="bookingPeriodIn"
                           onChange={handleChange}
                         >
-                          <option value="day">Days</option>
-                          <option value="week">Weeks</option>
-                          <option value="month">Months</option>
-                          <option value="year">Years</option>
+                          <option value="days">Days</option>
+                          <option value="weeks">Weeks</option>
+                          <option value="months">Months</option>
+                          <option value="years">Years</option>
                         </select>
                       </div>
                     </div>
@@ -217,23 +312,23 @@ const Configurations = () => {
                           type="number"
                           min="0"
                           textStyleOverride={{ width: '87%' }}
-                          value={values.sessionDuration}
+                          value={values.noticePeriod}
                           onChangeValue={handleChange}
-                          name="sessionDuration"
-                          id="lname"
+                          name="noticePeriod"
+                          id="noticePeriod"
                           widthPartial
                           className=""
                         />
                         <select
                           className="absolute px-3 py-3 top-1  text-lg right-1 bg-gray-50"
-                          value="values.sessionDurationIn"
-                          name="sessionDurationIn"
+                          value={values.noticePeriodIn}
+                          name="noticePeriodIn"
                           onChange={handleChange}
                         >
-                          <option value="day">Minutes</option>
-                          <option value="week">Hours</option>
-                          <option value="month">Days</option>
-                          <option value="year">Weeks</option>
+                          <option value="minutes">Minutes</option>
+                          <option value="hours">Hours</option>
+                          <option value="days">Days</option>
+                          <option value="weeks">Weeks</option>
                         </select>
                       </div>
                     </div>
