@@ -21,13 +21,20 @@ import { RegistrationSchema, SignInSchema } from '../../public/utils/schema'
 import TextField from '../ui-kit/TextField'
 import Button from '../ui-kit/Button'
 import Header from '../components/common/Header'
-import { Auth } from 'aws-amplify'
+import Amplify from 'aws-amplify'
+import { Auth, Hub } from 'aws-amplify'
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 import Link from 'next/link'
 import {
   RegisterTypeRequest,
   StoreUserAuth,
 } from '../../redux/actions/AuthAction'
 import { useDispatch, useSelector } from 'react-redux'
+import config from '../../src/aws-exports1'
+// check if env is localhost or not
+// if you're not developing on localhost, you will need to detect this is another way—the docs linked above give some examples.
+
+// split redirect signin and signout strings into correct URIs
 
 let productsp = [
   {
@@ -91,8 +98,58 @@ const options = {
 
 const spaceValidation = new RegExp(/^[^ ]*$/)
 const Login = (props) => {
+  const [isLocalhost, setIsLocalState] = useState(false)
   const registerType = useSelector((state) => state.AuthReducer)
+  useEffect(() => {
+    setIsLocalState(!!(window.location.hostname === 'localhost'))
+  }, [])
+  // useEffect(() => {
+  //   if (isLocalhost) {
+  //     debugger
+  //     const [productionRedirectSignIn, localRedirectSignIn] =
+  //       config.oauth.redirectSignIn.split(',')
+  //     const [productionRedirectSignOut, localRedirectSignOut] =
+  //       config.oauth.redirectSignOut.split(',')
 
+  //     // use correct URI in the right env
+  //     const updatedAwsConfig = {
+  //       ...config,
+  //       oauth: {
+  //         ...config.oauth,
+  //         redirectSignIn: isLocalhost
+  //           ? localRedirectSignIn
+  //           : productionRedirectSignIn,
+  //         redirectSignOut: isLocalhost
+  //           ? localRedirectSignOut
+  //           : productionRedirectSignOut,
+  //       },
+  //     }
+
+  //     Auth.configure(updatedAwsConfig)
+  //   }
+  // }, [isLocalhost])
+  useEffect(() => {
+    const unsubscribe = Hub.listen('auth', ({ payload: { event, data } }) => {
+      debugger
+      switch (event) {
+        case 'signIn':
+          StoreUserAuth(dispatch, data)
+          setUser(data)
+          break
+        case 'signOut':
+          setUser(null)
+          break
+        case 'customOAuthState':
+          setCustomState(data)
+      }
+    })
+
+    Auth.currentAuthenticatedUser()
+      .then((currentUser) => setUser(currentUser))
+      .catch(() => console.log('Not signed in'))
+
+    return unsubscribe
+  }, [])
   //   const {width, height} = props;
   const { width, height } = useWindowDimensions()
   const dispatch = useDispatch()
@@ -326,6 +383,7 @@ const Login = (props) => {
 
                   <Button
                     label="Sign-in"
+                    type="submit"
                     styleOverride={{
                       height: 62,
                       backgroundColor: color.btnColor,
@@ -340,6 +398,55 @@ const Login = (props) => {
                     //     window.open('https://www.codexworld.com/', '_self')
                     //   }}
                   />
+                  <div className="flex ">
+                    <Button
+                      label="Google"
+                      image="/assets/icon/google.svg"
+                      styleOverride={{
+                        height: 62,
+                        backgroundColor: 'white',
+                        color: color.blackVariant,
+                        border: '1px solid black',
+                        fontSize: 16,
+                        marginTop: 40,
+                      }}
+                      // containerOverride={{
+                      //   marginLeft: 10,
+                      // }}
+                      loader={loader}
+                      onClick={() =>
+                        Auth.federatedSignIn({
+                          provider: CognitoHostedUIIdentityProvider.Google,
+                        })
+                      }
+                      //   onClick={() => {
+                      //     // router.prefetch('www.google.com')
+                      //     window.open('https://www.codexworld.com/', '_self')
+                      //   }}
+                    />
+
+                    <Button
+                      label="LinkedIn"
+                      image="/assets/icon/inkedin-circled.svg"
+                      styleOverride={{
+                        height: 62,
+                        backgroundColor: 'white',
+                        color: color.blackVariant,
+                        border: '1px solid black',
+                        fontSize: 16,
+                        marginTop: 40,
+                      }}
+                      containerOverride={{
+                        marginLeft: 10,
+                      }}
+                      loader={loader}
+                      onClick={() => {}}
+                      //   onClick={() => {
+                      //     // router.prefetch('www.google.com')
+                      //     window.open('https://www.codexworld.com/', '_self')
+                      //   }}
+                    />
+                  </div>
                 </form>
               </>
             )}
