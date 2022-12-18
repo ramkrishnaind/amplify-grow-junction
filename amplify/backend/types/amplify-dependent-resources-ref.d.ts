@@ -10,6 +10,8 @@ export type AmplifyDependentResourcesAttributes = {
         "testamplifyapi362703db": {
             "IdentityPoolId": "string",
             "IdentityPoolName": "string",
+            "HostedUIDomain": "string",
+            "OAuthMetadata": "string",
             "UserPoolId": "string",
             "UserPoolArn": "string",
             "UserPoolName": "string",
