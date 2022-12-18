@@ -30,7 +30,7 @@ import {
   StoreUserAuth,
 } from '../../redux/actions/AuthAction'
 import { useDispatch, useSelector } from 'react-redux'
-import config from '../../src/aws-exports1'
+import config from '../../src/aws-exports'
 // check if env is localhost or not
 // if you're not developing on localhost, you will need to detect this is another way—the docs linked above give some examples.
 
