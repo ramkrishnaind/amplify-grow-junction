@@ -9,7 +9,7 @@ import Packages from './Packages'
 import Link from 'next/link'
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import { listOneOnOnes } from '/src/graphql/queries'
-import {listTextQueries} from '/src/graphql/queries'
+import { listTextQueries } from '/src/graphql/queries'
 import { listWorkshops } from '/src/graphql/queries'
 import { listCourses } from '/src/graphql/queries'
 import { listPackages } from '/src/graphql/queries'
@@ -35,7 +35,7 @@ const Home = () => {
     workshop: [],
     courses: [],
     textQuery: [],
-    packages:[],
+    packages: [],
   })
   const loadOneOnOne = async () => {
     try {
@@ -67,7 +67,7 @@ const Home = () => {
           filter: { username: { contains: usr.username } },
         }),
       )
-      if (results.data.listWorkshops.items.length> 0) {
+      if (results.data.listWorkshops.items.length > 0) {
         setServices({ ...services, workshop: results.data.listWorkshops.items })
       }
     } catch (error) {
@@ -87,7 +87,7 @@ const Home = () => {
           filter: { username: { contains: usr.username } },
         }),
       )
-      if (results.data.listCourses.items.length> 0) {
+      if (results.data.listCourses.items.length > 0) {
         setServices({ ...services, courses: results.data.listCourses.items })
       }
     } catch (error) {
@@ -107,7 +107,10 @@ const Home = () => {
         }),
       )
       if (results.data.listTextQueries.items.length > 0) {
-        setServices({ ...services, textQuery: results.data.listTextQueries.items })
+        setServices({
+          ...services,
+          textQuery: results.data.listTextQueries.items,
+        })
       }
     } catch (error) {
       toast.error(`Load Error:${error.errors[0].message}`)
@@ -126,15 +129,14 @@ const Home = () => {
           filter: { username: { contains: usr.username } },
         }),
       )
-      if (results.data.listPackages.items.length> 0) {
-        setServices({ ...services, courses: results.data.listPackages.items })
+      if (results.data.listPackages.items.length > 0) {
+        setServices({ ...services, packages: results.data.listPackages.items })
       }
     } catch (error) {
       toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
-
 
   useEffect(() => {
     loadOneOnOne()
@@ -237,16 +239,16 @@ const Home = () => {
                 <OneOnOne services={services.oneOnOne} />
               </div>
               <div className={openTab === 2 ? 'block' : 'hidden'}>
-              <Workshop services={services.workshop}/>
+                <Workshop services={services.workshop} />
               </div>
               <div className={openTab === 3 ? 'block' : 'hidden'}>
-              <Courses services={services.courses}/>
+                <Courses services={services.courses} />
               </div>
               <div className={openTab === 4 ? 'block' : 'hidden'}>
-              <TextQuery services={services.textQuery}/>
+                <TextQuery services={services.textQuery} />
               </div>
               <div className={openTab === 5 ? 'block' : 'hidden'}>
-              <Packages services={services.packages}/>
+                <Packages services={services.packages} />
               </div>
             </div>
           </div>

@@ -40,6 +40,45 @@ export const deleteDemoSkillsList = /* GraphQL */ `
     }
   }
 `;
+export const createDomainInterestedList = /* GraphQL */ `
+  mutation CreateDomainInterestedList(
+    $input: CreateDomainInterestedListInput!
+    $condition: ModelDomainInterestedListConditionInput
+  ) {
+    createDomainInterestedList(input: $input, condition: $condition) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateDomainInterestedList = /* GraphQL */ `
+  mutation UpdateDomainInterestedList(
+    $input: UpdateDomainInterestedListInput!
+    $condition: ModelDomainInterestedListConditionInput
+  ) {
+    updateDomainInterestedList(input: $input, condition: $condition) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteDomainInterestedList = /* GraphQL */ `
+  mutation DeleteDomainInterestedList(
+    $input: DeleteDomainInterestedListInput!
+    $condition: ModelDomainInterestedListConditionInput
+  ) {
+    deleteDomainInterestedList(input: $input, condition: $condition) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createSuggestedServiceList = /* GraphQL */ `
   mutation CreateSuggestedServiceList(
     $input: CreateSuggestedServiceListInput!
@@ -132,12 +171,6 @@ export const createStudentRegister = /* GraphQL */ `
     createStudentRegister(input: $input, condition: $condition) {
       student_id
       student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
       recent_college
       degree
       current_employee
@@ -199,12 +232,6 @@ export const updateStudentRegister = /* GraphQL */ `
     updateStudentRegister(input: $input, condition: $condition) {
       student_id
       student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
       recent_college
       degree
       current_employee
@@ -266,12 +293,6 @@ export const deleteStudentRegister = /* GraphQL */ `
     deleteStudentRegister(input: $input, condition: $condition) {
       student_id
       student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
       recent_college
       degree
       current_employee
@@ -768,7 +789,6 @@ export const createMentorRegister = /* GraphQL */ `
     createMentorRegister(input: $input, condition: $condition) {
       mentor_id
       mentor_name
-      profile_url
       mentor_availability_id
       phone_number
       about_yourself {
@@ -828,7 +848,6 @@ export const updateMentorRegister = /* GraphQL */ `
     updateMentorRegister(input: $input, condition: $condition) {
       mentor_id
       mentor_name
-      profile_url
       mentor_availability_id
       phone_number
       about_yourself {
@@ -888,7 +907,6 @@ export const deleteMentorRegister = /* GraphQL */ `
     deleteMentorRegister(input: $input, condition: $condition) {
       mentor_id
       mentor_name
-      profile_url
       mentor_availability_id
       phone_number
       about_yourself {

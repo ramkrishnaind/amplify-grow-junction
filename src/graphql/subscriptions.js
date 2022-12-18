@@ -37,6 +37,42 @@ export const onDeleteDemoSkillsList = /* GraphQL */ `
     }
   }
 `;
+export const onCreateDomainInterestedList = /* GraphQL */ `
+  subscription OnCreateDomainInterestedList(
+    $filter: ModelSubscriptionDomainInterestedListFilterInput
+  ) {
+    onCreateDomainInterestedList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateDomainInterestedList = /* GraphQL */ `
+  subscription OnUpdateDomainInterestedList(
+    $filter: ModelSubscriptionDomainInterestedListFilterInput
+  ) {
+    onUpdateDomainInterestedList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteDomainInterestedList = /* GraphQL */ `
+  subscription OnDeleteDomainInterestedList(
+    $filter: ModelSubscriptionDomainInterestedListFilterInput
+  ) {
+    onDeleteDomainInterestedList(filter: $filter) {
+      id
+      value
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateSuggestedServiceList = /* GraphQL */ `
   subscription OnCreateSuggestedServiceList(
     $filter: ModelSubscriptionSuggestedServiceListFilterInput
@@ -131,12 +167,6 @@ export const onCreateStudentRegister = /* GraphQL */ `
     ) {
       student_id
       student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
       recent_college
       degree
       current_employee
@@ -203,12 +233,6 @@ export const onUpdateStudentRegister = /* GraphQL */ `
     ) {
       student_id
       student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
       recent_college
       degree
       current_employee
@@ -275,12 +299,6 @@ export const onDeleteStudentRegister = /* GraphQL */ `
     ) {
       student_id
       student_name
-      domain_id {
-        id
-        value
-        createdAt
-        updatedAt
-      }
       recent_college
       degree
       current_employee
@@ -797,7 +815,6 @@ export const onCreateMentorRegister = /* GraphQL */ `
     ) {
       mentor_id
       mentor_name
-      profile_url
       mentor_availability_id
       phone_number
       about_yourself {
@@ -862,7 +879,6 @@ export const onUpdateMentorRegister = /* GraphQL */ `
     ) {
       mentor_id
       mentor_name
-      profile_url
       mentor_availability_id
       phone_number
       about_yourself {
@@ -927,7 +943,6 @@ export const onDeleteMentorRegister = /* GraphQL */ `
     ) {
       mentor_id
       mentor_name
-      profile_url
       mentor_availability_id
       phone_number
       about_yourself {

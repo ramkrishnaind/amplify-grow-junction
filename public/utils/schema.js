@@ -46,9 +46,8 @@ export const ProfessionalDetailSchema = () =>
     degree: Yup.string().required('Please choose any degree'),
   })
 
-export const verifyStep4 = () =>
-  Yup.object({
-    phoneNumber: Yup.string()
-      .required('Please enter your mobile number')
-      .matches(numberValidation, 'Phone number is not valid'),
-  })
+export const verifyStep4 = Yup.object().shape({
+  phoneNumber: Yup.string()
+    .required('Please enter your mobile number')
+    .matches(numberValidation, 'Phone number is not valid'),
+})
