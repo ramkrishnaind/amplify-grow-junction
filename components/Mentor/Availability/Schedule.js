@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Formik, useFormikContext } from 'formik'
 import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import TextField from '../../../pages/ui-kit/TextField'
@@ -6,97 +6,87 @@ import TextField from '../../../pages/ui-kit/TextField'
 import DatePicker from 'react-multi-date-picker'
 import Icon from 'react-multi-date-picker/components/icon'
 import { date } from 'yup'
+import {createSchedule, updateSchedule, deleteSchedule} from '../../../src/graphql/mutations'
+import { listSchedules } from '../../../src/graphql/queries'
+import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
+import { v4 as uuid } from 'uuid'
+import { toast } from 'react-toastify'
 
 const Schedule = () => {
   const [timeZone, setTimeZone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   )
 
-  // const today = new Date()
-  // const tomorrow = new Date()
-  // tomorrow.setDate(tomorrow.getDate() + 1)
-  //const [values, setValues] = useState([today, tomorrow])
-  //const [btnText, setBtnText] = useState("")
-  //  const showDates = () =>{
-  //   setBtnText("Add unavailable dates")
-  // }
+  const initialState = {
+    availableSameTime: false,
+    unavailableDates:[],
+    daySchedules:[],
+  }
 
-  // const weekDays1 = {
-  //   0:"Sunday",
-  //   1: "Monday",
-  //   2: "Tuesday",
-  //   3: "Wednesday",
-  //   4: "Thrusday",
-  //   5: "Friday",
-  //   6: "Saturday"
-  // }
+  const [state, setState] = useState(initialState)
+  const [isNew, setIsNew] = useState(true)
+  const [usrName, setUsrName] = useState('')
+  useEffect(() => {
+    getUser()
+  }, [])
 
-  // const weekDays = useState([
-  //   "Sunday",
-  //   "Monday",
-  //   "Tuesday",
-  //   "Wednesday",
-  //   "Thrusday",
-  //   "Friday",
-  //   "Saturday"
-  // ])
+  const getUser = async () => {
+    debugger
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      setUsrName(usr.username)
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listSchedules, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listSchedules.items.length > 0) {
+        setIsNew(false)
+        const data = { ...results.data.listSchedules.items[0] }
+        console.log("data - ", data)
+        setState({ ...data })
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
 
-  // const weekDays = [
-  //   "Sunday",
-  //   "Monday",
-  //   "Tuesday",
-  //   "Wednesday",
-  //   "Thrusday",
-  //   "Friday",
-  //   "Saturday"
-  // ]
-
-  //   weekDays.forEach((weekDay) => {
-
-  //     console.log({weekDay})
-
-  //   })
-  //
-
-  // weekDays.map((day) => {
-  //   console.log(day)
-  // })
-
+  const [availableSameTime, setAvailableSameTime] = useState(false)
+  const [startTime, setStartTime] = useState('')
+  const [endTime, setEndTime] = useState('')
+  const [daySchedules, setDaySchedules] = useState([])
+  
+  const handleStartTimeChange = (e) => {
+    setStartTime(e.target.value)
+  }
+  const handleEndTimeChange = (e) => {
+    setEndTime(e.target.value)
+  }
+  const addDaySchedule = () => {
+    debugger
+    const found = daySchedules.find(
+      (item) => item.startTime === startTime && item.endTime === endTime && item.day === 'Everyday',
+    )
+    if (!found) {
+      daySchedules.push({
+        id: uuid(),
+        day: "Everyday",
+        startTime: startTime.toString(),
+        endTime: endTime.toString(),
+      })
+    }
+    setAvailableSameTime(true)
+    setStartTime('')
+    setEndTime('')
+  }
+  
   const [unavailableDate, setUnavailableDate] = useState([])
+  const [unavailableDates, setUnavailableDates] = useState([])
   const [visible, setVisible] = useState(false)
 
   const [isChecked, setIsChecked] = useState(false)
-  // const [show, setShow] = useState(true)
-  // const [everyDayShow, setEveryDayShow] = useState(false)
 
-  // const handleAllDaysSameTime = (e) => {
-
-  //   if (e.target.checked) {
-  //     console.log("checked")
-  //     setShow(show)
-  //     setEveryDayShow(!everyDayShow)
-  //     setIsChecked(!isChecked)
-  //   }
-  //   if (!e.target.checked){
-  //     console.log("unchecked")
-  //     setShow(!show)
-  //   }
-   
-  // }
-
-  
-
-  // const handleCheck =() =>{
-  //   setEveryDayShow(!everyDayShow)
-  // }
-  // if(isChecked){
-  //   console.log("checkedddd")
-  
-  // }
-  // else{
-  //   console.log("uncheckedddd")
-    
-  // }
   const handleDate = (date) => {
     console.log('length -', date.length)
     date.map((v) => {
@@ -104,6 +94,11 @@ const Schedule = () => {
       const found = unavailableDate.find((date) => date === dt)
       if (!found) {
         unavailableDate.push(v.day + '/' + v.month.number + '/' + v.year)
+        const date = v.day + '/' + v.month.number + '/' + v.year
+        unavailableDates.push({
+          id: uuid(),
+          date: date,
+        })
       }
 
       console.log('unavailableDate -  ', unavailableDate)
@@ -116,20 +111,58 @@ const Schedule = () => {
     // debugger
     const newUnavailableDate = unavailableDate.filter((uDate) => uDate !== dt)
     setUnavailableDate(newUnavailableDate)
+    setUnavailableDates(newUnavailableDate)
   }
 
   return (
     <>
-      <Formik
-        initialValues={{}}
-        onSubmit={(values, e) => {
-          const { setSubmitting } = e
-          setTimeout(() => {
-            setSubmitting(false)
-          }, 400)
-          setProfileState(values)
-        }}
+     <Formik
+        initialValues={{ ...state }}
         enableReinitialize={true}
+        onSubmit={async (values, e) => {
+          try {
+            if (isNew) {
+              try {
+                debugger;
+                values.id = uuid()
+                values.username = usrName
+                values.availableSameTime = availableSameTime
+                //values.unavailableDates = unavailableDates
+                //values.daySchedules = daySchedules
+                await API.graphql({
+                  query: createSchedule,
+                  variables: { input: { ...values } },
+                  authMode: 'AMAZON_COGNITO_USER_POOLS',
+                })
+                toast.success('Schedule added successfully')
+                window.location.href = window.location.href
+              } catch (error) {
+                toast.error(`Save Error:${error.errors[0].message}`)
+              }
+            } else {
+              const { createdAt, updatedAt, domain_id, owner, ...rest } = {
+                ...values,
+              }
+              try {
+                await API.graphql({
+                  query: updateSchedule,
+                  variables: {
+                    input: { ...rest },
+                    // condition: { username: { contains: state.username } },
+                  },
+                  authMode: 'AMAZON_COGNITO_USER_POOLS',
+                })
+                toast.success('Schedule updated successfully')
+              } catch (error) {
+                debugger
+                toast.error(`Save Error:${error.errors[0].message}`)
+                console.log(error)
+              }
+            }
+          } catch (e) {
+            console.log('error-', e)
+          }
+        }}
       >
         {({
           values,
@@ -156,6 +189,7 @@ const Schedule = () => {
                         type="button"
                         onClick={(e) => {
                           e.preventDefault()
+                          addDaySchedule
                           handleSubmit(e)
                         }}
                         className="mt-2 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6 ml-10 border rounded"
@@ -204,32 +238,40 @@ const Schedule = () => {
                         </div>
                       </div>
                       <div className="flex flex-row basis-2/3">
-                        <div className="basis-1/2 ml-5 mr-10">
+                        <div className="basis-1/3 ml-5 mr-10">
                           <span className="text-sm text-gray-900 font-normal">
                             Start Time
                           </span>
                           <TextField
                             type="time"
-                            placeholder="₹"
-                            value={values.workshopTime}
-                            onChangeValue={handleChange}
-                            name="workshopTime"
+                            value={values.startTime}
+                            onChangeValue={handleStartTimeChange}
+                            name="time"
                             className="w-full"
                           />
                         </div>
-                        <div className="basis-1/2  mr-5">
+                        <div className="basis-1/3  mr-5">
                           <span className="text-sm text-gray-900 font-normal">
                             End Time
                           </span>
                           <TextField
                             type="time"
-                            placeholder="₹"
-                            value={values.workshopTime}
-                            onChangeValue={handleChange}
-                            name="workshopTime"
+                            value={values.endTime}
+                            onChangeValue={handleEndTimeChange}
+                            name="endTime"
                             className="w-full"
                           />
                         </div>
+                        <div className="basis-1/3  mr-5">
+                        <button
+                        type="button"
+                        onClick={addDaySchedule}
+                        className="mt-2 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-4 ml-10 border rounded"
+                      >
+                        Add
+                      </button>
+                        </div>
+
                       </div>
                     </div>
                   ) : 
