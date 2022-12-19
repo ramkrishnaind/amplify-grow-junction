@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "testamplifyapi362703db_identitypool_362703db",
-    "allowUnauthenticatedIdentities": true,
+    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "testam362703db",
     "userPoolName": "testamplifyapi362703db_userpool_362703db",
     "autoVerifiedAttributes": [
@@ -36,7 +36,7 @@
     "sharedId": "362703db",
     "resourceName": "testamplifyapi362703db",
     "authSelections": "identityPoolAndUserPool",
-    "useDefault": "default",
+    "useDefault": "defaultSocial",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
@@ -54,6 +54,14 @@
       ]
     },
     "breakCircularDependency": true,
-    "dependsOn": []
+    "dependsOn": [],
+    "hostedUI": true,
+    "hostedUIDomainName": "testamplifyapia67ec0db-a67ec0db",
+    "authProvidersUserPool": [
+      "Google"
+    ],
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://main.d17un6itwxe1e6.amplifyapp.com/\",\"http://localhost:3000/auth/Login/\"],\"LogoutURLs\":[\"https://main.d17un6itwxe1e6.amplifyapp.com/\"]}",
+    "authProviders": []
   }
 }

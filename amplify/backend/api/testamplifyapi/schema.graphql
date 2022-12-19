@@ -328,3 +328,27 @@ type timeSchedule
   leftMeridianDropDown: Boolean
   rightMeridianDropDown: Boolean
 }
+type Schedule
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create, delete] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  availableSameTime: Boolean
+  username: String
+  unavailableDates: [UnavailableDates]
+  daySchedules: [DaySchedules]
+}
+type DaySchedules {
+  id: String
+  day: String
+  startTime: String
+  endTime: String
+}
+type UnavailableDates {
+  id: String
+  date: String
+}

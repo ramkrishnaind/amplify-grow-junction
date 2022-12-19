@@ -1576,3 +1576,81 @@ export const onDeleteTimeSchedule = /* GraphQL */ `
     }
   }
 `;
+export const onCreateSchedule = /* GraphQL */ `
+  subscription OnCreateSchedule(
+    $filter: ModelSubscriptionScheduleFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateSchedule(filter: $filter, username: $username, owner: $owner) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateSchedule = /* GraphQL */ `
+  subscription OnUpdateSchedule(
+    $filter: ModelSubscriptionScheduleFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateSchedule(filter: $filter, username: $username, owner: $owner) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteSchedule = /* GraphQL */ `
+  subscription OnDeleteSchedule(
+    $filter: ModelSubscriptionScheduleFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteSchedule(filter: $filter, username: $username, owner: $owner) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
