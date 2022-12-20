@@ -30,12 +30,14 @@ const Schedule = () => {
   const [state, setState] = useState(initialState)
   const [isNew, setIsNew] = useState(true)
   const [usrName, setUsrName] = useState('')
+  const [scheduleResults, setScheduleResults] = useState([])
+  const [displayResult, setDisplayResult] = useState([])
+  const [showSchedule, setShowSchedule] = useState(false)
   useEffect(() => {
     getUser()
   }, [])
 
   const getUser = async () => {
-    debugger
     try {
       const usr = await Auth.currentAuthenticatedUser()
       setUsrName(usr.username)
@@ -45,7 +47,20 @@ const Schedule = () => {
           filter: { username: { contains: usr.username } },
         }),
       )
+      debugger
       if (results.data.listSchedules.items.length > 0) {
+        // if (results.data.listSchedules.items[0].daySchedules.length > 0) {
+        //   results.data.listSchedules.items[0].daySchedules.map((d) => {
+        //     scheduleResults.push({
+        //       day: d.day,
+        //       startTime: d.startTime.toString(),
+        //       endTime: d.endTime.toString(),
+        //     })
+        //   })
+        // }
+        setDisplayResult(results.data.listSchedules.items[0].daySchedules)
+
+        console.log('result -', displayResult)
         setIsNew(false)
         const data = { ...results.data.listSchedules.items[0] }
         console.log('data - ', data)
@@ -56,11 +71,16 @@ const Schedule = () => {
     }
   }
 
+  useEffect(() => {
+    const keys = ['availableSameTime', 'unavailableDates', 'daySchedules']
+  }, [state])
+
   const [availableSameTime, setAvailableSameTime] = useState(false)
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
   const [daySchedules, setDaySchedules] = useState([])
   const [weekDay, setWeekDay] = useState('')
+  const [selectedDay, setSelectedDay] = useState('')
 
   const handleStartTimeChange = (e) => {
     debugger
@@ -144,11 +164,76 @@ const Schedule = () => {
     //console.log("dates - ", values)
   }
 
+  const handleDayChange = (e) => {
+    debugger
+    setSelectedDay(e.target.value)
+  }
+
+  const addSchedule = () => {
+    debugger
+    if (startTime !== '' && endTime !== '' && selectedDay !== '') {
+      const found = daySchedules.find(
+        (item) =>
+          item.startTime === startTime &&
+          item.endTime === endTime &&
+          item.day === selectedDay,
+      )
+      if (!found) {
+        daySchedules.push({
+          id: uuid(),
+          day: selectedDay,
+          startTime: startTime.toString(),
+          endTime: endTime.toString(),
+        })
+      }
+    }
+    setAvailableSameTime(true)
+    // setStartTime('')
+    // setEndTime('')
+    // setDay('')
+  }
   const handleRemoveDate = (dt) => {
     // debugger
     const newUnavailableDate = unavailableDate.filter((uDate) => uDate !== dt)
     setUnavailableDate(newUnavailableDate)
     setUnavailableDates(newUnavailableDate)
+  }
+
+  const displaySchedule = () => {
+  
+    console.log('sched- ', displayResult)
+    if (displayResult.length > 0) setShowSchedule(true)
+    displayResult.map((sc) => {
+      const word = sc.startTime.split(':');
+      let meridiem1 = ''
+      console.log((word[0]))
+      if(parseInt(word[0]) > 12 ){
+      meridiem1 =" PM"}
+      else{
+      meridiem1 =" AM" }
+
+      const word1 = sc.endTime.split(':');
+      console.log((word1))
+      let meridiem2 = ''
+      if(parseInt(word1[0]) > 12 ){
+      meridiem2 =" PM"}
+      else{
+      meridiem2 =" AM" }
+     // const mer1 = parseInt(sc.startTime.split(':')[0]) > 12 ? 'PM' : 'AM'
+
+      scheduleResults.push({
+        id:uuid(),
+        day: sc.day,
+        startTime: sc.startTime + meridiem1,
+        endTime: sc.endTime + meridiem2,
+      })
+    })
+
+    // scheduleResults.map((st) => {
+    //   console.log(st.day)
+    //   console.log(st.startTime)
+    //   console.log(st.endTime)
+    // })
   }
 
   return (
@@ -192,6 +277,10 @@ const Schedule = () => {
                   authMode: 'AMAZON_COGNITO_USER_POOLS',
                 })
                 toast.success('Schedule updated successfully')
+                setDay('')
+                setStartTime('')
+                setEndTime('')
+                setDaySchedules([])
               } catch (error) {
                 debugger
                 toast.error(`Save Error:${error.errors[0].message}`)
@@ -326,7 +415,7 @@ const Schedule = () => {
                   ) : (
                     <div>
                       {/* <div className="w-full h-px bg-gray-200 border-0"></div> */}
-                      <div
+                      {/* <div
                         id="sundayId"
                         className=" flex flex-col md:flex-row  lg:flex-row w-full"
                       >
@@ -683,6 +772,69 @@ const Schedule = () => {
                           </div>
                         </div>
                       </div>
+                      <div></div> */}
+
+                      {/* <div className="w-full h-px bg-gray-200 border-0"></div> */}
+                      <div
+                        id="mondayId"
+                        className=" flex flex-col md:flex-row  lg:flex-row w-full"
+                      >
+                        <div className="basis-1/5">
+                          <div className="flex justify-start ml-5 md:ml-10 lg:ml-10 mt-10">
+                            <select
+                              className="px-8 py-3 top-1  text-lg right-1 bg-gray-100"
+                              value={values.day}
+                              name="day"
+                              onChange={handleDayChange}
+                            >
+                              <option value="Sunday">Sunday</option>
+                              <option value="Monday">Monday</option>
+                              <option value="Tuesday">Tuesday</option>
+                              <option value="Wednesday">Wednesday</option>
+                              <option value="Thrusday">Thursday</option>
+                              <option value="Friday">Friday</option>
+                              <option value="Saturday">Saturday</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="flex flex-row basis-2/3">
+                          <div className="basis-1/2 ml-5 mr-10">
+                            <span className="text-sm text-gray-900 font-normal">
+                              Start Time
+                            </span>
+                            <TextField
+                              id="day"
+                              type="time"
+                              value={values.startTime}
+                              onChangeValue={handleStartTimeChange}
+                              name="time"
+                              className="w-full"
+                            />
+                          </div>
+                          <div className="basis-1/2  mr-5">
+                            <span className="text-sm text-gray-900 font-normal">
+                              End Time
+                            </span>
+                            <TextField
+                              id="day"
+                              type="time"
+                              value={values.endTime}
+                              onChangeValue={handleEndTimeChange}
+                              name="endTime"
+                              className="w-full"
+                            />
+                          </div>
+                          <div className="basis-1/3  mr-5">
+                            <button
+                              type="button"
+                              onClick={addSchedule}
+                              className="mt-10 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-4 ml-10 border rounded"
+                            >
+                              Add schedule
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -739,6 +891,60 @@ const Schedule = () => {
                   </div>
                 </div>
               </div>
+                              
+              {/* show Availability */}
+              <div className="mt-10 md:m-10 lg:m-10 md:-mt-10 lg:-mt-10">
+                <div className="basis-1/2">
+                  <button
+                    type="button"
+                    onClick={displaySchedule}
+                    className="mt-10 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-4 ml-10 border rounded"
+                  >
+                    Show availability
+                  </button>
+                </div>
+              </div>
+             
+                
+            
+              <div className="m-20 w-full md:w-auto lg:w-auto  flex flex-row md:flex-row  lg:flex-row">
+                    <div className="basis-4/5 md:basis-3/5 lg:basis-3/5 bg-white py-5 rounded-lg">
+                      <div className=" flex flex-row md:flex-row  lg:flex-row w-full py-5">
+                        <div className="basis-1/3 flex justify-start items-start ml-10">
+                          <span className="text-sm text-gray-900 font-semibold ml-5">
+                            Day
+                          </span>
+                        </div>
+
+                        <div className="basis-1/3 flex justify-start items-start ml-10">
+                          <span className="text-sm text-gray-900 font-semibold ml-2">
+                            Availability time
+                          </span>
+                        </div>
+                      </div>
+                      <div className="w-full h-px bg-gray-200 border-0"></div>
+                      {showSchedule &&
+                        displayResult.map((sch) => (
+                          <div key={sch} className="px-5 py-3 text-lg ">
+                            <div className=" flex flex-row md:flex-row  lg:flex-row w-full">
+                            <div className="basis-1/3 flex justify-start items-start ml-10">
+                              <span className="text-sm text-gray-900 font-normal">
+                                {sch.day}
+                              </span>
+                            </div>
+
+                            <div className="basis-1/3 flex justify-start items-start ml-10">
+                              <span className="text-sm text-gray-900 font-normal">
+                              {sch.startTime} {'  to  '} {sch.endTime}
+                              </span>
+                            </div>
+                          </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div> 
+                
+            
             </form>
           )
         }}
