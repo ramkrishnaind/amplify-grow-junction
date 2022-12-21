@@ -198,6 +198,7 @@ type Packages
 type PackageServices {
   id: String
   text: String
+  title: String
   duration: String
   price : Float
 }

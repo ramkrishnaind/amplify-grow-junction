@@ -499,6 +499,7 @@ export const getPackages = /* GraphQL */ `
       packageServices {
         id
         text
+        title
         duration
         price
       }
@@ -531,9 +532,53 @@ export const listPackages = /* GraphQL */ `
         packageServices {
           id
           text
+          title
           duration
           price
         }
+        id
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getConfigurations = /* GraphQL */ `
+  query GetConfigurations($id: ID!) {
+    getConfigurations(id: $id) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listConfigurations = /* GraphQL */ `
+  query ListConfigurations(
+    $filter: ModelConfigurationsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listConfigurations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        timezone
+        username
+        calender
+        personalMeetingLink
+        bookingPeriod
+        bookingPeriodIn
+        noticePeriod
+        noticePeriodIn
         id
         createdAt
         updatedAt
@@ -1018,6 +1063,57 @@ export const timeSchedulesByMentorWeekScheduleId = /* GraphQL */ `
         createdAt
         updatedAt
         username
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getSchedule = /* GraphQL */ `
+  query GetSchedule($id: ID!) {
+    getSchedule(id: $id) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listSchedules = /* GraphQL */ `
+  query ListSchedules(
+    $filter: ModelScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSchedules(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        availableSameTime
+        username
+        unavailableDates {
+          id
+          date
+        }
+        daySchedules {
+          id
+          day
+          startTime
+          endTime
+        }
+        id
+        createdAt
+        updatedAt
         owner
       }
       nextToken

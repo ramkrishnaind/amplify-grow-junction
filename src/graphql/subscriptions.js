@@ -730,6 +730,7 @@ export const onCreatePackages = /* GraphQL */ `
       packageServices {
         id
         text
+        title
         duration
         price
       }
@@ -761,6 +762,7 @@ export const onUpdatePackages = /* GraphQL */ `
       packageServices {
         id
         text
+        title
         duration
         price
       }
@@ -792,6 +794,7 @@ export const onDeletePackages = /* GraphQL */ `
       packageServices {
         id
         text
+        title
         duration
         price
       }

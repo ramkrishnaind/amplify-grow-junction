@@ -114,6 +114,10 @@ const Packages = ({
   const [workshopResults, setWorkshopResults] = useState(null)
   const [textQueryResults, setTextQueryResults] = useState(null)
   const [coursesResults, setCoursesResults] = useState(null)
+  const [sessions, setSessions] = useState([])
+  const [workshops, setWorkshops] = useState([])
+  const [textQuerys, setTextQuerys] = useState([])
+  const [courses, setCourses] = useState([])
 
   const loadOneOnOne = async () => {
     try {
@@ -269,6 +273,24 @@ const Packages = ({
       console.log(fileUrl)
       await Storage.put(filename, e.target.files[0], {
         contentType: `text/${ext}`, // contentType is optional
+      })
+    }
+  }
+
+  const handleClick =(svr, title, duration, durationIn, finalPrice)=>{
+    debugger
+    console.log("service - ", svr)
+    console.log("sessionTitle -", title)
+    console.log("sessionDuration -", duration)
+    console.log("sessionDurationIn -", durationIn)
+    console.log("finalPrice -", finalPrice)
+    if(svr === '1 on 1 Session'){
+      sessions.push({
+        id: uuid(),
+        text: svr,
+        title: title,
+        duration: duration + ' ' + durationIn,
+        price: finalPrice,
       })
     }
   }
@@ -601,30 +623,19 @@ const Packages = ({
                   <div className="flex justify-start p-4 w-full">
                     {sessionResults !== null && sessionResults.length > 0 ? (
                       <div className="my-3 bg-white p-10">
-                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-0 w-full">
+                        <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-0 w-full">
                           {sessionResults.map((item, index) => {
                             return (
                               <div
                                 key={index}
-                                className="flex justify-center align-center mb-10 hover:shadow-[0px_22px_70px_4px_rgba(0,0,0,0.56)] "
+                                onClick={handleClick('1 on 1 Session',item.sessionTitle, item.sessionDuration, item.sessionDurationIn, item.finalPrice)}
+                                className="flex justify-center align-center mb-10  "
                               >
                                 <div
-                                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
+                                  className={` bg-white text-center border border-b-2 border-blue-600 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
                                 >
-                                  <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                                    <div className="flex justify-between p-2">
-                                      <img
-                                        src="../../../assets/icon/clock.png"
-                                        alt=""
-                                        className="w-3 h-3 mt-2"
-                                      ></img>
-                                      <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                                        1 on 1 mock interview
-                                      </span>
-                                    </div>
-                                  </div>
                                   <div className="flex flex-col">
-                                    <div className="flex justify-start text-black text-2xl font-semibold p-6">
+                                    <div className="flex justify-start text-black text-2xl font-semibold p-6 ">
                                       {item.sessionTitle}
                                     </div>
                                     <div className="flex items-center px-6 mr-5 min-w-[30%]">
@@ -662,13 +673,6 @@ const Packages = ({
                                       </span>
                                     </div>
                                     <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
-                                  </div>
-                                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
-                                    <button className="flex justify-center items-center hover:bg-gray-900 hover:text-white text-black border-2 broder-gray rounded-full w-full">
-                                      <span className="text-sm font-semibold py-3">
-                                        Add to package
-                                      </span>
-                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -693,7 +697,7 @@ const Packages = ({
                   <div className="flex justify-start p-4">
                     {workshopResults !== null && workshopResults.length > 0 ? (
                       <div className="my-3 bg-white p-10">
-                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-0 w-full">
+                        <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-0 w-full">
                           {workshopResults.map((item, index) => {
                             return (
                               <div
@@ -703,21 +707,9 @@ const Packages = ({
                                 <div
                                   className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
                                 >
-                                  <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                                    <div className="flex justify-between p-2">
-                                      <img
-                                        src="../../../assets/icon/clock.png"
-                                        alt=""
-                                        className="w-3 h-3 mt-2"
-                                      ></img>
-                                      <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                                        1 on 1 mock interview
-                                      </span>
-                                    </div>
-                                  </div>
                                   <div className="flex flex-col">
                                     <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                                      {item.sessionTitle}
+                                      {item.title}
                                     </div>
                                     <div className="flex items-center px-6 mr-5 min-w-[30%]">
                                       <img
@@ -754,13 +746,6 @@ const Packages = ({
                                       </span>
                                     </div>
                                     <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
-                                  </div>
-                                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
-                                    <button className="flex justify-center items-center hover:bg-gray-900 hover:text-white text-black border-2 broder-gray rounded-full w-full">
-                                      <span className="text-sm font-semibold py-3">
-                                        Add to package
-                                      </span>
-                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -786,7 +771,7 @@ const Packages = ({
                     {textQueryResults !== null &&
                     textQueryResults.length > 0 ? (
                       <div className="my-3 bg-white p-10">
-                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-0 w-full">
+                        <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-0 w-full">
                           {textQueryResults.map((item, index) => {
                             return (
                               <div
@@ -796,21 +781,9 @@ const Packages = ({
                                 <div
                                   className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
                                 >
-                                  <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                                    <div className="flex justify-between p-2">
-                                      <img
-                                        src="../../../assets/icon/clock.png"
-                                        alt=""
-                                        className="w-3 h-3 mt-2"
-                                      ></img>
-                                      <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                                        1 on 1 mock interview
-                                      </span>
-                                    </div>
-                                  </div>
                                   <div className="flex flex-col">
                                     <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                                      {item.sessionTitle}
+                                      {item.title}
                                     </div>
                                     <div className="flex items-center px-6 mr-5 min-w-[30%]">
                                       <img
@@ -847,13 +820,6 @@ const Packages = ({
                                       </span>
                                     </div>
                                     <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
-                                  </div>
-                                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
-                                    <button className="flex justify-center items-center hover:bg-gray-900 hover:text-white text-black border-2 broder-gray rounded-full w-full">
-                                      <span className="text-sm font-semibold py-3">
-                                        Add to package
-                                      </span>
-                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -878,7 +844,7 @@ const Packages = ({
                   <div className="flex justify-start p-4">
                     {coursesResults !== null && coursesResults.length > 0 ? (
                       <div className="my-3 bg-white p-10">
-                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-0 w-full">
+                        <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-0 w-full">
                           {coursesResults.map((item, index) => {
                             return (
                               <div
@@ -888,21 +854,9 @@ const Packages = ({
                                 <div
                                   className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
                                 >
-                                  <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                                    <div className="flex justify-between p-2">
-                                      <img
-                                        src="../../../assets/icon/clock.png"
-                                        alt=""
-                                        className="w-3 h-3 mt-2"
-                                      ></img>
-                                      <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                                        1 on 1 mock interview
-                                      </span>
-                                    </div>
-                                  </div>
                                   <div className="flex flex-col">
                                     <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                                      {item.sessionTitle}
+                                      {item.courseTitle}
                                     </div>
                                     <div className="flex items-center px-6 mr-5 min-w-[30%]">
                                       <img
@@ -939,13 +893,6 @@ const Packages = ({
                                       </span>
                                     </div>
                                     <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
-                                  </div>
-                                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
-                                    <button className="flex justify-center items-center hover:bg-gray-900 hover:text-white text-black border-2 broder-gray rounded-full w-full">
-                                      <span className="text-sm font-semibold py-3">
-                                        Add to package
-                                      </span>
-                                    </button>
                                   </div>
                                 </div>
                               </div>
