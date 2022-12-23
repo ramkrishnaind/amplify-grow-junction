@@ -17,11 +17,11 @@ import { listCourses } from '/src/graphql/queries'
 
 const AutoSubmitToken = ({
   setValues,
-  packageServices,
   hideService,
   limitParticipants,
   imageUrl,
   fileUrl,
+  packageServices,
 }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
@@ -29,11 +29,15 @@ const AutoSubmitToken = ({
   React.useEffect(() => {
     debugger
     console.log('context_values', values)
-    values.packageServices = packageServices
     values.limitParticipants = limitParticipants
     values.hideService = hideService
     values.packageImage = imageUrl
     values.uploadFile = fileUrl
+    // if (sessions.length > 0) packageServices.push(sessions)
+    // if (textQueries.length > 0) packageServices.push(textQueries)
+    // if (workshops.length > 0) packageServices.push(workshops)
+    // if (courses.length > 0) packageServices.push(courses)
+    values.packageServices = packageServices
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
@@ -110,16 +114,18 @@ const Packages = ({
     loadCourses()
   }, [])
 
-  const [sessionResults, setSessionResults] = useState(null)
+  const [sessionResults, setSessionResults] = useState([])
   const [workshopResults, setWorkshopResults] = useState(null)
   const [textQueryResults, setTextQueryResults] = useState(null)
   const [coursesResults, setCoursesResults] = useState(null)
   const [sessions, setSessions] = useState([])
   const [workshops, setWorkshops] = useState([])
-  const [textQuerys, setTextQuerys] = useState([])
+  const [textQueries, setTextQueries] = useState([])
   const [courses, setCourses] = useState([])
+  const [sessionState, setSessionState] = useState()
 
   const loadOneOnOne = async () => {
+   
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
@@ -128,10 +134,20 @@ const Packages = ({
           filter: { username: { contains: usr.username } },
         }),
       )
+       debugger
       if (results.data.listOneOnOnes.items.length > 0) {
         setSessionResults(results.data.listOneOnOnes.items)
         console.log('oneonone- ', sessionResults)
       }
+      // const sState = {
+      //   sessionResults: [
+      //     ...sessionResults.map((session) => {
+      //       return { ...session, selected: false }
+      //     }),
+      //   ],
+      // }
+      // sessionState.push(sState)
+      // console.log('sessionState - ', sessionState)
     } catch (error) {
       console.log(`Load Error:${error}`)
     }
@@ -227,7 +243,7 @@ const Packages = ({
   const [packageServices, setPackageServices] = useState([])
   const [imageUrl, setImageUrl] = useState()
   const [fileUrl, setFileUrl] = useState()
-  const[flag] = useState(false)
+  const [flag, setFlag] = useState(false)
 
   const handleFileInput = async (e) => {
     e.preventDefault()
@@ -277,22 +293,53 @@ const Packages = ({
     }
   }
 
-  const handleClick =(svr, title, duration, durationIn, finalPrice)=>{
+
+  const sessionState1 = {
+    sessionResults: [
+      ...sessionResults.map((session) => {
+        return { ...session, selected: false }
+      }),
+    ],
+  }
+  console.log('sessionState - ', sessionState1)
+   
+  const toggleSessionSelect = (index) =>{
     debugger
-    console.log("service - ", svr)
-    console.log("sessionTitle -", title)
-    console.log("sessionDuration -", duration)
-    console.log("sessionDurationIn -", durationIn)
-    console.log("finalPrice -", finalPrice)
-    if(svr === '1 on 1 Session'){
-      sessions.push({
-        id: uuid(),
-        text: svr,
-        title: title,
-        duration: duration + ' ' + durationIn,
-        price: finalPrice,
-      })
-    }
+    console.log("index - ", index)
+    const {sessionResults} = sessionState1
+    sessionResults[index].selected = !sessionResults[index].selected
+    setSessionResults(sessionResults)
+    setSessions({sessionResults})
+    sessionResults.map((s, idx) => {
+      //if(s[index  ].selected){
+        if(s.selected){
+        packageServices.push({
+          id: uuid(),
+          text: '1 on 1 Session',
+          title: s.sessionTitle,
+          duration: s.sessionDuration + ' ' + s.sessionDurationIn,
+          price: s.finalPrice
+        })
+      }
+     // }
+    })
+   
+   }
+
+  const [color, setColor] = useState('')
+  const handleClick = () => {
+    debugger
+    //setColor({ color: color === 'white' ? 'blue' : 'white' })
+    //console.log("index-", index)
+    setFlag(!flag ? true : false)
+  }
+
+  const handletest1 = () => {
+    console.log('test1')
+  }
+
+  const handletest2 = () => {
+    console.log('test2')
   }
 
   return (
@@ -306,6 +353,10 @@ const Packages = ({
             // alert(JSON.stringify(values, null, 2));
             setSubmitting(false)
           }, 400)
+          if (sessions.length > 0) packageServices.push(sessions)
+          if (textQueries.length > 0) packageServices.push(textQueries)
+          if (workshops.length > 0) packageServices.push(workshops)
+          if (courses.length > 0) packageServices.push(courses)
           values.packageServices = packageServices
           values.packageImage = imageUrl
           values.uploadFile = fileUrl
@@ -613,32 +664,41 @@ const Packages = ({
                 </div>
                 <div className="bg-white basis-2/5"></div>
               </div>
-              
-              <div className="bg-white w-full p-4">
+
+              <div className="flex flex-row">
+                <div onClick={handletest1} className="px-6 cursor-pointer">
+                  test1
+                </div>
+                <div onClick={handletest2} className="px-6">
+                  test2
+                </div>
+              </div>
+
+              <div className="bg-white w-auto p-4">
                 <div className="flex flex-col font-normal py-4 mb-5 mr-5 ml-5">
                   {/* session start */}
                   <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
                     Sessions
                   </div>
-                  <div className="flex justify-start p-4 w-full">
+                  <div className="flex justify-start p-4 w-auto">
                     {sessionResults !== null && sessionResults.length > 0 ? (
                       <div className="my-3 bg-white p-10">
-                        <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-0 w-full">
+                        <div className="flex flex-wrap w-full">
                           {sessionResults.map((item, index) => {
                             return (
                               <div
                                 key={index}
-                                onClick={handleClick('1 on 1 Session',item.sessionTitle, item.sessionDuration, item.sessionDurationIn, item.finalPrice)}
-                                className="flex justify-center align-center mb-10  "
+                                className="flex justify-center align-center w-1/2 md:w-auto lg:w-auto ml-5 border-2"
+                                onClick={() => toggleSessionSelect(index)}
                               >
                                 <div
-                                  className={` bg-white text-center border border-b-2 border-blue-600 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
+                                  className={`bg-white text-center rounded-2xl shadow-lg m-4 w-full border-2 border-blue-500 ${classes.itemContainer}`}
                                 >
                                   <div className="flex flex-col">
-                                    <div className="flex justify-start text-black text-2xl font-semibold p-6 ">
+                                    <div className="flex justify-start text-black text-2xl font-semibold px-4 py-2">
                                       {item.sessionTitle}
                                     </div>
-                                    <div className="flex items-center px-6 mr-5 min-w-[30%]">
+                                    <div className="flex items-center px-4 mr-5 min-w-[30%]">
                                       <img
                                         src="/assets/icon/mentor-dashboard/clock-two.svg"
                                         className="h-5 mr-5"
@@ -648,31 +708,15 @@ const Packages = ({
                                         {item.sessionDurationIn}
                                       </span>
                                     </div>
-                                    <div className="flex items-center  py-1 px-6 ">
+                                    <div className="flex items-center  py-1 px-4 ">
                                       <img
                                         src="/assets/icon/mentor-dashboard/price.svg"
                                         className="h-5 mr-5"
                                       />
                                       <span className="text-sm font-semibold py-3">
-                                        ₹
-                                        {item.listedPrice ===
-                                        item.finalPrice ? (
-                                          item.finalPrice
-                                        ) : (
-                                          <>
-                                            <span className="  text-red-800 bold">
-                                              <s className="bold">
-                                                {item.listedPrice}
-                                              </s>
-                                            </span>{' '}
-                                            <span className="bold">
-                                              {item.finalPrice}
-                                            </span>
-                                          </>
-                                        )}
+                                        ₹{item.finalPrice}
                                       </span>
                                     </div>
-                                    <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
                                   </div>
                                 </div>
                               </div>
@@ -694,224 +738,25 @@ const Packages = ({
                   <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
                     workshop
                   </div>
-                  <div className="flex justify-start p-4">
-                    {workshopResults !== null && workshopResults.length > 0 ? (
-                      <div className="my-3 bg-white p-10">
-                        <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-0 w-full">
-                          {workshopResults.map((item, index) => {
-                            return (
-                              <div
-                                key={index}
-                                className="flex justify-center align-center mb-10 hover:shadow-[0px_22px_70px_4px_rgba(0,0,0,0.56)]"
-                              >
-                                <div
-                                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
-                                >
-                                  <div className="flex flex-col">
-                                    <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                                      {item.title}
-                                    </div>
-                                    <div className="flex items-center px-6 mr-5 min-w-[30%]">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/clock-two.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        {item.sessionDuration}{' '}
-                                        {item.sessionDurationIn}
-                                      </span>
-                                    </div>
-                                    <div className="flex items-center  py-1 px-6 ">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/price.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        ₹
-                                        {item.listedPrice ===
-                                        item.finalPrice ? (
-                                          item.finalPrice
-                                        ) : (
-                                          <>
-                                            <span className="  text-red-800 bold">
-                                              <s className="bold">
-                                                {item.listedPrice}
-                                              </s>
-                                            </span>{' '}
-                                            <span className="bold">
-                                              {item.finalPrice}
-                                            </span>
-                                          </>
-                                        )}
-                                      </span>
-                                    </div>
-                                    <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          })}
-                        </div>
 
-                        {/* outer */}
-                      </div>
-                    ) : (
-                      <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
-                        No sessions found
-                      </div>
-                    )}
-                  </div>
                   {/*workshop  end */}
 
                   {/* TextQuery start */}
                   <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
                     TextQuery
                   </div>
-                  <div className="flex justify-start p-4">
-                    {textQueryResults !== null &&
-                    textQueryResults.length > 0 ? (
-                      <div className="my-3 bg-white p-10">
-                        <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-0 w-full">
-                          {textQueryResults.map((item, index) => {
-                            return (
-                              <div
-                                key={index}
-                                className="flex justify-center align-center mb-10 hover:shadow-[0px_22px_70px_4px_rgba(0,0,0,0.56)]"
-                              >
-                                <div
-                                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
-                                >
-                                  <div className="flex flex-col">
-                                    <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                                      {item.title}
-                                    </div>
-                                    <div className="flex items-center px-6 mr-5 min-w-[30%]">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/clock-two.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        {item.sessionDuration}{' '}
-                                        {item.sessionDurationIn}
-                                      </span>
-                                    </div>
-                                    <div className="flex items-center  py-1 px-6 ">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/price.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        ₹
-                                        {item.listedPrice ===
-                                        item.finalPrice ? (
-                                          item.finalPrice
-                                        ) : (
-                                          <>
-                                            <span className="  text-red-800 bold">
-                                              <s className="bold">
-                                                {item.listedPrice}
-                                              </s>
-                                            </span>{' '}
-                                            <span className="bold">
-                                              {item.finalPrice}
-                                            </span>
-                                          </>
-                                        )}
-                                      </span>
-                                    </div>
-                                    <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          })}
-                        </div>
 
-                        {/* outer */}
-                      </div>
-                    ) : (
-                      <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
-                        No sessions found
-                      </div>
-                    )}
-                  </div>
                   {/*TextQuery  end */}
 
                   {/* Courses start */}
                   <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
                     Courses
                   </div>
-                  <div className="flex justify-start p-4">
-                    {coursesResults !== null && coursesResults.length > 0 ? (
-                      <div className="my-3 bg-white p-10">
-                        <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-0 w-full">
-                          {coursesResults.map((item, index) => {
-                            return (
-                              <div
-                                key={index}
-                                className="flex justify-center align-center mb-10 hover:shadow-[0px_22px_70px_4px_rgba(0,0,0,0.56)]"
-                              >
-                                <div
-                                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
-                                >
-                                  <div className="flex flex-col">
-                                    <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                                      {item.courseTitle}
-                                    </div>
-                                    <div className="flex items-center px-6 mr-5 min-w-[30%]">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/clock-two.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        {item.sessionDuration}{' '}
-                                        {item.sessionDurationIn}
-                                      </span>
-                                    </div>
-                                    <div className="flex items-center  py-1 px-6 ">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/price.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        ₹
-                                        {item.listedPrice ===
-                                        item.finalPrice ? (
-                                          item.finalPrice
-                                        ) : (
-                                          <>
-                                            <span className="  text-red-800 bold">
-                                              <s className="bold">
-                                                {item.listedPrice}
-                                              </s>
-                                            </span>{' '}
-                                            <span className="bold">
-                                              {item.finalPrice}
-                                            </span>
-                                          </>
-                                        )}
-                                      </span>
-                                    </div>
-                                    <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          })}
-                        </div>
 
-                        {/* outer */}
-                      </div>
-                    ) : (
-                      <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
-                        No sessions found
-                      </div>
-                    )}
-                  </div>
                   {/*Courses  end */}
                 </div>
               </div>
-        
+
               <div className="w-full h-px bg-gray-300 border-0"></div>
               <AutoSubmitToken
                 setValues={setValues}
@@ -919,6 +764,7 @@ const Packages = ({
                 limitParticipants={limitParticipants}
                 packageImage={imageUrl}
                 uploadFile={fileUrl}
+                packageServices={packageServices}
               />
             </form>
           )
