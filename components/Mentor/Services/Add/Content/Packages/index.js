@@ -291,7 +291,7 @@ const Packages = ({
   const workshopState1 = {
     workshopResults: [
       ...workshopResults.map((workshop) => {
-        return { ...workshop, selected: false }
+        return { ...workshop }
       }),
     ],
   }
@@ -317,7 +317,7 @@ const Packages = ({
   const coursesState1 = {
     coursesResults: [
       ...coursesResults.map((course) => {
-        return { ...course, selected: false }
+        return { ...course}
       }),
     ],
   }
@@ -343,7 +343,7 @@ const Packages = ({
   const textQueryState1 = {
     textQueryResults: [
       ...textQueryResults.map((textQuery) => {
-        return { ...textQuery, selected: false }
+        return { ...textQuery }
       }),
     ],
   }
@@ -682,7 +682,6 @@ const Packages = ({
                       Select services added by you to create a package
                     </span>
                   </div>
-                  {/* todo - dynamic data comes from all service to be displayed here seems */}
 
                   <div className=" mt-5  bg-white"></div>
                 </div>
@@ -764,40 +763,39 @@ const Packages = ({
                           return (
                             <div
                               key={index}
-                              className="flex w-1/3 ml-2"
+                              className="flex relative w-1/3 m-5"
                               onClick={() => toggleWorkshopSelect(index)}
                             >
-                              <div
-                                className={
-                                  item.selected
-                                    ? `bg-white text-center rounded-2xl shadow-lg m-4 w-full border-2 border-blue-500 ${classes.itemContainer}`
-                                    : `bg-white text-center rounded-2xl shadow-lg m-4 w-full border-2 ${classes.itemContainer}`
-                                }
-                              >
-                                <div className="flex flex-col justify-center items-center p-2">
-                                  <div className="flex text-black text-2xl font-semibold px-4 py-2">
-                                    {item.title}
-                                  </div>
-                                  <div className="flex items-center">
-                                    <img
-                                      src="/assets/icon/mentor-dashboard/clock-two.svg"
-                                      className="h-5 mr-2"
-                                    />
-                                    <span className="text-sm font-semibold">
-                                      {item.callDuration} {item.callDurationIn}
-                                    </span>
-                                  </div>
-                                  <div className="flex items-center  py-1 px-2 ">
-                                    <img
-                                      src="/assets/icon/mentor-dashboard/price.svg"
-                                      className="h-5 mr-2"
-                                    />
-                                    <span className="text-sm font-semibold py-3">
-                                      ₹{item.finalPrice}
-                                    </span>
-                                  </div>
+                              <div className="flex flex-col justify-center items-center p-2  text-center rounded-2xl shadow-lg m-4 w-full border-2">
+                                <div className="flex text-black text-2xl font-semibold px-4 py-2">
+                                  {item.title}
+                                </div>
+                                <div className="flex items-center">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item.callDuration}{' '}
+                                    {item.callDurationIn}
+                                  </span>
+                                </div>
+                                <div className="flex items-center  py-1 px-2 ">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/price.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold py-3">
+                                    ₹{item.finalPrice}
+                                  </span>
                                 </div>
                               </div>
+                              {item.selected &&  <div 
+                                className={
+                                `absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`
+                                }
+                              ></div>}
+                             
                             </div>
                           )
                         })}
@@ -822,51 +820,48 @@ const Packages = ({
                 <div className="flex-wrap w-auto">
                   {coursesResults !== null && coursesResults.length > 0 ? (
                     <div className="my-3 bg-white p-2">
-                      <div className="flex flex-wrap w-auto">
+                          <div className="flex flex-wrap w-auto">
                         {coursesResults.map((item, index) => {
                           return (
                             <div
                               key={index}
-                              className="flex w-1/3 ml-2"
+                              className="flex relative w-1/3 m-5"
                               onClick={() => toggleCoursesSelect(index)}
                             >
-                              <div
-                                className={
-                                  item.selected
-                                    ? `bg-white text-center rounded-2xl shadow-lg m-4 w-full border-2 border-blue-500 ${classes.itemContainer}`
-                                    : `bg-white text-center rounded-2xl shadow-lg m-4 w-full border-2 ${classes.itemContainer}`
-                                }
-                              >
-                                <div className="flex flex-col justify-center items-center p-2">
-                                  <div className="flex text-black text-2xl font-semibold px-4 py-2">
-                                    {item.courseTitle}
-                                  </div>
-                                  <div className="flex items-center">
-                                    <img
-                                      src="/assets/icon/mentor-dashboard/clock-two.svg"
-                                      className="h-5 mr-2"
-                                    />
-                                    <span className="text-sm font-semibold">
-                                      {item.sessionDuration}{' '}
-                                      {item.sessionDurationIn}
-                                    </span>
-                                  </div>
-                                  <div className="flex items-center  py-1 px-2 ">
-                                    <img
-                                      src="/assets/icon/mentor-dashboard/price.svg"
-                                      className="h-5 mr-2"
-                                    />
-                                    <span className="text-sm font-semibold py-3">
-                                      ₹{item.finalPrice}
-                                    </span>
-                                  </div>
+                              <div className="flex flex-col justify-center items-center p-2  text-center rounded-2xl shadow-lg m-4 w-full border-2">
+                                <div className="flex text-black text-2xl font-semibold px-4 py-2">
+                                  {item.courseTitle}
+                                </div>
+                                <div className="flex items-center">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item.sessionDuration}{' '}
+                                    {item.sessionDurationIn}
+                                  </span>
+                                </div>
+                                <div className="flex items-center  py-1 px-2 ">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/price.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold py-3">
+                                    ₹{item.finalPrice}
+                                  </span>
                                 </div>
                               </div>
+                              {item.selected &&  <div 
+                                className={
+                                `absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`
+                                }
+                              ></div>}
+                             
                             </div>
                           )
                         })}
                       </div>
-
                       {/* outer */}
                     </div>
                   ) : (
@@ -886,50 +881,48 @@ const Packages = ({
                 <div className="flex-wrap w-auto">
                   {textQueryResults !== null && textQueryResults.length > 0 ? (
                     <div className="my-3 bg-white p-2">
-                      <div className="flex flex-wrap w-auto">
+                                            <div className="flex flex-wrap w-auto">
                         {textQueryResults.map((item, index) => {
                           return (
                             <div
                               key={index}
-                              className="flex w-1/3 ml-2"
+                              className="flex relative w-1/3 m-5"
                               onClick={() => toggleTextQuerySelect(index)}
                             >
-                              <div
-                                className={
-                                  item.selected
-                                    ? `bg-white text-center rounded-2xl shadow-lg m-4 w-full border-2 border-blue-500 ${classes.itemContainer}`
-                                    : `bg-white text-center rounded-2xl shadow-lg m-4 w-full border-2 ${classes.itemContainer}`
-                                }
-                              >
-                                <div className="flex flex-col justify-center items-center p-2">
-                                  <div className="flex text-black text-2xl font-semibold px-4 py-2">
-                                    {item.title}
-                                  </div>
-                                  <div className="flex items-center">
-                                    <img
-                                      src="/assets/icon/mentor-dashboard/clock-two.svg"
-                                      className="h-5 mr-2"
-                                    />
-                                    <span className="text-sm font-semibold">
-                                      {item.responseTime} {item.responseTimeIn}
-                                    </span>
-                                  </div>
-                                  <div className="flex items-center  py-1 px-2 ">
-                                    <img
-                                      src="/assets/icon/mentor-dashboard/price.svg"
-                                      className="h-5 mr-2"
-                                    />
-                                    <span className="text-sm font-semibold py-3">
-                                      ₹{item.finalPrice}
-                                    </span>
-                                  </div>
+                              <div className="flex flex-col justify-center items-center p-2  text-center rounded-2xl shadow-lg m-4 w-full border-2">
+                                <div className="flex text-black text-2xl font-semibold px-4 py-2">
+                                  {item.title}
+                                </div>
+                                <div className="flex items-center">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item.responseTime}{' '}
+                                    {item.responseTimeIn}
+                                  </span>
+                                </div>
+                                <div className="flex items-center  py-1 px-2 ">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/price.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold py-3">
+                                    ₹{item.finalPrice}
+                                  </span>
                                 </div>
                               </div>
+                              {item.selected &&  <div 
+                                className={
+                                `absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`
+                                }
+                              ></div>}
+                             
                             </div>
                           )
                         })}
                       </div>
-
                       {/* outer */}
                     </div>
                   ) : (
