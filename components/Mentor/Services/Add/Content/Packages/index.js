@@ -128,7 +128,6 @@ const Packages = ({
   const [limitParticipants, setLimitParticipants] = useState(true)
   const toggleClass = ' transform translate-x-5'
 
-  
   // const [questionType, setQuestionType] = useState(items[0])
   // const [state, setState] = useState(initialState)
   // const [question, setQuestion] = useState('')
@@ -140,7 +139,7 @@ const Packages = ({
   const items = ['Text', 'Upload (Pdf,jpeg)']
 
   const loadOneOnOne = async () => {
-   try {
+    try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
       const results = await API.graphql(
@@ -213,7 +212,6 @@ const Packages = ({
     }
   }
 
-  
   const handleFileInput = async (e) => {
     e.preventDefault()
     debugger
@@ -262,21 +260,21 @@ const Packages = ({
     }
   }
 
-  const sessionState1 = {
-    sessionResults: [
+  const sessionState1 =()=> {
+   return ({sessionResults: [
       ...sessionResults.map((session) => {
-        return { ...session, selected: false }
+        return { ...session }
       }),
-    ],
+    ],})
   }
 
   const toggleSessionSelect = (index) => {
     debugger
     console.log('index - ', index)
-    const { sessionResults } = sessionState1
+    const { sessionResults } = sessionState1()
     sessionResults[index].selected = !sessionResults[index].selected
     setSessionResults(sessionResults)
-    setSessions( sessionResults )
+    setSessions(sessionResults)
     sessionResults.map((s, idx) => {
       if (s.selected) {
         packageServices.push({
@@ -302,7 +300,7 @@ const Packages = ({
     const { workshopResults } = workshopState1
     workshopResults[index].selected = !workshopResults[index].selected
     setWorkshopResults(workshopResults)
-    setWorkshops( workshopResults )
+    setWorkshops(workshopResults)
     workshopResults.map((s, idx) => {
       if (s.selected) {
         packageServices.push({
@@ -328,7 +326,7 @@ const Packages = ({
     const { coursesResults } = coursesState1
     coursesResults[index].selected = !coursesResults[index].selected
     setCoursesResults(coursesResults)
-    setCourses( coursesResults )
+    setCourses(coursesResults)
     coursesResults.map((s, idx) => {
       if (s.selected) {
         packageServices.push({
@@ -354,7 +352,7 @@ const Packages = ({
     const { textQueryResults } = textQueryState1
     textQueryResults[index].selected = !textQueryResults[index].selected
     setTextQueryResults(textQueryResults)
-    setTextQueries( textQueryResults )
+    setTextQueries(textQueryResults)
     textQueryResults.map((s, idx) => {
       if (s.selected) {
         packageServices.push({
@@ -704,41 +702,39 @@ const Packages = ({
                           return (
                             <div
                               key={index}
-                              className="flex w-1/3 ml-2"
+                              className="flex relative w-1/3 m-5"
                               onClick={() => toggleSessionSelect(index)}
                             >
-                              <div
-                                className={
-                                  item.selected
-                                    ? `bg-white text-center rounded-2xl shadow-lg m-4 w-full border-2 border-blue-500 ${classes.itemContainer}`
-                                    : `bg-white text-center rounded-2xl shadow-lg m-4 w-full border-2 ${classes.itemContainer}`
-                                }
-                              >
-                                <div className="flex flex-col justify-center items-center p-2">
-                                  <div className="flex text-black text-2xl font-semibold px-4 py-2">
-                                    {item.sessionTitle}
-                                  </div>
-                                  <div className="flex items-center">
-                                    <img
-                                      src="/assets/icon/mentor-dashboard/clock-two.svg"
-                                      className="h-5 mr-2"
-                                    />
-                                    <span className="text-sm font-semibold">
-                                      {item.sessionDuration}{' '}
-                                      {item.sessionDurationIn}
-                                    </span>
-                                  </div>
-                                  <div className="flex items-center  py-1 px-2 ">
-                                    <img
-                                      src="/assets/icon/mentor-dashboard/price.svg"
-                                      className="h-5 mr-2"
-                                    />
-                                    <span className="text-sm font-semibold py-3">
-                                      ₹{item.finalPrice}
-                                    </span>
-                                  </div>
+                              <div className="flex flex-col justify-center items-center p-2  text-center rounded-2xl shadow-lg m-4 w-full border-2">
+                                <div className="flex text-black text-2xl font-semibold px-4 py-2">
+                                  {item.sessionTitle}
+                                </div>
+                                <div className="flex items-center">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item.sessionDuration}{' '}
+                                    {item.sessionDurationIn}
+                                  </span>
+                                </div>
+                                <div className="flex items-center  py-1 px-2 ">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/price.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold py-3">
+                                    ₹{item.finalPrice}
+                                  </span>
                                 </div>
                               </div>
+                              {item.selected &&  <div 
+                                className={
+                                `absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`
+                                }
+                              ></div>}
+                             
                             </div>
                           )
                         })}
@@ -754,7 +750,6 @@ const Packages = ({
                 </div>
                 {/*session  end */}
               </div>
-
 
               <div className="bg-white w-auto">
                 {/* workshop start */}
@@ -789,8 +784,7 @@ const Packages = ({
                                       className="h-5 mr-2"
                                     />
                                     <span className="text-sm font-semibold">
-                                      {item.callDuration}{' '}
-                                      {item.callDurationIn}
+                                      {item.callDuration} {item.callDurationIn}
                                     </span>
                                   </div>
                                   <div className="flex items-center  py-1 px-2 ">
@@ -917,8 +911,7 @@ const Packages = ({
                                       className="h-5 mr-2"
                                     />
                                     <span className="text-sm font-semibold">
-                                      {item.responseTime}{' '}
-                                      {item.responseTimeIn}
+                                      {item.responseTime} {item.responseTimeIn}
                                     </span>
                                   </div>
                                   <div className="flex items-center  py-1 px-2 ">
