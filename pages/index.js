@@ -22,6 +22,13 @@ const Home = () => {
   const [isLoggedin, setIsLoggedIn] = useState(false)
   const { width, height } = useWindowDimensions()
   const dispatch = useDispatch()
+  const getUser = async () => {
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      setIsLoggedIn(!!usr?.username)
+      if (usr) setUser(usr)
+    } catch {}
+  }
   const authListener = async () => {
     Hub.listen('auth', (data) => {
       debugger
@@ -55,6 +62,7 @@ const Home = () => {
 
     authListener()
     fetchTodos()
+    getUser()
   }, [])
   return (
     <>

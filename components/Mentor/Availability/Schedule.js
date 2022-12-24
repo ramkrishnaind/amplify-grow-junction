@@ -26,7 +26,7 @@ const Schedule = () => {
     unavailableDates: [],
     daySchedules: [],
   }
-
+  // const dateRef = useRef()
   const [state, setState] = useState(initialState)
   const [isNew, setIsNew] = useState(true)
   const [usrName, setUsrName] = useState('')
@@ -41,6 +41,7 @@ const Schedule = () => {
   const [selectedDay, setSelectedDay] = useState('')
   const [isAddRow, setIsAddRow] = useState(false)
   const [unavailableDate, setUnavailableDate] = useState([])
+  const [unavailableDateValues, setUnavailableDateValues] = useState([])
   const [unavailableDates, setUnavailableDates] = useState([])
   const [visible, setVisible] = useState(false)
 
@@ -181,22 +182,34 @@ const Schedule = () => {
     setWeekDay('')
   }
   const handleDate = (date) => {
+    debugger
+    // console.log('AA', dateRef.current.value)
     console.log('length -', date.length)
+    const datesUnAvailable = []
+    const dateUnAvailable = []
     date.map((v) => {
+      debugger
       const dt = v.day + '/' + v.month.number + '/' + v.year
-      const found = unavailableDate.find((date) => date === dt)
-      if (!found) {
-        unavailableDate.push(v.day + '/' + v.month.number + '/' + v.year)
-        const date = v.day + '/' + v.month.number + '/' + v.year
-        unavailableDates.push({
-          id: uuid(),
-          date: date,
-        })
-      }
+      // const found = unavailableDate.find((date) => date === dt)
+      // if (!found) {
+      dateUnAvailable.push(v.day + '/' + v.month.number + '/' + v.year)
+
+      const date = v.day + '/' + v.month.number + '/' + v.year
+      // unavailableDates.push({
+      //   id: uuid(),
+      //   date: date,
+      // })
+      datesUnAvailable.push({
+        id: uuid(),
+        date: date,
+      })
+      // }
 
       console.log('unavailableDate -  ', unavailableDate)
       setVisible(false)
     })
+    setUnavailableDates(datesUnAvailable)
+    setUnavailableDate(dateUnAvailable)
     //console.log("dates - ", values)
   }
 
@@ -229,8 +242,12 @@ const Schedule = () => {
     // setDay('')
   }
   const handleRemoveDate = (dt) => {
-    // debugger
+    debugger
     const newUnavailableDate = unavailableDate.filter((uDate) => uDate !== dt)
+    const newUnavailableDateValues = unavailableDateValues.filter(
+      (v) => v.day + '/' + v.month.number + '/' + v.year != dt,
+    )
+    setUnavailableDateValues(newUnavailableDateValues)
     setUnavailableDate(newUnavailableDate)
     setUnavailableDates(newUnavailableDate)
   }
@@ -903,10 +920,15 @@ const Schedule = () => {
                         </span>
                         <DatePicker
                           render={<Icon />}
+                          // ref={dateRef}
                           multiple
-                          value={values}
+                          // value={values}
+                          value={unavailableDateValues}
                           minDate={new Date()}
-                          onChange={(date) => handleDate(date)}
+                          onChange={(date) => {
+                            setUnavailableDateValues(date)
+                            handleDate(date)
+                          }}
                           onClose={setVisible(true)}
                         />
                       </div>
