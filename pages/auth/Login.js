@@ -102,7 +102,12 @@ const Login = (props) => {
   const registerType = useSelector((state) => state.AuthReducer)
   useEffect(() => {
     setIsLocalState(!!(window.location.hostname === 'localhost'))
+    debugger
+    // Auth.signOut().then(() => {})
   }, [])
+  const handleSignout = async () => {
+    await Auth.signOut()
+  }
   // useEffect(() => {
   //   if (isLocalhost) {
   //     debugger
@@ -130,7 +135,7 @@ const Login = (props) => {
   // }, [isLocalhost])
   useEffect(() => {
     const unsubscribe = Hub.listen('auth', ({ payload: { event, data } }) => {
-      debugger
+      // debugger
       switch (event) {
         case 'signIn':
           StoreUserAuth(dispatch, data)
@@ -398,6 +403,23 @@ const Login = (props) => {
                     //     window.open('https://www.codexworld.com/', '_self')
                     //   }}
                   />
+                  <Button
+                    label="Sign-out"
+                    type="button"
+                    styleOverride={{
+                      height: 62,
+                      backgroundColor: color.btnColor,
+                      color: color.blackVariant,
+                      marginTop: 40,
+                      fontSize: 16,
+                    }}
+                    loader={loader}
+                    onClick={handleSignout}
+                    //   onClick={() => {
+                    //     // router.prefetch('www.google.com')
+                    //     window.open('https://www.codexworld.com/', '_self')
+                    //   }}
+                  />
                   <div className="flex ">
                     <Button
                       label="Google"
@@ -440,7 +462,12 @@ const Login = (props) => {
                         marginLeft: 10,
                       }}
                       loader={loader}
-                      onClick={() => {}}
+                      onClick={() => {
+                        window.open(
+                          'https://testamplifyapia67ec0db-a67ec0db-dev.auth.us-east-1.amazoncognito.com/login?client_id=554a3mfldgkttk71c7n306q3mc&response_type=code&scope=email+openid+profile&redirect_uri=http://localhost:3000/',
+                          '_blank',
+                        )
+                      }}
                       //   onClick={() => {
                       //     // router.prefetch('www.google.com')
                       //     window.open('https://www.codexworld.com/', '_self')

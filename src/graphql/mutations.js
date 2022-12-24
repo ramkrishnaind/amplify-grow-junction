@@ -711,6 +711,7 @@ export const createPackages = /* GraphQL */ `
       packageServices {
         id
         text
+        title
         duration
         price
       }
@@ -741,6 +742,7 @@ export const updatePackages = /* GraphQL */ `
       packageServices {
         id
         text
+        title
         duration
         price
       }
@@ -771,9 +773,73 @@ export const deletePackages = /* GraphQL */ `
       packageServices {
         id
         text
+        title
         duration
         price
       }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const createConfigurations = /* GraphQL */ `
+  mutation CreateConfigurations(
+    $input: CreateConfigurationsInput!
+    $condition: ModelConfigurationsConditionInput
+  ) {
+    createConfigurations(input: $input, condition: $condition) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updateConfigurations = /* GraphQL */ `
+  mutation UpdateConfigurations(
+    $input: UpdateConfigurationsInput!
+    $condition: ModelConfigurationsConditionInput
+  ) {
+    updateConfigurations(input: $input, condition: $condition) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deleteConfigurations = /* GraphQL */ `
+  mutation DeleteConfigurations(
+    $input: DeleteConfigurationsInput!
+    $condition: ModelConfigurationsConditionInput
+  ) {
+    deleteConfigurations(input: $input, condition: $condition) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
       id
       createdAt
       updatedAt
@@ -1425,6 +1491,81 @@ export const deleteTimeSchedule = /* GraphQL */ `
       createdAt
       updatedAt
       username
+      owner
+    }
+  }
+`;
+export const createSchedule = /* GraphQL */ `
+  mutation CreateSchedule(
+    $input: CreateScheduleInput!
+    $condition: ModelScheduleConditionInput
+  ) {
+    createSchedule(input: $input, condition: $condition) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updateSchedule = /* GraphQL */ `
+  mutation UpdateSchedule(
+    $input: UpdateScheduleInput!
+    $condition: ModelScheduleConditionInput
+  ) {
+    updateSchedule(input: $input, condition: $condition) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deleteSchedule = /* GraphQL */ `
+  mutation DeleteSchedule(
+    $input: DeleteScheduleInput!
+    $condition: ModelScheduleConditionInput
+  ) {
+    deleteSchedule(input: $input, condition: $condition) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
       owner
     }
   }

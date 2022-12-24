@@ -2,17 +2,20 @@ import React from 'react'
 import RightSideImages from './RightSideImages'
 import classes from './Dashboard.module.css'
 import { useRouter } from 'next/router'
+import { Auth, Hub } from 'aws-amplify'
 import { RegisterTypeRequest } from '../../redux/actions/AuthAction'
 import { useDispatch } from 'react-redux'
 
-const Dashboard = () => {
+const Dashboard = ({ isLoggedin }) => {
   const router = useRouter()
   const dispatch = useDispatch()
   return (
     <section className={classes.main}>
       <header className={`flex-col md:flex-row ${classes.header}`}>
         <div className={classes.logo}></div>
-        <div className={`flex-col md:flex-row cursor-pointer ${classes['right-side']}`}>
+        <div
+          className={`flex-col md:flex-row cursor-pointer ${classes['right-side']}`}
+        >
           <a
             className={classes.link}
             onClick={() => {
@@ -34,11 +37,11 @@ const Dashboard = () => {
           </a>
           <a
             className={classes.button}
-            onClick={() => {
-              router.push('/auth/Login')
+            onClick={async () => {
+              isLoggedin ? await Auth.signOut() : router.push('/auth/Login')
             }}
           >
-            Log In
+            {isLoggedin ? 'Log out' : 'Log In'}
           </a>
         </div>
       </header>

@@ -730,6 +730,7 @@ export const onCreatePackages = /* GraphQL */ `
       packageServices {
         id
         text
+        title
         duration
         price
       }
@@ -761,6 +762,7 @@ export const onUpdatePackages = /* GraphQL */ `
       packageServices {
         id
         text
+        title
         duration
         price
       }
@@ -792,9 +794,88 @@ export const onDeletePackages = /* GraphQL */ `
       packageServices {
         id
         text
+        title
         duration
         price
       }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateConfigurations = /* GraphQL */ `
+  subscription OnCreateConfigurations(
+    $filter: ModelSubscriptionConfigurationsFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateConfigurations(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateConfigurations = /* GraphQL */ `
+  subscription OnUpdateConfigurations(
+    $filter: ModelSubscriptionConfigurationsFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateConfigurations(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteConfigurations = /* GraphQL */ `
+  subscription OnDeleteConfigurations(
+    $filter: ModelSubscriptionConfigurationsFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteConfigurations(
+      filter: $filter
+      username: $username
+      owner: $owner
+    ) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
       id
       createdAt
       updatedAt
@@ -1494,6 +1575,84 @@ export const onDeleteTimeSchedule = /* GraphQL */ `
       createdAt
       updatedAt
       username
+      owner
+    }
+  }
+`;
+export const onCreateSchedule = /* GraphQL */ `
+  subscription OnCreateSchedule(
+    $filter: ModelSubscriptionScheduleFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onCreateSchedule(filter: $filter, username: $username, owner: $owner) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateSchedule = /* GraphQL */ `
+  subscription OnUpdateSchedule(
+    $filter: ModelSubscriptionScheduleFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onUpdateSchedule(filter: $filter, username: $username, owner: $owner) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteSchedule = /* GraphQL */ `
+  subscription OnDeleteSchedule(
+    $filter: ModelSubscriptionScheduleFilterInput
+    $username: String
+    $owner: String
+  ) {
+    onDeleteSchedule(filter: $filter, username: $username, owner: $owner) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
       owner
     }
   }
