@@ -19,14 +19,14 @@ type Todo
 
 type DemoSkillsList
   @model
-  @auth(rules: [{ allow: public, operations: [read, create, delete] }]) {
+  @auth(rules: [{ allow: public, operations: [read, create] }]) {
   id: ID!
   value: String!
 }
 
 type DomainInterestedList
   @model
-  @auth(rules: [{ allow: public, operations: [read, create, delete] }]) {
+  @auth(rules: [{ allow: public, operations: [read, create] }]) {
   id: ID!
   value: String!
 }
@@ -198,8 +198,27 @@ type Packages
 type PackageServices {
   id: String
   text: String
+  title: String
   duration: String
-  price: Float
+  price : Float
+}
+type Configurations
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create, delete] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  timezone: String
+  username: String
+  calender: String
+  personalMeetingLink: String
+  bookingPeriod: Int
+  bookingPeriodIn: String
+  noticePeriod: Int
+  noticePeriodIn: String
 }
 type MentorRegister
   @model
@@ -309,4 +328,28 @@ type timeSchedule
   endTimeMeridian: String!
   leftMeridianDropDown: Boolean
   rightMeridianDropDown: Boolean
+}
+type Schedule
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create, delete] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  availableSameTime: Boolean
+  username: String
+  unavailableDates: [UnavailableDates]
+  daySchedules: [DaySchedules]
+}
+type DaySchedules {
+  id: String
+  day: String
+  startTime: String
+  endTime: String
+}
+type UnavailableDates {
+  id: String
+  date: String
 }
