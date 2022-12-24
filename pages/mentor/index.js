@@ -18,4 +18,4 @@ const Mentor = ({ children }) => {
   )
 }
 
-export default withAuthenticator(Mentor)
+export default Mentor

@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import React, { useState } from 'react'
-import { Formik, useFormikContext } from 'formik'
-import TimezoneSelect, { allTimezones } from 'react-timezone-select'
-import TextField from '../../../pages/ui-kit/TextField'
-=======
 import React, { useState, useEffect } from 'react'
 import { Formik, useFormikContext } from 'formik'
 import TimezoneSelect, { allTimezones } from 'react-timezone-select'
@@ -21,27 +15,12 @@ import { listSchedules } from '../../../src/graphql/queries'
 import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
 import { toast } from 'react-toastify'
->>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
 
 const Schedule = () => {
   const [timeZone, setTimeZone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   )
 
-<<<<<<< HEAD
-  return (
-    <>
-      <Formik
-        initialValues={{}}
-        onSubmit={(values, e) => {
-          const { setSubmitting } = e
-          setTimeout(() => {
-            setSubmitting(false)
-          }, 400)
-          setProfileState(values)
-        }}
-        enableReinitialize={true}
-=======
   const initialState = {
     availableSameTime: false,
     unavailableDates: [],
@@ -67,13 +46,19 @@ const Schedule = () => {
 
   const [isChecked, setIsChecked] = useState(false)
   const [isEdayChecked, setIsEdayChecked] = useState(false)
-  const days = ["Sunday", "Monday", "Tueday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const days = [
+    'Sunday',
+    'Monday',
+    'Tueday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ]
 
-
-
-  useEffect(() => {
-    getUser()
-  }, [])
+  // useEffect(() => {
+  //   getUser()
+  // }, [])
 
   const getUser = async () => {
     try {
@@ -113,7 +98,6 @@ const Schedule = () => {
     const keys = ['availableSameTime', 'unavailableDates', 'daySchedules']
   }, [state])
 
-
   const handleStartTimeChange = (e) => {
     debugger
     setStartTime(e.target.value)
@@ -125,9 +109,9 @@ const Schedule = () => {
     setWeekDay(e.target.id)
     const day = e.target.id
     const endTime = e.target.value
-    console.log("endTime = ", endTime);
+    console.log('endTime = ', endTime)
 
-    if (startTime !== '' && endTime !== '' && day !== '' ) {
+    if (startTime !== '' && endTime !== '' && day !== '') {
       const found = daySchedules.find(
         (item) =>
           item.startTime === startTime &&
@@ -145,7 +129,7 @@ const Schedule = () => {
     }
     setAvailableSameTime(true)
     setStartTime('')
-   // setEndTime('')
+    // setEndTime('')
     setWeekDay('')
   }
   const addDaySchedule = () => {
@@ -344,7 +328,6 @@ const Schedule = () => {
             console.log('error-', e)
           }
         }}
->>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
       >
         {({
           values,
@@ -371,10 +354,7 @@ const Schedule = () => {
                         type="button"
                         onClick={(e) => {
                           e.preventDefault()
-<<<<<<< HEAD
-=======
                           addDaySchedule
->>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
                           handleSubmit(e)
                         }}
                         className="mt-2 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6 ml-10 border rounded"
@@ -393,9 +373,6 @@ const Schedule = () => {
                   </div>
                   <div className="text-gray-900 text-base font-semibold mt-1">
                     <div className="flex items-center">
-<<<<<<< HEAD
-                      <input type="checkbox" className="mr-3"></input>
-=======
                       <input
                         type="checkbox"
                         className="mr-3"
@@ -403,7 +380,6 @@ const Schedule = () => {
                         name="allDaysSameTime"
                         onChange={() => setIsChecked((prev) => !prev)}
                       ></input>
->>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
                       <span className="text-sm">
                         I’m Available same time everyday
                       </span>
@@ -413,280 +389,6 @@ const Schedule = () => {
               </div>
               <div className="mt-10 md:m-20 lg:m-20 md:-mt-10 lg:-mt-10 w-full md:w-auto lg:w-auto  flex flex-col md:flex-row  lg:flex-row">
                 <div className="basis-3/5 bg-white py-4 rounded-lg">
-<<<<<<< HEAD
-                  <div className=" flex flex-col md:flex-row  lg:flex-row w-full">
-                    <div className="basis-1/3">
-                      <div className="flex justify-center items-center mt-10">
-                        <input type="checkbox" className="mr-3"></input>
-                        <span className="text-xl font-semibold text-gray-900">
-                          Sunday
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-row basis-2/3">
-                      <div className="basis-1/2 ml-5 mr-10">
-                        <span className="text-sm text-gray-900 font-normal">
-                          Start Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                      <div className="basis-1/2  mr-5">
-                        <span className="text-sm text-gray-900 font-normal">
-                          End Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full h-px bg-gray-200 border-0"></div>
-                  <div className=" flex flex-col md:flex-row  lg:flex-row w-full">
-                    <div className="basis-1/3">
-                      <div className="flex justify-center items-center mt-10">
-                        <input type="checkbox" className="mr-3"></input>
-                        <span className="text-xl font-semibold text-gray-900">
-                          Monday
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-row basis-2/3">
-                      <div className="basis-1/2  ml-5 mr-10">
-                        <span className="text-sm text-gray-900 font-normal">
-                          Start Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                      <div className="basis-1/2  mr-5">
-                        <span className="text-sm text-gray-900 font-normal">
-                          End Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full h-px bg-gray-200 border-0"></div>
-                  <div className=" flex flex-col md:flex-row  lg:flex-row w-full">
-                    <div className="basis-1/3">
-                      <div className="flex justify-center items-center mt-10">
-                        <input type="checkbox" className="mr-3"></input>
-                        <span className="text-xl font-semibold text-gray-900">
-                          Tuesday
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-row basis-2/3">
-                      <div className="basis-1/2  ml-5  mr-10">
-                        <span className="text-sm text-gray-900 font-normal">
-                          Start Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                      <div className="basis-1/2  mr-5">
-                        <span className="text-sm text-gray-900 font-normal">
-                          End Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full h-px bg-gray-200 border-0"></div>
-                  <div className=" flex flex-col md:flex-row  lg:flex-row w-full">
-                    <div className="basis-1/3">
-                      <div className="flex justify-center items-center mt-10">
-                        <input type="checkbox" className="mr-3"></input>
-                        <span className="text-xl font-semibold text-gray-900">
-                          Wednesday
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-row basis-2/3">
-                      <div className="basis-1/2  ml-5 mr-10">
-                        <span className="text-sm text-gray-900 font-normal">
-                          Start Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                      <div className="basis-1/2  mr-5">
-                        <span className="text-sm text-gray-900 font-normal">
-                          End Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full h-px bg-gray-200 border-0"></div>
-                  <div className=" flex flex-col md:flex-row  lg:flex-row w-full">
-                    <div className="basis-1/3">
-                      <div className="flex justify-center items-center mt-10">
-                        <input type="checkbox" className="mr-3"></input>
-                        <span className="text-xl font-semibold text-gray-900">
-                          Thursday
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-row basis-2/3">
-                      <div className="basis-1/2  ml-5 mr-10">
-                        <span className="text-sm text-gray-900 font-normal">
-                          Start Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                      <div className="basis-1/2  mr-5">
-                        <span className="text-sm text-gray-900 font-normal">
-                          End Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full h-px bg-gray-200 border-0"></div>
-                  <div className=" flex flex-col md:flex-row  lg:flex-row w-full">
-                    <div className="basis-1/3">
-                      <div className="flex justify-center items-center mt-10">
-                        <input type="checkbox" className="mr-3"></input>
-                        <span className="text-xl font-semibold text-gray-900">
-                          Friday
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-row basis-2/3">
-                      <div className="basis-1/2  ml-5 mr-10">
-                        <span className="text-sm text-gray-900 font-normal">
-                          Start Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                      <div className="basis-1/2  mr-5">
-                        <span className="text-sm text-gray-900 font-normal">
-                          End Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full h-px bg-gray-200 border-0"></div>
-                  <div className=" flex flex-col md:flex-row  lg:flex-row w-full">
-                    <div className="basis-1/3">
-                      <div className="flex justify-center items-center mt-10">
-                        <input type="checkbox" className="mr-3"></input>
-                        <span className="text-xl font-semibold text-gray-900">
-                          Saturday
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-row basis-2/3">
-                      <div className="basis-1/2  ml-5 mr-10">
-                        <span className="text-sm text-gray-900 font-normal">
-                          Start Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                      <div className="basis-1/2  mr-5">
-                        <span className="text-sm text-gray-900 font-normal">
-                          End Time
-                        </span>
-                        <TextField
-                          type="time"
-                          placeholder="₹"
-                          value={values.workshopTime}
-                          onChangeValue={handleChange}
-                          name="workshopTime"
-                          className="w-full"
-                        />
-                      </div>
-                    </div>
-                  </div>
-=======
                   {isChecked ? (
                     <div
                       id="everydayId"
@@ -737,14 +439,14 @@ const Schedule = () => {
                           />
                         </div>
                         <div className="basis-1/3  mr-5">
-                        <button
-                              type="button"
-                              //onClick={addDaySchedule}
-                              className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-3 px-4 ml-10 border rounded"
-                            >
-                              Add
-                            </button>
-                          
+                          <button
+                            type="button"
+                            //onClick={addDaySchedule}
+                            className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-3 px-4 ml-10 border rounded"
+                          >
+                            Add
+                          </button>
+
                           {/* <button
                             type="button"
                             onClick={addDaySchedule}
@@ -758,7 +460,6 @@ const Schedule = () => {
                           </button> */}
                         </div>
                       </div>
-                     
                     </div>
                   ) : (
                     <div>
@@ -1185,7 +886,6 @@ const Schedule = () => {
                     </div>
                   )}
                   {/* <div className="w-full h-px bg-gray-200 border-0"></div> */}
->>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
                 </div>
 
                 <div className="basis-2/5">
@@ -1196,21 +896,6 @@ const Schedule = () => {
                     <span className="text-gray-900 font-normal text-sm mt-5">
                       Add dates when you will be unavailable to be scheduled
                     </span>
-<<<<<<< HEAD
-                    <div className="flex justify-center item-center mt-10">
-                    <button className="flex justify-center items-center border-2  border-gray-900 bg-white hover:text-white hover:bg-gray-900 text-gray-900 rounded-full w-auto">
-                      <span className="text-base font-semibold py-3 px-10">
-                        Add unavailable dates
-                      </span>
-                    </button>
-                  </div>
-                  <div className="w-full h-px bg-gray-200 border-0 mt-10"></div>
-                  <span className='text-sm font-semibold mt-10'>You are unavailable on</span>
-                  </div>
-          
-                </div>
-              </div>
-=======
                     <div className="flex justify-start item-center mt-10">
                       <div className="flex justify-start items-start border-2  border-gray-900 bg-white hover:text-white hover:bg-gray-900 text-gray-900 rounded-md w-auto">
                         <span className="text-base font-semibold py-3 px-10">
@@ -1307,7 +992,6 @@ const Schedule = () => {
                     </div>
                   </div> 
                  */}
->>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
             </form>
           )
         }}

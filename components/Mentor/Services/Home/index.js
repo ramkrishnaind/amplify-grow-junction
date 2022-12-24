@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import classes from './Home.module.css'
+import { toast } from 'react-toastify'
 // import { useRouter } from 'next/router'
 import OneOnOne from './OneOnOne'
 import TextQuery from './TextQuery'
@@ -9,11 +10,7 @@ import Packages from './Packages'
 import Link from 'next/link'
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import { listOneOnOnes } from '/src/graphql/queries'
-<<<<<<< HEAD
 import { listTextQueries } from '/src/graphql/queries'
-=======
-import {listTextQueries} from '/src/graphql/queries'
->>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
 import { listWorkshops } from '/src/graphql/queries'
 import { listCourses } from '/src/graphql/queries'
 import { listPackages } from '/src/graphql/queries'
@@ -39,11 +36,7 @@ const Home = () => {
     workshop: [],
     courses: [],
     textQuery: [],
-<<<<<<< HEAD
     packages: [],
-=======
-    packages:[],
->>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
   })
   const loadOneOnOne = async () => {
     try {
@@ -59,7 +52,7 @@ const Home = () => {
         setServices({ ...services, oneOnOne: results.data.listOneOnOnes.items })
       }
     } catch (error) {
-      toast.error(`Load Error:${error.errors[0].message}`)
+      // toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
@@ -75,15 +68,11 @@ const Home = () => {
           filter: { username: { contains: usr.username } },
         }),
       )
-<<<<<<< HEAD
       if (results.data.listWorkshops.items.length > 0) {
-=======
-      if (results.data.listWorkshops.items.length> 0) {
->>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
         setServices({ ...services, workshop: results.data.listWorkshops.items })
       }
     } catch (error) {
-      toast.error(`Load Error:${error.errors[0].message}`)
+      // toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
@@ -99,15 +88,11 @@ const Home = () => {
           filter: { username: { contains: usr.username } },
         }),
       )
-<<<<<<< HEAD
       if (results.data.listCourses.items.length > 0) {
-=======
-      if (results.data.listCourses.items.length> 0) {
->>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
         setServices({ ...services, courses: results.data.listCourses.items })
       }
     } catch (error) {
-      toast.error(`Load Error:${error.errors[0].message}`)
+      // toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
@@ -129,7 +114,7 @@ const Home = () => {
         })
       }
     } catch (error) {
-      toast.error(`Load Error:${error.errors[0].message}`)
+      // toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
@@ -149,31 +134,10 @@ const Home = () => {
         setServices({ ...services, packages: results.data.listPackages.items })
       }
     } catch (error) {
-      toast.error(`Load Error:${error.errors[0].message}`)
+      // toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
-
-  const loadPackages = async () => {
-    debugger
-    try {
-      setLoading(true)
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
-      const results = await API.graphql(
-        graphqlOperation(listPackages, {
-          filter: { username: { contains: usr.username } },
-        }),
-      )
-      if (results.data.listPackages.items.length> 0) {
-        setServices({ ...services, packages: results.data.listPackages.items })
-      }
-    } catch (error) {
-      toast.error(`Load Error:${error.errors[0].message}`)
-    }
-    setLoading(false)
-  }
-
 
   useEffect(() => {
     loadOneOnOne()
@@ -276,7 +240,6 @@ const Home = () => {
                 <OneOnOne services={services.oneOnOne} />
               </div>
               <div className={openTab === 2 ? 'block' : 'hidden'}>
-<<<<<<< HEAD
                 <Workshop services={services.workshop} />
               </div>
               <div className={openTab === 3 ? 'block' : 'hidden'}>
@@ -287,18 +250,6 @@ const Home = () => {
               </div>
               <div className={openTab === 5 ? 'block' : 'hidden'}>
                 <Packages services={services.packages} />
-=======
-              <Workshop services={services.workshop}/>
-              </div>
-              <div className={openTab === 3 ? 'block' : 'hidden'}>
-              <Courses services={services.courses}/>
-              </div>
-              <div className={openTab === 4 ? 'block' : 'hidden'}>
-              <TextQuery services={services.textQuery}/>
-              </div>
-              <div className={openTab === 5 ? 'block' : 'hidden'}>
-              <Packages services={services.packages}/>
->>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
               </div>
             </div>
           </div>

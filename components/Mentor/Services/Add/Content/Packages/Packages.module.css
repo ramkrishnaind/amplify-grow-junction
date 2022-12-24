@@ -2,14 +2,11 @@
   width: 200px;
   height: 150px;
 }
-<<<<<<< HEAD
-=======
 
-.backdrop{
-left:0;
-top:0;
-bottom:0;
-right:0;
-background-color:rgba(0, 0, 255,0.15)
+.backdrop {
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 255, 0.15);
 }
->>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a

@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 // import '../amplify-configure'
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor } from '../redux/store'
@@ -16,11 +16,11 @@ import { Formik } from 'formik'
 // add to existing imports
 import Amplify from 'aws-amplify'
 import config from '../src/aws-exports'
-import { Auth0Provider } from "@auth0/auth0-react";
+import { Auth0Provider } from '@auth0/auth0-react'
 // check if env is localhost or not
 // if you're not developing on localhost, you will need to detect this is another way—the docs linked above give some examples.
 function MyApp({ Component, pageProps }) {
-  const [host,setHost]= useState()
+  const [host, setHost] = useState()
   debugger
   // console.log('toast', toast)
   const router = useRouter()
@@ -88,19 +88,18 @@ function MyApp({ Component, pageProps }) {
   //   )
   // }
   return (
-    host && <Auth0Provider
-      domain="dev-tra4scc70r3ty8yh.us.auth0.com"
-      clientId="QQR0KU0g8usdgAxqAyFEpWrx5EKreM7P"
-      redirectUri={host}
-    >
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Component {...pageProps} />
-        </PersistGate>
-        <ToastContainer />
-      </Provider>
-      </Auth0Provider>
-    
+    // host && <Auth0Provider
+    //   domain="dev-tra4scc70r3ty8yh.us.auth0.com"
+    //   clientId="QQR0KU0g8usdgAxqAyFEpWrx5EKreM7P"
+    //   redirectUri={host}
+    // >
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Component {...pageProps} />
+      </PersistGate>
+      <ToastContainer />
+    </Provider>
+    // </Auth0Provider>
   )
 }
 
