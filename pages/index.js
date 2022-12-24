@@ -22,18 +22,6 @@ const Home = () => {
   const [isLoggedin, setIsLoggedIn] = useState(false)
   const { width, height } = useWindowDimensions()
   const dispatch = useDispatch()
-  const checkLogin = async () => {
-    try {
-      const userData = await Auth.currentAuthenticatedUser()
-      debugger
-      setIsLoggedIn(!!userData?.username)
-      // debugger
-      // const credentials = await Auth.federatedSignIn()
-    } catch (error) {}
-  }
-  useEffect(() => {
-    checkLogin()
-  }, [])
   const authListener = async () => {
     Hub.listen('auth', (data) => {
       debugger
@@ -70,19 +58,20 @@ const Home = () => {
   }, [])
   return (
     <>
-      {/* {isAuthenticated ? (
-    <>
-      <div>
-        <img src={user.picture} alt={user.name} />
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-      </div>
-      <button onClick={() => logout({ returnTo: window.location.origin })}>
-      Log Out
-    </button>
-      </>
-    ):<button onClick={()=>loginWithRedirect()}>login</button>
-   } */}
+      {isAuthenticated ? (
+        <>
+          <div>
+            <img src={user.picture} alt={user.name} />
+            <h2>{user.name}</h2>
+            <p>{user.email}</p>
+          </div>
+          <button onClick={() => logout({ returnTo: window.location.origin })}>
+            Log Out
+          </button>
+        </>
+      ) : (
+        <button onClick={() => loginWithRedirect()}>login</button>
+      )}
       <DashboardPage isLoggedin={isLoggedin} />
     </>
   )
