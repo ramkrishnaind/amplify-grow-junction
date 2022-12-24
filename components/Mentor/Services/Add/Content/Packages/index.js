@@ -5,10 +5,13 @@ import TextField from '../../../../../../pages/ui-kit/TextField'
 import { v4 as uuid } from 'uuid'
 import classes from './Packages.module.css'
 import { Storage } from 'aws-amplify'
+<<<<<<< HEAD
 // import OneOnOne from '../OneOnOne'
 // import TextQuery from '../TextQuery'
 // import Workshop from '../Workshop'
 // import Courses from '../Courses'
+=======
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import { listOneOnOnes } from '/src/graphql/queries'
 import { listTextQueries } from '/src/graphql/queries'
@@ -17,11 +20,18 @@ import { listCourses } from '/src/graphql/queries'
 
 const AutoSubmitToken = ({
   setValues,
+<<<<<<< HEAD
   packageServices,
+=======
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
   hideService,
   limitParticipants,
   imageUrl,
   fileUrl,
+<<<<<<< HEAD
+=======
+  packageServices,
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
 }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
@@ -29,11 +39,22 @@ const AutoSubmitToken = ({
   React.useEffect(() => {
     debugger
     console.log('context_values', values)
+<<<<<<< HEAD
     values.packageServices = packageServices
+=======
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
     values.limitParticipants = limitParticipants
     values.hideService = hideService
     values.packageImage = imageUrl
     values.uploadFile = fileUrl
+<<<<<<< HEAD
+=======
+    // if (sessions.length > 0) packageServices.push(sessions)
+    // if (textQueries.length > 0) packageServices.push(textQueries)
+    // if (workshops.length > 0) packageServices.push(workshops)
+    // if (courses.length > 0) packageServices.push(courses)
+    values.packageServices = packageServices
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
@@ -110,6 +131,7 @@ const Packages = ({
     loadCourses()
   }, [])
 
+<<<<<<< HEAD
   const [sessionResults, setSessionResults] = useState(null)
   const [workshopResults, setWorkshopResults] = useState(null)
   const [textQueryResults, setTextQueryResults] = useState(null)
@@ -207,6 +229,17 @@ const Packages = ({
 
   //console.log("Services - ", services)
 
+=======
+  const [sessionResults, setSessionResults] = useState([])
+  const [workshopResults, setWorkshopResults] = useState([])
+  const [textQueryResults, setTextQueryResults] = useState([])
+  const [coursesResults, setCoursesResults] = useState([])
+  const [sessions, setSessions] = useState([])
+  const [workshops, setWorkshops] = useState([])
+  const [textQueries, setTextQueries] = useState([])
+  const [courses, setCourses] = useState([])
+  const [sessionState, setSessionState] = useState()
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
   const imageInputref = useRef()
   const fileInputref = useRef()
   const [image, setImage] = useState(null)
@@ -216,7 +249,16 @@ const Packages = ({
   const [limitParticipants, setLimitParticipants] = useState(true)
   const toggleClass = ' transform translate-x-5'
 
+  // const [questionType, setQuestionType] = useState(items[0])
+  // const [state, setState] = useState(initialState)
+  // const [question, setQuestion] = useState('')
+  const [packageServices, setPackageServices] = useState([])
+  const [imageUrl, setImageUrl] = useState()
+  const [fileUrl, setFileUrl] = useState()
+  const [flag, setFlag] = useState(false)
+
   const items = ['Text', 'Upload (Pdf,jpeg)']
+<<<<<<< HEAD
   // const [questionType, setQuestionType] = useState(items[0])
   // const [state, setState] = useState(initialState)
   // const [question, setQuestion] = useState('')
@@ -224,6 +266,82 @@ const Packages = ({
   const [imageUrl, setImageUrl] = useState()
   const [fileUrl, setFileUrl] = useState()
   const[flag] = useState(false)
+=======
+
+  const loadOneOnOne = async () => {
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listOneOnOnes, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      debugger
+      if (results.data.listOneOnOnes.items.length > 0) {
+        setSessionResults(results.data.listOneOnOnes.items)
+        console.log('oneonone- ', sessionResults)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
+
+  const loadWorkshop = async () => {
+    debugger
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listWorkshops, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listWorkshops.items.length > 0) {
+        setWorkshopResults(results.data.listWorkshops.items)
+        console.log('workshop- ', workshopResults)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
+
+  const loadCourses = async () => {
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listCourses, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listCourses.items.length > 0) {
+        setCoursesResults(results.data.listCourses.items)
+        console.log('courses- ', coursesResults)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
+
+  const loadTextQuery = async () => {
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      console.log('usr', usr)
+      const results = await API.graphql(
+        graphqlOperation(listTextQueries, {
+          filter: { username: { contains: usr.username } },
+        }),
+      )
+      if (results.data.listTextQueries.items.length > 0) {
+        setTextQueryResults(results.data.listTextQueries.items)
+        console.log('textquery- ', textQueryResults)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
 
   const handleFileInput = async (e) => {
     e.preventDefault()
@@ -273,6 +391,115 @@ const Packages = ({
     }
   }
 
+<<<<<<< HEAD
+=======
+  const sessionState1 =()=> {
+   return ({sessionResults: [
+      ...sessionResults.map((session) => {
+        return { ...session }
+      }),
+    ],})
+  }
+
+  const toggleSessionSelect = (index) => {
+    debugger
+    console.log('index - ', index)
+    const { sessionResults } = sessionState1()
+    sessionResults[index].selected = !sessionResults[index].selected
+    setSessionResults(sessionResults)
+    setSessions(sessionResults)
+    sessionResults.map((s, idx) => {
+      if (s.selected) {
+        packageServices.push({
+          id: uuid(),
+          text: '1 on 1 Session',
+          title: s.sessionTitle,
+          duration: s.sessionDuration + ' ' + s.sessionDurationIn,
+          price: s.finalPrice,
+        })
+      }
+    })
+  }
+
+  const workshopState1 = {
+    workshopResults: [
+      ...workshopResults.map((workshop) => {
+        return { ...workshop }
+      }),
+    ],
+  }
+
+  const toggleWorkshopSelect = (index) => {
+    const { workshopResults } = workshopState1
+    workshopResults[index].selected = !workshopResults[index].selected
+    setWorkshopResults(workshopResults)
+    setWorkshops(workshopResults)
+    workshopResults.map((s, idx) => {
+      if (s.selected) {
+        packageServices.push({
+          id: uuid(),
+          text: 'Workshop',
+          title: s.title,
+          duration: s.callDuration + ' ' + s.callDurationIn,
+          price: s.finalPrice,
+        })
+      }
+    })
+  }
+
+  const coursesState1 = {
+    coursesResults: [
+      ...coursesResults.map((course) => {
+        return { ...course}
+      }),
+    ],
+  }
+
+  const toggleCoursesSelect = (index) => {
+    const { coursesResults } = coursesState1
+    coursesResults[index].selected = !coursesResults[index].selected
+    setCoursesResults(coursesResults)
+    setCourses(coursesResults)
+    coursesResults.map((s, idx) => {
+      if (s.selected) {
+        packageServices.push({
+          id: uuid(),
+          text: 'Courses',
+          title: s.courseTitle,
+          duration: s.sessionDuration + ' ' + s.sessionDurationIn,
+          price: s.finalPrice,
+        })
+      }
+    })
+  }
+
+  const textQueryState1 = {
+    textQueryResults: [
+      ...textQueryResults.map((textQuery) => {
+        return { ...textQuery }
+      }),
+    ],
+  }
+
+  const toggleTextQuerySelect = (index) => {
+    const { textQueryResults } = textQueryState1
+    textQueryResults[index].selected = !textQueryResults[index].selected
+    setTextQueryResults(textQueryResults)
+    setTextQueries(textQueryResults)
+    textQueryResults.map((s, idx) => {
+      if (s.selected) {
+        packageServices.push({
+          id: uuid(),
+          text: 'TextQuery',
+          title: s.title,
+          duration: s.responseTime + ' ' + s.responseTimeIn,
+          price: s.finalPrice,
+        })
+      }
+    })
+  }
+
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
   return (
     <>
       <Formik
@@ -284,6 +511,13 @@ const Packages = ({
             // alert(JSON.stringify(values, null, 2));
             setSubmitting(false)
           }, 400)
+<<<<<<< HEAD
+=======
+          if (sessions.length > 0) packageServices.push(sessions)
+          if (textQueries.length > 0) packageServices.push(textQueries)
+          if (workshops.length > 0) packageServices.push(workshops)
+          if (courses.length > 0) packageServices.push(courses)
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
           values.packageServices = packageServices
           values.packageImage = imageUrl
           values.uploadFile = fileUrl
@@ -471,11 +705,15 @@ const Packages = ({
                         </div>
                       </div>
 
-                      <div className="flex flex-col mt-10 mb-10 px-2 w-auto">
+                      <div className="flex flex-col mt-10 mb-10 px-2 w-1/3">
                         <p className="flex justify-start items-start text-sm ">
                           Upload file (optional)
                         </p>
+<<<<<<< HEAD
                         <button className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md min-w-40">
+=======
+                        <div className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md">
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
                           <button
                             className="ml-3 text-lg"
                             onClick={(e) => {
@@ -492,7 +730,11 @@ const Packages = ({
                             className="absolute w-0 h-0 left-0 top-0"
                             onChange={handleFileUpload}
                           />
+<<<<<<< HEAD
                         </button>
+=======
+                        </div>
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
                       </div>
                     </div>
                   </div>
@@ -585,12 +827,16 @@ const Packages = ({
                       Select services added by you to create a package
                     </span>
                   </div>
+<<<<<<< HEAD
                   {/* todo - dynamic data comes from all service to be displayed here seems */}
+=======
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
 
                   <div className=" mt-5  bg-white"></div>
                 </div>
                 <div className="bg-white basis-2/5"></div>
               </div>
+<<<<<<< HEAD
               
               <div className="bg-white w-full p-4">
                 <div className="flex flex-col font-normal py-4 mb-5 mr-5 ml-5">
@@ -965,6 +1211,254 @@ const Packages = ({
                 </div>
               </div>
         
+=======
+
+              <div className="bg-white w-auto">
+                {/* session start */}
+                <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
+                  Sessions
+                </div>
+                <div className="flex-wrap w-auto">
+                  {sessionResults !== null && sessionResults.length > 0 ? (
+                    <div className="my-3 bg-white p-2">
+                      <div className="flex flex-wrap w-auto">
+                        {sessionResults.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex relative w-1/3 m-5"
+                              onClick={() => toggleSessionSelect(index)}
+                            >
+                              <div className="flex flex-col justify-center items-center p-2  text-center rounded-2xl shadow-lg m-4 w-full border-2">
+                                <div className="flex text-black text-2xl font-semibold px-4 py-2">
+                                  {item.sessionTitle}
+                                </div>
+                                <div className="flex items-center">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item.sessionDuration}{' '}
+                                    {item.sessionDurationIn}
+                                  </span>
+                                </div>
+                                <div className="flex items-center  py-1 px-2 ">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/price.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold py-3">
+                                    ₹{item.finalPrice}
+                                  </span>
+                                </div>
+                              </div>
+                              {item.selected &&  <div 
+                                className={
+                                `absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`
+                                }
+                              ></div>}
+                             
+                            </div>
+                          )
+                        })}
+                      </div>
+
+                      {/* outer */}
+                    </div>
+                  ) : (
+                    <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                      No sessions found
+                    </div>
+                  )}
+                </div>
+                {/*session  end */}
+              </div>
+
+              <div className="bg-white w-auto">
+                {/* workshop start */}
+                <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
+                  Workshop
+                </div>
+                <div className="flex-wrap w-auto">
+                  {workshopResults !== null && workshopResults.length > 0 ? (
+                    <div className="my-3 bg-white p-2">
+                      <div className="flex flex-wrap w-auto">
+                        {workshopResults.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex relative w-1/3 m-5"
+                              onClick={() => toggleWorkshopSelect(index)}
+                            >
+                              <div className="flex flex-col justify-center items-center p-2  text-center rounded-2xl shadow-lg m-4 w-full border-2">
+                                <div className="flex text-black text-2xl font-semibold px-4 py-2">
+                                  {item.title}
+                                </div>
+                                <div className="flex items-center">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item.callDuration}{' '}
+                                    {item.callDurationIn}
+                                  </span>
+                                </div>
+                                <div className="flex items-center  py-1 px-2 ">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/price.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold py-3">
+                                    ₹{item.finalPrice}
+                                  </span>
+                                </div>
+                              </div>
+                              {item.selected &&  <div 
+                                className={
+                                `absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`
+                                }
+                              ></div>}
+                             
+                            </div>
+                          )
+                        })}
+                      </div>
+
+                      {/* outer */}
+                    </div>
+                  ) : (
+                    <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                      No workshop found
+                    </div>
+                  )}
+                </div>
+                {/*Workshop  end */}
+              </div>
+
+              <div className="bg-white w-auto">
+                {/* courses start */}
+                <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
+                  Courses
+                </div>
+                <div className="flex-wrap w-auto">
+                  {coursesResults !== null && coursesResults.length > 0 ? (
+                    <div className="my-3 bg-white p-2">
+                          <div className="flex flex-wrap w-auto">
+                        {coursesResults.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex relative w-1/3 m-5"
+                              onClick={() => toggleCoursesSelect(index)}
+                            >
+                              <div className="flex flex-col justify-center items-center p-2  text-center rounded-2xl shadow-lg m-4 w-full border-2">
+                                <div className="flex text-black text-2xl font-semibold px-4 py-2">
+                                  {item.courseTitle}
+                                </div>
+                                <div className="flex items-center">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item.sessionDuration}{' '}
+                                    {item.sessionDurationIn}
+                                  </span>
+                                </div>
+                                <div className="flex items-center  py-1 px-2 ">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/price.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold py-3">
+                                    ₹{item.finalPrice}
+                                  </span>
+                                </div>
+                              </div>
+                              {item.selected &&  <div 
+                                className={
+                                `absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`
+                                }
+                              ></div>}
+                             
+                            </div>
+                          )
+                        })}
+                      </div>
+                      {/* outer */}
+                    </div>
+                  ) : (
+                    <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                      No courses found
+                    </div>
+                  )}
+                </div>
+                {/*Courses  end */}
+              </div>
+
+              <div className="bg-white w-auto">
+                {/* Text query start */}
+                <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
+                  Text Query
+                </div>
+                <div className="flex-wrap w-auto">
+                  {textQueryResults !== null && textQueryResults.length > 0 ? (
+                    <div className="my-3 bg-white p-2">
+                                            <div className="flex flex-wrap w-auto">
+                        {textQueryResults.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex relative w-1/3 m-5"
+                              onClick={() => toggleTextQuerySelect(index)}
+                            >
+                              <div className="flex flex-col justify-center items-center p-2  text-center rounded-2xl shadow-lg m-4 w-full border-2">
+                                <div className="flex text-black text-2xl font-semibold px-4 py-2">
+                                  {item.title}
+                                </div>
+                                <div className="flex items-center">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item.responseTime}{' '}
+                                    {item.responseTimeIn}
+                                  </span>
+                                </div>
+                                <div className="flex items-center  py-1 px-2 ">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/price.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold py-3">
+                                    ₹{item.finalPrice}
+                                  </span>
+                                </div>
+                              </div>
+                              {item.selected &&  <div 
+                                className={
+                                `absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`
+                                }
+                              ></div>}
+                             
+                            </div>
+                          )
+                        })}
+                      </div>
+                      {/* outer */}
+                    </div>
+                  ) : (
+                    <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                      No text query found
+                    </div>
+                  )}
+                </div>
+                {/*Text query  end */}
+              </div>
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
               <div className="w-full h-px bg-gray-300 border-0"></div>
               <AutoSubmitToken
                 setValues={setValues}
@@ -972,6 +1466,10 @@ const Packages = ({
                 limitParticipants={limitParticipants}
                 packageImage={imageUrl}
                 uploadFile={fileUrl}
+<<<<<<< HEAD
+=======
+                packageServices={packageServices}
+>>>>>>> b0e4561de2e7aef8764198ae3b0140716804296a
               />
             </form>
           )
