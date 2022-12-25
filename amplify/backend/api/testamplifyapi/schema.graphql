@@ -200,7 +200,7 @@ type PackageServices {
   text: String
   title: String
   duration: String
-  price : Float
+  price: Float
 }
 type Configurations
   @model
@@ -339,17 +339,53 @@ type Schedule
     ]
   ) {
   availableSameTime: Boolean
+  daySchedules: DaySchedules
   username: String
-  unavailableDates: [UnavailableDates]
-  daySchedules: [DaySchedules]
+  unavailableDates: [String]
 }
 type DaySchedules {
-  id: String
-  day: String
-  startTime: String
-  endTime: String
+  everyday: Everyday
+  Sunday: Sunday
+  Monday: Monday
+  Tuesday: Tuesday
+  Wednesday: Wednesday
+  Thursday: Thursday
+  Friday: Friday
+  Saturday: Saturday
 }
-type UnavailableDates {
-  id: String
-  date: String
+type Everyday {
+  everyday: Boolean
+  time: [Time]
+}
+type Sunday {
+  Sunday: Boolean
+  time: [Time]
+}
+type Monday {
+  Monday: Boolean
+  time: [Time]
+}
+type Tuesday {
+  Tuesday: Boolean
+  time: [Time]
+}
+type Wednesday {
+  Wednesday: Boolean
+  time: [Time]
+}
+type Thursday {
+  Thursday: Boolean
+  time: [Time]
+}
+type Friday {
+  Friday: Boolean
+  time: [Time]
+}
+type Saturday {
+  Saturday: Boolean
+  time: [Time]
+}
+type Time {
+  startTime: Boolean
+  endTime: String
 }

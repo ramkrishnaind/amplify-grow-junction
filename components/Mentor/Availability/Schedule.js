@@ -15,23 +15,23 @@ import { listSchedules } from '../../../src/graphql/queries'
 import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
 import { toast } from 'react-toastify'
-const AutoSubmitToken = ({ setValues }) => {
-  // Grab values and submitForm from context
-  const { values, submitForm } = useFormikContext()
+// const AutoSubmitToken = ({ setValues }) => {
+//   // Grab values and submitForm from context
+//   const { values, submitForm } = useFormikContext()
 
-  React.useEffect(() => {
-    debugger
-    console.log('context_values', values)
-    // values.questions = questions
-    setValues(values)
-    // setProfile(values)
-    // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
-    // if (values.token.length === 6) {
-    //   submitForm();
-    // }
-  }, [values, submitForm])
-  return null
-}
+//   React.useEffect(() => {
+//     debugger
+//     console.log('context_values', values)
+//     // values.questions = questions
+//     setValues(values)
+//     // setProfile(values)
+//     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
+//     // if (values.token.length === 6) {
+//     //   submitForm();
+//     // }
+//   }, [values, submitForm])
+//   return null
+// }
 const Schedule = () => {
   const [timeZone, setTimeZone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -39,7 +39,7 @@ const Schedule = () => {
   const days = [
     'Sunday',
     'Monday',
-    'Tueday',
+    'Tuesday',
     'Wednesday',
     'Thursday',
     'Friday',
@@ -49,6 +49,64 @@ const Schedule = () => {
   days.forEach((day) => {
     obj[day] = { time: [{ startTime: '', endTime: '' }], [day]: false }
   })
+  const getUser = async () => {
+    const usr = await Auth.currentAuthenticatedUser()
+    // if (usr) setUser(usr)
+    debugger
+    const results = await API.graphql(
+      graphqlOperation(listSchedules, {
+        filter: { username: { contains: usr.username } },
+      }),
+    )
+    if (results.data.listSchedules.items.length > 0) {
+      setIsNew(false)
+      const data = { ...results.data.listSchedules.items[0] }
+
+      const {
+        unavailableDates: unavdt,
+        updatedAt,
+        createdAt,
+        owner,
+        ...rest
+      } = data
+      console.log('data', rest)
+      setState({ ...rest })
+      setUnavailableDate(unavdt)
+      setUnavailableDates(
+        unavdt.map((d) => ({
+          id: uuid(),
+          date: d,
+        })),
+      )
+      setUnavailableDateValues(
+        unavdt.map((d) => {
+          // return d
+          const dtArr = d.split('/')
+          return new Date(`${dtArr[2]}-${dtArr[1]}-${dtArr[0]}`)
+          // return new Date(dtArr)
+        }),
+      )
+      //   // if (data.profile_image) {
+      //   //   const img = await Storage.get(data.profile_image)
+      //   //   // const response = await fetch(img)
+      //   //   // const arrBuf = await response.arrayBuffer()
+      //   //   // const base64String = arrayBufferToBase64(arrBuf)
+      //   //   // data.profile_image = `data:image/png;base64,${base64String}`
+      //   //   data.profile_image_url = img
+      //   // }
+      // setState({ ...data })
+    }
+
+    // const results = await API.graphql(
+    //   graphqlOperation(listMentorRegisters, {
+    //     filter: {
+    //       username: usr.username + '1',
+    //     },
+    //   }),
+    // )
+
+    // console.log('results', results)
+  }
   const initialState = {
     availableSameTime: false,
     // unavailableDates: [],
@@ -60,10 +118,10 @@ const Schedule = () => {
       ...obj,
     },
   }
-  const setValues = (values) => {
-    console.log('values', values)
-    setState(values)
-  }
+  // const setValues = (values) => {
+  //   console.log('values', values)
+  //   setState(values)
+  // }
   // console.log('initialState', initialState)
   // const dateRef = useRef()
   const [state, setState] = useState(initialState)
@@ -80,50 +138,62 @@ const Schedule = () => {
   const [selectedDay, setSelectedDay] = useState('')
   const [isAddRow, setIsAddRow] = useState(false)
   const [unavailableDate, setUnavailableDate] = useState([])
-  const [unavailableDateValues, setUnavailableDateValues] = useState([])
+  const [unavailableDateValues, setUnavailableDateValues] = useState([
+    // new Date('2022-12-26'),
+    // new Date('2022-12-28'),
+  ])
   const [unavailableDates, setUnavailableDates] = useState([])
   const [visible, setVisible] = useState(false)
 
   const [isChecked, setIsChecked] = useState(false)
   const [isEdayChecked, setIsEdayChecked] = useState(false)
 
-  // useEffect(() => {
-  //   getUser()
-  // }, [])
+  console.log('unavailableDates', unavailableDates)
+  useEffect(() => {
+    getUser()
+  }, [])
+  // console.log(
+  //   'unavailableDate',
+  //   unavailableDate.map((d) => {
+  //     // return d
+  //     const dtArr = d.split('/')
+  //     return new Date(`${dtArr[2]}-${dtArr[1]}-${dtArr[0]}`)
+  //     // return new Date(dtArr)
+  //   }),
+  // )
+  // const getUser = async () => {
+  //   try {
+  //     const usr = await Auth.currentAuthenticatedUser()
+  //     setUsrName(usr.username)
+  //     console.log('usr', usr)
+  //     const results = await API.graphql(
+  //       graphqlOperation(listSchedules, {
+  //         filter: { username: { contains: usr.username } },
+  //       }),
+  //     )
+  //     debugger
+  //     if (results.data.listSchedules.items.length > 0) {
+  //       // if (results.data.listSchedules.items[0].daySchedules.length > 0) {
+  //       //   results.data.listSchedules.items[0].daySchedules.map((d) => {
+  //       //     scheduleResults.push({
+  //       //       day: d.day,
+  //       //       startTime: d.startTime.toString(),
+  //       //       endTime: d.endTime.toString(),
+  //       //     })
+  //       //   })
+  //       // }
+  //       setDisplayResult(results.data.listSchedules.items[0].daySchedules)
 
-  const getUser = async () => {
-    try {
-      const usr = await Auth.currentAuthenticatedUser()
-      setUsrName(usr.username)
-      console.log('usr', usr)
-      const results = await API.graphql(
-        graphqlOperation(listSchedules, {
-          filter: { username: { contains: usr.username } },
-        }),
-      )
-      debugger
-      if (results.data.listSchedules.items.length > 0) {
-        // if (results.data.listSchedules.items[0].daySchedules.length > 0) {
-        //   results.data.listSchedules.items[0].daySchedules.map((d) => {
-        //     scheduleResults.push({
-        //       day: d.day,
-        //       startTime: d.startTime.toString(),
-        //       endTime: d.endTime.toString(),
-        //     })
-        //   })
-        // }
-        setDisplayResult(results.data.listSchedules.items[0].daySchedules)
-
-        console.log('result -', displayResult)
-        setIsNew(false)
-        const data = { ...results.data.listSchedules.items[0] }
-        console.log('data - ', data)
-        setState({ ...data })
-      }
-    } catch (error) {
-      console.log(`Load Error:${error}`)
-    }
-  }
+  //       console.log('result -', displayResult)
+  //       setIsNew(false)
+  //       const data = { ...results.data.listSchedules.items[0] }
+  //       console.log('data - ', data)
+  //       setState({ ...data })
+  //     }
+  //   } catch (error) {
+  //     console.log(`Load Error:${error}`)
+  //   }
+  // }
 
   useEffect(() => {
     const keys = ['availableSameTime', 'unavailableDates', 'daySchedules']
@@ -337,36 +407,36 @@ const Schedule = () => {
         initialValues={{ ...state }}
         enableReinitialize={true}
         onSubmit={async (values, e) => {
+          values.unavailableDates = unavailableDate
           //addDaySchedule
-          values.username = usrName
-          values.availableSameTime = availableSameTime
-          values.unavailableDates = unavailableDates
-          values.daySchedules = daySchedules
+          // values.username = usrName
+          // values.availableSameTime = availableSameTime
+          // values.unavailableDates = unavailableDates
+          // values.daySchedules = daySchedules
+          debugger
           try {
-            if (isNew) {
+            if (!values.id) {
               try {
-                debugger
-                values.id = uuid()
-
+                // values.id = uuid()
                 await API.graphql({
                   query: createSchedule,
                   variables: { input: { ...values } },
                   authMode: 'AMAZON_COGNITO_USER_POOLS',
                 })
                 toast.success('Schedule added successfully')
-                window.location.href = window.location.href
+                // window.location.href = window.location.href
               } catch (error) {
                 toast.error(`Save Error:${error.errors[0].message}`)
               }
             } else {
-              const { createdAt, updatedAt, domain_id, owner, ...rest } = {
-                ...values,
-              }
+              // const { createdAt, updatedAt, domain_id, owner, ...rest } = {
+              //   ...values,
+              // }
               try {
                 await API.graphql({
                   query: updateSchedule,
                   variables: {
-                    input: { ...rest },
+                    input: { ...values },
                     // condition: { username: { contains: state.username } },
                   },
                   authMode: 'AMAZON_COGNITO_USER_POOLS',
@@ -409,12 +479,8 @@ const Schedule = () => {
                     </div>
                     <div>
                       <button
-                        type="button"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          addDaySchedule
-                          handleSubmit(e)
-                        }}
+                        type="submit"
+                        onClick={handleSubmit}
                         className="mt-2 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6 ml-10 border rounded"
                       >
                         Save Changes
@@ -463,7 +529,7 @@ const Schedule = () => {
                             className="mr-3"
                             id="everyday"
                             name="daySchedules.everyday.everyday"
-                            value={values.daySchedules.everyday.everyday}
+                            checked={values.daySchedules.everyday.everyday}
                             onChange={(e) => {
                               handleChange(e)
                               setIsEdayChecked((prev) => !prev)
@@ -576,7 +642,7 @@ const Schedule = () => {
                                 type="checkbox"
                                 className="mr-3"
                                 name={`daySchedules.${day}.${day}`}
-                                value={values.daySchedules[day][day]}
+                                checked={values.daySchedules[day][day]}
                                 onChange={(e) => {
                                   handleChange(e)
                                   setIsEdayChecked((prev) => !prev)
@@ -775,7 +841,7 @@ const Schedule = () => {
                     </div>
                   </div> 
                  */}
-              <AutoSubmitToken setValues={setValues} />
+              {/* <AutoSubmitToken setValues={setValues} /> */}
             </form>
           )
         }}

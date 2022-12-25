@@ -1073,17 +1073,66 @@ export const getSchedule = /* GraphQL */ `
   query GetSchedule($id: ID!) {
     getSchedule(id: $id) {
       availableSameTime
-      username
-      unavailableDates {
-        id
-        date
-      }
       daySchedules {
-        id
-        day
-        startTime
-        endTime
+        everyday {
+          everyday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Sunday {
+          Sunday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Monday {
+          Monday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Tuesday {
+          Tuesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Wednesday {
+          Wednesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Thursday {
+          Thursday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Friday {
+          Friday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Saturday {
+          Saturday
+          time {
+            startTime
+            endTime
+          }
+        }
       }
+      username
+      unavailableDates
       id
       createdAt
       updatedAt
@@ -1100,17 +1149,66 @@ export const listSchedules = /* GraphQL */ `
     listSchedules(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         availableSameTime
-        username
-        unavailableDates {
-          id
-          date
-        }
         daySchedules {
-          id
-          day
-          startTime
-          endTime
+          everyday {
+            everyday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Sunday {
+            Sunday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Monday {
+            Monday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Tuesday {
+            Tuesday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Wednesday {
+            Wednesday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Thursday {
+            Thursday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Friday {
+            Friday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Saturday {
+            Saturday
+            time {
+              startTime
+              endTime
+            }
+          }
         }
+        username
+        unavailableDates
         id
         createdAt
         updatedAt

@@ -1502,17 +1502,66 @@ export const createSchedule = /* GraphQL */ `
   ) {
     createSchedule(input: $input, condition: $condition) {
       availableSameTime
-      username
-      unavailableDates {
-        id
-        date
-      }
       daySchedules {
-        id
-        day
-        startTime
-        endTime
+        everyday {
+          everyday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Sunday {
+          Sunday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Monday {
+          Monday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Tuesday {
+          Tuesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Wednesday {
+          Wednesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Thursday {
+          Thursday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Friday {
+          Friday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Saturday {
+          Saturday
+          time {
+            startTime
+            endTime
+          }
+        }
       }
+      username
+      unavailableDates
       id
       createdAt
       updatedAt
@@ -1527,17 +1576,66 @@ export const updateSchedule = /* GraphQL */ `
   ) {
     updateSchedule(input: $input, condition: $condition) {
       availableSameTime
-      username
-      unavailableDates {
-        id
-        date
-      }
       daySchedules {
-        id
-        day
-        startTime
-        endTime
+        everyday {
+          everyday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Sunday {
+          Sunday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Monday {
+          Monday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Tuesday {
+          Tuesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Wednesday {
+          Wednesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Thursday {
+          Thursday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Friday {
+          Friday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Saturday {
+          Saturday
+          time {
+            startTime
+            endTime
+          }
+        }
       }
+      username
+      unavailableDates
       id
       createdAt
       updatedAt
@@ -1552,17 +1650,66 @@ export const deleteSchedule = /* GraphQL */ `
   ) {
     deleteSchedule(input: $input, condition: $condition) {
       availableSameTime
-      username
-      unavailableDates {
-        id
-        date
-      }
       daySchedules {
-        id
-        day
-        startTime
-        endTime
+        everyday {
+          everyday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Sunday {
+          Sunday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Monday {
+          Monday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Tuesday {
+          Tuesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Wednesday {
+          Wednesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Thursday {
+          Thursday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Friday {
+          Friday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Saturday {
+          Saturday
+          time {
+            startTime
+            endTime
+          }
+        }
       }
+      username
+      unavailableDates
       id
       createdAt
       updatedAt
