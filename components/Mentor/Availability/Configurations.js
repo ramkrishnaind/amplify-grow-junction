@@ -32,6 +32,10 @@ const Configurations = () => {
   useEffect(() => {
     getUser()
   }, [])
+  const resetState = () => {
+    setState({ ...initialState })
+    setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)
+  }
   console.log('timezone', timezone)
   // useEffect(() => {
   //   const keys = [
@@ -133,7 +137,10 @@ const Configurations = () => {
                     Configurations
                   </div>
                   <div className="flex flex-row px-4">
-                    <div className="flex justify-center items-center text-black text-base font-semibold">
+                    <div
+                      className="flex justify-center items-center text-black text-base font-semibold cursor-pointer hover:bg-white px-5 py-1 hover:border-2 hover:border-black"
+                      onClick={resetState}
+                    >
                       Reset all
                     </div>
                     <div>
