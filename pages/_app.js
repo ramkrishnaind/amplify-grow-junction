@@ -90,7 +90,6 @@ function MyApp({ Component, pageProps }) {
       )
     )
   }
-
   // if (router.asPath.includes('/services/')) {
   //   return (
   //     <Provider store={store}>

@@ -38,7 +38,8 @@ const Parent = ({ title, image, url, hasItems, items, partial }) => {
         }}
       >
         <img
-          className="pl-14 pr-6"
+          className="pl-14 pr-6 w-50 h-50"
+          style={{ width: '75px' }}
           src={`/assets/icon/mentor-dashboard/${image}`}
         />
         <span>{title}</span>
@@ -68,7 +69,8 @@ const Parent = ({ title, image, url, hasItems, items, partial }) => {
         className={`${classes.container} my-2 text-2xl flex items-center cursor-pointer`}
       >
         <img
-          className="pl-14 pr-6"
+          className="pl-14 pr-6 w-50 h-50"
+          style={{ width: '75px' }}
           src={`/assets/icon/mentor-dashboard/${image}`}
         />
         <span>{title}</span>

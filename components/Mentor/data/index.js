@@ -27,7 +27,7 @@ export const NavigationLinks = [
   },
   {
     title: 'Availability',
-    url: '',
+    url: '/mentor/availability',
     image: 'availability.png',
   },
   {
@@ -78,6 +78,12 @@ export const NavigationLinks = [
         title: 'Settings',
         url: '',
         image: 'settings.png',
+      },
+      ,
+      {
+        title: 'Logout',
+        url: 'javascript:logout()',
+        image: 'logout.png',
       },
     ],
   },

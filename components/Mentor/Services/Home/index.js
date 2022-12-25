@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import classes from './Home.module.css'
+import { toast } from 'react-toastify'
 // import { useRouter } from 'next/router'
 import OneOnOne from './OneOnOne'
 import TextQuery from './TextQuery'
@@ -51,7 +52,7 @@ const Home = () => {
         setServices({ ...services, oneOnOne: results.data.listOneOnOnes.items })
       }
     } catch (error) {
-      toast.error(`Load Error:${error.errors[0].message}`)
+      // toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
@@ -71,7 +72,7 @@ const Home = () => {
         setServices({ ...services, workshop: results.data.listWorkshops.items })
       }
     } catch (error) {
-      toast.error(`Load Error:${error.errors[0].message}`)
+      // toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
@@ -91,7 +92,7 @@ const Home = () => {
         setServices({ ...services, courses: results.data.listCourses.items })
       }
     } catch (error) {
-      toast.error(`Load Error:${error.errors[0].message}`)
+      // toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
@@ -113,7 +114,7 @@ const Home = () => {
         })
       }
     } catch (error) {
-      toast.error(`Load Error:${error.errors[0].message}`)
+      // toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
@@ -133,7 +134,7 @@ const Home = () => {
         setServices({ ...services, packages: results.data.listPackages.items })
       }
     } catch (error) {
-      toast.error(`Load Error:${error.errors[0].message}`)
+      // toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }

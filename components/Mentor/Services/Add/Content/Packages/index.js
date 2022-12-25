@@ -223,7 +223,7 @@ const Packages = ({
   const [packageServices, setPackageServices] = useState([])
   const [imageUrl, setImageUrl] = useState()
   const [fileUrl, setFileUrl] = useState()
-  const[flag] = useState(false)
+  const [flag] = useState(false)
 
   const handleFileInput = async (e) => {
     e.preventDefault()
@@ -591,7 +591,7 @@ const Packages = ({
                 </div>
                 <div className="bg-white basis-2/5"></div>
               </div>
-              
+
               <div className="bg-white w-full p-4">
                 <div className="flex flex-col font-normal py-4 mb-5 mr-5 ml-5">
                   {/* session start */}
@@ -964,7 +964,7 @@ const Packages = ({
                   {/*Courses  end */}
                 </div>
               </div>
-        
+
               <div className="w-full h-px bg-gray-300 border-0"></div>
               <AutoSubmitToken
                 setValues={setValues}

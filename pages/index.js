@@ -3,7 +3,7 @@ import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import { API } from 'aws-amplify'
 import styles from '../styles/Home.module.css'
 import { listTodos } from '../src/graphql/queries'
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from '@auth0/auth0-react'
 import { Auth, Hub } from 'aws-amplify'
 import Login from './auth/Login'
 import Register from './auth/Register'
@@ -13,7 +13,8 @@ import useWindowDimensions from '../public/utils/useWindowDimensions'
 import ACTION_KEYS from '../constants/action-keys'
 
 const Home = () => {
-  const { user, isAuthenticated, isLoading,loginWithRedirect,logout } = useAuth0();
+  const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
+    useAuth0()
   debugger
   // if (isLoading) {
   //   return <div>Loading ...</div>;
@@ -21,6 +22,13 @@ const Home = () => {
   const [isLoggedin, setIsLoggedIn] = useState(false)
   const { width, height } = useWindowDimensions()
   const dispatch = useDispatch()
+  const getUser = async () => {
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      setIsLoggedIn(!!usr?.username)
+      if (usr) setUser(usr)
+    } catch {}
+  }
   const authListener = async () => {
     Hub.listen('auth', (data) => {
       debugger
@@ -54,21 +62,26 @@ const Home = () => {
 
     authListener()
     fetchTodos()
+    getUser()
   }, [])
-  return <>
-  {isAuthenticated ? (
+  return (
     <>
-      <div>
-        <img src={user.picture} alt={user.name} />
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-      </div>
-      <button onClick={() => logout({ returnTo: window.location.origin })}>
-      Log Out
-    </button>
-      </>
-    ):<button onClick={()=>loginWithRedirect()}>login</button>
-   }
-  <DashboardPage isLoggedin={isLoggedin} /></>
+      {isAuthenticated ? (
+        <>
+          <div>
+            <img src={user.picture} alt={user.name} />
+            <h2>{user.name}</h2>
+            <p>{user.email}</p>
+          </div>
+          <button onClick={() => logout({ returnTo: window.location.origin })}>
+            Log Out
+          </button>
+        </>
+      ) : (
+        <button onClick={() => loginWithRedirect()}>login</button>
+      )}
+      <DashboardPage isLoggedin={isLoggedin} />
+    </>
+  )
 }
 export default Home
