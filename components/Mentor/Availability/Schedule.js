@@ -69,6 +69,7 @@ const Schedule = () => {
         owner,
         ...rest
       } = data
+      setAvailableSameTime(data.availableSameTime)
       console.log('data', rest)
       setState({ ...rest })
       setUnavailableDate(unavdt)
@@ -509,11 +510,12 @@ const Schedule = () => {
                       <input
                         type="checkbox"
                         className="mr-3"
-                        id="allDaysSameTime"
-                        name="allDaysSameTime"
+                        id="availableSameTime"
+                        checked={values.availableSameTime}
+                        name="availableSameTime"
                         onChange={(e) => {
                           handleChange(e)
-                          setIsChecked((prev) => !prev)
+                          setAvailableSameTime((prev) => !prev)
                         }}
                       ></input>
                       <span className="text-sm">
@@ -525,7 +527,7 @@ const Schedule = () => {
               </div>
               <div className="mt-10 md:m-20 lg:m-20 md:-mt-10 lg:-mt-10 w-full md:w-auto lg:w-auto  flex flex-col md:flex-row  lg:flex-row">
                 <div className="basis-3/5 bg-white py-4 rounded-lg">
-                  {isChecked ? (
+                  {availableSameTime ? (
                     <div
                       id="everydayId"
                       className=" flex flex-col md:flex-row  lg:flex-row w-full"
