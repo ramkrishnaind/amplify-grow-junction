@@ -131,7 +131,7 @@ const Configurations = () => {
         }) => {
           return (
             <form>
-              <div className="flex flex-col md:flex-row lg:flex-row w-full p-20">
+              <div className="flex flex-col md:flex-row lg:flex-row w-full p-10">
                 <div className="flex flex-col md:flex-row lg:flex-row w-full justify-between">
                   <div className="flex justify-center items-center text-2xl font-semibold text-gray-900 p-6">
                     Configurations
