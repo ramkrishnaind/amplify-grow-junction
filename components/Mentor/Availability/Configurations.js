@@ -12,16 +12,17 @@ import { v4 as uuid } from 'uuid'
 import { toast } from 'react-toastify'
 
 const Configurations = () => {
-  const [timezone, setTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
+  const [timezone, setTimezone] = useState(
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
+  )
 
   const initialState = {
-    timezone: '',
     calender: '',
     personalMeetingLink: '',
     bookingPeriod: 0,
-    bookingPeriodIn: '',
+    bookingPeriodIn: 'days',
     noticePeriod: 0,
-    noticePeriodIn: '',
+    noticePeriodIn: 'minutes',
   }
 
   const [state, setState] = useState(initialState)
@@ -31,20 +32,18 @@ const Configurations = () => {
   useEffect(() => {
     getUser()
   }, [])
-
-  useEffect(() => {
-    const keys = [
-    'timezone',
-    'calender',
-    'personalMeetingLink',
-    'bookingPeriod',
-    'bookingPeriodIn',
-    'noticePeriod',
-    'noticePeriodIn',
-    ]
-  }, [state])
-  
-
+  console.log('timezone', timezone)
+  // useEffect(() => {
+  //   const keys = [
+  //     'timezone',
+  //     'calender',
+  //     'personalMeetingLink',
+  //     'bookingPeriod',
+  //     'bookingPeriodIn',
+  //     'noticePeriod',
+  //     'noticePeriodIn',
+  //   ]
+  // }, [state])
 
   const getUser = async () => {
     debugger
@@ -59,8 +58,10 @@ const Configurations = () => {
       if (results.data.listConfigurations.items.length > 0) {
         setIsNew(false)
         const data = { ...results.data.listConfigurations.items[0] }
-        console.log("data - ", data)
-        setState({ ...data })
+        const { createdAt, updatedAt, timezone, owner, ...rest } = data
+        console.log('data - ', data)
+        setState({ ...rest })
+        setTimezone(timezone)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
@@ -73,18 +74,20 @@ const Configurations = () => {
         initialValues={{ ...state }}
         enableReinitialize={true}
         onSubmit={async (values, e) => {
+          debugger
+          values.timezone = timezone
           try {
-            if (isNew) {
+            if (!values?.id) {
               try {
-                debugger;
-                values.id = uuid()
+                debugger
+                // values.id = uuid()
                 await API.graphql({
                   query: createConfigurations,
                   variables: { input: { ...values } },
                   authMode: 'AMAZON_COGNITO_USER_POOLS',
                 })
                 toast.success('Configuration added successfully')
-                window.location.href = window.location.href
+                // window.location.href = window.location.href
               } catch (error) {
                 toast.error(`Save Error:${error.errors[0].message}`)
               }
@@ -136,10 +139,7 @@ const Configurations = () => {
                     <div>
                       <button
                         type="button"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          handleSubmit(e)
-                        }}
+                        onClick={handleSubmit}
                         className="mt-2 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6 ml-10 border rounded"
                       >
                         Save Changes
@@ -166,7 +166,7 @@ const Configurations = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="basis-1.2">
+                  <div className="basis-1/2">
                     <div className="p-8 w-full ">
                       <TimezoneSelect
                         value={timezone}
@@ -201,14 +201,24 @@ const Configurations = () => {
                     </div>
                   </div>
                   <div className="basis-1/2">
-                    <div className="p-8 w-full ">
+                    <div className="p-8 w-full flex items-center">
+                      <TextField
+                        name="calender"
+                        classOverrideContainer="w-3/6"
+                        onChangeValue={handleChange}
+                        style={{ marginBottom: 0 }}
+                        value={values.calender}
+                        type="url"
+                        id="calender"
+                        placeholder="Calendar id"
+                      />
                       <button
                         type="button"
                         onClick={(e) => {
                           e.preventDefault()
                           // handleSubmit(e)
                         }}
-                        className="text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6  border rounded"
+                        className="w-2/6 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6  border rounded"
                       >
                         + Add Calender
                       </button>

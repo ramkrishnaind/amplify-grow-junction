@@ -118,6 +118,12 @@ const Schedule = () => {
       ...obj,
     },
   }
+  const resetState = () => {
+    setState({ ...initialState })
+    setUnavailableDateValues([])
+    setUnavailableDate([])
+    setUnavailableDates([])
+  }
   // const setValues = (values) => {
   //   console.log('values', values)
   //   setState(values)
@@ -474,7 +480,10 @@ const Schedule = () => {
                     Availability details
                   </div>
                   <div className="flex flex-row">
-                    <div className="flex justify-center items-center text-black text-base font-semibold">
+                    <div
+                      className="flex justify-center items-center text-black text-base font-semibold cursor-pointer hover:bg-white px-5 py-1 hover:border-2 hover:border-black"
+                      onClick={resetState}
+                    >
                       Reset all
                     </div>
                     <div>

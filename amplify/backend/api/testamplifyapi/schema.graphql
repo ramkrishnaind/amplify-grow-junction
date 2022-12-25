@@ -202,24 +202,7 @@ type PackageServices {
   duration: String
   price: Float
 }
-type Configurations
-  @model
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
-  ) {
-  timezone: String
-  username: String
-  calender: String
-  personalMeetingLink: String
-  bookingPeriod: Int
-  bookingPeriodIn: String
-  noticePeriod: Int
-  noticePeriodIn: String
-}
+
 type MentorRegister
   @model
   @auth(
@@ -283,52 +266,7 @@ type SocialUrl {
   personal_web_url: String
   other_url: String
 }
-type MentorAvailability
-  @model
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
-  ) {
-  mentor_availability_id: ID!
-  mentor_schedule: [MentorWeekSchedule!]
-}
 
-type MentorWeekSchedule
-  @model
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create] }
-    ]
-  ) {
-  id: ID!
-  sortId: Int!
-  day: String!
-  checked: Boolean
-  time_schedule: [timeSchedule!]
-    @hasMany(indexName: "byMentorSchedule", fields: ["id"])
-}
-
-type timeSchedule
-  @model
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create] }
-    ]
-  ) {
-  Mentor: MentorWeekSchedule @belongsTo(fields: ["MentorWeekScheduleId"])
-  MentorWeekScheduleId: ID @index(name: "byMentorSchedule")
-  startTime: String!
-  startTimeMeridian: String!
-  endTime: String!
-  endTimeMeridian: String!
-  leftMeridianDropDown: Boolean
-  rightMeridianDropDown: Boolean
-}
 type Schedule
   @model
   @auth(
@@ -388,4 +326,22 @@ type Saturday {
 type Time {
   startTime: Boolean
   endTime: String
+}
+type Configurations
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: owner, operations: [read, update, create, delete] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  timezone: String
+  calender: String
+  username: String
+  personalMeetingLink: String
+  bookingPeriod: Int
+  bookingPeriodIn: String
+  noticePeriod: Int
+  noticePeriodIn: String
 }
