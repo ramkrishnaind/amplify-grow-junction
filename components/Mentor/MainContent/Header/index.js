@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom'
 const Header = () => {
   const [open, setOpen] = useState(false)
   const { ref, isComponentVisible, setIsComponentVisible } =
-    useComponentVisible(true)
+    useComponentVisible(false)
 
   debugger
   useEffect(() => {

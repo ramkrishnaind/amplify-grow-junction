@@ -14,6 +14,7 @@ const Child = ({ title, image, url, setActive, partial }) => {
       >
         <img
           className="pl-14 pr-6 w-50 h-50"
+          style={{ width: '75px' }}
           src={`/assets/icon/mentor-dashboard/${image}`}
         />
         <span>{title}</span>
