@@ -15,6 +15,7 @@ export default function NavLink({
   href,
   exact,
   children,
+  js,
   setActive,
   ...props
 }) {
@@ -28,10 +29,10 @@ export default function NavLink({
   } else {
     if (setActive) setActive(isActive)
   }
-
+  if (js) console.log('js---', js)
   return (
-    <Link href={href} {...props}>
-      {children}
+    <Link legacyBehavior href={href} {...props}>
+      <a href={href}>{children}</a>
     </Link>
   )
 }

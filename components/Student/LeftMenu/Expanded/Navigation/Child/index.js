@@ -13,7 +13,7 @@ const Child = ({ title, image, url, setActive, partial }) => {
         className={`${classes.container} pl-10 my-2 text-2xl flex items-center cursor-pointer`}
       >
         <img
-          className="pl-14 pr-6"
+          className="pl-14 pr-6 w-50 h-50"
           src={`/assets/icon/mentor-dashboard/${image}`}
         />
         <span>{title}</span>
