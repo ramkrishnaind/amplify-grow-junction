@@ -721,8 +721,6 @@ export const deletePackages = /* GraphQL */ `
     }
   }
 `;
-<<<<<<< HEAD
-=======
 export const createConfigurations = /* GraphQL */ `
   mutation CreateConfigurations(
     $input: CreateConfigurationsInput!
@@ -783,7 +781,6 @@ export const deleteConfigurations = /* GraphQL */ `
     }
   }
 `;
->>>>>>> da0940ea6d9d46ef4afa2e580942935b69026aef
 export const createMentorRegister = /* GraphQL */ `
   mutation CreateMentorRegister(
     $input: CreateMentorRegisterInput!
@@ -958,8 +955,6 @@ export const deleteMentorRegister = /* GraphQL */ `
     }
   }
 `;
-<<<<<<< HEAD
-=======
 export const createMentorAvailability = /* GraphQL */ `
   mutation CreateMentorAvailability(
     $input: CreateMentorAvailabilityInput!
@@ -1398,7 +1393,6 @@ export const deleteTimeSchedule = /* GraphQL */ `
     }
   }
 `;
->>>>>>> da0940ea6d9d46ef4afa2e580942935b69026aef
 export const createSchedule = /* GraphQL */ `
   mutation CreateSchedule(
     $input: CreateScheduleInput!
@@ -1406,66 +1400,17 @@ export const createSchedule = /* GraphQL */ `
   ) {
     createSchedule(input: $input, condition: $condition) {
       availableSameTime
-      daySchedules {
-        everyday {
-          everyday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Sunday {
-          Sunday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Monday {
-          Monday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Tuesday {
-          Tuesday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Wednesday {
-          Wednesday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Thursday {
-          Thursday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Friday {
-          Friday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Saturday {
-          Saturday
-          time {
-            startTime
-            endTime
-          }
-        }
-      }
       username
-      unavailableDates
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
       id
       createdAt
       updatedAt
@@ -1479,66 +1424,17 @@ export const updateSchedule = /* GraphQL */ `
   ) {
     updateSchedule(input: $input, condition: $condition) {
       availableSameTime
-      daySchedules {
-        everyday {
-          everyday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Sunday {
-          Sunday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Monday {
-          Monday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Tuesday {
-          Tuesday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Wednesday {
-          Wednesday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Thursday {
-          Thursday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Friday {
-          Friday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Saturday {
-          Saturday
-          time {
-            startTime
-            endTime
-          }
-        }
-      }
       username
-      unavailableDates
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
       id
       createdAt
       updatedAt
@@ -1552,129 +1448,17 @@ export const deleteSchedule = /* GraphQL */ `
   ) {
     deleteSchedule(input: $input, condition: $condition) {
       availableSameTime
-      daySchedules {
-        everyday {
-          everyday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Sunday {
-          Sunday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Monday {
-          Monday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Tuesday {
-          Tuesday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Wednesday {
-          Wednesday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Thursday {
-          Thursday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Friday {
-          Friday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Saturday {
-          Saturday
-          time {
-            startTime
-            endTime
-          }
-        }
+      username
+      unavailableDates {
+        id
+        date
       }
-      username
-      unavailableDates
-      id
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const createConfigurations = /* GraphQL */ `
-  mutation CreateConfigurations(
-    $input: CreateConfigurationsInput!
-    $condition: ModelConfigurationsConditionInput
-  ) {
-    createConfigurations(input: $input, condition: $condition) {
-      timezone
-      calender
-      username
-      personalMeetingLink
-      bookingPeriod
-      bookingPeriodIn
-      noticePeriod
-      noticePeriodIn
-      id
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const updateConfigurations = /* GraphQL */ `
-  mutation UpdateConfigurations(
-    $input: UpdateConfigurationsInput!
-    $condition: ModelConfigurationsConditionInput
-  ) {
-    updateConfigurations(input: $input, condition: $condition) {
-      timezone
-      calender
-      username
-      personalMeetingLink
-      bookingPeriod
-      bookingPeriodIn
-      noticePeriod
-      noticePeriodIn
-      id
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const deleteConfigurations = /* GraphQL */ `
-  mutation DeleteConfigurations(
-    $input: DeleteConfigurationsInput!
-    $condition: ModelConfigurationsConditionInput
-  ) {
-    deleteConfigurations(input: $input, condition: $condition) {
-      timezone
-      calender
-      username
-      personalMeetingLink
-      bookingPeriod
-      bookingPeriodIn
-      noticePeriod
-      noticePeriodIn
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
       id
       createdAt
       updatedAt

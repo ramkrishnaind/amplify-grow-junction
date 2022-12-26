@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Auth } from 'aws-amplify'
 import { useAuth0 } from '@auth0/auth0-react'
+import { ClearUser, StoreUserAuth } from '../../../../redux/actions/AuthAction'
 import useComponentVisible from '../../../../hooks/useComponentVisible'
 import ReactDOM from 'react-dom'
 const Header = () => {
@@ -18,13 +19,14 @@ const Header = () => {
   console.log('open', open)
   const { logout: oAuthLogout } = useAuth0()
   async function logout() {
-    debugger
+    ClearUser(dispatch)
+    StoreUserAuth(dispatch, null)
     try {
       await Auth.signOut()
+    } catch (error) {}
+    try {
       oAuthLogout({ returnTo: window.location.origin })
-    } catch (error) {
-      console.log('error signing out: ', error)
-    }
+    } catch (error) {}
   }
   const mentorHeader = useSelector((state) => state.MentorHeaderReducer)
   return (

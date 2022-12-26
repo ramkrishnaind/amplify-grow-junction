@@ -502,8 +502,6 @@ export const listPackages = /* GraphQL */ `
     }
   }
 `;
-<<<<<<< HEAD
-=======
 export const getConfigurations = /* GraphQL */ `
   query GetConfigurations($id: ID!) {
     getConfigurations(id: $id) {
@@ -545,7 +543,6 @@ export const listConfigurations = /* GraphQL */ `
     }
   }
 `;
->>>>>>> da0940ea6d9d46ef4afa2e580942935b69026aef
 export const getMentorRegister = /* GraphQL */ `
   query GetMentorRegister($id: ID!) {
     getMentorRegister(id: $id) {
@@ -663,8 +660,6 @@ export const listMentorRegisters = /* GraphQL */ `
     }
   }
 `;
-<<<<<<< HEAD
-=======
 export const getMentorAvailability = /* GraphQL */ `
   query GetMentorAvailability($id: ID!) {
     getMentorAvailability(id: $id) {
@@ -947,71 +942,21 @@ export const listTimeSchedules = /* GraphQL */ `
     }
   }
 `;
->>>>>>> da0940ea6d9d46ef4afa2e580942935b69026aef
 export const getSchedule = /* GraphQL */ `
   query GetSchedule($id: ID!) {
     getSchedule(id: $id) {
       availableSameTime
-      daySchedules {
-        everyday {
-          everyday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Sunday {
-          Sunday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Monday {
-          Monday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Tuesday {
-          Tuesday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Wednesday {
-          Wednesday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Thursday {
-          Thursday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Friday {
-          Friday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Saturday {
-          Saturday
-          time {
-            startTime
-            endTime
-          }
-        }
-      }
       username
-      unavailableDates
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
       id
       createdAt
       updatedAt
@@ -1027,109 +972,17 @@ export const listSchedules = /* GraphQL */ `
     listSchedules(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         availableSameTime
-        daySchedules {
-          everyday {
-            everyday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Sunday {
-            Sunday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Monday {
-            Monday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Tuesday {
-            Tuesday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Wednesday {
-            Wednesday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Thursday {
-            Thursday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Friday {
-            Friday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Saturday {
-            Saturday
-            time {
-              startTime
-              endTime
-            }
-          }
+        username
+        unavailableDates {
+          id
+          date
         }
-        username
-        unavailableDates
-        id
-        createdAt
-        updatedAt
-        owner
-      }
-      nextToken
-    }
-  }
-`;
-export const getConfigurations = /* GraphQL */ `
-  query GetConfigurations($id: ID!) {
-    getConfigurations(id: $id) {
-      timezone
-      calender
-      username
-      personalMeetingLink
-      bookingPeriod
-      bookingPeriodIn
-      noticePeriod
-      noticePeriodIn
-      id
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const listConfigurations = /* GraphQL */ `
-  query ListConfigurations(
-    $filter: ModelConfigurationsFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listConfigurations(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        timezone
-        calender
-        username
-        personalMeetingLink
-        bookingPeriod
-        bookingPeriodIn
-        noticePeriod
-        noticePeriodIn
+        daySchedules {
+          id
+          day
+          startTime
+          endTime
+        }
         id
         createdAt
         updatedAt
