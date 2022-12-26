@@ -8,10 +8,11 @@ import TextField from '../ui-kit/TextField'
 import DropDown from '../ui-kit/DropDown'
 import { ProfessionalDetailSchema } from '../../public/utils/schema'
 import { useRouter } from 'next/router'
+
 // import { toast } from 'react-toastify'
 
 import ACTION_KEYS from '../../constants/action-keys'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Toaster from '../ui-kit/Toaster'
 // import { toast, ToastContainer } from 'react-nextjs-toast'
 
@@ -28,18 +29,22 @@ const experience = ['1', '2', '3', '4+']
 
 const spaceValidation = new RegExp(/^[^ ]*$/)
 const StudentProfessionalDetails = () => {
+  // const professionalDetails = useSelector((state) => state.AuthReducer)
+  const registerType = useSelector((state) => state.AuthReducer)
+  const { professionalDetails } = registerType
   const router = useRouter()
   const dispatch = useDispatch()
   const [degreeDropDownBool, setDegreeDropDownBool] = useState(false)
   const [employerDropDownBool, setEmployeeDropDownBool] = useState(false)
   const [expDropDownBool, setExpDropDownBool] = useState(false)
   const [showToaster, setShowToaster] = useState(false)
+  debugger
   const initialState = {
-    recent_college: '',
-    degree: '',
-    current_employee: '',
-    your_role: '',
-    experience: '',
+    recent_college: professionalDetails?.recent_college || '',
+    degree: professionalDetails?.degree || '',
+    current_employee: professionalDetails?.current_employee || '',
+    your_role: professionalDetails?.your_role || '',
+    experience: professionalDetails?.experience || '',
   }
   return (
     <BoxBodyContainer
@@ -121,7 +126,7 @@ const StudentProfessionalDetails = () => {
                   }
                   dispatch({
                     type: ACTION_KEYS.PROFESSIONAL_DETAILS,
-                    payload: { payload },
+                    payload: payload,
                   })
                   //   setShowToaster(true)
                   router.push('/register/KYC_step4')
@@ -443,6 +448,7 @@ const StudentProfessionalDetails = () => {
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                       <Button
                         label={'Previous'}
+                        className="cursor-pointer"
                         styleOverride={{
                           paddingLeft: 20,
                           paddingRight: 20,
@@ -465,6 +471,7 @@ const StudentProfessionalDetails = () => {
                       />
                       <Button
                         label={'Continue'}
+                        className="cursor-pointer"
                         styleOverride={{
                           paddingLeft: 20,
                           paddingRight: 20,

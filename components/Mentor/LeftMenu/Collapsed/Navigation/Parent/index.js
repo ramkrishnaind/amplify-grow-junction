@@ -4,7 +4,7 @@ import Child from '../Child'
 import NavLink from '../../../../../Utilities/NavLink'
 
 import Collapsed from '../../../Collapsed/index'
-const Parent = ({ image, url, hasItems, items, partial }) => {
+const Parent = ({ image, url, hasItems, js, items, partial }) => {
   // const [collapsed, setCollapsed] = useState(true)
   // const [headerActive, setHeaderActive] = useState(true)
   // const setActiveHandler = (value) => {
@@ -40,7 +40,11 @@ const Parent = ({ image, url, hasItems, items, partial }) => {
       <div
         className={`${classes.container} w-full my-2 text-2xl flex justify-center items-center cursor-pointer`}
       >
-        <img src={`/assets/icon/mentor-dashboard/${image}`} />
+        <img
+          style={{ width: '75px' }}
+          src={`/assets/icon/mentor-dashboard/${image}`}
+          className="w-50 h-50"
+        />
         {/* <span>{title}</span> */}
       </div>
     </NavLink>

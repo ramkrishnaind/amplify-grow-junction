@@ -14,6 +14,10 @@ import {
   listDomainInterestedLists,
   listTodos,
 } from '../../src/graphql/queries'
+import {
+  deleteDomainInterestedList,
+  deleteDemoSkillsList,
+} from '../../src/graphql/mutations.js'
 import Button from '../ui-kit/Button'
 import SkeletonLoader from '../ui-kit/SkeletonLoader'
 import { useRouter } from 'next/router'
@@ -31,9 +35,15 @@ const KYC_step1 = () => {
   const dispatch = useDispatch()
 
   const { width, height } = useWindowDimensions()
-
+  debugger
+  debugger
   const router = useRouter()
-  const [link, setLink] = useState(null)
+  const url =
+    registerType?.kycStep1?.[registerType?.registerType]?.linkedIn_url ||
+    registerType?.kycStep1?.[registerType?.registerType]?.url ||
+    ''
+
+  const [link, setLink] = useState(url)
   const [domainList, setdomainList] = useState([])
   const [showDomainInput, setShowDomainInput] = useState(false)
   const [domainName, setDomainName] = useState({ value: '' })
@@ -46,11 +56,62 @@ const KYC_step1 = () => {
   //   console.log(registerType?.registerType)
 
   useEffect(() => {
+    // debugger
     if (!domainList.length) {
       getCurrentUser()
     }
   }, [])
-
+  useEffect(() => {
+    debugger
+    if (registerType?.registerType) {
+      if (registerType?.registerType === 'STUDENT') {
+        if (
+          registerType?.kycStep1?.[registerType?.registerType]?.interestedSkills
+            ?.length > 0
+        ) {
+          setSelectedList(
+            registerType?.kycStep1?.[registerType?.registerType]
+              ?.interestedSkills,
+          )
+        }
+      } else {
+        if (
+          registerType?.kycStep1?.[registerType?.registerType]?.domain_id
+            ?.length > 0
+        ) {
+          setSelectedList(
+            registerType?.kycStep1?.[registerType?.registerType]?.domain_id,
+          )
+        }
+      }
+    }
+  }, [registerType, domainList])
+  const deleteDomainList = async (id) => {
+    debugger
+    setLoading(true)
+    if (registerType?.registerType === 'STUDENT') {
+      try {
+        const listData = await API.graphql({
+          query: deleteDomainInterestedList,
+          variables: { input: { id } },
+          authMode: 'AMAZON_COGNITO_USER_POOLS',
+        })
+      } catch (err) {
+        console.log('err', err)
+      }
+    } else {
+      try {
+        const listData = await API.graphql({
+          query: deleteDemoSkillsList,
+          variables: { input: { id } },
+          authMode: 'AMAZON_COGNITO_USER_POOLS',
+        })
+      } catch (err) {
+        console.log('err', err)
+      }
+    }
+    setLoading(false)
+  }
   const getCurrentUser = async () => {
     const { username } = await Auth.currentAuthenticatedUser({
       bypassCache: true,
@@ -61,6 +122,7 @@ const KYC_step1 = () => {
           query: listDomainInterestedLists,
         })
         console.log(listData)
+
         setdomainList(listData?.data?.listDomainInterestedLists?.items)
         setDomainListLoading(false)
         setShowDomainInput(false)
@@ -86,9 +148,15 @@ const KYC_step1 = () => {
   }
 
   const saveDomainSkills = async () => {
+    debugger
+    if (!domainName) {
+      setShowDomainInput(false)
+      return
+    }
     setLoading(true)
     try {
       const data = { value: domainName }
+
       if (registerType?.registerType === 'STUDENT') {
         const postData = await API.graphql({
           query: mutations.createDomainInterestedList,
@@ -236,60 +304,68 @@ const KYC_step1 = () => {
                       })
 
                       return (
-                        <div
-                          key={index.toString()}
-                          style={{
-                            cursor: 'pointer',
-                            paddingLeft: 20,
-                            paddingRight: 20,
-                            // backgroundColor: "red",
-                            borderWidth: 1,
-                            borderColor: selectedItem
-                              ? color.btnColor
-                              : color.blackVariant,
-                            borderRadius: 22,
-                            marginRight: 10,
-                            marginBottom: 20,
-                            height: 43,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            display: 'flex',
-                          }}
-                          onClick={() => {
-                            let count = 0
-                            if (selectedList.length) {
-                              selectedList.map((items, index) => {
-                                if (items?.id === item?.id) {
-                                  count = 1
-                                  setSelectedList(
-                                    selectedList.filter(
-                                      (items) => items?.id !== item?.id,
-                                    ),
-                                  )
+                        <div className="relative">
+                          <div
+                            key={index.toString()}
+                            style={{
+                              cursor: 'pointer',
+                              paddingLeft: 20,
+                              paddingRight: 20,
+                              // backgroundColor: "red",
+                              borderWidth: 1,
+                              borderColor: selectedItem
+                                ? color.btnColor
+                                : color.blackVariant,
+                              borderRadius: 22,
+                              marginRight: 10,
+                              marginBottom: 20,
+                              height: 43,
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              display: 'flex',
+                            }}
+                            onClick={() => {
+                              let count = 0
+                              if (selectedList.length) {
+                                selectedList.map((items, index) => {
+                                  if (items?.id === item?.id) {
+                                    count = 1
+                                    setSelectedList(
+                                      selectedList.filter(
+                                        (items) => items?.id !== item?.id,
+                                      ),
+                                    )
+                                  }
+                                })
+                                if (count == 0) {
+                                  setSelectedList((selectedList) => [
+                                    ...selectedList,
+                                    item,
+                                  ])
                                 }
-                              })
-                              if (count == 0) {
+                              } else
                                 setSelectedList((selectedList) => [
                                   ...selectedList,
                                   item,
                                 ])
-                              }
-                            } else
-                              setSelectedList((selectedList) => [
-                                ...selectedList,
-                                item,
-                              ])
-                          }}
-                        >
-                          <div
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 400,
-                              color: color.blackVariant,
                             }}
                           >
-                            {item?.value}
+                            <div
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 400,
+                                color: color.blackVariant,
+                              }}
+                            >
+                              {item?.value}
+                            </div>
                           </div>
+                          {/* <div
+                            className="w-10 -top-5 text-sm right-0 h-10 rounded-full bg-red-600 text-white cursor-pointer absolute flex justify-center items-center p-5"
+                            onClick={deleteDomainList.bind(null, item?.id)}
+                          >
+                            X
+                          </div> */}
                         </div>
                       )
                     })}
@@ -317,7 +393,12 @@ const KYC_step1 = () => {
                       />
                     )}
                     <Button
-                      label={showDomainInput ? 'Save' : 'Add another'}
+                      className="cursor-pointer"
+                      label={
+                        showDomainInput
+                          ? 'Save'
+                          : `Add ${domainList.length > 0 ? ' another' : ''}`
+                      }
                       styleOverride={{
                         paddingLeft: 20,
                         paddingRight: 20,
@@ -340,6 +421,31 @@ const KYC_step1 = () => {
                         }
                       }}
                     />
+                    {showDomainInput && (
+                      <Button
+                        label={'Cancel'}
+                        className="cursor-pointer"
+                        styleOverride={{
+                          paddingLeft: 20,
+                          paddingRight: 20,
+                          marginLeft: 20,
+                          paddingTop: 6,
+                          paddingBottom: 6,
+                          color: color.white,
+                          borderWidth: 1,
+                          borderColor: color.blackVariant,
+                          borderRadius: 22,
+                          height: 43,
+                          backgroundColor: color.blackVariant,
+                          width: showDomainInput ? 100 : 160,
+                          fontSize: 14,
+                        }}
+                        // loader={loading}
+                        onClick={() => {
+                          setShowDomainInput(false)
+                        }}
+                      />
+                    )}
                   </>
                 ) : (
                   <SkeletonLoader />
@@ -347,6 +453,7 @@ const KYC_step1 = () => {
               </div>
               <Button
                 label={'Continue'}
+                className="cursor-pointer"
                 styleOverride={{
                   paddingLeft: 20,
                   paddingRight: 20,
@@ -369,6 +476,7 @@ const KYC_step1 = () => {
                         payload: {
                           linkedIn_url: link,
                           interestedSkills: selectedList,
+                          registerType: 'STUDENT',
                         },
                       })
                       router.push('/register/StudentProfessionalDetails')
@@ -386,6 +494,7 @@ const KYC_step1 = () => {
                         payload: {
                           url: link,
                           domain_id: selectedList,
+                          registerType: 'MENTOR',
                         },
                       })
                       router.push('/register/KYC_step2')

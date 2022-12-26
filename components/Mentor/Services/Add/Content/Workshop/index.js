@@ -92,7 +92,11 @@ const Workshop = ({
   const [convertedImage, setConvertedImage] = useState()
   const [hideService, setHideService] = useState(true)
   const [limitedParticipants, setLimitedParticipants] = useState(true)
+<<<<<<< HEAD
   const toggleClass = ' transform translate-x-5 bg-black'
+=======
+  const toggleClass = ' transform translate-x-5'
+>>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
 
   const items = ['Text', 'Upload (Pdf,jpeg)']
   const [questionType, setQuestionType] = useState(items[0])
@@ -115,10 +119,17 @@ const Workshop = ({
     debugger
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
+<<<<<<< HEAD
   }
     // else{
     //   console.log(this.imageInputref.current.e.target.files[0])
   // }
+=======
+    }
+    // else{
+    //   console.log(this.imageInputref.current.e.target.files[0])
+    // }
+>>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
     //setImage(imageInputref.current.files[0].name)
     console.log('image -', image)
     if (e.target.files[0]) {
@@ -511,7 +522,11 @@ const Workshop = ({
                       {/* Switch */}
                       <div
                         className={
+<<<<<<< HEAD
                           'bg-white md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
+=======
+                          'bg-black md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
+>>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                           (hideService ? null : toggleClass)
                         }
                       ></div>

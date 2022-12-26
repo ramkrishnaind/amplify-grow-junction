@@ -276,7 +276,7 @@ const Register = (props) => {
                 <TextField
                   label="Confirm Password"
                   id="confirm_password"
-                  type="ConfirmPassword"
+                  type="password"
                   placeholder="Re-Enter Password"
                   value={values.confirm_password}
                   onChangeValue={(text) => {
@@ -287,7 +287,10 @@ const Register = (props) => {
                   errMsg={touched.confirm_password && errors.confirm_password}
                 />
                 <Button
-                  label="Get Started"
+                  label={`Get Started ${
+                    registerType?.registerType &&
+                    `as a ${registerType?.registerType.toLowerCase()}`
+                  }`}
                   styleOverride={{
                     height: 62,
                     backgroundColor: color.btnColor,

@@ -23,9 +23,9 @@ const Booking = () => {
                     setOpenTab(1)
                   }}
                 >
-                  Upcoming <span className='border border-white px-2 rounded'>04</span>
+                  Upcoming{' '}
+                  <span className="border border-white px-2 rounded">04</span>
                 </a>
-                
               </li>
               <li className="mr-2">
                 <a
@@ -40,7 +40,8 @@ const Booking = () => {
                     setOpenTab(2)
                   }}
                 >
-                  Completed <span className='border border-white px-2 rounded'>01</span>
+                  Completed{' '}
+                  <span className="border border-white px-2 rounded">01</span>
                 </a>
               </li>
             </ul>
@@ -49,11 +50,9 @@ const Booking = () => {
               <Upcoming />
             </div>
 
-
-             <div className={openTab === 2 ? 'block' : 'hidden'}>
+            <div className={openTab === 2 ? 'block' : 'hidden'}>
               <Completed />
             </div>
-
           </div>
         </div>
       </div>

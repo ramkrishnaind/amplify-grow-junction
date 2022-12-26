@@ -1,24 +1,61 @@
-import React from "react";
-import RightSideImages from "./RightSideImages";
-import classes from "./Dashboard.module.css";
-import { useRouter } from "next/router";
+import React from 'react'
+import RightSideImages from './RightSideImages'
+import classes from './Dashboard.module.css'
+import { useRouter } from 'next/router'
 
-const Dashboard = () => {
-  const router = useRouter();
+import { Auth, Hub } from 'aws-amplify'
+import { RegisterTypeRequest } from '../../redux/actions/AuthAction'
+import { useDispatch } from 'react-redux'
+import { useAuth0 } from '@auth0/auth0-react'
+import { ClearUser, StoreUserAuth } from '../../redux/actions/AuthAction'
+const Dashboard = ({ isLoggedin }) => {
+  const dispatch = useDispatch()
+  const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
+    useAuth0()
+  const router = useRouter()
+
   return (
     <section className={classes.main}>
       <header className={`flex-col md:flex-row ${classes.header}`}>
         <div className={classes.logo}></div>
-        <div className={`flex-col md:flex-row ${classes["right-side"]}`}>
-          <a className={classes.link}>Become a mentor</a>
-          <a className={classes.link}>Become a student</a>
+        <div
+          className={`flex-col md:flex-row cursor-pointer ${classes['right-side']}`}
+        >
           <a
-            className={classes.button}
+            className={classes.link}
             onClick={() => {
-              router.push("/auth/Login");
+              RegisterTypeRequest(dispatch, 'MENTOR')
+
+              router.push('/auth/Register')
             }}
           >
-            Log In
+            Become a mentor
+          </a>
+          <a
+            className={classes.link}
+            onClick={() => {
+              RegisterTypeRequest(dispatch, 'STUDENT')
+              router.push('/auth/Register')
+            }}
+          >
+            Become a student
+          </a>
+          <a
+            className={`${classes.button} cursor-pointer`}
+            onClick={async () => {
+              if (isLoggedin) {
+                try {
+                  await Auth.signOut()
+                } catch (error) {}
+                try {
+                  logout({ returnTo: window.location.origin })
+                } catch (error) {}
+                ClearUser(dispatch)
+                StoreUserAuth(dispatch, null)
+              } else router.push('/auth/Login')
+            }}
+          >
+            {isLoggedin ? 'Log out' : 'Log In'}
           </a>
         </div>
       </header>
@@ -36,7 +73,7 @@ const Dashboard = () => {
         </div>
       </section>
     </section>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

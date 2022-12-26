@@ -9,7 +9,7 @@ const Navigation = () => {
     <nav className="w-full">
       <ul className="max-h-[85vh] overflow-y-auto ">
         {NavigationLinks.map((navLink, index) => {
-          const { title, url, image, items } = navLink
+          const { title, url, image, items, js } = navLink
           if (items) {
             return (
               <>

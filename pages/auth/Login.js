@@ -21,13 +21,22 @@ import { RegistrationSchema, SignInSchema } from '../../public/utils/schema'
 import TextField from '../ui-kit/TextField'
 import Button from '../ui-kit/Button'
 import Header from '../components/common/Header'
-import { Auth } from 'aws-amplify'
+import Amplify from 'aws-amplify'
+
+import { Auth, Hub } from 'aws-amplify'
+import { useAuth0 } from '@auth0/auth0-react'
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 import Link from 'next/link'
 import {
   RegisterTypeRequest,
   StoreUserAuth,
 } from '../../redux/actions/AuthAction'
 import { useDispatch, useSelector } from 'react-redux'
+import config from '../../src/aws-exports'
+// check if env is localhost or not
+// if you're not developing on localhost, you will need to detect this is another way—the docs linked above give some examples.
+
+// split redirect signin and signout strings into correct URIs
 
 let productsp = [
   {
@@ -91,14 +100,80 @@ const options = {
 
 const spaceValidation = new RegExp(/^[^ ]*$/)
 const Login = (props) => {
+  const router = useRouter()
+  const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
+    useAuth0()
+  const [isLocalhost, setIsLocalState] = useState(false)
+  debugger
   const registerType = useSelector((state) => state.AuthReducer)
+  useEffect(() => {
+    setIsLocalState(!!(window.location.hostname === 'localhost'))
+    debugger
+    // Auth.signOut().then(() => {})
+  }, [])
+  useEffect(() => {
+    debugger
+    console.log('user', user)
+    if (registerType.user) {
+      router.replace(window.location.origin)
+    }
+  }, [registerType.user])
+  const handleSignout = async () => {
+    await Auth.signOut()
+  }
+  // useEffect(() => {
+  //   if (isLocalhost) {
+  //     debugger
+  //     const [productionRedirectSignIn, localRedirectSignIn] =
+  //       config.oauth.redirectSignIn.split(',')
+  //     const [productionRedirectSignOut, localRedirectSignOut] =
+  //       config.oauth.redirectSignOut.split(',')
 
+  //     // use correct URI in the right env
+  //     const updatedAwsConfig = {
+  //       ...config,
+  //       oauth: {
+  //         ...config.oauth,
+  //         redirectSignIn: isLocalhost
+  //           ? localRedirectSignIn
+  //           : productionRedirectSignIn,
+  //         redirectSignOut: isLocalhost
+  //           ? localRedirectSignOut
+  //           : productionRedirectSignOut,
+  //       },
+  //     }
+
+  //     Auth.configure(updatedAwsConfig)
+  //   }
+  // }, [isLocalhost])
+  useEffect(() => {
+    const unsubscribe = Hub.listen('auth', ({ payload: { event, data } }) => {
+      // debugger
+      switch (event) {
+        case 'signIn':
+          StoreUserAuth(dispatch, data)
+          setUser(data)
+          break
+        case 'signOut':
+          setUser(null)
+          break
+        case 'customOAuthState':
+          setCustomState(data)
+      }
+    })
+
+    Auth.currentAuthenticatedUser()
+      .then((currentUser) => setUser(currentUser))
+      .catch(() => console.log('Not signed in'))
+
+    return unsubscribe
+  }, [])
   //   const {width, height} = props;
   const { width, height } = useWindowDimensions()
   const dispatch = useDispatch()
   const [loader, setLoader] = useState(false)
   //   console.log(width);
-  const router = useRouter()
+
   const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
     ssr: false,
   })
@@ -209,6 +284,7 @@ const Login = (props) => {
             enableReinitialize={true}
             initialValues={initialState}
             onSubmit={async (values, { setErrors }) => {
+              debugger
               setLoader(true)
               let username = values.email
               let password = values.password
@@ -226,16 +302,23 @@ const Login = (props) => {
                       setLoader(false)
                       console.log(res?.attributes?.email)
                       Object.entries(res?.attributes).map((item, index) => {
-                        // console.log('ityem', item)
+                        let registerType
                         if (item[0] === 'custom:register_type') {
                           RegisterTypeRequest(dispatch, item[1])
+                          registerType = item[1]
                         }
                         if (item[0] === 'custom:kyc_done') {
-                          console.log('entry')
-                          if (item[1] === 'true') {
-                          } else {
-                            router.push('/register/KYC_step1')
+                          if (registerType) {
+                            if (registerType === 'STUDENT') {
+                              router.push('/student')
+                            } else {
+                              {
+                                router.push('/mentor')
+                              }
+                            }
                           }
+                        } else {
+                          router.push('/register/KYC_step1')
                         }
                       })
                     })
@@ -243,6 +326,7 @@ const Login = (props) => {
                 }
               } catch (e) {
                 console.log('e', e)
+                setLoader(false)
                 if (
                   e
                     ?.toString()
@@ -253,10 +337,17 @@ const Login = (props) => {
                   setErrors({ email: 'User email id is already registered' })
                 } else if (e?.toString()?.includes('User is not confirmed.')) {
                   router.push('/auth/VerifyEmail')
+                } else if (
+                  e?.toString()?.includes('ResourceNotFoundException') ||
+                  e?.toString()?.includes('UserNotFoundException')
+                ) {
+                  setErrors({ email: 'User email id is not registered' })
+                } else {
+                  setErrors({ email: e?.toString() })
                 }
               }
             }}
-            validationSchema={SignInSchema()}
+            validationSchema={SignInSchema}
             validateOnChange={true}
             validateOnBlur={true}
             validateOnMount={true}
@@ -274,51 +365,137 @@ const Login = (props) => {
               ...restProps
             }) => (
               <>
-                <TextField
-                  label="Email"
-                  id="email"
-                  type="Email"
-                  placeholder="examplemail@gmail.com"
-                  value={values.email}
-                  onChangeValue={(text) => {
-                    if (spaceValidation.test(text.target.value)) {
-                      setFieldValue(text.target.id, text.target.value)
-                    }
-                  }}
-                  errMsg={touched.email && errors.email}
-                />
+                <form autoComplete="off">
+                  <input type="hidden" value="prayer" />
+                  {/* <input type="email" /> */}
+                  <TextField
+                    label="Email"
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="examplemail@gmail.com"
+                    value={values.email}
+                    onChangeValue={(text) => {
+                      if (spaceValidation.test(text.target.value)) {
+                        setFieldValue(text.target.id, text.target.value)
+                      }
+                    }}
+                    errMsg={errors.email}
+                  />
 
-                <TextField
-                  label="Password"
-                  id="password"
-                  type="Password"
-                  placeholder="Enter Password"
-                  icon={require('../../public/assets/icon/eye.png')}
-                  value={values.password}
-                  onChangeValue={(text) => {
-                    if (spaceValidation.test(text.target.value)) {
-                      setFieldValue(text.target.id, text.target.value)
-                    }
-                  }}
-                  errMsg={touched.password && errors.password}
-                />
+                  <TextField
+                    label="Password"
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    icon={require('../../public/assets/icon/eye.png')}
+                    value={values.password}
+                    onChangeValue={(text) => {
+                      if (spaceValidation.test(text.target.value)) {
+                        setFieldValue(text.target.id, text.target.value)
+                      }
+                    }}
+                    errMsg={errors.password}
+                  />
 
-                <Button
-                  label="Sign-in"
-                  styleOverride={{
-                    height: 62,
-                    backgroundColor: color.btnColor,
-                    color: color.blackVariant,
-                    marginTop: 40,
-                    fontSize: 16,
-                  }}
-                  loader={loader}
-                  onClick={handleSubmit}
-                  //   onClick={() => {
-                  //     // router.prefetch('www.google.com')
-                  //     window.open('https://www.codexworld.com/', '_self')
-                  //   }}
-                />
+                  <Button
+                    label="Sign-in"
+                    type="submit"
+                    styleOverride={{
+                      height: 62,
+                      backgroundColor: color.btnColor,
+                      color: color.blackVariant,
+                      marginTop: 40,
+                      fontSize: 16,
+                    }}
+                    loader={loader}
+                    onClick={handleSubmit}
+                    //   onClick={() => {
+                    //     // router.prefetch('www.google.com')
+                    //     window.open('https://www.codexworld.com/', '_self')
+                    //   }}
+                  />
+                  {/* <Button
+                    label="Sign-out"
+                    type="button"
+                    styleOverride={{
+                      height: 62,
+                      backgroundColor: color.btnColor,
+                      color: color.blackVariant,
+                      marginTop: 40,
+                      fontSize: 16,
+                    }}
+                    loader={loader}
+                    onClick={handleSignout}
+                    //   onClick={() => {
+                    //     // router.prefetch('www.google.com')
+                    //     window.open('https://www.codexworld.com/', '_self')
+                    //   }}
+                  /> */}
+                  <div className="flex ">
+                    <Button
+                      label="Google"
+                      image="/assets/icon/google.svg"
+                      styleOverride={{
+                        height: 62,
+                        backgroundColor: 'white',
+                        color: color.blackVariant,
+                        border: '1px solid black',
+                        fontSize: 16,
+                        marginTop: 40,
+                      }}
+                      // containerOverride={{
+                      //   marginLeft: 10,
+                      // }}
+                      loader={loader}
+                      onClick={() =>
+                        // Auth.federatedSignIn({
+                        //   provider: CognitoHostedUIIdentityProvider.Google,
+                        // })
+                        {
+                          // logout({ returnTo: window.location.origin })
+                          // setTimeout(() => {
+                          //   debugger
+                          loginWithRedirect()
+                          // }, 3000)
+                        }
+                      }
+                      //   onClick={() => {
+                      //     // router.prefetch('www.google.com')
+                      //     window.open('https://www.codexworld.com/', '_self')
+                      //   }}
+                    />
+
+                    <Button
+                      label="LinkedIn"
+                      image="/assets/icon/inkedin-circled.svg"
+                      styleOverride={{
+                        height: 62,
+                        backgroundColor: 'white',
+                        color: color.blackVariant,
+                        border: '1px solid black',
+                        fontSize: 16,
+                        marginTop: 40,
+                      }}
+                      containerOverride={{
+                        marginLeft: 10,
+                      }}
+                      loader={loader}
+                      onClick={() => {
+                        // logout({ returnTo: window.location.origin })
+                        // setTimeout(() => {
+                        //   debugger
+                        loginWithRedirect()
+                        // }, 100)
+                      }}
+                      //   onClick={() => {
+                      //     // router.prefetch('www.google.com')
+                      //     window.open('https://www.codexworld.com/', '_self')
+                      //   }}
+                    />
+                  </div>
+                </form>
               </>
             )}
           </Formik>
