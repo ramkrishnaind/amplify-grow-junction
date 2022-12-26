@@ -11,12 +11,13 @@ const initialState = {
   kycStep1: null,
   kycStep2: null,
   professionalDetails: null,
+  user: null,
 }
 
 const AuthReducer = (state = initialState, action) => {
   const { type, payload } = action
   console.log('action', action, type)
-
+  // debugger
   switch (type) {
     case HYDRATE:
       return {
@@ -28,10 +29,24 @@ const AuthReducer = (state = initialState, action) => {
         ...state,
         registerType: payload,
       }
+    case ACTION_KEYS.SET_USER:
+      debugger
+      return {
+        ...state,
+        userAuth: null,
+        user: payload,
+      }
+    case ACTION_KEYS.CLEAR_USER:
+      debugger
+      return {
+        ...state,
+        user: null,
+      }
     case ACTION_KEYS.STORE_AUTH:
       return {
         ...state,
         userAuth: payload,
+        user: null,
       }
     case ACTION_KEYS.WINDOWLAYOUT:
       return {

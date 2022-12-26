@@ -109,6 +109,1332 @@ export const onDeleteSuggestedServiceList = /* GraphQL */ `
     }
   }
 `;
+export const onCreateStudentRegister = /* GraphQL */ `
+  subscription OnCreateStudentRegister(
+    $filter: ModelSubscriptionStudentRegisterFilterInput
+  ) {
+    onCreateStudentRegister(filter: $filter) {
+      student_id
+      student_name
+      recent_college
+      degree
+      current_employee
+      your_role
+      experience
+      phone_number
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      username
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
+      education {
+        degree
+        college_university
+        course
+        graduation_year
+      }
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
+      student_profile
+      interestedSkills
+      linkedIn_url
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateStudentRegister = /* GraphQL */ `
+  subscription OnUpdateStudentRegister(
+    $filter: ModelSubscriptionStudentRegisterFilterInput
+  ) {
+    onUpdateStudentRegister(filter: $filter) {
+      student_id
+      student_name
+      recent_college
+      degree
+      current_employee
+      your_role
+      experience
+      phone_number
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      username
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
+      education {
+        degree
+        college_university
+        course
+        graduation_year
+      }
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
+      student_profile
+      interestedSkills
+      linkedIn_url
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteStudentRegister = /* GraphQL */ `
+  subscription OnDeleteStudentRegister(
+    $filter: ModelSubscriptionStudentRegisterFilterInput
+  ) {
+    onDeleteStudentRegister(filter: $filter) {
+      student_id
+      student_name
+      recent_college
+      degree
+      current_employee
+      your_role
+      experience
+      phone_number
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      username
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
+      education {
+        degree
+        college_university
+        course
+        graduation_year
+      }
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
+      student_profile
+      interestedSkills
+      linkedIn_url
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateOneOnOne = /* GraphQL */ `
+  subscription OnCreateOneOnOne($filter: ModelSubscriptionOneOnOneFilterInput) {
+    onCreateOneOnOne(filter: $filter) {
+      sessionTitle
+      username
+      listedPrice
+      finalPrice
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      description
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateOneOnOne = /* GraphQL */ `
+  subscription OnUpdateOneOnOne($filter: ModelSubscriptionOneOnOneFilterInput) {
+    onUpdateOneOnOne(filter: $filter) {
+      sessionTitle
+      username
+      listedPrice
+      finalPrice
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      description
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteOneOnOne = /* GraphQL */ `
+  subscription OnDeleteOneOnOne($filter: ModelSubscriptionOneOnOneFilterInput) {
+    onDeleteOneOnOne(filter: $filter) {
+      sessionTitle
+      username
+      listedPrice
+      finalPrice
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      description
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTextQuery = /* GraphQL */ `
+  subscription OnCreateTextQuery(
+    $filter: ModelSubscriptionTextQueryFilterInput
+  ) {
+    onCreateTextQuery(filter: $filter) {
+      title
+      username
+      description
+      responseTime
+      responseTimeIn
+      listedPrice
+      finalPrice
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTextQuery = /* GraphQL */ `
+  subscription OnUpdateTextQuery(
+    $filter: ModelSubscriptionTextQueryFilterInput
+  ) {
+    onUpdateTextQuery(filter: $filter) {
+      title
+      username
+      description
+      responseTime
+      responseTimeIn
+      listedPrice
+      finalPrice
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTextQuery = /* GraphQL */ `
+  subscription OnDeleteTextQuery(
+    $filter: ModelSubscriptionTextQueryFilterInput
+  ) {
+    onDeleteTextQuery(filter: $filter) {
+      title
+      username
+      description
+      responseTime
+      responseTimeIn
+      listedPrice
+      finalPrice
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateWorkshop = /* GraphQL */ `
+  subscription OnCreateWorkshop($filter: ModelSubscriptionWorkshopFilterInput) {
+    onCreateWorkshop(filter: $filter) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateWorkshop = /* GraphQL */ `
+  subscription OnUpdateWorkshop($filter: ModelSubscriptionWorkshopFilterInput) {
+    onUpdateWorkshop(filter: $filter) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteWorkshop = /* GraphQL */ `
+  subscription OnDeleteWorkshop($filter: ModelSubscriptionWorkshopFilterInput) {
+    onDeleteWorkshop(filter: $filter) {
+      title
+      username
+      description
+      callDuration
+      callDurationIn
+      listedPrice
+      finalPrice
+      workshopDate
+      workshopTime
+      workshopImage
+      hideService
+      limitedParticipants
+      audienceSize
+      questions {
+        id
+        text
+        type
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateCourses = /* GraphQL */ `
+  subscription OnCreateCourses($filter: ModelSubscriptionCoursesFilterInput) {
+    onCreateCourses(filter: $filter) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateCourses = /* GraphQL */ `
+  subscription OnUpdateCourses($filter: ModelSubscriptionCoursesFilterInput) {
+    onUpdateCourses(filter: $filter) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteCourses = /* GraphQL */ `
+  subscription OnDeleteCourses($filter: ModelSubscriptionCoursesFilterInput) {
+    onDeleteCourses(filter: $filter) {
+      courseTitle
+      username
+      description
+      numberOfSessions
+      sessionDuration
+      sessionDurationIn
+      listedPrice
+      finalPrice
+      courseDate
+      courseTime
+      hideService
+      limitParticipants
+      audienceSize
+      courseImage
+      sessions {
+        id
+        text
+        sessionDate
+        sessionTime
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreatePackages = /* GraphQL */ `
+  subscription OnCreatePackages($filter: ModelSubscriptionPackagesFilterInput) {
+    onCreatePackages(filter: $filter) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageServices {
+        id
+        text
+        title
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePackages = /* GraphQL */ `
+  subscription OnUpdatePackages($filter: ModelSubscriptionPackagesFilterInput) {
+    onUpdatePackages(filter: $filter) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageServices {
+        id
+        text
+        title
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePackages = /* GraphQL */ `
+  subscription OnDeletePackages($filter: ModelSubscriptionPackagesFilterInput) {
+    onDeletePackages(filter: $filter) {
+      packageTitle
+      username
+      description
+      listedPrice
+      finalPrice
+      packageImage
+      emailContent
+      uploadFile
+      hideService
+      limitParticipants
+      audienceSize
+      packageServices {
+        id
+        text
+        title
+        duration
+        price
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateConfigurations = /* GraphQL */ `
+  subscription OnCreateConfigurations(
+    $filter: ModelSubscriptionConfigurationsFilterInput
+  ) {
+    onCreateConfigurations(filter: $filter) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateConfigurations = /* GraphQL */ `
+  subscription OnUpdateConfigurations(
+    $filter: ModelSubscriptionConfigurationsFilterInput
+  ) {
+    onUpdateConfigurations(filter: $filter) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteConfigurations = /* GraphQL */ `
+  subscription OnDeleteConfigurations(
+    $filter: ModelSubscriptionConfigurationsFilterInput
+  ) {
+    onDeleteConfigurations(filter: $filter) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateMentorRegister = /* GraphQL */ `
+  subscription OnCreateMentorRegister(
+    $filter: ModelSubscriptionMentorRegisterFilterInput
+  ) {
+    onCreateMentorRegister(filter: $filter) {
+      mentor_id
+      mentor_name
+      mentor_availability_id
+      phone_number
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      username
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      currency
+      time_zone
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
+      education {
+        degree
+        college_university
+        course
+        graduation_year
+      }
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
+      domain_id
+      url
+      mentor_service_id
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateMentorRegister = /* GraphQL */ `
+  subscription OnUpdateMentorRegister(
+    $filter: ModelSubscriptionMentorRegisterFilterInput
+  ) {
+    onUpdateMentorRegister(filter: $filter) {
+      mentor_id
+      mentor_name
+      mentor_availability_id
+      phone_number
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      username
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      currency
+      time_zone
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
+      education {
+        degree
+        college_university
+        course
+        graduation_year
+      }
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
+      domain_id
+      url
+      mentor_service_id
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteMentorRegister = /* GraphQL */ `
+  subscription OnDeleteMentorRegister(
+    $filter: ModelSubscriptionMentorRegisterFilterInput
+  ) {
+    onDeleteMentorRegister(filter: $filter) {
+      mentor_id
+      mentor_name
+      mentor_availability_id
+      phone_number
+      about_yourself {
+        grow_junction_url
+        first_name
+        last_name
+        short_description
+        about_yourself
+      }
+      username
+      social {
+        linkedin_url
+        facebook_url
+        instagram_url
+        personal_web_url
+        other_url
+      }
+      currency
+      time_zone
+      contact_info {
+        email
+        mobile
+        whatsapp
+      }
+      education {
+        degree
+        college_university
+        course
+        graduation_year
+      }
+      professional_info {
+        occupation
+        organization
+        location
+        position
+        experience {
+          years
+          months
+        }
+      }
+      profile_image
+      domain_id
+      url
+      mentor_service_id
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateMentorAvailability = /* GraphQL */ `
+  subscription OnCreateMentorAvailability(
+    $filter: ModelSubscriptionMentorAvailabilityFilterInput
+  ) {
+    onCreateMentorAvailability(filter: $filter) {
+      mentor_availability_id
+      username
+      mentor_schedule {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateMentorAvailability = /* GraphQL */ `
+  subscription OnUpdateMentorAvailability(
+    $filter: ModelSubscriptionMentorAvailabilityFilterInput
+  ) {
+    onUpdateMentorAvailability(filter: $filter) {
+      mentor_availability_id
+      username
+      mentor_schedule {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteMentorAvailability = /* GraphQL */ `
+  subscription OnDeleteMentorAvailability(
+    $filter: ModelSubscriptionMentorAvailabilityFilterInput
+  ) {
+    onDeleteMentorAvailability(filter: $filter) {
+      mentor_availability_id
+      username
+      mentor_schedule {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateMentorWeekSchedule = /* GraphQL */ `
+  subscription OnCreateMentorWeekSchedule(
+    $filter: ModelSubscriptionMentorWeekScheduleFilterInput
+  ) {
+    onCreateMentorWeekSchedule(filter: $filter) {
+      id
+      sortId
+      day
+      checked
+      username
+      time_schedule {
+        items {
+          Mentor {
+            id
+            sortId
+            day
+            checked
+            username
+            time_schedule {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          MentorWeekScheduleId
+          startTime
+          startTimeMeridian
+          endTime
+          username
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateMentorWeekSchedule = /* GraphQL */ `
+  subscription OnUpdateMentorWeekSchedule(
+    $filter: ModelSubscriptionMentorWeekScheduleFilterInput
+  ) {
+    onUpdateMentorWeekSchedule(filter: $filter) {
+      id
+      sortId
+      day
+      checked
+      username
+      time_schedule {
+        items {
+          Mentor {
+            id
+            sortId
+            day
+            checked
+            username
+            time_schedule {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          MentorWeekScheduleId
+          startTime
+          startTimeMeridian
+          endTime
+          username
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteMentorWeekSchedule = /* GraphQL */ `
+  subscription OnDeleteMentorWeekSchedule(
+    $filter: ModelSubscriptionMentorWeekScheduleFilterInput
+  ) {
+    onDeleteMentorWeekSchedule(filter: $filter) {
+      id
+      sortId
+      day
+      checked
+      username
+      time_schedule {
+        items {
+          Mentor {
+            id
+            sortId
+            day
+            checked
+            username
+            time_schedule {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          MentorWeekScheduleId
+          startTime
+          startTimeMeridian
+          endTime
+          username
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTimeSchedule = /* GraphQL */ `
+  subscription OnCreateTimeSchedule(
+    $filter: ModelSubscriptionTimeScheduleFilterInput
+  ) {
+    onCreateTimeSchedule(filter: $filter) {
+      Mentor {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      MentorWeekScheduleId
+      startTime
+      startTimeMeridian
+      endTime
+      username
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTimeSchedule = /* GraphQL */ `
+  subscription OnUpdateTimeSchedule(
+    $filter: ModelSubscriptionTimeScheduleFilterInput
+  ) {
+    onUpdateTimeSchedule(filter: $filter) {
+      Mentor {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      MentorWeekScheduleId
+      startTime
+      startTimeMeridian
+      endTime
+      username
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTimeSchedule = /* GraphQL */ `
+  subscription OnDeleteTimeSchedule(
+    $filter: ModelSubscriptionTimeScheduleFilterInput
+  ) {
+    onDeleteTimeSchedule(filter: $filter) {
+      Mentor {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      MentorWeekScheduleId
+      startTime
+      startTimeMeridian
+      endTime
+      username
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateSchedule = /* GraphQL */ `
+  subscription OnCreateSchedule($filter: ModelSubscriptionScheduleFilterInput) {
+    onCreateSchedule(filter: $filter) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateSchedule = /* GraphQL */ `
+  subscription OnUpdateSchedule($filter: ModelSubscriptionScheduleFilterInput) {
+    onUpdateSchedule(filter: $filter) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteSchedule = /* GraphQL */ `
+  subscription OnDeleteSchedule($filter: ModelSubscriptionScheduleFilterInput) {
+    onDeleteSchedule(filter: $filter) {
+      availableSameTime
+      username
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
+    onCreateUser(filter: $filter) {
+      given_name
+      username
+      family_name
+      picture
+      email
+      kyc_done
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser($filter: ModelSubscriptionUserFilterInput) {
+    onUpdateUser(filter: $filter) {
+      given_name
+      username
+      family_name
+      picture
+      email
+      kyc_done
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser($filter: ModelSubscriptionUserFilterInput) {
+    onDeleteUser(filter: $filter) {
+      given_name
+      username
+      family_name
+      picture
+      email
+      kyc_done
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateTodo = /* GraphQL */ `
   subscription OnCreateTodo(
     $filter: ModelSubscriptionTodoFilterInput
@@ -154,6 +1480,7 @@ export const onDeleteTodo = /* GraphQL */ `
     }
   }
 `;
+<<<<<<< HEAD
 export const onCreateStudentRegister = /* GraphQL */ `
   subscription OnCreateStudentRegister(
     $filter: ModelSubscriptionStudentRegisterFilterInput
@@ -1300,3 +2627,5 @@ export const onDeleteConfigurations = /* GraphQL */ `
     }
   }
 `;
+=======
+>>>>>>> da0940ea6d9d46ef4afa2e580942935b69026aef
