@@ -9,10 +9,11 @@ import { createUserInfo } from '../../src/graphql/mutations'
 import { color } from '../../public/theme/Color'
 import { RegistrationSchema } from '../../public/utils/schema'
 import useWindowDimensions from '../../public/utils/useWindowDimensions'
-import { StoreUserAuth } from '../../redux/actions/AuthAction'
+import { StoreUserAuth, Signup } from '../../redux/actions/AuthAction'
 import Header from '../components/common/Header'
 import Button from '../ui-kit/Button'
 import TextField from '../ui-kit/TextField'
+import { useAuth0 } from '@auth0/auth0-react'
 
 let productsp = [
   {
@@ -84,6 +85,8 @@ const options = {
 
 const spaceValidation = new RegExp(/^[^ ]*$/)
 const Register = (props) => {
+  const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
+    useAuth0()
   const registerType = useSelector((state) => state.AuthReducer)
   const { width, height } = useWindowDimensions()
   const router = useRouter()
@@ -181,6 +184,7 @@ const Register = (props) => {
                     enabled: true,
                   },
                 })
+                Signup(dispatch)
                 console.log('user', user)
                 await API.graphql({
                   query: createUserInfo,
@@ -342,6 +346,7 @@ const Register = (props) => {
                         // logout({ returnTo: window.location.origin })
                         // setTimeout(() => {
                         //   debugger
+                        Signup(dispatch)
                         loginWithRedirect()
                         // }, 3000)
                       }
@@ -371,6 +376,7 @@ const Register = (props) => {
                       // logout({ returnTo: window.location.origin })
                       // setTimeout(() => {
                       //   debugger
+                      Signup(dispatch)
                       loginWithRedirect()
                       // }, 100)
                     }}
