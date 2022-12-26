@@ -1065,6 +1065,7 @@ export const onCreateUserInfo = /* GraphQL */ `
     onCreateUserInfo(filter: $filter) {
       kyc_done
       register_type
+      username
       email
       name
       profile_image
@@ -1079,6 +1080,7 @@ export const onUpdateUserInfo = /* GraphQL */ `
     onUpdateUserInfo(filter: $filter) {
       kyc_done
       register_type
+      username
       email
       name
       profile_image
@@ -1093,6 +1095,7 @@ export const onDeleteUserInfo = /* GraphQL */ `
     onDeleteUserInfo(filter: $filter) {
       kyc_done
       register_type
+      username
       email
       name
       profile_image

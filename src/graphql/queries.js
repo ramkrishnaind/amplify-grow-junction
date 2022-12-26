@@ -777,6 +777,7 @@ export const getUserInfo = /* GraphQL */ `
     getUserInfo(id: $id) {
       kyc_done
       register_type
+      username
       email
       name
       profile_image
@@ -796,6 +797,7 @@ export const listUserInfos = /* GraphQL */ `
       items {
         kyc_done
         register_type
+        username
         email
         name
         profile_image

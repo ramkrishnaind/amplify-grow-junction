@@ -1131,6 +1131,7 @@ export const createUserInfo = /* GraphQL */ `
     createUserInfo(input: $input, condition: $condition) {
       kyc_done
       register_type
+      username
       email
       name
       profile_image
@@ -1148,6 +1149,7 @@ export const updateUserInfo = /* GraphQL */ `
     updateUserInfo(input: $input, condition: $condition) {
       kyc_done
       register_type
+      username
       email
       name
       profile_image
@@ -1165,6 +1167,7 @@ export const deleteUserInfo = /* GraphQL */ `
     deleteUserInfo(input: $input, condition: $condition) {
       kyc_done
       register_type
+      username
       email
       name
       profile_image
