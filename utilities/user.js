@@ -1,10 +1,11 @@
 import { store } from '../redux/store'
 export const getLoggedinUserEmail = () => {
+  //   debugger
   const authData = store.getState().AuthReducer
   if (authData.user) {
-    return authData.email
+    return authData.user.email
   } else if (authData.userAuth) {
-    return authData.username
+    return authData.userAuth.username
   } else {
     return ''
   }

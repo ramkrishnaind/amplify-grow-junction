@@ -14,7 +14,8 @@ import ACTION_KEYS from '../constants/action-keys'
 import { SetUser } from '../redux/actions/AuthAction'
 import { getLoggedinUserEmail } from '../utilities/user'
 const Home = () => {
-  getLoggedinUserEmail()
+  const email = getLoggedinUserEmail()
+  debugger
   const registerType = useSelector((state) => state.AuthReducer)
   const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
     useAuth0()
