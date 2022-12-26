@@ -164,6 +164,7 @@ const Register = (props) => {
                 email,
                 name: first_name + ' ' + last_name,
                 profile_image: '',
+                username: email,
               }
               try {
                 const { user } = await Auth.signUp({
