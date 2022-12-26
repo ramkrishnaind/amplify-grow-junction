@@ -573,68 +573,6 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "getConfigurations",
-          "description" : null,
-          "args" : [ {
-            "name" : "id",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "SCALAR",
-                "name" : "ID",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "Configurations",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "listConfigurations",
-          "description" : null,
-          "args" : [ {
-            "name" : "filter",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelConfigurationsFilterInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "limit",
-            "description" : null,
-            "type" : {
-              "kind" : "SCALAR",
-              "name" : "Int",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "nextToken",
-            "description" : null,
-            "type" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "ModelConfigurationsConnection",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
           "name" : "getMentorRegister",
           "description" : null,
           "args" : [ {
@@ -697,6 +635,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+<<<<<<< HEAD
           "name" : "getMentorAvailability",
           "description" : null,
           "args" : [ {
@@ -1068,6 +1007,195 @@
           "deprecationReason" : null
         }, {
           "name" : "getTodo",
+=======
+          "name" : "getSchedule",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
+          "description" : null,
+          "args" : [ {
+            "name" : "id",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "ID",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Todo",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "listTodos",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelTodoFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "limit",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "nextToken",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "ModelTodoConnection",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "getUserInfo",
+          "description" : null,
+          "args" : [ {
+            "name" : "id",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "ID",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "UserInfo",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "listUserInfos",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelUserInfoFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "limit",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "nextToken",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "ModelUserInfoConnection",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "getConfigurations",
+          "description" : null,
+          "args" : [ {
+            "name" : "id",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "ID",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Configurations",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "listConfigurations",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelConfigurationsFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "limit",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "nextToken",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "ModelConfigurationsConnection",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "getTodo",
           "description" : null,
           "args" : [ {
             "name" : "id",
@@ -1149,6 +1277,17 @@
               "name" : "ID",
               "ofType" : null
             }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
@@ -1279,6 +1418,15 @@
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelIDInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -1763,6 +1911,17 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+          "name" : "username",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
           "name" : "value",
           "description" : null,
           "args" : [ ],
@@ -1866,6 +2025,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "value",
           "description" : null,
           "type" : {
@@ -1929,6 +2097,17 @@
               "name" : "ID",
               "ofType" : null
             }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
@@ -2032,6 +2211,15 @@
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelIDInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -5172,6 +5360,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
+<<<<<<< HEAD
         "name" : "Configurations",
         "description" : null,
         "fields" : [ {
@@ -5469,6 +5658,8 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         "name" : "MentorRegister",
         "description" : null,
         "fields" : [ {
@@ -5901,6 +6092,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
+<<<<<<< HEAD
         "name" : "MentorAvailability",
         "description" : null,
         "fields" : [ {
@@ -6880,6 +7072,8 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         "name" : "Schedule",
         "description" : null,
         "fields" : [ {
@@ -6889,6 +7083,17 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "daySchedules",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "DaySchedules",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -6912,23 +7117,8 @@
             "kind" : "LIST",
             "name" : null,
             "ofType" : {
-              "kind" : "OBJECT",
-              "name" : "UnavailableDates",
-              "ofType" : null
-            }
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "daySchedules",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "OBJECT",
-              "name" : "DaySchedules",
+              "kind" : "SCALAR",
+              "name" : "String",
               "ofType" : null
             }
           },
@@ -6979,6 +7169,7 @@
           },
           "isDeprecated" : false,
           "deprecationReason" : null
+<<<<<<< HEAD
         } ],
         "inputFields" : null,
         "interfaces" : [ ],
@@ -7010,6 +7201,8 @@
           },
           "isDeprecated" : false,
           "deprecationReason" : null
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         } ],
         "inputFields" : null,
         "interfaces" : [ ],
@@ -7020,34 +7213,144 @@
         "name" : "DaySchedules",
         "description" : null,
         "fields" : [ {
-          "name" : "id",
+          "name" : "everyday",
           "description" : null,
           "args" : [ ],
           "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
+            "kind" : "OBJECT",
+            "name" : "Everyday",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "day",
+          "name" : "Sunday",
           "description" : null,
           "args" : [ ],
           "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
+            "kind" : "OBJECT",
+            "name" : "Sunday",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+          "name" : "Monday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Monday",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "Tuesday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Tuesday",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "Wednesday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Wednesday",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "Thursday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Thursday",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "Friday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Friday",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "Saturday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Saturday",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "Everyday",
+        "description" : null,
+        "fields" : [ {
+          "name" : "everyday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "Time",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "Time",
+        "description" : null,
+        "fields" : [ {
           "name" : "startTime",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "SCALAR",
-            "name" : "String",
+            "name" : "Boolean",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -7060,6 +7363,251 @@
             "kind" : "SCALAR",
             "name" : "String",
             "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "Sunday",
+        "description" : null,
+        "fields" : [ {
+          "name" : "Sunday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "Time",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "Monday",
+        "description" : null,
+        "fields" : [ {
+          "name" : "Monday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "Time",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "Tuesday",
+        "description" : null,
+        "fields" : [ {
+          "name" : "Tuesday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "Time",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "Wednesday",
+        "description" : null,
+        "fields" : [ {
+          "name" : "Wednesday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "Time",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "Thursday",
+        "description" : null,
+        "fields" : [ {
+          "name" : "Thursday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "Time",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "Friday",
+        "description" : null,
+        "fields" : [ {
+          "name" : "Friday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "Time",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "Saturday",
+        "description" : null,
+        "fields" : [ {
+          "name" : "Saturday",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "Time",
+              "ofType" : null
+            }
           },
           "isDeprecated" : false,
           "deprecationReason" : null
@@ -7131,6 +7679,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "unavailableDates",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "and",
           "description" : null,
           "type" : {
@@ -7171,20 +7728,32 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
+<<<<<<< HEAD
         "name" : "User",
         "description" : null,
         "fields" : [ {
           "name" : "given_name",
+=======
+        "name" : "UserInfo",
+        "description" : null,
+        "fields" : [ {
+          "name" : "kyc_done",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "SCALAR",
+<<<<<<< HEAD
             "name" : "String",
+=======
+            "name" : "Boolean",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+<<<<<<< HEAD
           "name" : "username",
           "description" : null,
           "args" : [ ],
@@ -7208,6 +7777,9 @@
           "deprecationReason" : null
         }, {
           "name" : "picture",
+=======
+          "name" : "register_type",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -7229,12 +7801,31 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+<<<<<<< HEAD
           "name" : "kyc_done",
+=======
+          "name" : "name",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "SCALAR",
+<<<<<<< HEAD
             "name" : "Boolean",
+=======
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "profile_image",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -7291,7 +7882,11 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
+<<<<<<< HEAD
         "name" : "ModelUserConnection",
+=======
+        "name" : "ModelUserInfoConnection",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         "description" : null,
         "fields" : [ {
           "name" : "items",
@@ -7305,7 +7900,11 @@
               "name" : null,
               "ofType" : {
                 "kind" : "OBJECT",
+<<<<<<< HEAD
                 "name" : "User",
+=======
+                "name" : "UserInfo",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
                 "ofType" : null
               }
             }
@@ -7330,6 +7929,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
         "name" : "ModelUserFilterInput",
         "description" : null,
         "fields" : null,
@@ -7339,10 +7939,22 @@
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelStringInput",
+=======
+        "name" : "ModelUserInfoFilterInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "kyc_done",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelBooleanInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "username",
           "description" : null,
           "type" : {
@@ -7362,6 +7974,9 @@
           "defaultValue" : null
         }, {
           "name" : "picture",
+=======
+          "name" : "register_type",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -7379,11 +7994,28 @@
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "kyc_done",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelBooleanInput",
+=======
+          "name" : "name",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "profile_image",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "defaultValue" : null
@@ -7395,7 +8027,11 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
               "name" : "ModelUserFilterInput",
+=======
+              "name" : "ModelUserInfoFilterInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
               "ofType" : null
             }
           },
@@ -7408,7 +8044,11 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
               "name" : "ModelUserFilterInput",
+=======
+              "name" : "ModelUserInfoFilterInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
               "ofType" : null
             }
           },
@@ -7418,7 +8058,308 @@
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
             "name" : "ModelUserFilterInput",
+=======
+            "name" : "ModelUserInfoFilterInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "Configurations",
+        "description" : null,
+        "fields" : [ {
+          "name" : "timezone",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "calender",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "personalMeetingLink",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "bookingPeriod",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "bookingPeriodIn",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "noticePeriod",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "noticePeriodIn",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "id",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "ID",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "createdAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "AWSDateTime",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "updatedAt",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "AWSDateTime",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "ModelConfigurationsConnection",
+        "description" : null,
+        "fields" : [ {
+          "name" : "items",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "LIST",
+              "name" : null,
+              "ofType" : {
+                "kind" : "OBJECT",
+                "name" : "Configurations",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "nextToken",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "ModelConfigurationsFilterInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "timezone",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "calender",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "personalMeetingLink",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "bookingPeriod",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelIntInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "bookingPeriodIn",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "noticePeriod",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelIntInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "noticePeriodIn",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "and",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelConfigurationsFilterInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "or",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelConfigurationsFilterInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "not",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelConfigurationsFilterInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "defaultValue" : null
@@ -7461,6 +8402,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+<<<<<<< HEAD
           "name" : "username",
           "description" : null,
           "args" : [ ],
@@ -7472,6 +8414,8 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "name" : "description",
           "description" : null,
           "args" : [ ],
@@ -7512,6 +8456,20 @@
           },
           "isDeprecated" : false,
           "deprecationReason" : null
+<<<<<<< HEAD
+=======
+        }, {
+          "name" : "username",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         } ],
         "inputFields" : null,
         "interfaces" : [ ],
@@ -7580,6 +8538,7 @@
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "username",
           "description" : null,
           "type" : {
@@ -7589,6 +8548,8 @@
           },
           "defaultValue" : null
         }, {
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "name" : "description",
           "description" : null,
           "type" : {
@@ -8532,105 +9493,6 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "createConfigurations",
-          "description" : null,
-          "args" : [ {
-            "name" : "input",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "INPUT_OBJECT",
-                "name" : "CreateConfigurationsInput",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "condition",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelConfigurationsConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "Configurations",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "updateConfigurations",
-          "description" : null,
-          "args" : [ {
-            "name" : "input",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "INPUT_OBJECT",
-                "name" : "UpdateConfigurationsInput",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "condition",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelConfigurationsConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "Configurations",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "deleteConfigurations",
-          "description" : null,
-          "args" : [ {
-            "name" : "input",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "INPUT_OBJECT",
-                "name" : "DeleteConfigurationsInput",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "condition",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelConfigurationsConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "Configurations",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
           "name" : "createMentorRegister",
           "description" : null,
           "args" : [ {
@@ -8725,303 +9587,6 @@
           "type" : {
             "kind" : "OBJECT",
             "name" : "MentorRegister",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "createMentorAvailability",
-          "description" : null,
-          "args" : [ {
-            "name" : "input",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "INPUT_OBJECT",
-                "name" : "CreateMentorAvailabilityInput",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "condition",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelMentorAvailabilityConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "MentorAvailability",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "updateMentorAvailability",
-          "description" : null,
-          "args" : [ {
-            "name" : "input",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "INPUT_OBJECT",
-                "name" : "UpdateMentorAvailabilityInput",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "condition",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelMentorAvailabilityConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "MentorAvailability",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "deleteMentorAvailability",
-          "description" : null,
-          "args" : [ {
-            "name" : "input",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "INPUT_OBJECT",
-                "name" : "DeleteMentorAvailabilityInput",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "condition",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelMentorAvailabilityConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "MentorAvailability",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "createMentorWeekSchedule",
-          "description" : null,
-          "args" : [ {
-            "name" : "input",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "INPUT_OBJECT",
-                "name" : "CreateMentorWeekScheduleInput",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "condition",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelMentorWeekScheduleConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "MentorWeekSchedule",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "updateMentorWeekSchedule",
-          "description" : null,
-          "args" : [ {
-            "name" : "input",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "INPUT_OBJECT",
-                "name" : "UpdateMentorWeekScheduleInput",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "condition",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelMentorWeekScheduleConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "MentorWeekSchedule",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "deleteMentorWeekSchedule",
-          "description" : null,
-          "args" : [ {
-            "name" : "input",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "INPUT_OBJECT",
-                "name" : "DeleteMentorWeekScheduleInput",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "condition",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelMentorWeekScheduleConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "MentorWeekSchedule",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "createTimeSchedule",
-          "description" : null,
-          "args" : [ {
-            "name" : "input",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "INPUT_OBJECT",
-                "name" : "CreateTimeScheduleInput",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "condition",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelTimeScheduleConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "timeSchedule",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "updateTimeSchedule",
-          "description" : null,
-          "args" : [ {
-            "name" : "input",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "INPUT_OBJECT",
-                "name" : "UpdateTimeScheduleInput",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "condition",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelTimeScheduleConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "timeSchedule",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "deleteTimeSchedule",
-          "description" : null,
-          "args" : [ {
-            "name" : "input",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "INPUT_OBJECT",
-                "name" : "DeleteTimeScheduleInput",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "condition",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelTimeScheduleConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "timeSchedule",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -9126,7 +9691,11 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+<<<<<<< HEAD
           "name" : "createUser",
+=======
+          "name" : "createUserInfo",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "args" : [ {
             "name" : "input",
@@ -9136,7 +9705,11 @@
               "name" : null,
               "ofType" : {
                 "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
                 "name" : "CreateUserInput",
+=======
+                "name" : "CreateUserInfoInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
                 "ofType" : null
               }
             },
@@ -9146,20 +9719,32 @@
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
               "name" : "ModelUserConditionInput",
+=======
+              "name" : "ModelUserInfoConditionInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
               "ofType" : null
             },
             "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
+<<<<<<< HEAD
             "name" : "User",
+=======
+            "name" : "UserInfo",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+<<<<<<< HEAD
           "name" : "updateUser",
+=======
+          "name" : "updateUserInfo",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "args" : [ {
             "name" : "input",
@@ -9169,7 +9754,11 @@
               "name" : null,
               "ofType" : {
                 "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
                 "name" : "UpdateUserInput",
+=======
+                "name" : "UpdateUserInfoInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
                 "ofType" : null
               }
             },
@@ -9179,20 +9768,32 @@
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
               "name" : "ModelUserConditionInput",
+=======
+              "name" : "ModelUserInfoConditionInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
               "ofType" : null
             },
             "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
+<<<<<<< HEAD
             "name" : "User",
+=======
+            "name" : "UserInfo",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+<<<<<<< HEAD
           "name" : "deleteUser",
+=======
+          "name" : "deleteUserInfo",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "args" : [ {
             "name" : "input",
@@ -9202,7 +9803,11 @@
               "name" : null,
               "ofType" : {
                 "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
                 "name" : "DeleteUserInput",
+=======
+                "name" : "DeleteUserInfoInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
                 "ofType" : null
               }
             },
@@ -9212,14 +9817,121 @@
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
               "name" : "ModelUserConditionInput",
+=======
+              "name" : "ModelUserInfoConditionInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
               "ofType" : null
             },
             "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
+<<<<<<< HEAD
             "name" : "User",
+=======
+            "name" : "UserInfo",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "createConfigurations",
+          "description" : null,
+          "args" : [ {
+            "name" : "input",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "INPUT_OBJECT",
+                "name" : "CreateConfigurationsInput",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "condition",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelConfigurationsConditionInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Configurations",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "updateConfigurations",
+          "description" : null,
+          "args" : [ {
+            "name" : "input",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "INPUT_OBJECT",
+                "name" : "UpdateConfigurationsInput",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "condition",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelConfigurationsConditionInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Configurations",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "deleteConfigurations",
+          "description" : null,
+          "args" : [ {
+            "name" : "input",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "INPUT_OBJECT",
+                "name" : "DeleteConfigurationsInput",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "condition",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelConfigurationsConditionInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Configurations",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -9343,6 +10055,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "value",
           "description" : null,
           "type" : {
@@ -9365,6 +10086,15 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "value",
           "description" : null,
           "type" : {
@@ -9431,6 +10161,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "value",
           "description" : null,
           "type" : {
@@ -9480,6 +10219,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "value",
           "description" : null,
           "type" : {
@@ -9502,6 +10250,15 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "value",
           "description" : null,
           "type" : {
@@ -9568,6 +10325,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "value",
           "description" : null,
           "type" : {
@@ -9617,6 +10383,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "value",
           "description" : null,
           "type" : {
@@ -9639,6 +10414,15 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "value",
           "description" : null,
           "type" : {
@@ -9702,6 +10486,15 @@
               "name" : "ID",
               "ofType" : null
             }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
           },
           "defaultValue" : null
         }, {
@@ -12876,328 +13669,6 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "CreateConfigurationsInput",
-        "description" : null,
-        "fields" : null,
-        "inputFields" : [ {
-          "name" : "timezone",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "username",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "calender",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "personalMeetingLink",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "bookingPeriod",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Int",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "bookingPeriodIn",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "noticePeriod",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Int",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "noticePeriodIn",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "id",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "ID",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        } ],
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "INPUT_OBJECT",
-        "name" : "ModelConfigurationsConditionInput",
-        "description" : null,
-        "fields" : null,
-        "inputFields" : [ {
-          "name" : "timezone",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "username",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "calender",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "personalMeetingLink",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "bookingPeriod",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelIntInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "bookingPeriodIn",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "noticePeriod",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelIntInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "noticePeriodIn",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "and",
-          "description" : null,
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelConfigurationsConditionInput",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "or",
-          "description" : null,
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelConfigurationsConditionInput",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "not",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelConfigurationsConditionInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        } ],
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "INPUT_OBJECT",
-        "name" : "UpdateConfigurationsInput",
-        "description" : null,
-        "fields" : null,
-        "inputFields" : [ {
-          "name" : "timezone",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "username",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "calender",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "personalMeetingLink",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "bookingPeriod",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Int",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "bookingPeriodIn",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "noticePeriod",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "Int",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "noticePeriodIn",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "id",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "ID",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        } ],
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "INPUT_OBJECT",
-        "name" : "DeleteConfigurationsInput",
-        "description" : null,
-        "fields" : null,
-        "inputFields" : [ {
-          "name" : "id",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "ID",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        } ],
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "INPUT_OBJECT",
         "name" : "CreateMentorRegisterInput",
         "description" : null,
         "fields" : null,
@@ -13727,6 +14198,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
         "name" : "CreateMentorAvailabilityInput",
         "description" : null,
         "fields" : null,
@@ -14451,6 +14923,8 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         "name" : "CreateScheduleInput",
         "description" : null,
         "fields" : null,
@@ -14460,6 +14934,15 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "daySchedules",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "DaySchedulesInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -14479,21 +14962,8 @@
             "kind" : "LIST",
             "name" : null,
             "ofType" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "UnavailableDatesInput",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "daySchedules",
-          "description" : null,
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "DaySchedulesInput",
+              "kind" : "SCALAR",
+              "name" : "String",
               "ofType" : null
             }
           },
@@ -14513,20 +14983,132 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "UnavailableDatesInput",
+        "name" : "DaySchedulesInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "id",
+          "name" : "everyday",
           "description" : null,
           "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
+            "kind" : "INPUT_OBJECT",
+            "name" : "EverydayInput",
             "ofType" : null
           },
           "defaultValue" : null
         }, {
-          "name" : "date",
+          "name" : "Sunday",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "SundayInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "Monday",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "MondayInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "Tuesday",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "TuesdayInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "Wednesday",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "WednesdayInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "Thursday",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ThursdayInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "Friday",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "FridayInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "Saturday",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "SaturdayInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "EverydayInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "everyday",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "TimeInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "TimeInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "startTime",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "endTime",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
@@ -14540,43 +15122,215 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "DaySchedulesInput",
+        "name" : "SundayInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "id",
+          "name" : "Sunday",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
-            "name" : "String",
+            "name" : "Boolean",
             "ofType" : null
           },
           "defaultValue" : null
         }, {
-          "name" : "day",
+          "name" : "time",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "TimeInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "MondayInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "Monday",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
-            "name" : "String",
+            "name" : "Boolean",
             "ofType" : null
           },
           "defaultValue" : null
         }, {
-          "name" : "startTime",
+          "name" : "time",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "TimeInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "TuesdayInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "Tuesday",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
-            "name" : "String",
+            "name" : "Boolean",
             "ofType" : null
           },
           "defaultValue" : null
         }, {
-          "name" : "endTime",
+          "name" : "time",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "TimeInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "WednesdayInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "Wednesday",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
-            "name" : "String",
+            "name" : "Boolean",
             "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "TimeInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "ThursdayInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "Thursday",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "TimeInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "FridayInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "Friday",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "TimeInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "SaturdayInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "Saturday",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "time",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "TimeInput",
+              "ofType" : null
+            }
           },
           "defaultValue" : null
         } ],
@@ -14599,6 +15353,15 @@
           "defaultValue" : null
         }, {
           "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "unavailableDates",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -14660,6 +15423,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "daySchedules",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "DaySchedulesInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "username",
           "description" : null,
           "type" : {
@@ -14675,21 +15447,8 @@
             "kind" : "LIST",
             "name" : null,
             "ofType" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "UnavailableDatesInput",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "daySchedules",
-          "description" : null,
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "DaySchedulesInput",
+              "kind" : "SCALAR",
+              "name" : "String",
               "ofType" : null
             }
           },
@@ -14735,6 +15494,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
         "name" : "CreateUserInput",
         "description" : null,
         "fields" : null,
@@ -14744,10 +15504,22 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "String",
+=======
+        "name" : "CreateUserInfoInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "kyc_done",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "username",
           "description" : null,
           "type" : {
@@ -14767,6 +15539,9 @@
           "defaultValue" : null
         }, {
           "name" : "picture",
+=======
+          "name" : "register_type",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
@@ -14784,11 +15559,28 @@
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "kyc_done",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
             "name" : "Boolean",
+=======
+          "name" : "name",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "profile_image",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "defaultValue" : null
@@ -14807,6 +15599,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
         "name" : "ModelUserConditionInput",
         "description" : null,
         "fields" : null,
@@ -14816,10 +15609,22 @@
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelStringInput",
+=======
+        "name" : "ModelUserInfoConditionInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "kyc_done",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelBooleanInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "username",
           "description" : null,
           "type" : {
@@ -14839,6 +15644,9 @@
           "defaultValue" : null
         }, {
           "name" : "picture",
+=======
+          "name" : "register_type",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -14856,11 +15664,28 @@
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "kyc_done",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelBooleanInput",
+=======
+          "name" : "name",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "profile_image",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "defaultValue" : null
@@ -14872,7 +15697,11 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
               "name" : "ModelUserConditionInput",
+=======
+              "name" : "ModelUserInfoConditionInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
               "ofType" : null
             }
           },
@@ -14885,7 +15714,11 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
               "name" : "ModelUserConditionInput",
+=======
+              "name" : "ModelUserInfoConditionInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
               "ofType" : null
             }
           },
@@ -14895,7 +15728,11 @@
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
             "name" : "ModelUserConditionInput",
+=======
+            "name" : "ModelUserInfoConditionInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "defaultValue" : null
@@ -14905,6 +15742,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
         "name" : "UpdateUserInput",
         "description" : null,
         "fields" : null,
@@ -14914,10 +15752,22 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "String",
+=======
+        "name" : "UpdateUserInfoInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "kyc_done",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "username",
           "description" : null,
           "type" : {
@@ -14937,6 +15787,9 @@
           "defaultValue" : null
         }, {
           "name" : "picture",
+=======
+          "name" : "register_type",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
@@ -14954,11 +15807,28 @@
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "kyc_done",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
             "name" : "Boolean",
+=======
+          "name" : "name",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "profile_image",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "defaultValue" : null
@@ -14981,7 +15851,333 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
         "name" : "DeleteUserInput",
+=======
+        "name" : "DeleteUserInfoInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "id",
+          "description" : null,
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "ID",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "CreateConfigurationsInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "timezone",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "calender",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "personalMeetingLink",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "bookingPeriod",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "bookingPeriodIn",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "noticePeriod",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "noticePeriodIn",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "id",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "ID",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "ModelConfigurationsConditionInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "timezone",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "calender",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "personalMeetingLink",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "bookingPeriod",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelIntInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "bookingPeriodIn",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "noticePeriod",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelIntInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "noticePeriodIn",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "and",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelConfigurationsConditionInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "or",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelConfigurationsConditionInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "not",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelConfigurationsConditionInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "UpdateConfigurationsInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "timezone",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "calender",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "personalMeetingLink",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "bookingPeriod",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "bookingPeriodIn",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "noticePeriod",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "noticePeriodIn",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "id",
+          "description" : null,
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "ID",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "DeleteConfigurationsInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
@@ -15029,6 +16225,7 @@
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "username",
           "description" : null,
           "type" : {
@@ -15038,6 +16235,8 @@
           },
           "defaultValue" : null
         }, {
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "name" : "description",
           "description" : null,
           "type" : {
@@ -15065,6 +16264,7 @@
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "username",
           "description" : null,
           "type" : {
@@ -15074,6 +16274,8 @@
           },
           "defaultValue" : null
         }, {
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "name" : "description",
           "description" : null,
           "type" : {
@@ -15149,6 +16351,7 @@
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "username",
           "description" : null,
           "type" : {
@@ -15158,6 +16361,8 @@
           },
           "defaultValue" : null
         }, {
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "name" : "description",
           "description" : null,
           "type" : {
@@ -15737,6 +16942,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+<<<<<<< HEAD
           "name" : "onCreateConfigurations",
           "description" : null,
           "args" : [ {
@@ -15797,6 +17003,8 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "name" : "onCreateMentorRegister",
           "description" : null,
           "args" : [ {
@@ -15857,6 +17065,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+<<<<<<< HEAD
           "name" : "onCreateMentorAvailability",
           "description" : null,
           "args" : [ {
@@ -16037,6 +17246,8 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "name" : "onCreateSchedule",
           "description" : null,
           "args" : [ {
@@ -16097,61 +17308,157 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+<<<<<<< HEAD
           "name" : "onCreateUser",
+=======
+          "name" : "onCreateUserInfo",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "args" : [ {
             "name" : "filter",
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
               "name" : "ModelSubscriptionUserFilterInput",
+=======
+              "name" : "ModelSubscriptionUserInfoFilterInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
               "ofType" : null
             },
             "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
+<<<<<<< HEAD
             "name" : "User",
+=======
+            "name" : "UserInfo",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+<<<<<<< HEAD
           "name" : "onUpdateUser",
+=======
+          "name" : "onUpdateUserInfo",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "args" : [ {
             "name" : "filter",
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
               "name" : "ModelSubscriptionUserFilterInput",
+=======
+              "name" : "ModelSubscriptionUserInfoFilterInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
               "ofType" : null
             },
             "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
+<<<<<<< HEAD
             "name" : "User",
+=======
+            "name" : "UserInfo",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+<<<<<<< HEAD
           "name" : "onDeleteUser",
+=======
+          "name" : "onDeleteUserInfo",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "args" : [ {
             "name" : "filter",
             "description" : null,
             "type" : {
               "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
               "name" : "ModelSubscriptionUserFilterInput",
+=======
+              "name" : "ModelSubscriptionUserInfoFilterInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
               "ofType" : null
             },
             "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
+<<<<<<< HEAD
             "name" : "User",
+=======
+            "name" : "UserInfo",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "onCreateConfigurations",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelSubscriptionConfigurationsFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Configurations",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "onUpdateConfigurations",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelSubscriptionConfigurationsFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Configurations",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "onDeleteConfigurations",
+          "description" : null,
+          "args" : [ {
+            "name" : "filter",
+            "description" : null,
+            "type" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelSubscriptionConfigurationsFilterInput",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "Configurations",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -16259,6 +17566,15 @@
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelSubscriptionIDInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -16574,6 +17890,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "value",
           "description" : null,
           "type" : {
@@ -16623,6 +17948,15 @@
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelSubscriptionIDInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -17702,6 +19036,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
         "name" : "ModelSubscriptionConfigurationsFilterInput",
         "description" : null,
         "fields" : null,
@@ -17809,6 +19144,8 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         "name" : "ModelSubscriptionMentorRegisterFilterInput",
         "description" : null,
         "fields" : null,
@@ -17943,6 +19280,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
         "name" : "ModelSubscriptionMentorAvailabilityFilterInput",
         "description" : null,
         "fields" : null,
@@ -18183,6 +19521,8 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         "name" : "ModelSubscriptionScheduleFilterInput",
         "description" : null,
         "fields" : null,
@@ -18205,6 +19545,18 @@
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
+=======
+          "name" : "unavailableDates",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "name" : "and",
           "description" : null,
           "type" : {
@@ -18236,6 +19588,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
         "name" : "ModelSubscriptionUserFilterInput",
         "description" : null,
         "fields" : null,
@@ -18245,10 +19598,22 @@
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelSubscriptionStringInput",
+=======
+        "name" : "ModelSubscriptionUserInfoFilterInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "kyc_done",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionBooleanInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "username",
           "description" : null,
           "type" : {
@@ -18268,6 +19633,9 @@
           "defaultValue" : null
         }, {
           "name" : "picture",
+=======
+          "name" : "register_type",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -18285,11 +19653,28 @@
           },
           "defaultValue" : null
         }, {
+<<<<<<< HEAD
           "name" : "kyc_done",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelSubscriptionBooleanInput",
+=======
+          "name" : "name",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "profile_image",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
             "ofType" : null
           },
           "defaultValue" : null
@@ -18301,7 +19686,11 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
               "name" : "ModelSubscriptionUserFilterInput",
+=======
+              "name" : "ModelSubscriptionUserInfoFilterInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
               "ofType" : null
             }
           },
@@ -18314,7 +19703,118 @@
             "name" : null,
             "ofType" : {
               "kind" : "INPUT_OBJECT",
+<<<<<<< HEAD
               "name" : "ModelSubscriptionUserFilterInput",
+=======
+              "name" : "ModelSubscriptionUserInfoFilterInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "ModelSubscriptionConfigurationsFilterInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "timezone",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "calender",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "username",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "personalMeetingLink",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "bookingPeriod",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionIntInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "bookingPeriodIn",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "noticePeriod",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionIntInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "noticePeriodIn",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "and",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelSubscriptionConfigurationsFilterInput",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "or",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "INPUT_OBJECT",
+              "name" : "ModelSubscriptionConfigurationsFilterInput",
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
               "ofType" : null
             }
           },
@@ -18386,6 +19886,28 @@
         "enumValues" : null,
         "possibleTypes" : null
       }, {
+<<<<<<< HEAD
+=======
+        "kind" : "ENUM",
+        "name" : "ModelSortDirection",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : [ {
+          "name" : "ASC",
+          "description" : null,
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "DESC",
+          "description" : null,
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "possibleTypes" : null
+      }, {
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         "kind" : "OBJECT",
         "name" : "__Schema",
         "description" : "A GraphQL Introspection defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, the entry points for query, mutation, and subscription operations.",
@@ -19248,6 +20770,23 @@
         "description" : "Tells the service this field/object has access authorized by a Lambda Authorizer.",
         "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
         "args" : [ ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "deprecated",
+        "description" : null,
+        "locations" : [ "FIELD_DEFINITION", "ENUM_VALUE" ],
+        "args" : [ {
+          "name" : "reason",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : "\"No longer supported\""
+        } ],
         "onOperation" : false,
         "onFragment" : false,
         "onField" : false

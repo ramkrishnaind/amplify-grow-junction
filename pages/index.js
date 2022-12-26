@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css'
 import { listTodos } from '../src/graphql/queries'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Auth, Hub } from 'aws-amplify'
+import { useRouter } from 'next/router'
 import Login from './auth/Login'
 import Register from './auth/Register'
 import DashboardPage from './Dashboard'
@@ -13,18 +14,70 @@ import useWindowDimensions from '../public/utils/useWindowDimensions'
 import ACTION_KEYS from '../constants/action-keys'
 import { SetUser } from '../redux/actions/AuthAction'
 import { getLoggedinUserEmail } from '../utilities/user'
+<<<<<<< HEAD
 const Home = () => {
+=======
+import { createUserInfo } from '../src/graphql/mutations'
+import { listUserInfos } from '../src/graphql/queries'
+const Home = () => {
+  const router = useRouter()
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
   const email = getLoggedinUserEmail()
   debugger
   const registerType = useSelector((state) => state.AuthReducer)
   const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
     useAuth0()
   useEffect(() => {
+<<<<<<< HEAD
+=======
+    const registerUser = async (user) => {
+      const userInfo = {
+        kyc_done: false,
+        register_type: registerType?.registerType,
+        email: user.email,
+        name: user.name,
+        profile_image: user.picture,
+      }
+      try {
+        await API.graphql({
+          query: createUserInfo,
+          variables: { input: { ...userInfo } },
+        })
+      } catch {}
+    }
+    const getUserData = async (user) => {
+      const results = await API.graphql(
+        graphqlOperation(listUserInfos, {
+          filter: { username: { contains: user.email } },
+        }),
+      )
+      if (results.data.listUserInfos.items.length > 0) {
+        const data = { ...results.data.listUserInfos.items[0] }
+        if (data.kyc_done) {
+          if (registerType === 'STUDENT') {
+            router.push('/student')
+          } else {
+            router.push('/mentor')
+          }
+        } else {
+          router.push('/register/KYC_step1')
+        }
+      }
+    }
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
     debugger
     if (isAuthenticated) {
       console.log('user', user)
       setIsLoggedIn(true)
       SetUser(dispatch, user)
+<<<<<<< HEAD
+=======
+      if (registerType.signup) {
+        registerUser(user)
+      } else {
+        getUserData(user)
+      }
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
     }
   }, [isAuthenticated])
   useEffect(() => {

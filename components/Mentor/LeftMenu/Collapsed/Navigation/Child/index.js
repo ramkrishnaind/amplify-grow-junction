@@ -3,14 +3,22 @@ import NavLink from '../../../../../Utilities/NavLink'
 import classes from './Child.module.css'
 import { Auth } from 'aws-amplify'
 import { useAuth0 } from '@auth0/auth0-react'
+<<<<<<< HEAD
 import {useDispatch} from 'react-redux'
+=======
+import { useDispatch } from 'react-redux'
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
 import {
   ClearUser,
   StoreUserAuth,
 } from '../../../../../../redux/actions/AuthAction'
 // import { logs } from '../../../../../../.next/static/chunks/pages/_app'
 const Child = ({ title, image, url, js, setActive, partial }) => {
+<<<<<<< HEAD
   const dispatch=useDispatch()
+=======
+  const dispatch = useDispatch()
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
   const { logout: oAuthLogout } = useAuth0()
   if (image === 'logout.png') {
     url = 'javascript:logout()'

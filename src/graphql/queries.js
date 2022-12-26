@@ -5,6 +5,7 @@ export const getDemoSkillsList = /* GraphQL */ `
   query GetDemoSkillsList($id: ID!) {
     getDemoSkillsList(id: $id) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -20,6 +21,7 @@ export const listDemoSkillsLists = /* GraphQL */ `
     listDemoSkillsLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        username
         value
         createdAt
         updatedAt
@@ -32,6 +34,7 @@ export const getDomainInterestedList = /* GraphQL */ `
   query GetDomainInterestedList($id: ID!) {
     getDomainInterestedList(id: $id) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -51,6 +54,7 @@ export const listDomainInterestedLists = /* GraphQL */ `
     ) {
       items {
         id
+        username
         value
         createdAt
         updatedAt
@@ -63,6 +67,7 @@ export const getSuggestedServiceList = /* GraphQL */ `
   query GetSuggestedServiceList($id: ID!) {
     getSuggestedServiceList(id: $id) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -82,6 +87,10 @@ export const listSuggestedServiceLists = /* GraphQL */ `
     ) {
       items {
         id
+<<<<<<< HEAD
+=======
+        username
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         value
         createdAt
         updatedAt
@@ -497,6 +506,7 @@ export const listPackages = /* GraphQL */ `
         id
         createdAt
         updatedAt
+<<<<<<< HEAD
       }
       nextToken
     }
@@ -538,6 +548,8 @@ export const listConfigurations = /* GraphQL */ `
         id
         createdAt
         updatedAt
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
       }
       nextToken
     }
@@ -655,6 +667,7 @@ export const listMentorRegisters = /* GraphQL */ `
         id
         createdAt
         updatedAt
+<<<<<<< HEAD
       }
       nextToken
     }
@@ -937,6 +950,8 @@ export const listTimeSchedules = /* GraphQL */ `
         id
         createdAt
         updatedAt
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
       }
       nextToken
     }
@@ -946,17 +961,66 @@ export const getSchedule = /* GraphQL */ `
   query GetSchedule($id: ID!) {
     getSchedule(id: $id) {
       availableSameTime
-      username
-      unavailableDates {
-        id
-        date
-      }
       daySchedules {
-        id
-        day
-        startTime
-        endTime
+        everyday {
+          everyday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Sunday {
+          Sunday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Monday {
+          Monday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Tuesday {
+          Tuesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Wednesday {
+          Wednesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Thursday {
+          Thursday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Friday {
+          Friday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Saturday {
+          Saturday
+          time {
+            startTime
+            endTime
+          }
+        }
       }
+      username
+      unavailableDates
       id
       createdAt
       updatedAt
@@ -972,17 +1036,66 @@ export const listSchedules = /* GraphQL */ `
     listSchedules(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         availableSameTime
-        username
-        unavailableDates {
-          id
-          date
-        }
         daySchedules {
-          id
-          day
-          startTime
-          endTime
+          everyday {
+            everyday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Sunday {
+            Sunday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Monday {
+            Monday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Tuesday {
+            Tuesday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Wednesday {
+            Wednesday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Thursday {
+            Thursday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Friday {
+            Friday
+            time {
+              startTime
+              endTime
+            }
+          }
+          Saturday {
+            Saturday
+            time {
+              startTime
+              endTime
+            }
+          }
         }
+        username
+        unavailableDates
         id
         createdAt
         updatedAt
@@ -991,6 +1104,7 @@ export const listSchedules = /* GraphQL */ `
     }
   }
 `;
+<<<<<<< HEAD
 export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
@@ -1000,12 +1114,23 @@ export const getUser = /* GraphQL */ `
       picture
       email
       kyc_done
+=======
+export const getUserInfo = /* GraphQL */ `
+  query GetUserInfo($id: ID!) {
+    getUserInfo(id: $id) {
+      kyc_done
+      register_type
+      email
+      name
+      profile_image
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
       id
       createdAt
       updatedAt
     }
   }
 `;
+<<<<<<< HEAD
 export const listUsers = /* GraphQL */ `
   query ListUsers(
     $filter: ModelUserFilterInput
@@ -1020,6 +1145,21 @@ export const listUsers = /* GraphQL */ `
         picture
         email
         kyc_done
+=======
+export const listUserInfos = /* GraphQL */ `
+  query ListUserInfos(
+    $filter: ModelUserInfoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserInfos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        kyc_done
+        register_type
+        email
+        name
+        profile_image
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         id
         createdAt
         updatedAt
@@ -1028,6 +1168,7 @@ export const listUsers = /* GraphQL */ `
     }
   }
 `;
+<<<<<<< HEAD
 export const timeSchedulesByMentorWeekScheduleId = /* GraphQL */ `
   query TimeSchedulesByMentorWeekScheduleId(
     $MentorWeekScheduleId: ID!
@@ -1077,6 +1218,41 @@ export const timeSchedulesByMentorWeekScheduleId = /* GraphQL */ `
         endTimeMeridian
         leftMeridianDropDown
         rightMeridianDropDown
+=======
+export const getConfigurations = /* GraphQL */ `
+  query GetConfigurations($id: ID!) {
+    getConfigurations(id: $id) {
+      timezone
+      calender
+      username
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listConfigurations = /* GraphQL */ `
+  query ListConfigurations(
+    $filter: ModelConfigurationsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listConfigurations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        timezone
+        calender
+        username
+        personalMeetingLink
+        bookingPeriod
+        bookingPeriodIn
+        noticePeriod
+        noticePeriodIn
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
         id
         createdAt
         updatedAt
@@ -1090,10 +1266,17 @@ export const getTodo = /* GraphQL */ `
     getTodo(id: $id) {
       id
       name
+<<<<<<< HEAD
       username
       description
       createdAt
       updatedAt
+=======
+      description
+      createdAt
+      updatedAt
+      username
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
     }
   }
 `;
@@ -1107,10 +1290,17 @@ export const listTodos = /* GraphQL */ `
       items {
         id
         name
+<<<<<<< HEAD
         username
         description
         createdAt
         updatedAt
+=======
+        description
+        createdAt
+        updatedAt
+        username
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
       }
       nextToken
     }

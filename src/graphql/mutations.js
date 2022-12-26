@@ -8,6 +8,7 @@ export const createDemoSkillsList = /* GraphQL */ `
   ) {
     createDemoSkillsList(input: $input, condition: $condition) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -21,6 +22,7 @@ export const updateDemoSkillsList = /* GraphQL */ `
   ) {
     updateDemoSkillsList(input: $input, condition: $condition) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -34,6 +36,7 @@ export const deleteDemoSkillsList = /* GraphQL */ `
   ) {
     deleteDemoSkillsList(input: $input, condition: $condition) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -47,6 +50,7 @@ export const createDomainInterestedList = /* GraphQL */ `
   ) {
     createDomainInterestedList(input: $input, condition: $condition) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -60,6 +64,7 @@ export const updateDomainInterestedList = /* GraphQL */ `
   ) {
     updateDomainInterestedList(input: $input, condition: $condition) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -73,6 +78,7 @@ export const deleteDomainInterestedList = /* GraphQL */ `
   ) {
     deleteDomainInterestedList(input: $input, condition: $condition) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -86,6 +92,7 @@ export const createSuggestedServiceList = /* GraphQL */ `
   ) {
     createSuggestedServiceList(input: $input, condition: $condition) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -99,6 +106,7 @@ export const updateSuggestedServiceList = /* GraphQL */ `
   ) {
     updateSuggestedServiceList(input: $input, condition: $condition) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -112,6 +120,7 @@ export const deleteSuggestedServiceList = /* GraphQL */ `
   ) {
     deleteSuggestedServiceList(input: $input, condition: $condition) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -718,6 +727,7 @@ export const deletePackages = /* GraphQL */ `
       id
       createdAt
       updatedAt
+<<<<<<< HEAD
     }
   }
 `;
@@ -778,6 +788,8 @@ export const deleteConfigurations = /* GraphQL */ `
       id
       createdAt
       updatedAt
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
     }
   }
 `;
@@ -952,6 +964,7 @@ export const deleteMentorRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
+<<<<<<< HEAD
     }
   }
 `;
@@ -1390,6 +1403,8 @@ export const deleteTimeSchedule = /* GraphQL */ `
       id
       createdAt
       updatedAt
+=======
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
     }
   }
 `;
@@ -1400,17 +1415,66 @@ export const createSchedule = /* GraphQL */ `
   ) {
     createSchedule(input: $input, condition: $condition) {
       availableSameTime
-      username
-      unavailableDates {
-        id
-        date
-      }
       daySchedules {
-        id
-        day
-        startTime
-        endTime
+        everyday {
+          everyday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Sunday {
+          Sunday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Monday {
+          Monday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Tuesday {
+          Tuesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Wednesday {
+          Wednesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Thursday {
+          Thursday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Friday {
+          Friday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Saturday {
+          Saturday
+          time {
+            startTime
+            endTime
+          }
+        }
       }
+      username
+      unavailableDates
       id
       createdAt
       updatedAt
@@ -1424,17 +1488,66 @@ export const updateSchedule = /* GraphQL */ `
   ) {
     updateSchedule(input: $input, condition: $condition) {
       availableSameTime
-      username
-      unavailableDates {
-        id
-        date
-      }
       daySchedules {
-        id
-        day
-        startTime
-        endTime
+        everyday {
+          everyday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Sunday {
+          Sunday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Monday {
+          Monday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Tuesday {
+          Tuesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Wednesday {
+          Wednesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Thursday {
+          Thursday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Friday {
+          Friday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Saturday {
+          Saturday
+          time {
+            startTime
+            endTime
+          }
+        }
       }
+      username
+      unavailableDates
       id
       createdAt
       updatedAt
@@ -1448,23 +1561,73 @@ export const deleteSchedule = /* GraphQL */ `
   ) {
     deleteSchedule(input: $input, condition: $condition) {
       availableSameTime
-      username
-      unavailableDates {
-        id
-        date
-      }
       daySchedules {
-        id
-        day
-        startTime
-        endTime
+        everyday {
+          everyday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Sunday {
+          Sunday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Monday {
+          Monday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Tuesday {
+          Tuesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Wednesday {
+          Wednesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Thursday {
+          Thursday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Friday {
+          Friday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Saturday {
+          Saturday
+          time {
+            startTime
+            endTime
+          }
+        }
       }
+      username
+      unavailableDates
       id
       createdAt
       updatedAt
     }
   }
 `;
+<<<<<<< HEAD
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!
@@ -1477,12 +1640,26 @@ export const createUser = /* GraphQL */ `
       picture
       email
       kyc_done
+=======
+export const createUserInfo = /* GraphQL */ `
+  mutation CreateUserInfo(
+    $input: CreateUserInfoInput!
+    $condition: ModelUserInfoConditionInput
+  ) {
+    createUserInfo(input: $input, condition: $condition) {
+      kyc_done
+      register_type
+      email
+      name
+      profile_image
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
       id
       createdAt
       updatedAt
     }
   }
 `;
+<<<<<<< HEAD
 export const updateUser = /* GraphQL */ `
   mutation UpdateUser(
     $input: UpdateUserInput!
@@ -1495,12 +1672,26 @@ export const updateUser = /* GraphQL */ `
       picture
       email
       kyc_done
+=======
+export const updateUserInfo = /* GraphQL */ `
+  mutation UpdateUserInfo(
+    $input: UpdateUserInfoInput!
+    $condition: ModelUserInfoConditionInput
+  ) {
+    updateUserInfo(input: $input, condition: $condition) {
+      kyc_done
+      register_type
+      email
+      name
+      profile_image
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
       id
       createdAt
       updatedAt
     }
   }
 `;
+<<<<<<< HEAD
 export const deleteUser = /* GraphQL */ `
   mutation DeleteUser(
     $input: DeleteUserInput!
@@ -1513,6 +1704,79 @@ export const deleteUser = /* GraphQL */ `
       picture
       email
       kyc_done
+=======
+export const deleteUserInfo = /* GraphQL */ `
+  mutation DeleteUserInfo(
+    $input: DeleteUserInfoInput!
+    $condition: ModelUserInfoConditionInput
+  ) {
+    deleteUserInfo(input: $input, condition: $condition) {
+      kyc_done
+      register_type
+      email
+      name
+      profile_image
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createConfigurations = /* GraphQL */ `
+  mutation CreateConfigurations(
+    $input: CreateConfigurationsInput!
+    $condition: ModelConfigurationsConditionInput
+  ) {
+    createConfigurations(input: $input, condition: $condition) {
+      timezone
+      calender
+      username
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateConfigurations = /* GraphQL */ `
+  mutation UpdateConfigurations(
+    $input: UpdateConfigurationsInput!
+    $condition: ModelConfigurationsConditionInput
+  ) {
+    updateConfigurations(input: $input, condition: $condition) {
+      timezone
+      calender
+      username
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteConfigurations = /* GraphQL */ `
+  mutation DeleteConfigurations(
+    $input: DeleteConfigurationsInput!
+    $condition: ModelConfigurationsConditionInput
+  ) {
+    deleteConfigurations(input: $input, condition: $condition) {
+      timezone
+      calender
+      username
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
       id
       createdAt
       updatedAt
@@ -1527,10 +1791,17 @@ export const createTodo = /* GraphQL */ `
     createTodo(input: $input, condition: $condition) {
       id
       name
+<<<<<<< HEAD
       username
       description
       createdAt
       updatedAt
+=======
+      description
+      createdAt
+      updatedAt
+      username
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
     }
   }
 `;
@@ -1542,10 +1813,17 @@ export const updateTodo = /* GraphQL */ `
     updateTodo(input: $input, condition: $condition) {
       id
       name
+<<<<<<< HEAD
       username
       description
       createdAt
       updatedAt
+=======
+      description
+      createdAt
+      updatedAt
+      username
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
     }
   }
 `;
@@ -1557,10 +1835,17 @@ export const deleteTodo = /* GraphQL */ `
     deleteTodo(input: $input, condition: $condition) {
       id
       name
+<<<<<<< HEAD
       username
       description
       createdAt
       updatedAt
+=======
+      description
+      createdAt
+      updatedAt
+      username
+>>>>>>> 61891d51682dae6c02f877feb8988067b140b5db
     }
   }
 `;
