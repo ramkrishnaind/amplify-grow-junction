@@ -26,6 +26,7 @@ import useWindowDimensions from '../../public/utils/useWindowDimensions'
 
 import ACTION_KEYS from '../../constants/action-keys'
 import Toaster from '../ui-kit/Toaster'
+import { getLoggedinUserEmail } from '../../utilities/user'
 
 Auth.configure(config)
 
@@ -89,12 +90,13 @@ const KYC_step1 = () => {
   const deleteDomainList = async (id) => {
     debugger
     setLoading(true)
+    const usrname = getLoggedinUserEmail()
     if (registerType?.registerType === 'STUDENT') {
       try {
         const listData = await API.graphql({
           query: deleteDomainInterestedList,
           variables: { input: { id } },
-          authMode: 'AMAZON_COGNITO_USER_POOLS',
+          username: usrname,
         })
       } catch (err) {
         console.log('err', err)
@@ -104,7 +106,7 @@ const KYC_step1 = () => {
         const listData = await API.graphql({
           query: deleteDemoSkillsList,
           variables: { input: { id } },
-          authMode: 'AMAZON_COGNITO_USER_POOLS',
+          username: usrname,
         })
       } catch (err) {
         console.log('err', err)
@@ -304,7 +306,7 @@ const KYC_step1 = () => {
                       })
 
                       return (
-                        <div className="relative">
+                        <div key={index} className="relative">
                           <div
                             key={index.toString()}
                             style={{

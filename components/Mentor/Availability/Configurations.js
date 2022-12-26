@@ -10,20 +10,9 @@ import { listConfigurations } from '../../../src/graphql/queries'
 import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
 import { toast } from 'react-toastify'
+import { getLoggedinUserEmail } from '../../Utilities/user'
 
 const Configurations = () => {
-<<<<<<< HEAD
-  const [timezone, setTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
-
-  const initialState = {
-    timezone: '',
-    calender: '',
-    personalMeetingLink: '',
-    bookingPeriod: 0,
-    bookingPeriodIn: '',
-    noticePeriod: 0,
-    noticePeriodIn: '',
-=======
   const [timezone, setTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   )
@@ -35,7 +24,6 @@ const Configurations = () => {
     bookingPeriodIn: 'days',
     noticePeriod: 0,
     noticePeriodIn: 'minutes',
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
   }
 
   const [state, setState] = useState(initialState)
@@ -45,22 +33,6 @@ const Configurations = () => {
   useEffect(() => {
     getUser()
   }, [])
-<<<<<<< HEAD
-
-  useEffect(() => {
-    const keys = [
-    'timezone',
-    'calender',
-    'personalMeetingLink',
-    'bookingPeriod',
-    'bookingPeriodIn',
-    'noticePeriod',
-    'noticePeriodIn',
-    ]
-  }, [state])
-  
-
-=======
   const resetState = () => {
     setState({ ...initialState })
     setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)
@@ -77,30 +49,25 @@ const Configurations = () => {
   //     'noticePeriodIn',
   //   ]
   // }, [state])
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
 
   const getUser = async () => {
     debugger
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrName = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listConfigurations, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrName } },
         }),
       )
       if (results.data.listConfigurations.items.length > 0) {
         setIsNew(false)
         const data = { ...results.data.listConfigurations.items[0] }
-<<<<<<< HEAD
-        console.log("data - ", data)
-        setState({ ...data })
-=======
         const { createdAt, updatedAt, timezone, owner, ...rest } = data
         console.log('data - ', data)
         setState({ ...rest })
         setTimezone(timezone)
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
@@ -113,32 +80,20 @@ const Configurations = () => {
         initialValues={{ ...state }}
         enableReinitialize={true}
         onSubmit={async (values, e) => {
-<<<<<<< HEAD
-          try {
-            if (isNew) {
-              try {
-                debugger;
-                values.id = uuid()
-=======
           debugger
           values.timezone = timezone
+          values.username = getLoggedinUserEmail()
           try {
             if (!values?.id) {
               try {
                 debugger
                 // values.id = uuid()
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                 await API.graphql({
                   query: createConfigurations,
                   variables: { input: { ...values } },
-                  authMode: 'AMAZON_COGNITO_USER_POOLS',
                 })
                 toast.success('Configuration added successfully')
-<<<<<<< HEAD
-                window.location.href = window.location.href
-=======
                 // window.location.href = window.location.href
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
               } catch (error) {
                 toast.error(`Save Error:${error.errors[0].message}`)
               }
@@ -146,6 +101,7 @@ const Configurations = () => {
               const { createdAt, updatedAt, domain_id, owner, ...rest } = {
                 ...values,
               }
+              rest.username=getLoggedinUserEmail()
               try {
                 await API.graphql({
                   query: updateConfigurations,
@@ -153,7 +109,6 @@ const Configurations = () => {
                     input: { ...rest },
                     // condition: { username: { contains: state.username } },
                   },
-                  authMode: 'AMAZON_COGNITO_USER_POOLS',
                 })
                 toast.success('Configuration updated successfully')
               } catch (error) {
@@ -178,37 +133,22 @@ const Configurations = () => {
         }) => {
           return (
             <form>
-<<<<<<< HEAD
-              <div className="flex flex-col md:flex-row lg:flex-row w-full p-20">
-=======
               <div className="flex flex-col md:flex-row lg:flex-row w-full p-10">
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                 <div className="flex flex-col md:flex-row lg:flex-row w-full justify-between">
                   <div className="flex justify-center items-center text-2xl font-semibold text-gray-900 p-6">
                     Configurations
                   </div>
                   <div className="flex flex-row px-4">
-<<<<<<< HEAD
-                    <div className="flex justify-center items-center text-black text-base font-semibold">
-=======
                     <div
                       className="flex justify-center items-center text-black text-base font-semibold cursor-pointer hover:bg-white px-5 py-1 hover:border-2 hover:border-black"
                       onClick={resetState}
                     >
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                       Reset all
                     </div>
                     <div>
                       <button
                         type="button"
-<<<<<<< HEAD
-                        onClick={(e) => {
-                          e.preventDefault()
-                          handleSubmit(e)
-                        }}
-=======
                         onClick={handleSubmit}
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                         className="mt-2 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6 ml-10 border rounded"
                       >
                         Save Changes
@@ -235,11 +175,7 @@ const Configurations = () => {
                       </div>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <div className="basis-1.2">
-=======
                   <div className="basis-1/2">
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                     <div className="p-8 w-full ">
                       <TimezoneSelect
                         value={timezone}
@@ -274,9 +210,6 @@ const Configurations = () => {
                     </div>
                   </div>
                   <div className="basis-1/2">
-<<<<<<< HEAD
-                    <div className="p-8 w-full ">
-=======
                     <div className="p-8 w-full flex items-center">
                       <TextField
                         name="calender"
@@ -288,18 +221,13 @@ const Configurations = () => {
                         id="calender"
                         placeholder="Calendar id"
                       />
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                       <button
                         type="button"
                         onClick={(e) => {
                           e.preventDefault()
                           // handleSubmit(e)
                         }}
-<<<<<<< HEAD
-                        className="text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6  border rounded"
-=======
                         className="w-2/6 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6  border rounded"
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                       >
                         + Add Calender
                       </button>

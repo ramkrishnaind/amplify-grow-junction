@@ -10,14 +10,11 @@ import Packages from './Packages'
 import Link from 'next/link'
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import { listOneOnOnes } from '/src/graphql/queries'
-<<<<<<< HEAD
-import {listTextQueries} from '/src/graphql/queries'
-=======
 import { listTextQueries } from '/src/graphql/queries'
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
 import { listWorkshops } from '/src/graphql/queries'
 import { listCourses } from '/src/graphql/queries'
 import { listPackages } from '/src/graphql/queries'
+import { getLoggedinUserEmail } from '../../../Utilities/user'
 
 const Home = () => {
   // return <div>Hi</div>
@@ -40,20 +37,17 @@ const Home = () => {
     workshop: [],
     courses: [],
     textQuery: [],
-<<<<<<< HEAD
-    packages:[],
-=======
     packages: [],
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
   })
   const loadOneOnOne = async () => {
     try {
       setLoading(true)
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listOneOnOnes, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listOneOnOnes.items.length > 0) {
@@ -65,45 +59,6 @@ const Home = () => {
     setLoading(false)
   }
 
-  const loadWorkshop = async () => {
-    debugger
-    try {
-      setLoading(true)
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
-      const results = await API.graphql(
-        graphqlOperation(listWorkshops, {
-          filter: { username: { contains: usr.username } },
-        }),
-      )
-      if (results.data.listWorkshops.items.length > 0) {
-        setServices({ ...services, workshop: results.data.listWorkshops.items })
-      }
-    } catch (error) {
-      // toast.error(`Load Error:${error.errors[0].message}`)
-    }
-    setLoading(false)
-  }
-
-  const loadCourses = async () => {
-    debugger
-    try {
-      setLoading(true)
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
-      const results = await API.graphql(
-        graphqlOperation(listCourses, {
-          filter: { username: { contains: usr.username } },
-        }),
-      )
-      if (results.data.listCourses.items.length > 0) {
-        setServices({ ...services, courses: results.data.listCourses.items })
-      }
-    } catch (error) {
-      // toast.error(`Load Error:${error.errors[0].message}`)
-    }
-    setLoading(false)
-  }
 
   const loadWorkshop = async () => {
     debugger
@@ -111,9 +66,10 @@ const Home = () => {
       setLoading(true)
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listWorkshops, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listWorkshops.items.length> 0) {
@@ -131,9 +87,10 @@ const Home = () => {
       setLoading(true)
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listCourses, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listCourses.items.length> 0) {
@@ -150,9 +107,10 @@ const Home = () => {
       setLoading(true)
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listTextQueries, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listTextQueries.items.length > 0) {
@@ -173,29 +131,10 @@ const Home = () => {
       setLoading(true)
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listPackages, {
-          filter: { username: { contains: usr.username } },
-        }),
-      )
-      if (results.data.listPackages.items.length > 0) {
-        setServices({ ...services, packages: results.data.listPackages.items })
-      }
-    } catch (error) {
-      // toast.error(`Load Error:${error.errors[0].message}`)
-    }
-    setLoading(false)
-  }
-
-  const loadPackages = async () => {
-    debugger
-    try {
-      setLoading(true)
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
-      const results = await API.graphql(
-        graphqlOperation(listPackages, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listPackages.items.length> 0) {
@@ -309,18 +248,6 @@ const Home = () => {
                 <OneOnOne services={services.oneOnOne} />
               </div>
               <div className={openTab === 2 ? 'block' : 'hidden'}>
-<<<<<<< HEAD
-              <Workshop services={services.workshop}/>
-              </div>
-              <div className={openTab === 3 ? 'block' : 'hidden'}>
-              <Courses services={services.courses}/>
-              </div>
-              <div className={openTab === 4 ? 'block' : 'hidden'}>
-              <TextQuery services={services.textQuery}/>
-              </div>
-              <div className={openTab === 5 ? 'block' : 'hidden'}>
-              <Packages services={services.packages}/>
-=======
                 <Workshop services={services.workshop} />
               </div>
               <div className={openTab === 3 ? 'block' : 'hidden'}>
@@ -331,7 +258,6 @@ const Home = () => {
               </div>
               <div className={openTab === 5 ? 'block' : 'hidden'}>
                 <Packages services={services.packages} />
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
               </div>
             </div>
           </div>

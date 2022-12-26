@@ -10,6 +10,7 @@ import { updateWorkshop } from '../../../../../src/graphql/mutations'
 import { getWorkshop } from '../../../../../src/graphql/queries'
 import Pill from '../../Add/Header/Pill'
 import AddWorkshop from '../../Add/Content/Workshop'
+import { getLoggedinUserEmail } from '../../../../Utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
@@ -61,10 +62,11 @@ const Workshop = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const workshopResult = await API.graphql({
         query: getWorkshop,
         variables: { id },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       if (workshopResult.data.getWorkshop.id !== null) {
         setState({ ...state, workshop: workshopResult.data.getWorkshop })
@@ -82,11 +84,12 @@ const Workshop = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
       const {createdAt, updatedAt, owner, ...rest}= workshop
+      rest.username = usrname
       await API.graphql({
         query: updateWorkshop,
         variables: { input: { ...rest } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Workshop update successfully')
       setTimeout(() => {
@@ -102,11 +105,12 @@ const Workshop = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
       console.log('usr', usr)
       await API.graphql({
         query: deleteWorkshop,
         variables: { input: { id } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       toast.success('Workshop deleted successfully')
       window.location.href = window.location.href
@@ -272,7 +276,7 @@ const Workshop = ({ services }) => {
       {showReschedule && (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/3 lg:w-1/3">
+            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/2 lg:w-1/2">
               <div className="flex justify-between px-8 py-4 border-b border-gray-300">
                 <div className="text-sm font-semibold mt-4">Workshop</div>
                 <div>

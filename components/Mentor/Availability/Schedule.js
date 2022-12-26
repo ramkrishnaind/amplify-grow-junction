@@ -15,9 +15,7 @@ import { listSchedules } from '../../../src/graphql/queries'
 import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
 import { toast } from 'react-toastify'
-<<<<<<< HEAD
-
-=======
+import { getLoggedinUserEmail } from '../../Utilities/user'
 // const AutoSubmitToken = ({ setValues }) => {
 //   // Grab values and submitForm from context
 //   const { values, submitForm } = useFormikContext()
@@ -35,20 +33,10 @@ import { toast } from 'react-toastify'
 //   }, [values, submitForm])
 //   return null
 // }
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
 const Schedule = () => {
   const [timeZone, setTimeZone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   )
-<<<<<<< HEAD
-
-  const initialState = {
-    availableSameTime: false,
-    unavailableDates: [],
-    daySchedules: [],
-  }
-
-=======
   const days = [
     'Sunday',
     'Monday',
@@ -65,10 +53,11 @@ const Schedule = () => {
   const getUser = async () => {
     const usr = await Auth.currentAuthenticatedUser()
     // if (usr) setUser(usr)
+    const usrName = getLoggedinUserEmail()
     debugger
     const results = await API.graphql(
       graphqlOperation(listSchedules, {
-        filter: { username: { contains: usr.username } },
+        filter: { username: { contains: usrName} },
       }),
     )
     if (results.data.listSchedules.items.length > 0) {
@@ -144,7 +133,6 @@ const Schedule = () => {
   // }
   // console.log('initialState', initialState)
   // const dateRef = useRef()
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
   const [state, setState] = useState(initialState)
   const [isNew, setIsNew] = useState(true)
   const [usrName, setUsrName] = useState('')
@@ -159,61 +147,15 @@ const Schedule = () => {
   const [selectedDay, setSelectedDay] = useState('')
   const [isAddRow, setIsAddRow] = useState(false)
   const [unavailableDate, setUnavailableDate] = useState([])
-<<<<<<< HEAD
-=======
   const [unavailableDateValues, setUnavailableDateValues] = useState([
     // new Date('2022-12-26'),
     // new Date('2022-12-28'),
   ])
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
   const [unavailableDates, setUnavailableDates] = useState([])
   const [visible, setVisible] = useState(false)
 
   const [isChecked, setIsChecked] = useState(false)
   const [isEdayChecked, setIsEdayChecked] = useState(false)
-<<<<<<< HEAD
-  const days = ["Sunday", "Monday", "Tueday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-
-
-  useEffect(() => {
-    getUser()
-  }, [])
-
-  const getUser = async () => {
-    try {
-      const usr = await Auth.currentAuthenticatedUser()
-      setUsrName(usr.username)
-      console.log('usr', usr)
-      const results = await API.graphql(
-        graphqlOperation(listSchedules, {
-          filter: { username: { contains: usr.username } },
-        }),
-      )
-      debugger
-      if (results.data.listSchedules.items.length > 0) {
-        // if (results.data.listSchedules.items[0].daySchedules.length > 0) {
-        //   results.data.listSchedules.items[0].daySchedules.map((d) => {
-        //     scheduleResults.push({
-        //       day: d.day,
-        //       startTime: d.startTime.toString(),
-        //       endTime: d.endTime.toString(),
-        //     })
-        //   })
-        // }
-        setDisplayResult(results.data.listSchedules.items[0].daySchedules)
-
-        console.log('result -', displayResult)
-        setIsNew(false)
-        const data = { ...results.data.listSchedules.items[0] }
-        console.log('data - ', data)
-        setState({ ...data })
-      }
-    } catch (error) {
-      console.log(`Load Error:${error}`)
-    }
-  }
-=======
 
   console.log('unavailableDates', unavailableDates)
   useEffect(() => {
@@ -261,16 +203,11 @@ const Schedule = () => {
   //     console.log(`Load Error:${error}`)
   //   }
   // }
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
 
   useEffect(() => {
     const keys = ['availableSameTime', 'unavailableDates', 'daySchedules']
   }, [state])
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
   const handleStartTimeChange = (e) => {
     debugger
     setStartTime(e.target.value)
@@ -282,15 +219,9 @@ const Schedule = () => {
     setWeekDay(e.target.id)
     const day = e.target.id
     const endTime = e.target.value
-<<<<<<< HEAD
-    console.log("endTime = ", endTime);
-
-    if (startTime !== '' && endTime !== '' && day !== '' ) {
-=======
     console.log('endTime = ', endTime)
 
     if (startTime !== '' && endTime !== '' && day !== '') {
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
       const found = daySchedules.find(
         (item) =>
           item.startTime === startTime &&
@@ -308,11 +239,7 @@ const Schedule = () => {
     }
     setAvailableSameTime(true)
     setStartTime('')
-<<<<<<< HEAD
-   // setEndTime('')
-=======
     // setEndTime('')
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
     setWeekDay('')
   }
   const addDaySchedule = () => {
@@ -364,20 +291,6 @@ const Schedule = () => {
     setWeekDay('')
   }
   const handleDate = (date) => {
-<<<<<<< HEAD
-    console.log('length -', date.length)
-    date.map((v) => {
-      const dt = v.day + '/' + v.month.number + '/' + v.year
-      const found = unavailableDate.find((date) => date === dt)
-      if (!found) {
-        unavailableDate.push(v.day + '/' + v.month.number + '/' + v.year)
-        const date = v.day + '/' + v.month.number + '/' + v.year
-        unavailableDates.push({
-          id: uuid(),
-          date: date,
-        })
-      }
-=======
     debugger
     // console.log('AA', dateRef.current.value)
     console.log('length -', date.length)
@@ -400,16 +313,12 @@ const Schedule = () => {
         date: date,
       })
       // }
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
 
       console.log('unavailableDate -  ', unavailableDate)
       setVisible(false)
     })
-<<<<<<< HEAD
-=======
     setUnavailableDates(datesUnAvailable)
     setUnavailableDate(dateUnAvailable)
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
     //console.log("dates - ", values)
   }
 
@@ -442,14 +351,6 @@ const Schedule = () => {
     // setDay('')
   }
   const handleRemoveDate = (dt) => {
-<<<<<<< HEAD
-    // debugger
-    const newUnavailableDate = unavailableDate.filter((uDate) => uDate !== dt)
-    setUnavailableDate(newUnavailableDate)
-    setUnavailableDates(newUnavailableDate)
-  }
-
-=======
     debugger
     const newUnavailableDate = unavailableDate.filter((uDate) => uDate !== dt)
     const newUnavailableDateValues = unavailableDateValues.filter(
@@ -471,7 +372,6 @@ const Schedule = () => {
     prevState.daySchedules[key].time.splice(index, 1)
     setState(prevState)
   }
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
   const displaySchedule = () => {
     console.log('sched- ', displayResult)
     if (displayResult.length > 0) setShowSchedule(true)
@@ -516,20 +416,8 @@ const Schedule = () => {
         initialValues={{ ...state }}
         enableReinitialize={true}
         onSubmit={async (values, e) => {
-<<<<<<< HEAD
-          //addDaySchedule
-          values.username = usrName
-          values.availableSameTime = availableSameTime
-          values.unavailableDates = unavailableDates
-          values.daySchedules = daySchedules
-          try {
-            if (isNew) {
-              try {
-                debugger
-                values.id = uuid()
-
-=======
           values.unavailableDates = unavailableDate
+          values.username = getLoggedinUserEmail()
           //addDaySchedule
           // values.username = usrName
           // values.availableSameTime = availableSameTime
@@ -540,43 +428,26 @@ const Schedule = () => {
             if (!values.id) {
               try {
                 // values.id = uuid()
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                 await API.graphql({
                   query: createSchedule,
                   variables: { input: { ...values } },
-                  authMode: 'AMAZON_COGNITO_USER_POOLS',
                 })
                 toast.success('Schedule added successfully')
-<<<<<<< HEAD
-                window.location.href = window.location.href
-=======
                 // window.location.href = window.location.href
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
               } catch (error) {
                 toast.error(`Save Error:${error.errors[0].message}`)
               }
             } else {
-<<<<<<< HEAD
-              const { createdAt, updatedAt, domain_id, owner, ...rest } = {
-                ...values,
-              }
-=======
               // const { createdAt, updatedAt, domain_id, owner, ...rest } = {
               //   ...values,
               // }
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
               try {
                 await API.graphql({
                   query: updateSchedule,
                   variables: {
-<<<<<<< HEAD
-                    input: { ...rest },
-=======
                     input: { ...values },
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                     // condition: { username: { contains: state.username } },
                   },
-                  authMode: 'AMAZON_COGNITO_USER_POOLS',
                 })
                 toast.success('Schedule updated successfully')
                 setDay('')
@@ -611,29 +482,16 @@ const Schedule = () => {
                     Availability details
                   </div>
                   <div className="flex flex-row">
-<<<<<<< HEAD
-                    <div className="flex justify-center items-center text-black text-base font-semibold">
-=======
                     <div
                       className="flex justify-center items-center text-black text-base font-semibold cursor-pointer hover:bg-white px-5 py-1 hover:border-2 hover:border-black"
                       onClick={resetState}
                     >
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                       Reset all
                     </div>
                     <div>
                       <button
-<<<<<<< HEAD
-                        type="button"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          addDaySchedule
-                          handleSubmit(e)
-                        }}
-=======
                         type="submit"
                         onClick={handleSubmit}
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                         className="mt-2 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6 ml-10 border rounded"
                       >
                         Save Changes
@@ -653,11 +511,6 @@ const Schedule = () => {
                       <input
                         type="checkbox"
                         className="mr-3"
-<<<<<<< HEAD
-                        id="allDaysSameTime"
-                        name="allDaysSameTime"
-                        onChange={() => setIsChecked((prev) => !prev)}
-=======
                         id="availableSameTime"
                         checked={values.availableSameTime}
                         name="availableSameTime"
@@ -665,7 +518,6 @@ const Schedule = () => {
                           handleChange(e)
                           setAvailableSameTime((prev) => !prev)
                         }}
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                       ></input>
                       <span className="text-sm">
                         I’m Available same time everyday
@@ -676,11 +528,7 @@ const Schedule = () => {
               </div>
               <div className="mt-10 md:m-20 lg:m-20 md:-mt-10 lg:-mt-10 w-full md:w-auto lg:w-auto  flex flex-col md:flex-row  lg:flex-row">
                 <div className="basis-3/5 bg-white py-4 rounded-lg">
-<<<<<<< HEAD
-                  {isChecked ? (
-=======
                   {availableSameTime ? (
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                     <div
                       id="everydayId"
                       className=" flex flex-col md:flex-row  lg:flex-row w-full"
@@ -692,503 +540,18 @@ const Schedule = () => {
                             type="checkbox"
                             className="mr-3"
                             id="everyday"
-<<<<<<< HEAD
-                            name="everyday"
-                            onChange={() => setIsEdayChecked((prev) => !prev)}
-=======
                             name="daySchedules.everyday.everyday"
                             checked={values.daySchedules.everyday.everyday}
                             onChange={(e) => {
                               handleChange(e)
                               setIsEdayChecked((prev) => !prev)
                             }}
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                           ></input>
                           <span className="text-xl font-normal text-gray-900">
                             Everyday
                           </span>
                         </div>
                       </div>
-<<<<<<< HEAD
-                      <div id="everyday" className="flex flex-row basis-2/3 ">
-                        <div className="basis-1/3 ml-5 mr-10">
-                          <span className="text-sm text-gray-900 font-normal">
-                            Start Time
-                          </span>
-                          <TextField
-                            id="startTime"
-                            type="time"
-                            value={values.startTime}
-                            onChangeValue={handleStartTimeChange}
-                            name="time"
-                            className="w-full"
-                            disable
-                          />
-                        </div>
-                        <div className="basis-1/3  mr-5">
-                          <span className="text-sm text-gray-900 font-normal">
-                            End Time
-                          </span>
-                          <TextField
-                            id="Everyday"
-                            type="time"
-                            value={values.endTime}
-                            onChangeValue={handleEndTimeChange}
-                            name="endTime"
-                            className="w-full"
-                            disable
-                          />
-                        </div>
-                        <div className="basis-1/3  mr-5">
-                        <button
-                              type="button"
-                              //onClick={addDaySchedule}
-                              className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-3 px-4 ml-10 border rounded"
-                            >
-                              Add
-                            </button>
-                          
-                          {/* <button
-                            type="button"
-                            onClick={addDaySchedule}
-                            className="mt-10 text-base bg-white text-black border-gray-900 font-bold py-4 px-4 ml-10 rounded"
-                          >
-                            <img
-                              src="../../../assets/icon/darkPlus.png"
-                              alt=""
-                              className="w-4 h-4"
-                            ></img>
-                          </button> */}
-                        </div>
-                      </div>
-                     
-                    </div>
-                  ) : (
-                    <div>
-                      <div
-                        id="sundayId"
-                        className=" flex flex-col md:flex-row  lg:flex-row w-full"
-                      >
-                        <div className="basis-1/4">
-                          <div className="flex justify-start ml-5 md:ml-10 lg:ml-10 mt-10">
-                            <input type="checkbox" className="mr-3"></input>
-                            <span className="text-xl font-normal text-gray-900">
-                              Sunday
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-row basis-2/3">
-                          <div className="basis-1/2 ml-5 mr-10">
-                            <span className="text-sm text-gray-900 font-normal">
-                              Start Time
-                            </span>
-                            <TextField
-                              id="startTime"
-                              type="time"
-                              value={values.startTime}
-                              onChangeValue={handleStartTimeChange}
-                              name="time"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/2  mr-5">
-                            <span className="text-sm text-gray-900 font-normal">
-                              End Time
-                            </span>
-                            <TextField
-                              id="Sunday"
-                              type="time"
-                              value={values.endTime}
-                              onChangeValue={handleEndTimeChange}
-                              name="endTime"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/3  mr-5">
-                            <button
-                              type="button"
-                              onClick={addWeekDaySchedule}
-                              className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-3 px-4 ml-10 border rounded"
-                            >
-                              Add
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="w-full h-px bg-gray-200 border-0"></div>
-                      <div
-                        id="mondayId"
-                        className=" flex flex-col md:flex-row  lg:flex-row w-full"
-                      >
-                        <div className="basis-1/4">
-                          <div className="flex justify-start ml-5 md:ml-10 lg:ml-10 mt-10">
-                            <input type="checkbox" className="mr-3"></input>
-                            <span className="text-xl font-normal text-gray-900">
-                              Monday
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-row basis-2/3">
-                          <div className="basis-1/2 ml-5 mr-10">
-                            <span className="text-sm text-gray-900 font-normal">
-                              Start Time
-                            </span>
-                            <TextField
-                              id="startTime"
-                              type="time"
-                              value={values.startTime}
-                              onChangeValue={handleStartTimeChange}
-                              name="time"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/2  mr-5">
-                            <span className="text-sm text-gray-900 font-normal">
-                              End Time
-                            </span>
-                            <TextField
-                              id="Monday"
-                              type="time"
-                              value={values.endTime}
-                              onChangeValue={handleEndTimeChange}
-                              name="endTime"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/3  mr-5">
-                            <button
-                              type="button"
-                              onClick={addWeekDaySchedule}
-                              className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-3 px-4 ml-10 border rounded"
-                            >
-                              Add
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="w-full h-px bg-gray-200 border-0"></div>
-                      <div
-                        id="tuesdayId"
-                        className=" flex flex-col md:flex-row  lg:flex-row w-full"
-                      >
-                        <div className="basis-1/4">
-                          <div className="flex justify-start ml-5 md:ml-10 lg:ml-10 mt-10">
-                            <input type="checkbox" className="mr-3"></input>
-                            <span className="text-xl font-normal text-gray-900">
-                              Tuesday
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-row basis-2/3">
-                          <div className="basis-1/2 ml-5 mr-10">
-                            <span className="text-sm text-gray-900 font-normal">
-                              Start Time
-                            </span>
-                            <TextField
-                              id="startTime"
-                              type="time"
-                              value={values.startTime}
-                              onChangeValue={handleStartTimeChange}
-                              name="time"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/2  mr-5">
-                            <span className="text-sm text-gray-900 font-normal">
-                              End Time
-                            </span>
-                            <TextField
-                              id="Tuesday"
-                              type="time"
-                              value={values.endTime}
-                              onChangeValue={handleEndTimeChange}
-                              name="endTime"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/3  mr-5">
-                            <button
-                              type="button"
-                              onClick={addWeekDaySchedule}
-                              className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-3 px-4 ml-10 border rounded"
-                            >
-                              Add
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="w-full h-px bg-gray-200 border-0"></div>
-                      <div
-                        id="wednesdayId"
-                        className=" flex flex-col md:flex-row  lg:flex-row w-full"
-                      >
-                        <div className="basis-1/4">
-                          <div className="flex justify-start ml-5 md:ml-10 lg:ml-10 mt-10">
-                            <input type="checkbox" className="mr-3"></input>
-                            <span className="text-xl font-normal text-gray-900">
-                              Wednesday
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-row basis-2/3">
-                          <div className="basis-1/2 ml-5 mr-10">
-                            <span className="text-sm text-gray-900 font-normal">
-                              Start Time
-                            </span>
-                            <TextField
-                              id="startTime"
-                              type="time"
-                              value={values.startTime}
-                              onChangeValue={handleStartTimeChange}
-                              name="time"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/2  mr-5">
-                            <span className="text-sm text-gray-900 font-normal">
-                              End Time
-                            </span>
-                            <TextField
-                              id="Wednesday"
-                              type="time"
-                              value={values.endTime}
-                              onChangeValue={handleEndTimeChange}
-                              name="endTime"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/3  mr-5">
-                            <button
-                              type="button"
-                              onClick={addWeekDaySchedule}
-                              className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-3 px-4 ml-10 border rounded"
-                            >
-                              Add
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="w-full h-px bg-gray-200 border-0"></div>
-                      <div
-                        id="thursdayId"
-                        className=" flex flex-col md:flex-row  lg:flex-row w-full"
-                      >
-                        <div className="basis-1/4">
-                          <div className="flex justify-start ml-5 md:ml-10 lg:ml-10 mt-10">
-                            <input type="checkbox" className="mr-3"></input>
-                            <span className="text-xl font-normal text-gray-900">
-                              Thursday
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-row basis-2/3">
-                          <div className="basis-1/2 ml-5 mr-10">
-                            <span className="text-sm text-gray-900 font-normal">
-                              Start Time
-                            </span>
-                            <TextField
-                              id="startTime"
-                              type="time"
-                              value={values.startTime}
-                              onChangeValue={handleStartTimeChange}
-                              name="time"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/2  mr-5">
-                            <span className="text-sm text-gray-900 font-normal">
-                              End Time
-                            </span>
-                            <TextField
-                              id="Thursday"
-                              type="time"
-                              value={values.endTime}
-                              onChangeValue={handleEndTimeChange}
-                              name="endTime"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/3  mr-5">
-                            <button
-                              type="button"
-                              onClick={addWeekDaySchedule}
-                              className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-3 px-4 ml-10 border rounded"
-                            >
-                              Add
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="w-full h-px bg-gray-200 border-0"></div>
-                      <div
-                        id="fridayId"
-                        className=" flex flex-col md:flex-row  lg:flex-row w-full"
-                      >
-                        <div className="basis-1/4">
-                          <div className="flex justify-start ml-5 md:ml-10 lg:ml-10 mt-10">
-                            <input type="checkbox" className="mr-3"></input>
-                            <span className="text-xl font-normal text-gray-900">
-                              Friday
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-row basis-2/3">
-                          <div className="basis-1/2 ml-5 mr-10">
-                            <span className="text-sm text-gray-900 font-normal">
-                              Start Time
-                            </span>
-                            <TextField
-                              id="startTime"
-                              type="time"
-                              value={values.startTime}
-                              onChangeValue={handleStartTimeChange}
-                              name="time"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/2  mr-5">
-                            <span className="text-sm text-gray-900 font-normal">
-                              End Time
-                            </span>
-                            <TextField
-                              id="Friday"
-                              type="time"
-                              value={values.endTime}
-                              onChangeValue={handleEndTimeChange}
-                              name="endTime"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/3  mr-5">
-                            <button
-                              type="button"
-                              onClick={addWeekDaySchedule}
-                              className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-3 px-4 ml-10 border rounded"
-                            >
-                              Add
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="w-full h-px bg-gray-200 border-0"></div>
-                      <div
-                        id="saturdayId"
-                        className=" flex flex-col md:flex-row  lg:flex-row w-full"
-                      >
-                        <div className="basis-1/4">
-                          <div className="flex justify-start ml-5 md:ml-10 lg:ml-10 mt-10">
-                            <input type="checkbox" className="mr-3"></input>
-                            <span className="text-xl font-normal text-gray-900">
-                              Saturday
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-row basis-2/3">
-                          <div className="basis-1/2 ml-5 mr-10">
-                            <span className="text-sm text-gray-900 font-normal">
-                              Start Time
-                            </span>
-                            <TextField
-                              id="startTime"
-                              type="time"
-                              value={values.startTime}
-                              onChangeValue={handleStartTimeChange}
-                              name="time"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/2  mr-5">
-                            <span className="text-sm text-gray-900 font-normal">
-                              End Time
-                            </span>
-                            <TextField
-                              id="Saturday"
-                              type="time"
-                              value={values.endTime}
-                              onChangeValue={handleEndTimeChange}
-                              name="endTime"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/3  mr-5">
-                            <button
-                              type="button"
-                              onClick={addWeekDaySchedule}
-                              className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-3 px-4 ml-10 border rounded"
-                            >
-                              Add
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div></div>
-
-                      {/* <div className="w-full h-px bg-gray-200 border-0"></div> */}
-                      {/* <div
-                        id="mondayId"
-                        className=" flex flex-col md:flex-row  lg:flex-row w-full"
-                      >
-                        <div className="basis-1/5">
-                          <div className="flex justify-start ml-5 md:ml-10 lg:ml-10 mt-10">
-                            <select
-                              className="px-8 py-3 top-1  text-lg right-1 bg-gray-100"
-                              value={values.day}
-                              name="day"
-                              onChange={handleDayChange}
-                            >
-                              <option value="Sunday">Sunday</option>
-                              <option value="Monday">Monday</option>
-                              <option value="Tuesday">Tuesday</option>
-                              <option value="Wednesday">Wednesday</option>
-                              <option value="Thrusday">Thursday</option>
-                              <option value="Friday">Friday</option>
-                              <option value="Saturday">Saturday</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="flex flex-row basis-2/3">
-                          <div className="basis-1/2 ml-5 mr-10">
-                            <span className="text-sm text-gray-900 font-normal">
-                              Start Time
-                            </span>
-                            <TextField
-                              id="day"
-                              type="time"
-                              value={values.startTime}
-                              onChangeValue={handleStartTimeChange}
-                              name="time"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/2  mr-5">
-                            <span className="text-sm text-gray-900 font-normal">
-                              End Time
-                            </span>
-                            <TextField
-                              id="day"
-                              type="time"
-                              value={values.endTime}
-                              onChangeValue={handleEndTimeChange}
-                              name="endTime"
-                              className="w-full"
-                            />
-                          </div>
-                          <div className="basis-1/3  mr-5">
-                            <button
-                              type="button"
-                              onClick={addSchedule}
-                              className="mt-10 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-4 ml-10 border rounded"
-                            >
-                              Add
-                            </button>
-                          </div>
-                        </div>
-                      </div> */}
-                    </div>
-                  )}
-                  {/* <div className="w-full h-px bg-gray-200 border-0"></div> */}
-=======
                       <div
                         // id="everyday"
                         className="flex flex-col basis-2/3 "
@@ -1200,7 +563,7 @@ const Schedule = () => {
                             //   values.daySchedules.everyday,
                             // )
                             return (
-                              <div className="flex flex-row">
+                              <div key={index} className="flex flex-row">
                                 <div className="w-1/3 mx-1">
                                   <span className="text-sm text-gray-900 font-normal">
                                     Start Time
@@ -1282,6 +645,7 @@ const Schedule = () => {
                     <div>
                       {days.map((day) => (
                         <div
+                          key={index}
                           id="sundayId"
                           className=" flex flex-col md:flex-row  lg:flex-row w-full"
                         >
@@ -1308,7 +672,9 @@ const Schedule = () => {
                           >
                             {values.daySchedules[day].time.map(
                               (time, index) => (
-                                <div className="flex flex-row">
+                                <div 
+                                key={index}
+                                className="flex flex-row">
                                   <div className="w-1/3 mx-1">
                                     <span className="text-sm text-gray-900 font-normal">
                                       Start Time
@@ -1379,7 +745,6 @@ const Schedule = () => {
                       ))}
                     </div>
                   )}
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                 </div>
 
                 <div className="basis-2/5">
@@ -1397,12 +762,6 @@ const Schedule = () => {
                         </span>
                         <DatePicker
                           render={<Icon />}
-<<<<<<< HEAD
-                          multiple
-                          value={values}
-                          minDate={new Date()}
-                          onChange={(date) => handleDate(date)}
-=======
                           // ref={dateRef}
                           multiple
                           // value={values}
@@ -1412,7 +771,6 @@ const Schedule = () => {
                             setUnavailableDateValues(date)
                             handleDate(date)
                           }}
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
                           onClose={setVisible(true)}
                         />
                       </div>
@@ -1498,10 +856,7 @@ const Schedule = () => {
                     </div>
                   </div> 
                  */}
-<<<<<<< HEAD
-=======
               {/* <AutoSubmitToken setValues={setValues} /> */}
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
             </form>
           )
         }}

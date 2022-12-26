@@ -10,6 +10,7 @@ import {
   createPackages
 } from '../../../../src/graphql/mutations'
 import { createTextQuery } from '../../../../src/graphql/mutations'
+import {getLoggedinUserEmail} from '../../../Utilities/user'
 
 const AddService = () => {
   const items = ['1 on 1 Session', 'Workshop', 'Courses', 'Text query', 'Packages']
@@ -96,10 +97,10 @@ const AddService = () => {
       return
     }
     try {
+      state.oneOnOne.username = getLoggedinUserEmail()
       await API.graphql({
         query: createOneOnOne,
         variables: { input: { ...state.oneOnOne } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Profile added successfully')
       window.location.href = '/mentor/services'
@@ -124,10 +125,10 @@ const AddService = () => {
       return
     }
     try {
+      state.textQuery.username = getLoggedinUserEmail()
       await API.graphql({
         query: createTextQuery,
         variables: { input: { ...state.textQuery } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Text query added successfully')
       window.location.href = '/mentor/services'
@@ -138,6 +139,8 @@ const AddService = () => {
 
   const handleWorkshopChange = (values) => {
     setState((prev) => ({ ...prev, workshop: values }))
+    // image key and s3 bucket save
+    
   }
   const workshopSave = async () => {
     debugger
@@ -154,10 +157,10 @@ const AddService = () => {
       return
     }
     try {
+      state.workshop.username = getLoggedinUserEmail()
       await API.graphql({
         query: createWorkshop,
         variables: { input: { ...state.workshop } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Workshop added successfully')
       window.location.href = '/mentor/services'
@@ -185,10 +188,10 @@ const AddService = () => {
       return
     }
     try {
+      state.courses.username = getLoggedinUserEmail()
       await API.graphql({
         query: createCourses,
         variables: { input: { ...state.courses } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Courses added successfully')
       window.location.href = '/mentor/services'
@@ -212,10 +215,10 @@ const AddService = () => {
       return
     }
     try {
+      state.packages.username = getLoggedinUserEmail()
       await API.graphql({
         query: createPackages,
         variables: { input: { ...state.packages } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Packages added successfully')
       window.location.href = '/mentor/services'

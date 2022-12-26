@@ -10,6 +10,7 @@ import { updatePackages } from '../../../../../src/graphql/mutations'
 import { getPackages } from '../../../../../src/graphql/queries'
 import Pill from '../../Add/Header/Pill'
 import AddPackages from '../../Add/Content/Packages'
+import { getLoggedinUserEmail } from '../../../../Utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
@@ -61,10 +62,11 @@ const Packages = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const packagesResult = await API.graphql({
         query: getPackages,
         variables: { id },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       if (packagesResult.data.getPackages.id !== null) {
         setState({ ...state, packages: packagesResult.data.getPackages })
@@ -82,11 +84,12 @@ const Packages = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
       const {createdAt, updatedAt, owner, ...rest}= packages
+      rest.username = usrname
       await API.graphql({
         query: updatePackages,
         variables: { input: { ...rest } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Packages update successfully')
       setTimeout(() => {
@@ -102,11 +105,12 @@ const Packages = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
       console.log('usr', usr)
       await API.graphql({
         query: deletePackages,
         variables: { input: { id } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       toast.success('Packages deleted successfully')
       window.location.href = window.location.href

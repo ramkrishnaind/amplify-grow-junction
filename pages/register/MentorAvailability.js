@@ -11,6 +11,7 @@ import TextField from '../ui-kit/TextField'
 import * as mutations from '../../src/graphql/mutations'
 import { API } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
+import { getLoggedinUserEmail } from '../../utilities/user'
 
 const timeAvailability = [
   {
@@ -166,11 +167,12 @@ const MentorAvailability = () => {
         checked: items?.checked,
       }
       let in_count = 0
+      const usrname = getLoggedinUserEmail()
       try {
         const weekSchedule = await API.graphql({
           query: mutations.createMentorWeekSchedule,
           variables: { input: payload },
-          authMode: 'AMAZON_COGNITO_USER_POOLS',
+          username: usrname,
         })
         in_count = items?.time_schedule?.length
         console.log(weekSchedule)
@@ -190,7 +192,8 @@ const MentorAvailability = () => {
             const postTimeShedule = await API.graphql({
               query: mutations.createTimeSchedule,
               variables: { input: payload },
-              authMode: 'AMAZON_COGNITO_USER_POOLS',
+              username: usrname,
+              //authMode: 'AMAZON_COGNITO_USER_POOLS',
             })
             console.log(postTimeShedule)
             if (items?.sortId === 7 && in_count === index + 1) {

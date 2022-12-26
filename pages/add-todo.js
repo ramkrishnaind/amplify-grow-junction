@@ -3,6 +3,7 @@ import { API } from "aws-amplify";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { createTodo } from "../src/graphql/mutations";
 import { v4 as uuid } from "uuid";
+
 const AddTodo = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -19,7 +20,6 @@ const AddTodo = () => {
     await API.graphql({
       query: createTodo,
       variables: { input: { name, description, id } },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
     });
     console.log("success");
   };

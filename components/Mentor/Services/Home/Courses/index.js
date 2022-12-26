@@ -10,6 +10,7 @@ import { updateCourses } from '../../../../../src/graphql/mutations'
 import { deleteCourses } from '../../../../../src/graphql/mutations'
 import Pill from '../../Add/Header/Pill'
 import AddCourses from '../../Add/Content/Courses'
+import { getLoggedinUserEmail } from '../../../../Utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
@@ -59,10 +60,11 @@ const Courses = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const coursesResult = await API.graphql({
         query: getCourses,
         variables: { id },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       if (coursesResult.data.getCourses.id !== null) {
         setState({ ...state, courses: coursesResult.data.getCourses })
@@ -80,11 +82,12 @@ const Courses = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
       const { createdAt, updatedAt, owner, ...rest } = courses
+      rest.username = usrname
       await API.graphql({
         query: updateCourses,
         variables: { input: { ...rest } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Courses update successfully')
       setTimeout(() => {
@@ -100,10 +103,11 @@ const Courses = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       await API.graphql({
         query: deleteCourses,
         variables: { input: { id } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       toast.success('Courses deleted successfully')
       window.location.href = window.location.href
@@ -269,7 +273,7 @@ const Courses = ({ services }) => {
       {showReschedule && (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/3 lg:w-1/3">
+            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/2 lg:w-1/2">
               <div className="flex justify-between px-8 py-4 border-b border-gray-300">
                 <div className="text-sm font-semibold mt-4">Courses</div>
                 <div>

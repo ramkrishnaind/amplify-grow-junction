@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Formik } from 'formik'
 import { verifyStep4 } from '../../public/utils/schema'
 import { v4 as uuid } from 'uuid'
+import { getLoggedinUserEmail } from '../../utilities/user'
 
 const numberValidation = new RegExp(/^[0-9]{0,10}$/)
 const KYC_step4 = () => {
@@ -94,6 +95,7 @@ const KYC_step4 = () => {
                   setSubmitting(true)
 
                   const id = uuid()
+                  const usrname = getLoggedinUserEmail()
                   console.log('entry')
                   if (registerType?.registerType === 'STUDENT') {
                     let payload = {
@@ -105,7 +107,7 @@ const KYC_step4 = () => {
                       const postData = await API.graphql({
                         query: mutations.createStudentRegister,
                         variables: { input: payload },
-                        authMode: 'AMAZON_COGNITO_USER_POOLS',
+                        username: usrname,
                       })
                       console.log(postData)
                       if (postData) {
@@ -137,7 +139,7 @@ const KYC_step4 = () => {
                       const postData = await API.graphql({
                         query: mutations.createMentorRegister,
                         variables: { input: payload },
-                        authMode: 'AMAZON_COGNITO_USER_POOLS',
+                        username: usrname,
                       })
                       console.log(postData)
                       if (postData) {

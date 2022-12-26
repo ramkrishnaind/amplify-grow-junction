@@ -10,6 +10,7 @@ import { updateTextQuery } from '../../../../../src/graphql/mutations'
 import { getTextQuery } from '../../../../../src/graphql/queries'
 import Pill from '../../../../Mentor/Services/Add/Header'
 import AddTextQuery from '../../Add/Content/TextQuery'
+import { getLoggedinUserEmail } from '../../../../Utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
@@ -61,10 +62,11 @@ const TextQuery = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const textQueryResult = await API.graphql({
         query: getTextQuery,
         variables: { id },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       // toast.success('TextQuery get successfully')
       // window.location.href = window.location.href
@@ -84,11 +86,12 @@ const TextQuery = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
       const {createdAt, updatedAt, owner, ...rest}= textQuery
+      rest.username = usrname
       await API.graphql({
         query: updateTextQuery,
         variables: { input: { ...rest } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('TextQuery update successfully')
       setTimeout(() => {
@@ -104,11 +107,12 @@ const TextQuery = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
       console.log('usr', usr)
       await API.graphql({
         query: deleteTextQuery,
         variables: { input: { id } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        usename: usrname,
       })
       toast.success('TextQuery deleted successfully')
       window.location.href = window.location.href

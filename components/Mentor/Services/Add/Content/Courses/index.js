@@ -12,6 +12,7 @@ const AutoSubmitToken = ({ setValues, sessions, hideService, limitParticipants }
   React.useEffect(() => {
     debugger
     console.log('context_values', values)
+    //audienceSize ==='' ? values.audienceSize = 0: values.audienceSize = audienceSize
     values.sessions = sessions
     values.limitParticipants = limitParticipants
     values.hideService = hideService
@@ -36,7 +37,7 @@ const Courses = ({ setValues, state: initial, courses = {
   courseTime: '',
   hideService: '',
   limitParticipants: '',
-  audienceSize: '',
+  audienceSize: 0,
   courseImage: '',
   sessions: []
 } }) => {
@@ -73,7 +74,7 @@ const Courses = ({ setValues, state: initial, courses = {
   courseTime: '',
   hideService: '',
   limitParticipants: '',
-  audienceSize: '',
+  audienceSize: 0,
   courseImage: '',
   sessions: []
   }
@@ -139,6 +140,7 @@ const Courses = ({ setValues, state: initial, courses = {
             // alert(JSON.stringify(values, null, 2));
             setSubmitting(false)
           }, 400)
+          audienceSize ==='' ? values.audienceSize = 0: values.audienceSize = audienceSize
           values.sessions = sessions
           values.courseImage = image
           values.limitParticipants = limitParticipants
@@ -336,7 +338,7 @@ const Courses = ({ setValues, state: initial, courses = {
                 <div className="bg-white basis-2/5">
                   <div className="flex flex-col ml-10 mt-10 mr-10  w-auto">
                     <p className="flex justify-start items-start text-sm ">
-                      Upload workshop thumbnail
+                      Upload thumbnail
                     </p>
                     <div className="flex flex-col md:flex-row lg:flex-row">
                       <div className="flex flex-col">
@@ -535,7 +537,7 @@ const Courses = ({ setValues, state: initial, courses = {
                     <div
                       className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-green-800 rounded-full p-1 cursor-pointer"
                       onClick={() => {
-                        setLimitedParticipants(!limitParticipants)
+                        setLimitParticipants(!limitParticipants)
                       }}
                     >
                       {/* Switch */}
@@ -572,7 +574,7 @@ const Courses = ({ setValues, state: initial, courses = {
                 <div className="bg-white basis-2/5"></div>
               </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken setValues={setValues} sessions={sessions} hideService={hideService} limitParticipants={limitParticipants} />
+              <AutoSubmitToken setValues={setValues} sessions={sessions} hideService={hideService} limitParticipants={limitParticipants}/>
             </form>
           )
         }}
