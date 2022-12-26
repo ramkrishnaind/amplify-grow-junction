@@ -19,21 +19,27 @@ type Todo
 
 type DemoSkillsList
   @model
-  @auth(rules: [{ allow: public, operations: [read, create] }]) {
+  @auth(
+    rules: [{ allow: public, operations: [read, create, update, delete] }]
+  ) {
   id: ID!
   value: String!
 }
 
 type DomainInterestedList
   @model
-  @auth(rules: [{ allow: public, operations: [read, create] }]) {
+  @auth(
+    rules: [{ allow: public, operations: [read, create, update, delete] }]
+  ) {
   id: ID!
   value: String!
 }
 
 type SuggestedServiceList
   @model
-  @auth(rules: [{ allow: public, operations: [read, create] }]) {
+  @auth(
+    rules: [{ allow: public, operations: [read, create, update, delete] }]
+  ) {
   id: ID!
   value: String!
 }
@@ -41,11 +47,7 @@ type SuggestedServiceList
 type StudentRegister
   @model
   @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
+    rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
   student_id: ID
   student_name: String
@@ -69,11 +71,7 @@ type StudentRegister
 type OneOnOne
   @model
   @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
+    rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
   sessionTitle: String
   username: String
@@ -93,11 +91,7 @@ type OneOnOneQuestions {
 type TextQuery
   @model
   @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
+    rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
   title: String
   username: String
@@ -116,11 +110,7 @@ type TextQueryQuestions {
 type Workshop
   @model
   @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
+    rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
   title: String
   username: String
@@ -145,11 +135,7 @@ type WorkshopQuestions {
 type Courses
   @model
   @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
+    rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
   courseTitle: String
   username: String
@@ -176,11 +162,7 @@ type CourseSessions {
 type Packages
   @model
   @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
+    rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
   packageTitle: String
   username: String
@@ -200,16 +182,12 @@ type PackageServices {
   text: String
   title: String
   duration: String
-  price : Float
+  price: Float
 }
 type Configurations
   @model
   @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
+    rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
   timezone: String
   username: String
@@ -223,11 +201,7 @@ type Configurations
 type MentorRegister
   @model
   @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
+    rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
   mentor_id: ID
   mentor_name: String
@@ -286,28 +260,21 @@ type SocialUrl {
 type MentorAvailability
   @model
   @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
+    rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
   mentor_availability_id: ID!
+  username: String
   mentor_schedule: [MentorWeekSchedule!]
 }
 
 type MentorWeekSchedule
   @model
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create] }
-    ]
-  ) {
+  @auth(rules: [{ allow: public, operations: [read, update, create] }]) {
   id: ID!
   sortId: Int!
   day: String!
   checked: Boolean
+  username: String
   time_schedule: [timeSchedule!]
     @hasMany(indexName: "byMentorSchedule", fields: ["id"])
 }
@@ -315,16 +282,14 @@ type MentorWeekSchedule
 type timeSchedule
   @model
   @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create] }
-    ]
+    rules: [{ allow: public, operations: [read, update, delete, create] }]
   ) {
   Mentor: MentorWeekSchedule @belongsTo(fields: ["MentorWeekScheduleId"])
   MentorWeekScheduleId: ID @index(name: "byMentorSchedule")
   startTime: String!
   startTimeMeridian: String!
   endTime: String!
+  username: String
   endTimeMeridian: String!
   leftMeridianDropDown: Boolean
   rightMeridianDropDown: Boolean
@@ -332,11 +297,7 @@ type timeSchedule
 type Schedule
   @model
   @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
+    rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
   availableSameTime: Boolean
   username: String
@@ -352,4 +313,16 @@ type DaySchedules {
 type UnavailableDates {
   id: String
   date: String
+}
+type User
+  @model
+  @auth(
+    rules: [{ allow: public, operations: [read, update, create, delete] }]
+  ) {
+  given_name: String
+  username: String
+  family_name: String
+  picture: String
+  email: String
+  kyc_done: Boolean
 }

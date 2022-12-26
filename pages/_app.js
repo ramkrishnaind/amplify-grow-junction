@@ -74,18 +74,24 @@ function MyApp({ Component, pageProps }) {
     return (
       host && (
         <Auth0Provider
-          domain="dev-tra4scc70r3ty8yh.us.auth0.com"
-          clientId="QQR0KU0g8usdgAxqAyFEpWrx5EKreM7P"
-          redirectUri={host}
+          domain="dev-2den6jd36jliqugc.us.auth0.com"
+          clientId="aH23l8WVJ9YnfCQO7BUVZacqJPjpJ34j"
+          redirectUri={window.location.origin}
         >
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <Student>
-                <Component {...pageProps} />
-              </Student>
-            </PersistGate>
-            <ToastContainer />
-          </Provider>
+          <Auth0Provider
+            domain="dev-tra4scc70r3ty8yh.us.auth0.com"
+            clientId="QQR0KU0g8usdgAxqAyFEpWrx5EKreM7P"
+            redirectUri={host}
+          >
+            <Provider store={store}>
+              <PersistGate loading={null} persistor={persistor}>
+                <Student>
+                  <Component {...pageProps} />
+                </Student>
+              </PersistGate>
+              <ToastContainer />
+            </Provider>
+          </Auth0Provider>
         </Auth0Provider>
       )
     )

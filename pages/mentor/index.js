@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { setMentorTitle } from '../../redux/actions/MentorTitleAction'
 import { withAuthenticator } from '@aws-amplify/ui-react'
 // import withAuthenticator from '../add-todo'
+import WithAuthenticated from '../../hoc/withAuthenticated'
 const Mentor = ({ children }) => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -18,4 +19,4 @@ const Mentor = ({ children }) => {
   )
 }
 
-export default withAuthenticator(Mentor)
+export default WithAuthenticated(Mentor)

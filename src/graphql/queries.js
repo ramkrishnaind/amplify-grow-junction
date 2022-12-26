@@ -90,37 +90,6 @@ export const listSuggestedServiceLists = /* GraphQL */ `
     }
   }
 `;
-export const getTodo = /* GraphQL */ `
-  query GetTodo($id: ID!) {
-    getTodo(id: $id) {
-      id
-      name
-      username
-      description
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listTodos = /* GraphQL */ `
-  query ListTodos(
-    $filter: ModelTodoFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        username
-        description
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
 export const getStudentRegister = /* GraphQL */ `
   query GetStudentRegister($id: ID!) {
     getStudentRegister(id: $id) {
@@ -175,7 +144,6 @@ export const getStudentRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -242,7 +210,6 @@ export const listStudentRegisters = /* GraphQL */ `
         id
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
@@ -267,7 +234,6 @@ export const getOneOnOne = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -295,7 +261,6 @@ export const listOneOnOnes = /* GraphQL */ `
         id
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
@@ -319,7 +284,6 @@ export const getTextQuery = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -346,7 +310,6 @@ export const listTextQueries = /* GraphQL */ `
         id
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
@@ -376,7 +339,6 @@ export const getWorkshop = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -409,7 +371,6 @@ export const listWorkshops = /* GraphQL */ `
         id
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
@@ -441,7 +402,6 @@ export const getCourses = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -476,7 +436,6 @@ export const listCourses = /* GraphQL */ `
         id
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
@@ -506,7 +465,6 @@ export const getPackages = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -539,7 +497,47 @@ export const listPackages = /* GraphQL */ `
         id
         createdAt
         updatedAt
-        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getConfigurations = /* GraphQL */ `
+  query GetConfigurations($id: ID!) {
+    getConfigurations(id: $id) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listConfigurations = /* GraphQL */ `
+  query ListConfigurations(
+    $filter: ModelConfigurationsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listConfigurations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        timezone
+        username
+        calender
+        personalMeetingLink
+        bookingPeriod
+        bookingPeriodIn
+        noticePeriod
+        noticePeriodIn
+        id
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -597,7 +595,6 @@ export const getMentorRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -658,7 +655,288 @@ export const listMentorRegisters = /* GraphQL */ `
         id
         createdAt
         updatedAt
-        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getMentorAvailability = /* GraphQL */ `
+  query GetMentorAvailability($id: ID!) {
+    getMentorAvailability(id: $id) {
+      mentor_availability_id
+      username
+      mentor_schedule {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listMentorAvailabilities = /* GraphQL */ `
+  query ListMentorAvailabilities(
+    $filter: ModelMentorAvailabilityFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMentorAvailabilities(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        mentor_availability_id
+        username
+        mentor_schedule {
+          id
+          sortId
+          day
+          checked
+          username
+          time_schedule {
+            items {
+              MentorWeekScheduleId
+              startTime
+              startTimeMeridian
+              endTime
+              username
+              endTimeMeridian
+              leftMeridianDropDown
+              rightMeridianDropDown
+              id
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getMentorWeekSchedule = /* GraphQL */ `
+  query GetMentorWeekSchedule($id: ID!) {
+    getMentorWeekSchedule(id: $id) {
+      id
+      sortId
+      day
+      checked
+      username
+      time_schedule {
+        items {
+          Mentor {
+            id
+            sortId
+            day
+            checked
+            username
+            time_schedule {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          MentorWeekScheduleId
+          startTime
+          startTimeMeridian
+          endTime
+          username
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listMentorWeekSchedules = /* GraphQL */ `
+  query ListMentorWeekSchedules(
+    $filter: ModelMentorWeekScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMentorWeekSchedules(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getTimeSchedule = /* GraphQL */ `
+  query GetTimeSchedule($id: ID!) {
+    getTimeSchedule(id: $id) {
+      Mentor {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      MentorWeekScheduleId
+      startTime
+      startTimeMeridian
+      endTime
+      username
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTimeSchedules = /* GraphQL */ `
+  query ListTimeSchedules(
+    $filter: ModelTimeScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTimeSchedules(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        Mentor {
+          id
+          sortId
+          day
+          checked
+          username
+          time_schedule {
+            items {
+              MentorWeekScheduleId
+              startTime
+              startTimeMeridian
+              endTime
+              username
+              endTimeMeridian
+              leftMeridianDropDown
+              rightMeridianDropDown
+              id
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        MentorWeekScheduleId
+        startTime
+        startTimeMeridian
+        endTime
+        username
+        endTimeMeridian
+        leftMeridianDropDown
+        rightMeridianDropDown
+        id
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -668,70 +946,20 @@ export const getSchedule = /* GraphQL */ `
   query GetSchedule($id: ID!) {
     getSchedule(id: $id) {
       availableSameTime
-      daySchedules {
-        everyday {
-          everyday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Sunday {
-          Sunday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Monday {
-          Monday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Tuesday {
-          Tuesday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Wednesday {
-          Wednesday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Thursday {
-          Thursday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Friday {
-          Friday
-          time {
-            startTime
-            endTime
-          }
-        }
-        Saturday {
-          Saturday
-          time {
-            startTime
-            endTime
-          }
-        }
-      }
       username
-      unavailableDates
+      unavailableDates {
+        id
+        date
+      }
+      daySchedules {
+        id
+        day
+        startTime
+        endTime
+      }
       id
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -744,113 +972,145 @@ export const listSchedules = /* GraphQL */ `
     listSchedules(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         availableSameTime
-        daySchedules {
-          everyday {
-            everyday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Sunday {
-            Sunday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Monday {
-            Monday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Tuesday {
-            Tuesday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Wednesday {
-            Wednesday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Thursday {
-            Thursday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Friday {
-            Friday
-            time {
-              startTime
-              endTime
-            }
-          }
-          Saturday {
-            Saturday
-            time {
-              startTime
-              endTime
-            }
-          }
-        }
         username
-        unavailableDates
+        unavailableDates {
+          id
+          date
+        }
+        daySchedules {
+          id
+          day
+          startTime
+          endTime
+        }
         id
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
   }
 `;
-export const getConfigurations = /* GraphQL */ `
-  query GetConfigurations($id: ID!) {
-    getConfigurations(id: $id) {
-      timezone
-      calender
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      given_name
       username
-      personalMeetingLink
-      bookingPeriod
-      bookingPeriodIn
-      noticePeriod
-      noticePeriodIn
+      family_name
+      picture
+      email
+      kyc_done
       id
       createdAt
       updatedAt
-      owner
     }
   }
 `;
-export const listConfigurations = /* GraphQL */ `
-  query ListConfigurations(
-    $filter: ModelConfigurationsFilterInput
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listConfigurations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        timezone
-        calender
+        given_name
         username
-        personalMeetingLink
-        bookingPeriod
-        bookingPeriodIn
-        noticePeriod
-        noticePeriodIn
+        family_name
+        picture
+        email
+        kyc_done
         id
         createdAt
         updatedAt
-        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const timeSchedulesByMentorWeekScheduleId = /* GraphQL */ `
+  query TimeSchedulesByMentorWeekScheduleId(
+    $MentorWeekScheduleId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModeltimeScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    timeSchedulesByMentorWeekScheduleId(
+      MentorWeekScheduleId: $MentorWeekScheduleId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        Mentor {
+          id
+          sortId
+          day
+          checked
+          username
+          time_schedule {
+            items {
+              MentorWeekScheduleId
+              startTime
+              startTimeMeridian
+              endTime
+              username
+              endTimeMeridian
+              leftMeridianDropDown
+              rightMeridianDropDown
+              id
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        MentorWeekScheduleId
+        startTime
+        startTimeMeridian
+        endTime
+        username
+        endTimeMeridian
+        leftMeridianDropDown
+        rightMeridianDropDown
+        id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getTodo = /* GraphQL */ `
+  query GetTodo($id: ID!) {
+    getTodo(id: $id) {
+      id
+      name
+      username
+      description
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTodos = /* GraphQL */ `
+  query ListTodos(
+    $filter: ModelTodoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        username
+        description
+        createdAt
+        updatedAt
       }
       nextToken
     }

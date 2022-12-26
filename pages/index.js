@@ -8,17 +8,33 @@ import { Auth, Hub } from 'aws-amplify'
 import Login from './auth/Login'
 import Register from './auth/Register'
 import DashboardPage from './Dashboard'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import useWindowDimensions from '../public/utils/useWindowDimensions'
 import ACTION_KEYS from '../constants/action-keys'
-
+import { SetUser } from '../redux/actions/AuthAction'
+import { getLoggedinUserEmail } from '../utilities/user'
 const Home = () => {
+  getLoggedinUserEmail()
+  const registerType = useSelector((state) => state.AuthReducer)
   const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
     useAuth0()
-  debugger
+  useEffect(() => {
+    debugger
+    if (isAuthenticated) {
+      console.log('user', user)
+      setIsLoggedIn(true)
+      SetUser(dispatch, user)
+    }
+  }, [isAuthenticated])
+  useEffect(() => {
+    if (registerType.user) {
+      setIsLoggedIn(true)
+    }
+  }, registerType.user)
   // if (isLoading) {
   //   return <div>Loading ...</div>;
   // }
+  debugger
   const [isLoggedin, setIsLoggedIn] = useState(false)
   const { width, height } = useWindowDimensions()
   const dispatch = useDispatch()
@@ -26,7 +42,7 @@ const Home = () => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       setIsLoggedIn(!!usr?.username)
-      if (usr) setUser(usr)
+      if (usr) setUser(dispatch, usr)
     } catch {}
   }
   const authListener = async () => {
@@ -65,23 +81,23 @@ const Home = () => {
     getUser()
   }, [])
   return (
-    <>
-      {isAuthenticated ? (
-        <>
-          <div>
-            <img src={user.picture} alt={user.name} />
-            <h2>{user.name}</h2>
-            <p>{user.email}</p>
-          </div>
-          <button onClick={() => logout({ returnTo: window.location.origin })}>
-            Log Out
-          </button>
-        </>
-      ) : (
-        <button onClick={() => loginWithRedirect()}>login</button>
-      )}
-      <DashboardPage isLoggedin={isLoggedin} />
-    </>
+    // <>
+    //   {isAuthenticated ? (
+    //     <>
+    //       <div>
+    //         <img src={user.picture} alt={user.name} />
+    //         <h2>{user.name}</h2>
+    //         <p>{user.email}</p>
+    //       </div>
+    //       <button onClick={() => logout({ returnTo: window.location.origin })}>
+    //         Log Out
+    //       </button>
+    //     </>
+    //   ) : (
+    //     <button onClick={() => loginWithRedirect()}>login</button>
+    //   )}
+    <DashboardPage isLoggedin={isLoggedin} />
+    // </>
   )
 }
 export default Home

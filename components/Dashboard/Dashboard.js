@@ -2,13 +2,18 @@ import React from 'react'
 import RightSideImages from './RightSideImages'
 import classes from './Dashboard.module.css'
 import { useRouter } from 'next/router'
+
 import { Auth, Hub } from 'aws-amplify'
 import { RegisterTypeRequest } from '../../redux/actions/AuthAction'
 import { useDispatch } from 'react-redux'
-
+import { useAuth0 } from '@auth0/auth0-react'
+import { ClearUser, StoreUserAuth } from '../../redux/actions/AuthAction'
 const Dashboard = ({ isLoggedin }) => {
-  const router = useRouter()
   const dispatch = useDispatch()
+  const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
+    useAuth0()
+  const router = useRouter()
+
   return (
     <section className={classes.main}>
       <header className={`flex-col md:flex-row ${classes.header}`}>
@@ -36,9 +41,18 @@ const Dashboard = ({ isLoggedin }) => {
             Become a student
           </a>
           <a
-            className={classes.button}
+            className={`${classes.button} cursor-pointer`}
             onClick={async () => {
-              isLoggedin ? await Auth.signOut() : router.push('/auth/Login')
+              if (isLoggedin) {
+                try {
+                  await Auth.signOut()
+                } catch (error) {}
+                try {
+                  logout({ returnTo: window.location.origin })
+                } catch (error) {}
+                ClearUser(dispatch)
+                StoreUserAuth(dispatch, null)
+              } else router.push('/auth/Login')
             }}
           >
             {isLoggedin ? 'Log out' : 'Log In'}

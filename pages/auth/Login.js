@@ -22,7 +22,9 @@ import TextField from '../ui-kit/TextField'
 import Button from '../ui-kit/Button'
 import Header from '../components/common/Header'
 import Amplify from 'aws-amplify'
+
 import { Auth, Hub } from 'aws-amplify'
+import { useAuth0 } from '@auth0/auth0-react'
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 import Link from 'next/link'
 import {
@@ -98,13 +100,24 @@ const options = {
 
 const spaceValidation = new RegExp(/^[^ ]*$/)
 const Login = (props) => {
+  const router = useRouter()
+  const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
+    useAuth0()
   const [isLocalhost, setIsLocalState] = useState(false)
+  debugger
   const registerType = useSelector((state) => state.AuthReducer)
   useEffect(() => {
     setIsLocalState(!!(window.location.hostname === 'localhost'))
     debugger
     // Auth.signOut().then(() => {})
   }, [])
+  useEffect(() => {
+    debugger
+    console.log('user', user)
+    if (registerType.user) {
+      router.replace(window.location.origin)
+    }
+  }, [registerType.user])
   const handleSignout = async () => {
     await Auth.signOut()
   }
@@ -160,7 +173,7 @@ const Login = (props) => {
   const dispatch = useDispatch()
   const [loader, setLoader] = useState(false)
   //   console.log(width);
-  const router = useRouter()
+
   const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
     ssr: false,
   })
@@ -403,7 +416,7 @@ const Login = (props) => {
                     //     window.open('https://www.codexworld.com/', '_self')
                     //   }}
                   />
-                  <Button
+                  {/* <Button
                     label="Sign-out"
                     type="button"
                     styleOverride={{
@@ -419,7 +432,7 @@ const Login = (props) => {
                     //     // router.prefetch('www.google.com')
                     //     window.open('https://www.codexworld.com/', '_self')
                     //   }}
-                  />
+                  /> */}
                   <div className="flex ">
                     <Button
                       label="Google"
@@ -437,9 +450,16 @@ const Login = (props) => {
                       // }}
                       loader={loader}
                       onClick={() =>
-                        Auth.federatedSignIn({
-                          provider: CognitoHostedUIIdentityProvider.Google,
-                        })
+                        // Auth.federatedSignIn({
+                        //   provider: CognitoHostedUIIdentityProvider.Google,
+                        // })
+                        {
+                          // logout({ returnTo: window.location.origin })
+                          // setTimeout(() => {
+                          //   debugger
+                          loginWithRedirect()
+                          // }, 3000)
+                        }
                       }
                       //   onClick={() => {
                       //     // router.prefetch('www.google.com')
@@ -463,10 +483,11 @@ const Login = (props) => {
                       }}
                       loader={loader}
                       onClick={() => {
-                        window.open(
-                          'https://testamplifyapia67ec0db-a67ec0db-dev.auth.us-east-1.amazoncognito.com/login?client_id=554a3mfldgkttk71c7n306q3mc&response_type=code&scope=email+openid+profile&redirect_uri=http://localhost:3000/',
-                          '_blank',
-                        )
+                        // logout({ returnTo: window.location.origin })
+                        // setTimeout(() => {
+                        //   debugger
+                        loginWithRedirect()
+                        // }, 100)
                       }}
                       //   onClick={() => {
                       //     // router.prefetch('www.google.com')
