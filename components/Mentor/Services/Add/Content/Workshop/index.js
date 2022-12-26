@@ -92,7 +92,7 @@ const Workshop = ({
   const [convertedImage, setConvertedImage] = useState()
   const [hideService, setHideService] = useState(true)
   const [limitedParticipants, setLimitedParticipants] = useState(true)
-  const toggleClass = ' transform translate-x-5'
+  const toggleClass = ' transform translate-x-5 bg-black'
 
   const items = ['Text', 'Upload (Pdf,jpeg)']
   const [questionType, setQuestionType] = useState(items[0])
@@ -115,10 +115,10 @@ const Workshop = ({
     debugger
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
-    }
+  }
     // else{
     //   console.log(this.imageInputref.current.e.target.files[0])
-    // }
+  // }
     //setImage(imageInputref.current.files[0].name)
     console.log('image -', image)
     if (e.target.files[0]) {
@@ -511,7 +511,7 @@ const Workshop = ({
                       {/* Switch */}
                       <div
                         className={
-                          'bg-black md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
+                          'bg-white md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
                           (hideService ? null : toggleClass)
                         }
                       ></div>
@@ -523,7 +523,7 @@ const Workshop = ({
                   <div> </div>
                   <div className="flex flex-row bg-gray-50 ml-5 px-10 mt-5 rounded-md mr-4 md:mr-1 lg:mr-1 w-2/3">
                     <div
-                      className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-green-800 rounded-full p-1 cursor-pointer"
+                      className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-gray-400 rounded-full p-1 cursor-pointer"
                       onClick={() => {
                         setLimitedParticipants(!limitedParticipants)
                       }}
