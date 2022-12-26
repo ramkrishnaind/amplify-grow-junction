@@ -7,6 +7,7 @@ export const onCreateDemoSkillsList = /* GraphQL */ `
   ) {
     onCreateDemoSkillsList(filter: $filter) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -19,6 +20,7 @@ export const onUpdateDemoSkillsList = /* GraphQL */ `
   ) {
     onUpdateDemoSkillsList(filter: $filter) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -31,6 +33,7 @@ export const onDeleteDemoSkillsList = /* GraphQL */ `
   ) {
     onDeleteDemoSkillsList(filter: $filter) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -43,6 +46,7 @@ export const onCreateDomainInterestedList = /* GraphQL */ `
   ) {
     onCreateDomainInterestedList(filter: $filter) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -55,6 +59,7 @@ export const onUpdateDomainInterestedList = /* GraphQL */ `
   ) {
     onUpdateDomainInterestedList(filter: $filter) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -67,6 +72,7 @@ export const onDeleteDomainInterestedList = /* GraphQL */ `
   ) {
     onDeleteDomainInterestedList(filter: $filter) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -79,6 +85,7 @@ export const onCreateSuggestedServiceList = /* GraphQL */ `
   ) {
     onCreateSuggestedServiceList(filter: $filter) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -91,6 +98,7 @@ export const onUpdateSuggestedServiceList = /* GraphQL */ `
   ) {
     onUpdateSuggestedServiceList(filter: $filter) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -103,6 +111,7 @@ export const onDeleteSuggestedServiceList = /* GraphQL */ `
   ) {
     onDeleteSuggestedServiceList(filter: $filter) {
       id
+      username
       value
       createdAt
       updatedAt
@@ -670,63 +679,6 @@ export const onDeletePackages = /* GraphQL */ `
     }
   }
 `;
-export const onCreateConfigurations = /* GraphQL */ `
-  subscription OnCreateConfigurations(
-    $filter: ModelSubscriptionConfigurationsFilterInput
-  ) {
-    onCreateConfigurations(filter: $filter) {
-      timezone
-      username
-      calender
-      personalMeetingLink
-      bookingPeriod
-      bookingPeriodIn
-      noticePeriod
-      noticePeriodIn
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateConfigurations = /* GraphQL */ `
-  subscription OnUpdateConfigurations(
-    $filter: ModelSubscriptionConfigurationsFilterInput
-  ) {
-    onUpdateConfigurations(filter: $filter) {
-      timezone
-      username
-      calender
-      personalMeetingLink
-      bookingPeriod
-      bookingPeriodIn
-      noticePeriod
-      noticePeriodIn
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteConfigurations = /* GraphQL */ `
-  subscription OnDeleteConfigurations(
-    $filter: ModelSubscriptionConfigurationsFilterInput
-  ) {
-    onDeleteConfigurations(filter: $filter) {
-      timezone
-      username
-      calender
-      personalMeetingLink
-      bookingPeriod
-      bookingPeriodIn
-      noticePeriod
-      noticePeriodIn
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const onCreateMentorRegister = /* GraphQL */ `
   subscription OnCreateMentorRegister(
     $filter: ModelSubscriptionMentorRegisterFilterInput
@@ -898,450 +850,70 @@ export const onDeleteMentorRegister = /* GraphQL */ `
     }
   }
 `;
-export const onCreateMentorAvailability = /* GraphQL */ `
-  subscription OnCreateMentorAvailability(
-    $filter: ModelSubscriptionMentorAvailabilityFilterInput
-  ) {
-    onCreateMentorAvailability(filter: $filter) {
-      mentor_availability_id
-      username
-      mentor_schedule {
-        id
-        sortId
-        day
-        checked
-        username
-        time_schedule {
-          items {
-            Mentor {
-              id
-              sortId
-              day
-              checked
-              username
-              createdAt
-              updatedAt
-            }
-            MentorWeekScheduleId
-            startTime
-            startTimeMeridian
-            endTime
-            username
-            endTimeMeridian
-            leftMeridianDropDown
-            rightMeridianDropDown
-            id
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateMentorAvailability = /* GraphQL */ `
-  subscription OnUpdateMentorAvailability(
-    $filter: ModelSubscriptionMentorAvailabilityFilterInput
-  ) {
-    onUpdateMentorAvailability(filter: $filter) {
-      mentor_availability_id
-      username
-      mentor_schedule {
-        id
-        sortId
-        day
-        checked
-        username
-        time_schedule {
-          items {
-            Mentor {
-              id
-              sortId
-              day
-              checked
-              username
-              createdAt
-              updatedAt
-            }
-            MentorWeekScheduleId
-            startTime
-            startTimeMeridian
-            endTime
-            username
-            endTimeMeridian
-            leftMeridianDropDown
-            rightMeridianDropDown
-            id
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteMentorAvailability = /* GraphQL */ `
-  subscription OnDeleteMentorAvailability(
-    $filter: ModelSubscriptionMentorAvailabilityFilterInput
-  ) {
-    onDeleteMentorAvailability(filter: $filter) {
-      mentor_availability_id
-      username
-      mentor_schedule {
-        id
-        sortId
-        day
-        checked
-        username
-        time_schedule {
-          items {
-            Mentor {
-              id
-              sortId
-              day
-              checked
-              username
-              createdAt
-              updatedAt
-            }
-            MentorWeekScheduleId
-            startTime
-            startTimeMeridian
-            endTime
-            username
-            endTimeMeridian
-            leftMeridianDropDown
-            rightMeridianDropDown
-            id
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateMentorWeekSchedule = /* GraphQL */ `
-  subscription OnCreateMentorWeekSchedule(
-    $filter: ModelSubscriptionMentorWeekScheduleFilterInput
-  ) {
-    onCreateMentorWeekSchedule(filter: $filter) {
-      id
-      sortId
-      day
-      checked
-      username
-      time_schedule {
-        items {
-          Mentor {
-            id
-            sortId
-            day
-            checked
-            username
-            time_schedule {
-              nextToken
-            }
-            createdAt
-            updatedAt
-          }
-          MentorWeekScheduleId
-          startTime
-          startTimeMeridian
-          endTime
-          username
-          endTimeMeridian
-          leftMeridianDropDown
-          rightMeridianDropDown
-          id
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateMentorWeekSchedule = /* GraphQL */ `
-  subscription OnUpdateMentorWeekSchedule(
-    $filter: ModelSubscriptionMentorWeekScheduleFilterInput
-  ) {
-    onUpdateMentorWeekSchedule(filter: $filter) {
-      id
-      sortId
-      day
-      checked
-      username
-      time_schedule {
-        items {
-          Mentor {
-            id
-            sortId
-            day
-            checked
-            username
-            time_schedule {
-              nextToken
-            }
-            createdAt
-            updatedAt
-          }
-          MentorWeekScheduleId
-          startTime
-          startTimeMeridian
-          endTime
-          username
-          endTimeMeridian
-          leftMeridianDropDown
-          rightMeridianDropDown
-          id
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteMentorWeekSchedule = /* GraphQL */ `
-  subscription OnDeleteMentorWeekSchedule(
-    $filter: ModelSubscriptionMentorWeekScheduleFilterInput
-  ) {
-    onDeleteMentorWeekSchedule(filter: $filter) {
-      id
-      sortId
-      day
-      checked
-      username
-      time_schedule {
-        items {
-          Mentor {
-            id
-            sortId
-            day
-            checked
-            username
-            time_schedule {
-              nextToken
-            }
-            createdAt
-            updatedAt
-          }
-          MentorWeekScheduleId
-          startTime
-          startTimeMeridian
-          endTime
-          username
-          endTimeMeridian
-          leftMeridianDropDown
-          rightMeridianDropDown
-          id
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateTimeSchedule = /* GraphQL */ `
-  subscription OnCreateTimeSchedule(
-    $filter: ModelSubscriptionTimeScheduleFilterInput
-  ) {
-    onCreateTimeSchedule(filter: $filter) {
-      Mentor {
-        id
-        sortId
-        day
-        checked
-        username
-        time_schedule {
-          items {
-            Mentor {
-              id
-              sortId
-              day
-              checked
-              username
-              createdAt
-              updatedAt
-            }
-            MentorWeekScheduleId
-            startTime
-            startTimeMeridian
-            endTime
-            username
-            endTimeMeridian
-            leftMeridianDropDown
-            rightMeridianDropDown
-            id
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      MentorWeekScheduleId
-      startTime
-      startTimeMeridian
-      endTime
-      username
-      endTimeMeridian
-      leftMeridianDropDown
-      rightMeridianDropDown
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateTimeSchedule = /* GraphQL */ `
-  subscription OnUpdateTimeSchedule(
-    $filter: ModelSubscriptionTimeScheduleFilterInput
-  ) {
-    onUpdateTimeSchedule(filter: $filter) {
-      Mentor {
-        id
-        sortId
-        day
-        checked
-        username
-        time_schedule {
-          items {
-            Mentor {
-              id
-              sortId
-              day
-              checked
-              username
-              createdAt
-              updatedAt
-            }
-            MentorWeekScheduleId
-            startTime
-            startTimeMeridian
-            endTime
-            username
-            endTimeMeridian
-            leftMeridianDropDown
-            rightMeridianDropDown
-            id
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      MentorWeekScheduleId
-      startTime
-      startTimeMeridian
-      endTime
-      username
-      endTimeMeridian
-      leftMeridianDropDown
-      rightMeridianDropDown
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteTimeSchedule = /* GraphQL */ `
-  subscription OnDeleteTimeSchedule(
-    $filter: ModelSubscriptionTimeScheduleFilterInput
-  ) {
-    onDeleteTimeSchedule(filter: $filter) {
-      Mentor {
-        id
-        sortId
-        day
-        checked
-        username
-        time_schedule {
-          items {
-            Mentor {
-              id
-              sortId
-              day
-              checked
-              username
-              createdAt
-              updatedAt
-            }
-            MentorWeekScheduleId
-            startTime
-            startTimeMeridian
-            endTime
-            username
-            endTimeMeridian
-            leftMeridianDropDown
-            rightMeridianDropDown
-            id
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      MentorWeekScheduleId
-      startTime
-      startTimeMeridian
-      endTime
-      username
-      endTimeMeridian
-      leftMeridianDropDown
-      rightMeridianDropDown
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const onCreateSchedule = /* GraphQL */ `
   subscription OnCreateSchedule($filter: ModelSubscriptionScheduleFilterInput) {
     onCreateSchedule(filter: $filter) {
       availableSameTime
-      username
-      unavailableDates {
-        id
-        date
-      }
       daySchedules {
-        id
-        day
-        startTime
-        endTime
+        everyday {
+          everyday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Sunday {
+          Sunday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Monday {
+          Monday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Tuesday {
+          Tuesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Wednesday {
+          Wednesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Thursday {
+          Thursday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Friday {
+          Friday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Saturday {
+          Saturday
+          time {
+            startTime
+            endTime
+          }
+        }
       }
+      username
+      unavailableDates
       id
       createdAt
       updatedAt
@@ -1352,17 +924,66 @@ export const onUpdateSchedule = /* GraphQL */ `
   subscription OnUpdateSchedule($filter: ModelSubscriptionScheduleFilterInput) {
     onUpdateSchedule(filter: $filter) {
       availableSameTime
-      username
-      unavailableDates {
-        id
-        date
-      }
       daySchedules {
-        id
-        day
-        startTime
-        endTime
+        everyday {
+          everyday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Sunday {
+          Sunday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Monday {
+          Monday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Tuesday {
+          Tuesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Wednesday {
+          Wednesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Thursday {
+          Thursday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Friday {
+          Friday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Saturday {
+          Saturday
+          time {
+            startTime
+            endTime
+          }
+        }
       }
+      username
+      unavailableDates
       id
       createdAt
       updatedAt
@@ -1373,62 +994,165 @@ export const onDeleteSchedule = /* GraphQL */ `
   subscription OnDeleteSchedule($filter: ModelSubscriptionScheduleFilterInput) {
     onDeleteSchedule(filter: $filter) {
       availableSameTime
-      username
-      unavailableDates {
-        id
-        date
-      }
       daySchedules {
-        id
-        day
-        startTime
-        endTime
+        everyday {
+          everyday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Sunday {
+          Sunday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Monday {
+          Monday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Tuesday {
+          Tuesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Wednesday {
+          Wednesday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Thursday {
+          Thursday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Friday {
+          Friday
+          time {
+            startTime
+            endTime
+          }
+        }
+        Saturday {
+          Saturday
+          time {
+            startTime
+            endTime
+          }
+        }
       }
+      username
+      unavailableDates
       id
       createdAt
       updatedAt
     }
   }
 `;
-export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
-    onCreateUser(filter: $filter) {
-      given_name
-      username
-      family_name
-      picture
-      email
+export const onCreateUserInfo = /* GraphQL */ `
+  subscription OnCreateUserInfo($filter: ModelSubscriptionUserInfoFilterInput) {
+    onCreateUserInfo(filter: $filter) {
       kyc_done
+      register_type
+      email
+      name
+      profile_image
       id
       createdAt
       updatedAt
     }
   }
 `;
-export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser($filter: ModelSubscriptionUserFilterInput) {
-    onUpdateUser(filter: $filter) {
-      given_name
-      username
-      family_name
-      picture
-      email
+export const onUpdateUserInfo = /* GraphQL */ `
+  subscription OnUpdateUserInfo($filter: ModelSubscriptionUserInfoFilterInput) {
+    onUpdateUserInfo(filter: $filter) {
       kyc_done
+      register_type
+      email
+      name
+      profile_image
       id
       createdAt
       updatedAt
     }
   }
 `;
-export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser($filter: ModelSubscriptionUserFilterInput) {
-    onDeleteUser(filter: $filter) {
-      given_name
-      username
-      family_name
-      picture
-      email
+export const onDeleteUserInfo = /* GraphQL */ `
+  subscription OnDeleteUserInfo($filter: ModelSubscriptionUserInfoFilterInput) {
+    onDeleteUserInfo(filter: $filter) {
       kyc_done
+      register_type
+      email
+      name
+      profile_image
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateConfigurations = /* GraphQL */ `
+  subscription OnCreateConfigurations(
+    $filter: ModelSubscriptionConfigurationsFilterInput
+  ) {
+    onCreateConfigurations(filter: $filter) {
+      timezone
+      calender
+      username
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateConfigurations = /* GraphQL */ `
+  subscription OnUpdateConfigurations(
+    $filter: ModelSubscriptionConfigurationsFilterInput
+  ) {
+    onUpdateConfigurations(filter: $filter) {
+      timezone
+      calender
+      username
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteConfigurations = /* GraphQL */ `
+  subscription OnDeleteConfigurations(
+    $filter: ModelSubscriptionConfigurationsFilterInput
+  ) {
+    onDeleteConfigurations(filter: $filter) {
+      timezone
+      calender
+      username
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
       id
       createdAt
       updatedAt
@@ -1443,10 +1167,10 @@ export const onCreateTodo = /* GraphQL */ `
     onCreateTodo(filter: $filter, username: $username) {
       id
       name
-      username
       description
       createdAt
       updatedAt
+      username
     }
   }
 `;
@@ -1458,10 +1182,10 @@ export const onUpdateTodo = /* GraphQL */ `
     onUpdateTodo(filter: $filter, username: $username) {
       id
       name
-      username
       description
       createdAt
       updatedAt
+      username
     }
   }
 `;
@@ -1473,10 +1197,10 @@ export const onDeleteTodo = /* GraphQL */ `
     onDeleteTodo(filter: $filter, username: $username) {
       id
       name
-      username
       description
       createdAt
       updatedAt
+      username
     }
   }
 `;

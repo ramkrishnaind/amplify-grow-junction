@@ -4,7 +4,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useReducer, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { API } from 'aws-amplify'
+import { createUserInfo } from '../../src/graphql/mutations'
 import { color } from '../../public/theme/Color'
 import { RegistrationSchema } from '../../public/utils/schema'
 import useWindowDimensions from '../../public/utils/useWindowDimensions'
@@ -154,7 +155,13 @@ const Register = (props) => {
               let password = values.password
               let register_type = registerType?.registerType
               let profile_registration = 'false'
-
+              const userInfo = {
+                kyc_done: false,
+                register_type: registerType?.registerType,
+                email,
+                name: first_name + ' ' + last_name,
+                profile_image: '',
+              }
               try {
                 const { user } = await Auth.signUp({
                   username,
@@ -171,7 +178,10 @@ const Register = (props) => {
                   },
                 })
                 console.log('user', user)
-
+                await API.graphql({
+                  query: createUserInfo,
+                  variables: { input: { ...userInfo } },
+                })
                 if (user) {
                   StoreUserAuth(dispatch, user)
                   setLoader(false)
