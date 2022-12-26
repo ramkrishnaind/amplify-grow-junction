@@ -1,18 +1,15 @@
 import React from 'react'
 import NavLink from '../../../../../Utilities/NavLink'
 import classes from './Child.module.css'
-<<<<<<< HEAD
-const Child = ({ title, image, url, js, setActive, partial }) => {
-=======
 import { Auth } from 'aws-amplify'
 import { useAuth0 } from '@auth0/auth0-react'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   ClearUser,
   StoreUserAuth,
 } from '../../../../../../redux/actions/AuthAction'
 const Child = ({ title, image, url, js, setActive, partial }) => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
   const { logout: oAuthLogout } = useAuth0()
   if (image === 'logout.png') {
     url = 'javascript:logout()'
@@ -39,7 +36,6 @@ const Child = ({ title, image, url, js, setActive, partial }) => {
     //   console.log('error signing out: ', error)
     // }
   }
->>>>>>> 41932461691cefea30eaccc078d8ea374aa1fd91
   return (
     <NavLink
       href={url}
