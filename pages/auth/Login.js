@@ -236,14 +236,15 @@ const Login = (props) => {
   }
   return (
     <div
+      className="flex flex-col md:flex-row flex-1"
       style={{
-        display: 'flex',
-        flexDirection: 'row',
-        flex: 1,
         backgroundColor: color.headerColor,
       }}
     >
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div
+        className=" order-2 md:order-1"
+        style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
+      >
         <Header
           btnName="Create Account"
           onClickBtn={() => {
@@ -252,7 +253,7 @@ const Login = (props) => {
           style={{
             backgroundColor: color.blackVariant,
             height: 42,
-            width: 167,
+            // width: 167,
             fontSize: 16,
           }}
           //   btnStlye={{width: 100}}
@@ -260,9 +261,8 @@ const Login = (props) => {
         <div style={{ borderWidth: 1, borderColor: color.divider }} />
 
         <div
+          className="flex flex-col px-12 md:px-44"
           style={{
-            paddingLeft: 140,
-            paddingRight: 140,
             backgroundColor: color.headerColor,
           }}
         >
@@ -501,48 +501,50 @@ const Login = (props) => {
           </Formik>
         </div>
       </div>
-      <Image
-        src={require('../../public/assets/icon/rectangle.png')}
-        alt={''}
-        style={{ width: width / 2.5, height: height }}
-        // style={{width: 600, height: 400}}
-      />
+      <div className=" order-1 md:order-2 hidden md:block">
+        <Image
+          src={require('../../public/assets/icon/rectangle.png')}
+          alt={''}
+          style={{ width: width / 2.5, height: height }}
+          // style={{width:600, height: 400}}
+        />
 
-      <OwlCarousel
-        className="owl-theme"
-        loop
-        // margin={4}
-        // nav={true}
-        // navText={[
-        //   '<img src="/images/Arrow_left.png" />',
-        //   '<img src="/images/Arrow_right.png" />',
-        // ]}
-        style={{
-          width: width / 3,
-          height: height / 2.5,
-          top: height / 6,
-          position: 'absolute',
-          right: 0,
-          //   right: width / 350,
-        }}
-        // dots={true}
-        animateIn={true}
-        {...options}
-      >
-        {productsp && productsp.length > 0
-          ? productsp.map((product, index) => {
-              return (
-                <Image
-                  key={index}
-                  src={require('../../public/assets/icon/carousel.png')}
-                  alt={product.name}
-                  style={{ height: height / 1.5, width: width / 5 }}
-                  title={product.name}
-                />
-              )
-            })
-          : ''}
-      </OwlCarousel>
+        <OwlCarousel
+          className="owl-theme"
+          loop
+          // margin={4}
+          // nav={true}
+          // navText={[
+          //   '<img src="/images/Arrow_left.png" />',
+          //   '<img src="/images/Arrow_right.png" />',
+          // ]}
+          style={{
+            width: width / 3,
+            height: height / 2.5,
+            top: height / 6,
+            position: 'absolute',
+            right: 0,
+            //   right: width / 350,
+          }}
+          // dots={true}
+          animateIn={true}
+          {...options}
+        >
+          {productsp && productsp.length > 0
+            ? productsp.map((product, index) => {
+                return (
+                  <Image
+                    key={index}
+                    src={require('../../public/assets/icon/carousel.png')}
+                    alt={product.name}
+                    style={{ height: height / 1.5, width: width / 5 }}
+                    title={product.name}
+                  />
+                )
+              })
+            : ''}
+        </OwlCarousel>
+      </div>
     </div>
   )
 }

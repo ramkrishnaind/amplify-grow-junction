@@ -149,10 +149,11 @@ const Profile = () => {
       try {
         remaining.id = uuid()
         remaining.mentor_id = uuid()
+        
         await API.graphql({
           query: createMentorRegister,
           variables: { input: { ...state, ...remaining } },
-          authMode: 'AMAZON_COGNITO_USER_POOLS',
+          // authMode: 'AMAZON_COGNITO_USER_POOLS',
         })
         toast.success('Profile added successfully')
         window.location.href = window.location.href

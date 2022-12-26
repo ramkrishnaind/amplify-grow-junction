@@ -14,16 +14,21 @@ import useWindowDimensions from '../public/utils/useWindowDimensions'
 import ACTION_KEYS from '../constants/action-keys'
 import { SetUser } from '../redux/actions/AuthAction'
 import { getLoggedinUserEmail } from '../utilities/user'
+<<<<<<< HEAD
 import { createUserInfo } from '../src/graphql/mutations'
 import { listUserInfos } from '../src/graphql/queries'
 const Home = () => {
   const router = useRouter()
+=======
+const Home = () => {
+>>>>>>> 41932461691cefea30eaccc078d8ea374aa1fd91
   const email = getLoggedinUserEmail()
   debugger
   const registerType = useSelector((state) => state.AuthReducer)
   const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
     useAuth0()
   useEffect(() => {
+<<<<<<< HEAD
     const registerUser = async (user) => {
       const userInfo = {
         kyc_done: false,
@@ -58,16 +63,21 @@ const Home = () => {
         }
       }
     }
+=======
+>>>>>>> 41932461691cefea30eaccc078d8ea374aa1fd91
     debugger
     if (isAuthenticated) {
       console.log('user', user)
       setIsLoggedIn(true)
       SetUser(dispatch, user)
+<<<<<<< HEAD
       if (registerType.signup) {
         registerUser(user)
       } else {
         getUserData(user)
       }
+=======
+>>>>>>> 41932461691cefea30eaccc078d8ea374aa1fd91
     }
   }, [isAuthenticated])
   useEffect(() => {

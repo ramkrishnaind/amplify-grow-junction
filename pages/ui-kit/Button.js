@@ -8,6 +8,7 @@ const Button = (props) => {
     disable,
     image,
     type,
+    classOverride,
     containerOverride,
     loader = false,
     link = false,
@@ -16,7 +17,7 @@ const Button = (props) => {
 
   return (
     <div
-      className="flex w-full"
+      className={`flex w-full justify-center ${classOverride}`}
       style={containerOverride ? containerOverride : {}}
     >
       <button

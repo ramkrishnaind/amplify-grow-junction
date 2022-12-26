@@ -100,10 +100,8 @@ const Register = (props) => {
 
   return (
     <div
+      className="flex flex-col md:flex-row flex-1"
       style={{
-        display: 'flex',
-        flexDirection: 'row',
-        flex: 1,
         backgroundColor: color.headerColor,
       }}
     >
@@ -116,21 +114,26 @@ const Register = (props) => {
           style={{
             backgroundColor: color.blackVariant,
             height: 42,
-            width: 95,
+            // width: 95,
             fontSize: 16,
           }}
         />
         <div style={{ borderWidth: 1, borderColor: color.divider }} />
 
         <div
+          className="flex flex-col px-12 md:px-44"
           style={{
-            paddingLeft: 140,
-            paddingRight: 140,
             backgroundColor: color.headerColor,
           }}
         >
           <div
-            style={{ color: color.blackVariant, fontSize: 28, marginTop: 56 }}
+            className=" text-center md:text-left"
+            style={{
+              // textAlign: 'center',
+              color: color.blackVariant,
+              fontSize: 28,
+              marginTop: 56,
+            }}
           >
             Welcome to Grow Junction
           </div>
@@ -314,17 +317,81 @@ const Register = (props) => {
                   //     router.push('/auth/VerifyEmail');
                   //   }}
                 />
+                <div className="flex ">
+                  <Button
+                    label="Google"
+                    image="/assets/icon/google.svg"
+                    styleOverride={{
+                      height: 62,
+                      backgroundColor: 'white',
+                      color: color.blackVariant,
+                      border: '1px solid black',
+                      fontSize: 16,
+                      marginTop: 40,
+                    }}
+                    // containerOverride={{
+                    //   marginLeft: 10,
+                    // }}
+                    loader={loader}
+                    onClick={() =>
+                      // Auth.federatedSignIn({
+                      //   provider: CognitoHostedUIIdentityProvider.Google,
+                      // })
+                      {
+                        // logout({ returnTo: window.location.origin })
+                        // setTimeout(() => {
+                        //   debugger
+                        loginWithRedirect()
+                        // }, 3000)
+                      }
+                    }
+                    //   onClick={() => {
+                    //     // router.prefetch('www.google.com')
+                    //     window.open('https://www.codexworld.com/', '_self')
+                    //   }}
+                  />
+
+                  <Button
+                    label="LinkedIn"
+                    image="/assets/icon/inkedin-circled.svg"
+                    styleOverride={{
+                      height: 62,
+                      backgroundColor: 'white',
+                      color: color.blackVariant,
+                      border: '1px solid black',
+                      fontSize: 16,
+                      marginTop: 40,
+                    }}
+                    containerOverride={{
+                      marginLeft: 10,
+                    }}
+                    loader={loader}
+                    onClick={() => {
+                      // logout({ returnTo: window.location.origin })
+                      // setTimeout(() => {
+                      //   debugger
+                      loginWithRedirect()
+                      // }, 100)
+                    }}
+                    //   onClick={() => {
+                    //     // router.prefetch('www.google.com')
+                    //     window.open('https://www.codexworld.com/', '_self')
+                    //   }}
+                  />
+                </div>
               </>
             )}
           </Formik>
         </div>
       </div>
-      <Image
-        src={require('../../public/assets/icon/rectangle.png')}
-        alt={''}
-        style={{ width: width / 2.5, height: height }}
-        // style={{width: 600, height: 400}}
-      />
+      <div className="hidden md:block">
+        <Image
+          src={require('../../public/assets/icon/rectangle.png')}
+          alt={''}
+          style={{ width: width / 2.5, height: height }}
+          // style={{width: 600, height: 400}}
+        />
+      </div>
 
       {/* <OwlCarousel
         className="owl-theme"

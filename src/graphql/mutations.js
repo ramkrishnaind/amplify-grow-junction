@@ -727,6 +727,69 @@ export const deletePackages = /* GraphQL */ `
       id
       createdAt
       updatedAt
+<<<<<<< HEAD
+=======
+    }
+  }
+`;
+export const createConfigurations = /* GraphQL */ `
+  mutation CreateConfigurations(
+    $input: CreateConfigurationsInput!
+    $condition: ModelConfigurationsConditionInput
+  ) {
+    createConfigurations(input: $input, condition: $condition) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateConfigurations = /* GraphQL */ `
+  mutation UpdateConfigurations(
+    $input: UpdateConfigurationsInput!
+    $condition: ModelConfigurationsConditionInput
+  ) {
+    updateConfigurations(input: $input, condition: $condition) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteConfigurations = /* GraphQL */ `
+  mutation DeleteConfigurations(
+    $input: DeleteConfigurationsInput!
+    $condition: ModelConfigurationsConditionInput
+  ) {
+    deleteConfigurations(input: $input, condition: $condition) {
+      timezone
+      username
+      calender
+      personalMeetingLink
+      bookingPeriod
+      bookingPeriodIn
+      noticePeriod
+      noticePeriodIn
+      id
+      createdAt
+      updatedAt
+>>>>>>> 41932461691cefea30eaccc078d8ea374aa1fd91
     }
   }
 `;
@@ -901,6 +964,447 @@ export const deleteMentorRegister = /* GraphQL */ `
       id
       createdAt
       updatedAt
+<<<<<<< HEAD
+=======
+    }
+  }
+`;
+export const createMentorAvailability = /* GraphQL */ `
+  mutation CreateMentorAvailability(
+    $input: CreateMentorAvailabilityInput!
+    $condition: ModelMentorAvailabilityConditionInput
+  ) {
+    createMentorAvailability(input: $input, condition: $condition) {
+      mentor_availability_id
+      username
+      mentor_schedule {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateMentorAvailability = /* GraphQL */ `
+  mutation UpdateMentorAvailability(
+    $input: UpdateMentorAvailabilityInput!
+    $condition: ModelMentorAvailabilityConditionInput
+  ) {
+    updateMentorAvailability(input: $input, condition: $condition) {
+      mentor_availability_id
+      username
+      mentor_schedule {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteMentorAvailability = /* GraphQL */ `
+  mutation DeleteMentorAvailability(
+    $input: DeleteMentorAvailabilityInput!
+    $condition: ModelMentorAvailabilityConditionInput
+  ) {
+    deleteMentorAvailability(input: $input, condition: $condition) {
+      mentor_availability_id
+      username
+      mentor_schedule {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createMentorWeekSchedule = /* GraphQL */ `
+  mutation CreateMentorWeekSchedule(
+    $input: CreateMentorWeekScheduleInput!
+    $condition: ModelMentorWeekScheduleConditionInput
+  ) {
+    createMentorWeekSchedule(input: $input, condition: $condition) {
+      id
+      sortId
+      day
+      checked
+      username
+      time_schedule {
+        items {
+          Mentor {
+            id
+            sortId
+            day
+            checked
+            username
+            time_schedule {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          MentorWeekScheduleId
+          startTime
+          startTimeMeridian
+          endTime
+          username
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateMentorWeekSchedule = /* GraphQL */ `
+  mutation UpdateMentorWeekSchedule(
+    $input: UpdateMentorWeekScheduleInput!
+    $condition: ModelMentorWeekScheduleConditionInput
+  ) {
+    updateMentorWeekSchedule(input: $input, condition: $condition) {
+      id
+      sortId
+      day
+      checked
+      username
+      time_schedule {
+        items {
+          Mentor {
+            id
+            sortId
+            day
+            checked
+            username
+            time_schedule {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          MentorWeekScheduleId
+          startTime
+          startTimeMeridian
+          endTime
+          username
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteMentorWeekSchedule = /* GraphQL */ `
+  mutation DeleteMentorWeekSchedule(
+    $input: DeleteMentorWeekScheduleInput!
+    $condition: ModelMentorWeekScheduleConditionInput
+  ) {
+    deleteMentorWeekSchedule(input: $input, condition: $condition) {
+      id
+      sortId
+      day
+      checked
+      username
+      time_schedule {
+        items {
+          Mentor {
+            id
+            sortId
+            day
+            checked
+            username
+            time_schedule {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          MentorWeekScheduleId
+          startTime
+          startTimeMeridian
+          endTime
+          username
+          endTimeMeridian
+          leftMeridianDropDown
+          rightMeridianDropDown
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createTimeSchedule = /* GraphQL */ `
+  mutation CreateTimeSchedule(
+    $input: CreateTimeScheduleInput!
+    $condition: ModelTimeScheduleConditionInput
+  ) {
+    createTimeSchedule(input: $input, condition: $condition) {
+      Mentor {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      MentorWeekScheduleId
+      startTime
+      startTimeMeridian
+      endTime
+      username
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateTimeSchedule = /* GraphQL */ `
+  mutation UpdateTimeSchedule(
+    $input: UpdateTimeScheduleInput!
+    $condition: ModelTimeScheduleConditionInput
+  ) {
+    updateTimeSchedule(input: $input, condition: $condition) {
+      Mentor {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      MentorWeekScheduleId
+      startTime
+      startTimeMeridian
+      endTime
+      username
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteTimeSchedule = /* GraphQL */ `
+  mutation DeleteTimeSchedule(
+    $input: DeleteTimeScheduleInput!
+    $condition: ModelTimeScheduleConditionInput
+  ) {
+    deleteTimeSchedule(input: $input, condition: $condition) {
+      Mentor {
+        id
+        sortId
+        day
+        checked
+        username
+        time_schedule {
+          items {
+            Mentor {
+              id
+              sortId
+              day
+              checked
+              username
+              createdAt
+              updatedAt
+            }
+            MentorWeekScheduleId
+            startTime
+            startTimeMeridian
+            endTime
+            username
+            endTimeMeridian
+            leftMeridianDropDown
+            rightMeridianDropDown
+            id
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      MentorWeekScheduleId
+      startTime
+      startTimeMeridian
+      endTime
+      username
+      endTimeMeridian
+      leftMeridianDropDown
+      rightMeridianDropDown
+      id
+      createdAt
+      updatedAt
+>>>>>>> 41932461691cefea30eaccc078d8ea374aa1fd91
     }
   }
 `;
@@ -1123,6 +1627,7 @@ export const deleteSchedule = /* GraphQL */ `
     }
   }
 `;
+<<<<<<< HEAD
 export const createUserInfo = /* GraphQL */ `
   mutation CreateUserInfo(
     $input: CreateUserInfoInput!
@@ -1188,12 +1693,27 @@ export const createConfigurations = /* GraphQL */ `
       bookingPeriodIn
       noticePeriod
       noticePeriodIn
+=======
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    createUser(input: $input, condition: $condition) {
+      given_name
+      username
+      family_name
+      picture
+      email
+      kyc_done
+>>>>>>> 41932461691cefea30eaccc078d8ea374aa1fd91
       id
       createdAt
       updatedAt
     }
   }
 `;
+<<<<<<< HEAD
 export const updateConfigurations = /* GraphQL */ `
   mutation UpdateConfigurations(
     $input: UpdateConfigurationsInput!
@@ -1208,12 +1728,27 @@ export const updateConfigurations = /* GraphQL */ `
       bookingPeriodIn
       noticePeriod
       noticePeriodIn
+=======
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    updateUser(input: $input, condition: $condition) {
+      given_name
+      username
+      family_name
+      picture
+      email
+      kyc_done
+>>>>>>> 41932461691cefea30eaccc078d8ea374aa1fd91
       id
       createdAt
       updatedAt
     }
   }
 `;
+<<<<<<< HEAD
 export const deleteConfigurations = /* GraphQL */ `
   mutation DeleteConfigurations(
     $input: DeleteConfigurationsInput!
@@ -1228,6 +1763,20 @@ export const deleteConfigurations = /* GraphQL */ `
       bookingPeriodIn
       noticePeriod
       noticePeriodIn
+=======
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    deleteUser(input: $input, condition: $condition) {
+      given_name
+      username
+      family_name
+      picture
+      email
+      kyc_done
+>>>>>>> 41932461691cefea30eaccc078d8ea374aa1fd91
       id
       createdAt
       updatedAt
@@ -1242,10 +1791,17 @@ export const createTodo = /* GraphQL */ `
     createTodo(input: $input, condition: $condition) {
       id
       name
+<<<<<<< HEAD
       description
       createdAt
       updatedAt
       username
+=======
+      username
+      description
+      createdAt
+      updatedAt
+>>>>>>> 41932461691cefea30eaccc078d8ea374aa1fd91
     }
   }
 `;
@@ -1257,10 +1813,17 @@ export const updateTodo = /* GraphQL */ `
     updateTodo(input: $input, condition: $condition) {
       id
       name
+<<<<<<< HEAD
       description
       createdAt
       updatedAt
       username
+=======
+      username
+      description
+      createdAt
+      updatedAt
+>>>>>>> 41932461691cefea30eaccc078d8ea374aa1fd91
     }
   }
 `;
@@ -1272,10 +1835,17 @@ export const deleteTodo = /* GraphQL */ `
     deleteTodo(input: $input, condition: $condition) {
       id
       name
+<<<<<<< HEAD
       description
       createdAt
       updatedAt
       username
+=======
+      username
+      description
+      createdAt
+      updatedAt
+>>>>>>> 41932461691cefea30eaccc078d8ea374aa1fd91
     }
   }
 `;
