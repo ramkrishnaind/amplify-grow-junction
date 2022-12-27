@@ -123,14 +123,6 @@ export const onCreateStudentRegister = /* GraphQL */ `
     $filter: ModelSubscriptionStudentRegisterFilterInput
   ) {
     onCreateStudentRegister(filter: $filter) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -182,14 +174,6 @@ export const onUpdateStudentRegister = /* GraphQL */ `
     $filter: ModelSubscriptionStudentRegisterFilterInput
   ) {
     onUpdateStudentRegister(filter: $filter) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -241,14 +225,6 @@ export const onDeleteStudentRegister = /* GraphQL */ `
     $filter: ModelSubscriptionStudentRegisterFilterInput
   ) {
     onDeleteStudentRegister(filter: $filter) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -684,10 +660,6 @@ export const onCreateMentorRegister = /* GraphQL */ `
     $filter: ModelSubscriptionMentorRegisterFilterInput
   ) {
     onCreateMentorRegister(filter: $filter) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -741,10 +713,6 @@ export const onUpdateMentorRegister = /* GraphQL */ `
     $filter: ModelSubscriptionMentorRegisterFilterInput
   ) {
     onUpdateMentorRegister(filter: $filter) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -798,10 +766,6 @@ export const onDeleteMentorRegister = /* GraphQL */ `
     $filter: ModelSubscriptionMentorRegisterFilterInput
   ) {
     onDeleteMentorRegister(filter: $filter) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name

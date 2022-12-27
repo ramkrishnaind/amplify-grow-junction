@@ -45,14 +45,6 @@ type StudentRegister
   @auth(
     rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
-  student_id: ID
-  student_name: String
-  recent_college: String
-  degree: String
-  current_employee: String
-  your_role: String
-  experience: String
-  phone_number: String
   about_yourself: AboutYourself
   username: String
   social: SocialUrl
@@ -61,7 +53,7 @@ type StudentRegister
   professional_info: Professionalinfo
   profile_image: String
   student_profile: String
-  interestedSkills: [String!]
+  interestedSkills: [String]
   linkedIn_url: String!
 }
 type OneOnOne
@@ -186,10 +178,6 @@ type MentorRegister
   @auth(
     rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
-  mentor_id: ID
-  mentor_name: String
-  mentor_availability_id: String
-  phone_number: String
   about_yourself: AboutYourself
   username: String
   social: SocialUrl
@@ -201,7 +189,7 @@ type MentorRegister
   profile_image: String
   domain_id: [String!]
   url: String!
-  mentor_service_id: [String!]
+  mentor_service_id: [String]
 }
 type Professionalinfo {
   occupation: String
@@ -294,7 +282,7 @@ type Saturday {
   time: [Time]
 }
 type Time {
-  startTime: Boolean
+  startTime: String
   endTime: String
 }
 type UserInfo

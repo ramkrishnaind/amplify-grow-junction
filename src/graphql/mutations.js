@@ -133,14 +133,6 @@ export const createStudentRegister = /* GraphQL */ `
     $condition: ModelStudentRegisterConditionInput
   ) {
     createStudentRegister(input: $input, condition: $condition) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -193,14 +185,6 @@ export const updateStudentRegister = /* GraphQL */ `
     $condition: ModelStudentRegisterConditionInput
   ) {
     updateStudentRegister(input: $input, condition: $condition) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -253,14 +237,6 @@ export const deleteStudentRegister = /* GraphQL */ `
     $condition: ModelStudentRegisterConditionInput
   ) {
     deleteStudentRegister(input: $input, condition: $condition) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -736,10 +712,6 @@ export const createMentorRegister = /* GraphQL */ `
     $condition: ModelMentorRegisterConditionInput
   ) {
     createMentorRegister(input: $input, condition: $condition) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -794,10 +766,6 @@ export const updateMentorRegister = /* GraphQL */ `
     $condition: ModelMentorRegisterConditionInput
   ) {
     updateMentorRegister(input: $input, condition: $condition) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -852,10 +820,6 @@ export const deleteMentorRegister = /* GraphQL */ `
     $condition: ModelMentorRegisterConditionInput
   ) {
     deleteMentorRegister(input: $input, condition: $condition) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name

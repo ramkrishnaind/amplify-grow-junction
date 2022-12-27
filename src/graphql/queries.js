@@ -99,14 +99,6 @@ export const listSuggestedServiceLists = /* GraphQL */ `
 export const getStudentRegister = /* GraphQL */ `
   query GetStudentRegister($id: ID!) {
     getStudentRegister(id: $id) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -165,14 +157,6 @@ export const listStudentRegisters = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
-        student_id
-        student_name
-        recent_college
-        degree
-        current_employee
-        your_role
-        experience
-        phone_number
         about_yourself {
           grow_junction_url
           first_name
@@ -511,10 +495,6 @@ export const listPackages = /* GraphQL */ `
 export const getMentorRegister = /* GraphQL */ `
   query GetMentorRegister($id: ID!) {
     getMentorRegister(id: $id) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -571,10 +551,6 @@ export const listMentorRegisters = /* GraphQL */ `
   ) {
     listMentorRegisters(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        mentor_id
-        mentor_name
-        mentor_availability_id
-        phone_number
         about_yourself {
           grow_junction_url
           first_name

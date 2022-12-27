@@ -15,24 +15,31 @@ import { listSchedules } from '../../../src/graphql/queries'
 import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
 import { toast } from 'react-toastify'
-// const AutoSubmitToken = ({ setValues }) => {
-//   // Grab values and submitForm from context
-//   const { values, submitForm } = useFormikContext()
+import { useSelector } from 'react-redux'
+import { getLoggedinUserEmail } from '../../../utilities/user'
+const AutoSubmitToken = ({ setValues }) => {
+  // Grab values and submitForm from context
+  const { values, submitForm } = useFormikContext()
 
-//   React.useEffect(() => {
-//     debugger
-//     console.log('context_values', values)
-//     // values.questions = questions
-//     setValues(values)
-//     // setProfile(values)
-//     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
-//     // if (values.token.length === 6) {
-//     //   submitForm();
-//     // }
-//   }, [values, submitForm])
-//   return null
-// }
-const Schedule = () => {
+  React.useEffect(() => {
+    debugger
+    console.log('context_values', values)
+    // values.questions = questions
+    setValues(values)
+    // setProfile(values)
+    // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
+    // if (values.token.length === 6) {
+    //   submitForm();
+    // }
+  }, [values, submitForm])
+  return null
+}
+const Schedule = ({
+  reload = false,
+  insideStep = false,
+  setValuesParent = (v) => {},
+}) => {
+  const authReducer = useSelector((state) => state.AuthReducer)
   const [timeZone, setTimeZone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   )
@@ -50,12 +57,16 @@ const Schedule = () => {
     obj[day] = { time: [{ startTime: '', endTime: '' }], [day]: false }
   })
   const getUser = async () => {
-    const usr = await Auth.currentAuthenticatedUser()
-    // if (usr) setUser(usr)
-    debugger
+    // const usr = await Auth.currentAuthenticatedUser()
+    // // if (usr) setUser(usr)
+    // debugger
     const results = await API.graphql(
       graphqlOperation(listSchedules, {
-        filter: { username: { contains: usr.username } },
+        filter: {
+          username: {
+            eq: getLoggedinUserEmail(),
+          },
+        },
       }),
     )
     if (results.data.listSchedules.items.length > 0) {
@@ -125,10 +136,13 @@ const Schedule = () => {
     setUnavailableDate([])
     setUnavailableDates([])
   }
-  // const setValues = (values) => {
-  //   console.log('values', values)
-  //   setState(values)
-  // }
+  const setValues = (values) => {
+    values.unavailableDates = unavailableDate
+    console.log('values', values)
+    setState(values)
+    console.log('setValuesParent', setValuesParent)
+    setValuesParent(values)
+  }
   // console.log('initialState', initialState)
   // const dateRef = useRef()
   const [state, setState] = useState(initialState)
@@ -158,7 +172,7 @@ const Schedule = () => {
   console.log('unavailableDates', unavailableDates)
   useEffect(() => {
     getUser()
-  }, [])
+  }, [reload])
   // console.log(
   //   'unavailableDate',
   //   unavailableDate.map((d) => {
@@ -210,84 +224,7 @@ const Schedule = () => {
     debugger
     setStartTime(e.target.value)
   }
-  const handleEndTimeChange = (e) => {
-    debugger
-    setEndTime(e.target.value)
 
-    setWeekDay(e.target.id)
-    const day = e.target.id
-    const endTime = e.target.value
-    console.log('endTime = ', endTime)
-
-    if (startTime !== '' && endTime !== '' && day !== '') {
-      const found = daySchedules.find(
-        (item) =>
-          item.startTime === startTime &&
-          item.endTime === e.target.value &&
-          item.day === day,
-      )
-      if (!found) {
-        daySchedules.push({
-          id: uuid(),
-          day: day,
-          startTime: startTime.toString(),
-          endTime: endTime.toString(),
-        })
-      }
-    }
-    setAvailableSameTime(true)
-    setStartTime('')
-    // setEndTime('')
-    setWeekDay('')
-  }
-  const addDaySchedule = () => {
-    debugger
-    if (startTime !== '' && endTime !== '' && weekDay !== '') {
-      const found = daySchedules.find(
-        (item) =>
-          item.startTime === startTime &&
-          item.endTime === endTime &&
-          item.day === 'Everyday',
-      )
-      if (!found) {
-        daySchedules.push({
-          id: uuid(),
-          day: 'Everyday',
-          startTime: startTime.toString(),
-          endTime: endTime.toString(),
-        })
-      }
-    }
-    setAvailableSameTime(true)
-    setStartTime('')
-    setEndTime('')
-    setWeekDay('')
-    setIsAddRow(true)
-  }
-
-  const addWeekDaySchedule = () => {
-    debugger
-    if (startTime !== '' && endTime !== '' && weekDay !== '') {
-      const found = daySchedules.find(
-        (item) =>
-          item.startTime === startTime &&
-          item.endTime === endTime &&
-          item.day === weekDay,
-      )
-      if (!found) {
-        daySchedules.push({
-          id: uuid(),
-          day: weekDay,
-          startTime: startTime.toString(),
-          endTime: endTime.toString(),
-        })
-      }
-    }
-    setAvailableSameTime(true)
-    setStartTime('')
-    setEndTime('')
-    setWeekDay('')
-  }
   const handleDate = (date) => {
     debugger
     // console.log('AA', dateRef.current.value)
@@ -320,34 +257,6 @@ const Schedule = () => {
     //console.log("dates - ", values)
   }
 
-  const handleDayChange = (e) => {
-    debugger
-    setSelectedDay(e.target.value)
-  }
-
-  const addSchedule = () => {
-    debugger
-    if (startTime !== '' && endTime !== '' && selectedDay !== '') {
-      const found = daySchedules.find(
-        (item) =>
-          item.startTime === startTime &&
-          item.endTime === endTime &&
-          item.day === selectedDay,
-      )
-      if (!found) {
-        daySchedules.push({
-          id: uuid(),
-          day: selectedDay,
-          startTime: startTime.toString(),
-          endTime: endTime.toString(),
-        })
-      }
-    }
-    setAvailableSameTime(true)
-    // setStartTime('')
-    // setEndTime('')
-    // setDay('')
-  }
   const handleRemoveDate = (dt) => {
     debugger
     const newUnavailableDate = unavailableDate.filter((uDate) => uDate !== dt)
@@ -415,6 +324,7 @@ const Schedule = () => {
         enableReinitialize={true}
         onSubmit={async (values, e) => {
           values.unavailableDates = unavailableDate
+          values.username = getLoggedinUserEmail()
           //addDaySchedule
           // values.username = usrName
           // values.availableSameTime = availableSameTime
@@ -428,7 +338,7 @@ const Schedule = () => {
                 await API.graphql({
                   query: createSchedule,
                   variables: { input: { ...values } },
-                  authMode: 'AMAZON_COGNITO_USER_POOLS',
+                  // authMode: 'AMAZON_COGNITO_USER_POOLS',
                 })
                 toast.success('Schedule added successfully')
                 // window.location.href = window.location.href
@@ -446,7 +356,7 @@ const Schedule = () => {
                     input: { ...values },
                     // condition: { username: { contains: state.username } },
                   },
-                  authMode: 'AMAZON_COGNITO_USER_POOLS',
+                  // authMode: 'AMAZON_COGNITO_USER_POOLS',
                 })
                 toast.success('Schedule updated successfully')
                 setDay('')
@@ -475,33 +385,43 @@ const Schedule = () => {
         }) => {
           return (
             <form>
-              <div className="flex flex-col md:flex-row lg:flex-row w-full px-20 py-10">
+              <div
+                className={`flex flex-col md:flex-row lg:flex-row w-full ${
+                  !insideStep ? ' px-20 py-10' : ' px-10'
+                }`}
+              >
                 <div className="flex flex-col md:flex-row lg:flex-row w-full justify-between">
                   <div className="flex justify-center items-center text-2xl font-semibold text-gray-900 py-6">
                     Availability details
                   </div>
-                  <div className="flex flex-row">
-                    <div
-                      className="flex justify-center items-center text-black text-base font-semibold cursor-pointer hover:bg-white px-5 py-1 hover:border-2 hover:border-black"
-                      onClick={resetState}
-                    >
-                      Reset all
-                    </div>
-                    <div>
-                      <button
-                        type="submit"
-                        onClick={handleSubmit}
-                        className="mt-2 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6 ml-10 border rounded"
+                  {!insideStep && (
+                    <div className="flex flex-row">
+                      <div
+                        className="flex justify-center items-center text-black text-base font-semibold cursor-pointer hover:bg-white px-5 py-1 hover:border-2 hover:border-black"
+                        onClick={resetState}
                       >
-                        Save Changes
-                      </button>
+                        Reset all
+                      </div>
+                      <div>
+                        <button
+                          type="submit"
+                          onClick={handleSubmit}
+                          className="mt-2 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6 ml-10 border rounded"
+                        >
+                          Save Changes
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
 
-              <div className="mt-10 md:m-20 lg:m-20 md:-mt-5 lg:-mt-5 w-full md:w-auto lg:w-auto flex flex-col md:flex-row lg:flex-row">
-                <div className="basis-3/5 justify-between w-full md:w-auto lg:w-auto flex flex-col md:flex-row lg:flex-row">
+              <div
+                className={`mt-10 ${
+                  !insideStep ? ' md:mx-20 lg:mx-20 ' : ''
+                } md:-mt-5 lg:-mt-5 w-full md:w-auto lg:w-auto flex flex-col md:flex-row lg:flex-row`}
+              >
+                <div className="basis-3/5 flex justify-around  w-full md:w-auto lg:w-auto  px-10">
                   <div className="text-gray-900 text-base font-semibold mt-1">
                     Select days you’ll be available
                   </div>
@@ -525,12 +445,12 @@ const Schedule = () => {
                   </div>
                 </div>
               </div>
-              <div className="mt-10 md:m-20 lg:m-20 md:-mt-10 lg:-mt-10 w-full md:w-auto lg:w-auto  flex flex-col md:flex-row  lg:flex-row">
+              <div className="mt-10 md:m-10  w-full flex flex-col md:flex-row ">
                 <div className="basis-3/5 bg-white py-4 rounded-lg">
                   {availableSameTime ? (
                     <div
                       id="everydayId"
-                      className=" flex flex-col md:flex-row  lg:flex-row w-full"
+                      className=" flex flex-col md:flex-row  lg:flex-row w-full px-10"
                     >
                       <div className="basis-1/4">
                         <div className="flex justify-start ml-5 md:ml-10 lg:ml-10 mt-10">
@@ -852,7 +772,7 @@ const Schedule = () => {
                     </div>
                   </div> 
                  */}
-              {/* <AutoSubmitToken setValues={setValues} /> */}
+              <AutoSubmitToken setValues={setValues} />
             </form>
           )
         }}
