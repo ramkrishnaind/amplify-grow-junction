@@ -1,12 +1,12 @@
 import React from 'react'
 import { color } from '../../public/theme/Color'
 
- const Toaster = (props) => {
+const Toaster = (props) => {
   const { message = 'Hello', type = 'success' } = props
   return (
     <div
       id="toast-default"
-      class="flex  p-8  text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+      className="flex  p-8  text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
       role="alert"
       style={{
         backgroundColor: type === 'success' ? color.lightGreen : color.lightRed,
@@ -18,10 +18,10 @@ import { color } from '../../public/theme/Color'
         // right: 50,
       }}
     >
-      {/* <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:bg-blue-800 dark:text-blue-200">
+      {/* <div className="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:bg-blue-800 dark:text-blue-200">
         <svg
           aria-hidden="true"
-          class="w-5 h-5"
+          className="w-5 h-5"
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -32,10 +32,10 @@ import { color } from '../../public/theme/Color'
             clip-rule="evenodd"
           ></path>
         </svg>
-        <span class="sr-only">Fire icon</span>
+        <span className="sr-only">Fire icon</span>
       </div> */}
       <div
-        class="ml-3 text-sm font-normal"
+        className="ml-3 text-sm font-normal"
         style={{
           color: type === 'success' ? color.green : color.red,
           fontSize: 16,
@@ -46,14 +46,14 @@ import { color } from '../../public/theme/Color'
       </div>
       <button
         type="button"
-        class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+        className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
         data-dismiss-target="#toast-default"
         aria-label="Close"
       >
-        <span class="sr-only">Close</span>
+        <span className="sr-only">Close</span>
         <svg
           aria-hidden="true"
-          class="w-5 h-5"
+          className="w-5 h-5"
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"

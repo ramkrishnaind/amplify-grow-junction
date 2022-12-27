@@ -28,18 +28,16 @@ const KYC_step4 = () => {
   // const [state, setState] = useState()
   // window.mentor = registerType
   const handleSubmitOutside = async (values) => {
-    debugger
-    const id = uuid()
-    console.log('entry')
-    const { registerType: rt, ...restKycStep1 } = registerType?.kycStep1?.MENTOR
-    debugger
-
     if (registerType?.registerType === 'STUDENT') {
+      debugger
+      const { registerType: rt, ...restKycStep1 } =
+        registerType?.kycStep1?.STUDENT
       let payload = {
         ...registerType?.professionalDetails?.payload,
         ...restKycStep1,
-        phone_number: values.phoneNumber,
+        whatsapp_number: values.phoneNumber,
       }
+      payload.interestedSkills = payload.interestedSkills.map((i) => i.id)
       try {
         const postData = await API.graphql({
           query: mutations.createStudentRegister,
@@ -48,24 +46,61 @@ const KYC_step4 = () => {
         })
         console.log(postData)
         if (postData) {
-          let user = await Auth.currentAuthenticatedUser()
-          let data = {
-            'custom:kyc_done': 'true',
+          if (postData) {
+            const results = await API.graphql(
+              graphqlOperation(listUserInfos, {
+                filter: {
+                  username: {
+                    eq: getLoggedinUserEmail(),
+                  },
+                },
+              }),
+            )
+            if (results.data.listUserInfos?.items?.length > 0) {
+              const data = { ...results.data.listUserInfos?.items[0] }
+              const { updatedAt, createdAt, owner, ...updateduser } = data
+              try {
+                await API.graphql({
+                  query: mutations.updateUserInfo,
+                  variables: {
+                    input: { ...updateduser, kyc_done: true },
+                    // condition: { username: { contains: state.username } },
+                  },
+                  // authMode: 'AMAZON_COGNITO_USER_POOLS',
+                })
+                // toast.success('Profile updated successfully')
+              } catch (error) {
+                debugger
+                toast.error(`Save Error:${error.errors[0].message}`)
+                console.log(error)
+              }
+            }
+            if (registerType.userAuth) {
+              let user = await Auth.currentAuthenticatedUser()
+              let data = {
+                'custom:kyc_done': 'true',
+              }
+              Auth.updateUserAttributes(user, data)
+                .then((res) => {
+                  console.log('res', res)
+                  window.location.replace(window.location.origin + '/student')
+                  // setSubmitting(false)
+                })
+                .catch((e) => {
+                  console.log('err', e)
+                })
+            } else {
+              window.location.replace(window.location.origin + '/student')
+            }
+            // router.replace('/mentor')
           }
-          Auth.updateUserAttributes(user, data)
-            .then((res) => {
-              console.log('res', res)
-              router.push('/register/SuccessRegister')
-              // setSubmitting(false)
-            })
-            .catch((e) => {
-              console.log('err', e)
-            })
         }
       } catch (e) {
         console.log('e', e)
       }
     } else {
+      const { registerType: rt, ...restKycStep1 } =
+        registerType?.kycStep1?.MENTOR
       let payload = {
         ...registerType?.kycStep2,
         ...restKycStep1,
@@ -156,8 +191,8 @@ const KYC_step4 = () => {
         <KYC_header
           stepImage={
             registerType?.registerType === 'STUDENT'
-              ? require('../../public/assets/icon/stu_StepIndicator3.png')
-              : require('../../public/assets/icon/StepIndicator4.png')
+              ? '/assets/icon/stu_StepIndicator3.png'
+              : '/assets/icon/StepIndicator4.png'
           }
         />
         <div
@@ -207,7 +242,8 @@ const KYC_step4 = () => {
               <Formik
                 enableReinitialize={true}
                 initialValues={initialState}
-                onSubmit={async (values, e) => {
+                onSubmit={(values, e) => {
+                  debugger
                   if (!values.phoneNumber) return
                   // setSubmitting(true)
                   handleSubmitOutside(values)

@@ -140,6 +140,12 @@ export const createStudentRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      current_employee
+      linkedIn_url
+      degree
+      experience
+      recent_college
+      your_role
       username
       social {
         linkedin_url
@@ -172,14 +178,7 @@ export const createStudentRegister = /* GraphQL */ `
       profile_image
       student_profile
       whatsapp_number
-      interestedSkills {
-        id
-        username
-        value
-        createdAt
-        updatedAt
-      }
-      linkedIn_url
+      interestedSkills
       id
       createdAt
       updatedAt
@@ -199,6 +198,12 @@ export const updateStudentRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      current_employee
+      linkedIn_url
+      degree
+      experience
+      recent_college
+      your_role
       username
       social {
         linkedin_url
@@ -231,14 +236,7 @@ export const updateStudentRegister = /* GraphQL */ `
       profile_image
       student_profile
       whatsapp_number
-      interestedSkills {
-        id
-        username
-        value
-        createdAt
-        updatedAt
-      }
-      linkedIn_url
+      interestedSkills
       id
       createdAt
       updatedAt
@@ -258,6 +256,12 @@ export const deleteStudentRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      current_employee
+      linkedIn_url
+      degree
+      experience
+      recent_college
+      your_role
       username
       social {
         linkedin_url
@@ -290,14 +294,7 @@ export const deleteStudentRegister = /* GraphQL */ `
       profile_image
       student_profile
       whatsapp_number
-      interestedSkills {
-        id
-        username
-        value
-        createdAt
-        updatedAt
-      }
-      linkedIn_url
+      interestedSkills
       id
       createdAt
       updatedAt

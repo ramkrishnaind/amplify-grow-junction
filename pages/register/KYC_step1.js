@@ -181,8 +181,8 @@ const KYC_step1 = () => {
         <KYC_header
           stepImage={
             registerType?.registerType === 'STUDENT'
-              ? require('../../public/assets/icon/stu_StepIndicator.png')
-              : require('../../public/assets/icon/StepIndicator.png')
+              ? '/assets/icon/stu_StepIndicator.png'
+              : '/assets/icon/StepIndicator.png'
           }
         />
         <div
@@ -291,7 +291,7 @@ const KYC_step1 = () => {
                     })
 
                     return (
-                      <div className="relative">
+                      <div className="relative mt-5">
                         <div
                           key={index.toString()}
                           style={{

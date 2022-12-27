@@ -83,9 +83,7 @@ const KYC_step2 = () => {
           backgroundColor: color.headerColor,
         }}
       >
-        {/* <KYC_header
-          stepImage={require('../../public/assets/icon/StepIndicator2.png')}
-        /> */}
+        <KYC_header stepImage={'/assets/icon/StepIndicator2.png'} />
         <div
           style={
             {

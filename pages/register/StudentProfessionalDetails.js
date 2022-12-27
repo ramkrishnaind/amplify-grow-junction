@@ -47,155 +47,157 @@ const StudentProfessionalDetails = () => {
     experience: professionalDetails?.experience || '',
   }
   return (
-    <BoxBodyContainer
-      styleOverride={{ alignItems: 'flex-start' }}
-      body={
+    <div className="md:p-40 bg-white p-20">
+      <div
+        className="p-10 flex flex-col justify-start items-center"
+        style={{
+          backgroundColor: color.headerColor,
+          padding: 20,
+        }}
+      >
+        {/* <ToastContainer align={'right'} position={'bottom'} /> */}
+        <KYC_header stepImage="/assets/icon/stu_Step_Indicator1.png" />
         <div
           style={{
             display: 'flex',
             flex: 1,
-            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            // padding: 20,
           }}
         >
-          {/* <ToastContainer align={'right'} position={'bottom'} /> */}
-          <KYC_header
-            stepImage={require('../../public/assets/icon/stu_Step_Indicator1.png')}
-          />
           <div
             style={{
               display: 'flex',
               flex: 1,
               justifyContent: 'center',
-              alignItems: 'center',
+              flexDirection: 'column',
+              maxWidth: 750,
+              backgroundColor: color.headerColor,
             }}
           >
             <div
               style={{
-                display: 'flex',
-                flex: 1,
-                justifyContent: 'center',
-                flexDirection: 'column',
-                maxWidth: 750,
+                color: color.blackVariant,
+                fontWeight: 400,
+                fontSize: 36,
+                marginTop: 60,
+                padding: 20,
               }}
             >
-              <div
-                style={{
-                  color: color.blackVariant,
-                  fontWeight: 400,
-                  fontSize: 36,
-                  marginTop: 60,
-                }}
-              >
-                Professional Details
-              </div>
-              <div
-                style={{
-                  color: color.lightGrey,
-                  fontSize: 16,
-                  fontWeight: 400,
-                  marginTop: 16,
-                }}
-              >
-                Add some basic details to personalise the experience
-              </div>
-              <Formik
-                enableReinitialize={true}
-                initialValues={initialState}
-                onSubmit={async (values, { setErrors }) => {
-                  let payload = {
-                    recent_college: values.recent_college,
-                    degree: values.degree,
+              Professional Details
+            </div>
+            <div
+              style={{
+                color: color.lightGrey,
+                fontSize: 16,
+                fontWeight: 400,
+                marginTop: 16,
+                padding: 20,
+              }}
+            >
+              Add some basic details to personalise the experience
+            </div>
+            <Formik
+              enableReinitialize={true}
+              initialValues={initialState}
+              onSubmit={async (values, { setErrors }) => {
+                let payload = {
+                  recent_college: values.recent_college,
+                  degree: values.degree,
+                }
+                if (values.current_employee !== '') {
+                  payload = {
+                    ...payload,
+                    current_employee: values.current_employee,
                   }
-                  if (values.current_employee !== '') {
-                    payload = {
-                      ...payload,
-                      current_employee: values.current_employee,
-                    }
+                }
+                if (values.your_role !== '') {
+                  payload = {
+                    ...payload,
+                    your_role: values.your_role,
                   }
-                  if (values.your_role !== '') {
-                    payload = {
-                      ...payload,
-                      your_role: values.your_role,
-                    }
+                }
+                if (values.experience !== '') {
+                  payload = {
+                    ...payload,
+                    experience: values.experience,
                   }
-                  if (values.experience !== '') {
-                    payload = {
-                      ...payload,
-                      experience: values.experience,
-                    }
-                  }
-                  dispatch({
-                    type: ACTION_KEYS.PROFESSIONAL_DETAILS,
-                    payload: payload,
-                  })
-                  //   setShowToaster(true)
-                  router.push('/register/KYC_step4')
-                }}
-                validationSchema={ProfessionalDetailSchema()}
-                validateOnChange={true}
-                validateOnBlur={true}
-                validateOnMount={true}
-              >
-                {({
-                  handleChange,
-                  values,
-                  isSubmitting,
-                  errors,
-                  touched,
-                  handleBlur,
-                  setErrors,
-                  handleSubmit,
-                  setFieldValue,
-                  ...restProps
-                }) => (
-                  <>
-                    {showToaster ? (
-                      <Toaster message={'hellow'} type="success" />
-                    ) : null}
-                    <TextField
-                      label="Your Recent college"
-                      id="recent_college"
-                      //   type="Email"
-                      placeholder="Enter college name"
-                      value={values.recent_college}
-                      onChangeValue={(text) => {
-                        if (spaceValidation.test(text.target.value)) {
-                          setFieldValue('recent_college', text.target.value)
-                        }
-                      }}
-                      styleOverride={{
-                        backgroundColor: color.white,
-                        height: 56,
-                        borderColor: color.borderGrey,
-                      }}
-                      textStyleOverride={{
-                        backgroundColor: color.white,
-                        paddingLeft: 8,
-                      }}
-                      errMsg={touched.recent_college && errors.recent_college}
-                    />
-                    <TextField
-                      value={values.degree}
-                      label="Choose your degree"
-                      placeholder="Choose college degree"
-                      onChangeValue={(text) => {
-                        if (spaceValidation.test(text.target.value)) {
-                          setFieldValue('degree', text.target.value)
-                        }
-                      }}
-                      styleOverride={{
-                        backgroundColor: color.white,
-                        height: 56,
-                        borderColor: color.borderGrey,
-                      }}
-                      textStyleOverride={{
-                        backgroundColor: color.white,
-                        paddingLeft: 8,
-                      }}
-                      errMsg={touched.degree && errors.degree}
-                    />
+                }
+                dispatch({
+                  type: ACTION_KEYS.PROFESSIONAL_DETAILS,
+                  payload: payload,
+                })
+                //   setShowToaster(true)
+                router.push('/register/KYC_step4')
+              }}
+              validationSchema={ProfessionalDetailSchema()}
+              validateOnChange={true}
+              validateOnBlur={true}
+              validateOnMount={true}
+            >
+              {({
+                handleChange,
+                values,
+                isSubmitting,
+                errors,
+                touched,
+                handleBlur,
+                setErrors,
+                handleSubmit,
+                setFieldValue,
+                ...restProps
+              }) => (
+                <>
+                  {showToaster ? (
+                    <Toaster message={'hellow'} type="success" />
+                  ) : null}
+                  <TextField
+                    label="Your Recent college"
+                    id="recent_college"
+                    //   type="Email"
+                    placeholder="Enter college name"
+                    style={{ padding: 20 }}
+                    value={values.recent_college}
+                    onChangeValue={(text) => {
+                      if (spaceValidation.test(text.target.value)) {
+                        setFieldValue('recent_college', text.target.value)
+                      }
+                    }}
+                    styleOverride={{
+                      backgroundColor: color.white,
+                      height: 56,
+                      borderColor: color.borderGrey,
+                    }}
+                    textStyleOverride={{
+                      backgroundColor: color.white,
+                      paddingLeft: 8,
+                    }}
+                    errMsg={touched.recent_college && errors.recent_college}
+                  />
+                  <TextField
+                    value={values.degree}
+                    label="Choose your degree"
+                    placeholder="Choose college degree"
+                    style={{ padding: 20 }}
+                    onChangeValue={(text) => {
+                      if (spaceValidation.test(text.target.value)) {
+                        setFieldValue('degree', text.target.value)
+                      }
+                    }}
+                    styleOverride={{
+                      backgroundColor: color.white,
+                      height: 56,
+                      borderColor: color.borderGrey,
+                    }}
+                    textStyleOverride={{
+                      backgroundColor: color.white,
+                      paddingLeft: 8,
+                    }}
+                    errMsg={touched.degree && errors.degree}
+                  />
 
-                    {/* 
+                  {/* 
 
               <div className="px-4 ">
                 <label className="block mb-2 text-sm font-medium text-gray-900">
@@ -262,30 +264,29 @@ const StudentProfessionalDetails = () => {
                         })}
                       </div>
                     ) : null} */}
-                    <TextField
-                      value={values.current_employee}
-                      label="Current Employer (optional))"
-                      placeholder="Choose current employer"
-                      onChangeValue={(text) => {
-                        if (spaceValidation.test(text.target.value)) {
-                          setFieldValue('current_employee', text.target.value)
-                        }
-                      }}
-                      styleOverride={{
-                        backgroundColor: color.white,
-                        height: 56,
-                        borderColor: color.borderGrey,
-                      }}
-                      textStyleOverride={{
-                        backgroundColor: color.white,
-                        paddingLeft: 8,
-                      }}
-                      errMsg={
-                        touched.current_employee && errors.current_employee
+                  <TextField
+                    value={values.current_employee}
+                    label="Current Employer (optional))"
+                    placeholder="Choose current employer"
+                    onChangeValue={(text) => {
+                      if (spaceValidation.test(text.target.value)) {
+                        setFieldValue('current_employee', text.target.value)
                       }
-                    />
+                    }}
+                    style={{ padding: 20 }}
+                    styleOverride={{
+                      backgroundColor: color.white,
+                      height: 56,
+                      borderColor: color.borderGrey,
+                    }}
+                    textStyleOverride={{
+                      backgroundColor: color.white,
+                      paddingLeft: 8,
+                    }}
+                    errMsg={touched.current_employee && errors.current_employee}
+                  />
 
-                    {/* <DropDown
+                  {/* <DropDown
                       value={values.current_employee}
                       label="Current Employer (optional))"
                       placeholder="Choose current employer"
@@ -349,55 +350,57 @@ const StudentProfessionalDetails = () => {
                       </div>
                     ) : null} */}
 
-                    <TextField
-                      label="Your role (optional)"
-                      id="your_role"
-                      type="role"
-                      placeholder="Enter your role"
-                      //   icon={require('../../public/assets/icon/eye.png')}
-                      styleOverride={{
-                        backgroundColor: color.white,
-                        height: 56,
-                        borderColor: color.borderGrey,
-                      }}
-                      textStyleOverride={{
-                        backgroundColor: color.white,
-                        paddingLeft: 8,
-                      }}
-                      value={values.your_role}
-                      onChangeValue={(text) => {
-                        if (spaceValidation.test(text.target.value)) {
-                          setFieldValue(text.target.id, text.target.value)
-                        }
-                      }}
-                      errMsg={touched.your_role && errors.your_role}
-                    />
+                  <TextField
+                    label="Your role (optional)"
+                    id="your_role"
+                    type="role"
+                    placeholder="Enter your role"
+                    //   icon={require('../../public/assets/icon/eye.png')}
+                    style={{ padding: 20 }}
+                    styleOverride={{
+                      backgroundColor: color.white,
+                      height: 56,
+                      borderColor: color.borderGrey,
+                    }}
+                    textStyleOverride={{
+                      backgroundColor: color.white,
+                      paddingLeft: 8,
+                    }}
+                    value={values.your_role}
+                    onChangeValue={(text) => {
+                      if (spaceValidation.test(text.target.value)) {
+                        setFieldValue(text.target.id, text.target.value)
+                      }
+                    }}
+                    errMsg={touched.your_role && errors.your_role}
+                  />
 
-                    <TextField
-                      value={values.experience}
-                      label="Experience in years (optional)"
-                      placeholder="Choose experience in year"
-                      id="experience"
-                      type="role"
-                      //   icon={require('../../public/assets/icon/eye.png')}
-                      styleOverride={{
-                        backgroundColor: color.white,
-                        height: 56,
-                        borderColor: color.borderGrey,
-                      }}
-                      textStyleOverride={{
-                        backgroundColor: color.white,
-                        paddingLeft: 8,
-                      }}
-                      onChangeValue={(text) => {
-                        if (spaceValidation.test(text.target.value)) {
-                          setFieldValue(text.target.id, text.target.value)
-                        }
-                      }}
-                      errMsg={touched.your_role && errors.your_role}
-                    />
+                  <TextField
+                    value={values.experience}
+                    label="Experience in years (optional)"
+                    placeholder="Choose experience in year"
+                    style={{ padding: 20 }}
+                    id="experience"
+                    type="role"
+                    //   icon={require('../../public/assets/icon/eye.png')}
+                    styleOverride={{
+                      backgroundColor: color.white,
+                      height: 56,
+                      borderColor: color.borderGrey,
+                    }}
+                    textStyleOverride={{
+                      backgroundColor: color.white,
+                      paddingLeft: 8,
+                    }}
+                    onChangeValue={(text) => {
+                      if (spaceValidation.test(text.target.value)) {
+                        setFieldValue(text.target.id, text.target.value)
+                      }
+                    }}
+                    errMsg={touched.your_role && errors.your_role}
+                  />
 
-                    {/* <DropDown
+                  {/* <DropDown
                       value={values.experience}
                       label="Experience in years (optional)"
                       placeholder="Choose experience in year"
@@ -445,63 +448,68 @@ const StudentProfessionalDetails = () => {
                       </div>
                     ) : null} */}
 
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                      <Button
-                        label={'Previous'}
-                        className="cursor-pointer"
-                        styleOverride={{
-                          paddingLeft: 20,
-                          paddingRight: 20,
-                          paddingTop: 6,
-                          paddingBottom: 6,
-                          color: color.white,
-                          borderRadius: 22,
-                          height: 43,
-                          fontSize: 15,
-                          backgroundColor: color.blackVariant,
-                          width: 186,
-                          marginTop: 70,
-                          marginBottom: 48,
-                          marginRight: 24,
-                        }}
-                        // loader={loading}
-                        onClick={() => {
-                          router.back()
-                        }}
-                      />
-                      <Button
-                        label={'Continue'}
-                        className="cursor-pointer"
-                        styleOverride={{
-                          paddingLeft: 20,
-                          paddingRight: 20,
-                          paddingTop: 6,
-                          paddingBottom: 6,
-                          color: color.white,
-                          borderRadius: 22,
-                          height: 43,
-                          fontSize: 15,
-                          backgroundColor: color.btnColor,
-                          width: 186,
-                          marginTop: 70,
-                          marginBottom: 48,
-                        }}
-                        // loader={loading}
-                        // onClick={() => {
-                        //   router.push('/register/KYC_step4')
-                        // }}
-                        onClick={handleSubmit}
-                      />
-                    </div>
-                  </>
-                )}
-              </Formik>
-              {/* <Toaster /> */}
-            </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      padding: 20,
+                    }}
+                  >
+                    <Button
+                      label={'Previous'}
+                      className="cursor-pointer"
+                      styleOverride={{
+                        // paddingLeft: 20,
+                        // paddingRight: 20,
+                        // paddingTop: 6,
+                        // paddingBottom: 6,
+                        color: color.white,
+                        borderRadius: 22,
+                        // height: 43,
+                        fontSize: 15,
+                        backgroundColor: color.blackVariant,
+                        // width: 186,
+                        // marginTop: 70,
+                        // marginBottom: 48,
+                        // marginRight: 24,
+                      }}
+                      // loader={loading}
+                      onClick={() => {
+                        router.back()
+                      }}
+                    />
+                    <Button
+                      label={'Continue'}
+                      className="cursor-pointer"
+                      styleOverride={{
+                        // paddingLeft: 20,
+                        // paddingRight: 20,
+                        // paddingTop: 6,
+                        // paddingBottom: 6,
+                        color: color.white,
+                        borderRadius: 22,
+                        // height: 43,
+                        fontSize: 15,
+                        backgroundColor: color.btnColor,
+                        // width: 186,
+                        // marginTop: 70,
+                        // marginBottom: 48,
+                      }}
+                      // loader={loading}
+                      // onClick={() => {
+                      //   router.push('/register/KYC_step4')
+                      // }}
+                      onClick={handleSubmit}
+                    />
+                  </div>
+                </>
+              )}
+            </Formik>
+            {/* <Toaster /> */}
           </div>
         </div>
-      }
-    />
+      </div>
+    </div>
   )
 }
 

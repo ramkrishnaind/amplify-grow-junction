@@ -46,6 +46,12 @@ type StudentRegister
     rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
   about_yourself: AboutYourself
+  current_employee: String
+  linkedIn_url: String
+  degree: String
+  experience: String
+  recent_college: String
+  your_role: String
   username: String
   social: SocialUrl
   contact_info: ContactInfo
@@ -54,8 +60,7 @@ type StudentRegister
   profile_image: String
   student_profile: String
   whatsapp_number: String
-  interestedSkills: [DomainInterestedList]
-  linkedIn_url: String!
+  interestedSkills: [String]
 }
 type OneOnOne
   @model

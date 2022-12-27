@@ -229,9 +229,7 @@ const MentorAvailability = () => {
           }
         }
       >
-        <KYC_header
-          stepImage={require('../../public/assets/icon/StepIndicator3.png')}
-        />
+        <KYC_header stepImage={'/assets/icon/StepIndicator3.png'} />
         <div
           style={{
             display: 'flex',
