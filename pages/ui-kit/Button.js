@@ -10,6 +10,7 @@ const Button = (props) => {
     type,
     classOverride,
     containerOverride,
+    href,
     loader = false,
     link = false,
     ...rest
@@ -33,7 +34,7 @@ const Button = (props) => {
               <img src={image} alt={label} className="w-10 h-10 object-cover" />
             )}
             <a
-              href="https://gmail.com"
+              href={href || 'https://gmail.com'}
               target="_blank"
               rel="noopener noreferrer"
             >

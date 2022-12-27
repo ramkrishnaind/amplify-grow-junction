@@ -12,6 +12,7 @@ const initialState = {
   kycStep2: null,
   professionalDetails: null,
   user: null,
+  signup: false,
 }
 
 const AuthReducer = (state = initialState, action) => {
@@ -30,11 +31,20 @@ const AuthReducer = (state = initialState, action) => {
         registerType: payload,
       }
     case ACTION_KEYS.SET_USER:
-      debugger
       return {
         ...state,
         userAuth: null,
         user: payload,
+      }
+    case ACTION_KEYS.SIGN_UP:
+      return {
+        ...state,
+        signup: true,
+      }
+    case ACTION_KEYS.LOG_IN:
+      return {
+        ...state,
+        signup: false,
       }
     case ACTION_KEYS.CLEAR_USER:
       debugger

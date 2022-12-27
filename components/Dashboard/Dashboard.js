@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 
 import { Auth, Hub } from 'aws-amplify'
 import { RegisterTypeRequest } from '../../redux/actions/AuthAction'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useAuth0 } from '@auth0/auth0-react'
 import { ClearUser, StoreUserAuth } from '../../redux/actions/AuthAction'
 const Dashboard = ({ isLoggedin }) => {
@@ -13,7 +13,7 @@ const Dashboard = ({ isLoggedin }) => {
   const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
     useAuth0()
   const router = useRouter()
-
+  const registerType = useSelector((state) => state.AuthReducer)
   return (
     <section className={classes.main}>
       <header className={`flex-col md:flex-row ${classes.header}`}>
@@ -48,7 +48,15 @@ const Dashboard = ({ isLoggedin }) => {
                   await Auth.signOut()
                 } catch (error) {}
                 try {
-                  logout({ returnTo: window.location.origin })
+                  if (registerType?.user?.email.includes('gmail.com'))
+                    logout({
+                      returnTo: window.location.origin,
+                    })
+                  else
+                    logout({
+                      federated: true,
+                      returnTo: window.location.origin,
+                    })
                 } catch (error) {}
                 ClearUser(dispatch)
                 StoreUserAuth(dispatch, null)
