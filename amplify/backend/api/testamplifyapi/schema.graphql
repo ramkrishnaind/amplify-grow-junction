@@ -178,32 +178,9 @@ type PackageServices {
   text: String
   title: String
   duration: String
-<<<<<<< HEAD
-  price : Float
-}
-type Configurations
-  @model
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
-  ) {
-  timezone: String
-  username: String
-  calender: String
-  personalMeetingLink: String
-  bookingPeriod: Int
-  bookingPeriodIn: String
-  noticePeriod: Int
-  noticePeriodIn: String
-}
-=======
   price: Float
 }
 
->>>>>>> 00a95e0a3c8ce9095805145bdc8650468f60a4e0
 type MentorRegister
   @model
   @auth(
@@ -345,28 +322,4 @@ type Configurations
   bookingPeriodIn: String
   noticePeriod: Int
   noticePeriodIn: String
-}
-type Schedule
-  @model
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "username" }
-      { allow: owner, operations: [read, update, create, delete] }
-      { allow: public, operations: [read] }
-    ]
-  ) {
-  availableSameTime: Boolean
-  username: String
-  unavailableDates: [UnavailableDates]
-  daySchedules: [DaySchedules]
-}
-type DaySchedules {
-  id: String
-  day: String
-  startTime: String
-  endTime: String
-}
-type UnavailableDates {
-  id: String
-  date: String
 }
