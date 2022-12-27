@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid'
 import classes from './Workshop.module.css'
 import { Storage } from 'aws-amplify'
 
-const AutoSubmitToken = ({ setValues }) => {
+const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
 
@@ -18,6 +18,7 @@ const AutoSubmitToken = ({ setValues }) => {
     // values.hideService = hideService
     // values.workshopImage = image.name
     console.log('context_values', values)
+    values.questions = questions
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
@@ -95,16 +96,14 @@ const Workshop = ({
   const [question, setQuestion] = useState('')
   const [questions, setQuestions] = useState([])
   const [imageName, setImageName] = useState('')
-  const [selectedFile, setSelectedFile] = useState(null)
+  const [imageKey, setImageKey] = useState('')
 
-  // if (!workshop) {
-  //   const getImage = async () => {
-  //     if (workshop.workshopImage) {
-  //       const img = await Storage.get(data.profile_image)
-  //       setConvertedImage(img)
-  //     }
-  //   }
-  // }
+  useEffect(() => {
+    debugger
+    //const key = ['workshopImage']
+    const imgName = state['workshopImage']
+    setImageKey(imgName)
+  }, [state])
 
   useEffect(() => {
     debugger
@@ -123,13 +122,21 @@ const Workshop = ({
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
     }
-    console.log("image - ", image)
+    console.log('image - ', image)
   }
 
   const getImage = async () => {
-    // const image_key = await Storage.get(profile_image)
-    setConvertedImage(profile_image_url)
+      const imgUrl = await Storage.get(imageKey)
+    setConvertedImage(imgUrl)
   }
+
+  useEffect(() => {
+    debugger
+    if (imageKey) {
+      console.log("imageKey - ", imageKey)
+      getImage()
+    }
+  }, [imageKey])
 
   //   console.log('image -', image)
   //   if (e.target.files[0]) {
@@ -573,7 +580,7 @@ const Workshop = ({
                 <div className="bg-white basis-2/5"></div>
               </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken setValues={setValues} />
+              <AutoSubmitToken setValues={setValues} questions={questions}/>
             </form>
           )
         }}
