@@ -27,22 +27,20 @@ const KYC_step2 = () => {
   }, [])
   useEffect(() => {
     debugger
-    // if (registerType?.registerType) {
-    // if (registerType?.registerType === 'STUDENT') {
-    //   if (registerType?.kycStep1?.interestedSkills?.length > 0) {
-    //     setSelectedList(registerType?.kycStep1?.interestedSkills)
-    //   }
-    // } else {
-    // if (registerType?.kycStep2?.domain_id?.length > 0) {
-    // setSelectedList(registerType?.kycStep2)
-    // }
-    // }
-    // }
+    if (registerType?.registerType) {
+      if (registerType?.registerType === 'STUDENT') {
+        // if (registerType?.kycStep1?.interestedSkills?.length > 0) {
+        //   setSelectedList(registerType?.kycStep1?.interestedSkills)
+        // }
+      } else if (registerType?.kycStep2?.mentor_service_id?.length > 0) {
+        setSelectedList(registerType?.kycStep2?.mentor_service_id)
+      }
+    }
   }, [registerType])
   const getCurrentUser = async () => {
-    const { username } = await Auth.currentAuthenticatedUser({
-      bypassCache: true,
-    })
+    // const { username } = await Auth.currentAuthenticatedUser({
+    //   bypassCache: true,
+    // })
 
     try {
       const listData = await API.graphql({
@@ -78,261 +76,278 @@ const KYC_step2 = () => {
   }
 
   return (
-    <BoxBodyContainer
-      styleOverride={{ alignItems: 'flex-start' }}
-      body={
+    <div className="md:p-40 bg-white p-20">
+      <div
+        className="flex flex-col justify-start items-center"
+        style={{
+          backgroundColor: color.headerColor,
+        }}
+      >
+        {/* <KYC_header
+          stepImage={require('../../public/assets/icon/StepIndicator2.png')}
+        /> */}
         <div
-          style={{
-            display: 'flex',
-            flex: 1,
-            flexDirection: 'column',
-          }}
+          style={
+            {
+              // display: 'flex',
+              // flex: 1,
+              // padding: 10,
+              // justifyContent: 'center',
+              // alignItems: 'center',
+            }
+          }
         >
-          <KYC_header
-            stepImage={require('../../public/assets/icon/StepIndicator2.png')}
-          />
           <div
             style={{
-              display: 'flex',
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
+              // display: 'flex',
+              // // flex: 1,
+              // justifyContent: 'center',
+              // flexDirection: 'column',
+              // padding: 20,
+              // alignSelf: "center",
+              // backgroundColor: "red",
+              backgroundColor: color.headerColor,
             }}
           >
             <div
               style={{
-                display: 'flex',
-                flex: 1,
-                justifyContent: 'center',
-                flexDirection: 'column',
-                // alignSelf: "center",
-                // backgroundColor: "red",
+                color: color.blackVariant,
+                padding: 20,
+                fontWeight: 400,
+                fontSize: 36,
+                marginTop: 60,
               }}
             >
-              <div
-                style={{
-                  color: color.blackVariant,
-                  fontWeight: 400,
-                  fontSize: 36,
-                  marginTop: 60,
-                }}
-              >
-                What service you want to offer
-              </div>
-              <div
-                style={{
-                  color: color.lightGrey,
-                  fontSize: 16,
-                  fontWeight: 400,
-                  marginTop: 16,
-                }}
-              >
-                List the services which you think your target audience will like
-              </div>
+              What service you want to offer
+            </div>
+            <div
+              style={{
+                color: color.lightGrey,
+                fontSize: 16,
+                fontWeight: 400,
+                marginTop: 16,
+                padding: 20,
+              }}
+            >
+              List the services which you think your target audience will like
+            </div>
 
-              <div
-                style={{
-                  color: color.blackVariant,
-                  marginBottom: 20,
-                  fontSize: 16,
-                  fontWeight: 400,
-                  marginTop: 56,
-                  marginBottom: 24,
-                }}
-              >
-                Suggested services
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  flexWrap: 'wrap',
-                  flex: 1,
-                  maxWidth: 700,
-                }}
-              >
-                {!serviceListLoading ? (
-                  <>
-                    {serviceList?.map((item, index) => {
-                      let selectedItem = false
-                      selectedList?.map((key, index) => {
-                        if (key?.id === item?.id) {
-                          selectedItem = true
-                        }
-                      })
-                      return (
-                        <div
-                          key={index.toString()}
-                          style={{
-                            paddingLeft: 20,
-                            paddingRight: 20,
-                            paddingTop: 6,
-                            paddingBottom: 6,
-                            color: color.blackVariant,
-                            borderWidth: 1,
-                            borderColor: selectedItem
-                              ? color.btnColor
-                              : color.blackVariant,
-                            borderRadius: 22,
-                            marginRight: 10,
-                            marginBottom: 20,
-                            height: 43,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            display: 'flex',
-                            cursor: 'pointer',
-                          }}
-                          onClick={() => {
-                            let count = 0
-                            if (selectedList.length) {
-                              selectedList.map((items, index) => {
-                                if (items?.id === item?.id) {
-                                  count = 1
-                                  setSelectedList(
-                                    selectedList.filter(
-                                      (items) => items?.id !== item?.id,
-                                    ),
-                                  )
-                                }
-                              })
-                              if (count == 0) {
-                                setSelectedList((selectedList) => [
-                                  ...selectedList,
-                                  item,
-                                ])
+            <div
+              style={{
+                color: color.blackVariant,
+                marginBottom: 20,
+                fontSize: 16,
+                fontWeight: 400,
+                marginTop: 56,
+                marginBottom: 24,
+                padding: 20,
+              }}
+            >
+              Suggested services
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                padding: 20,
+                // flex: 1,
+              }}
+            >
+              {!serviceListLoading ? (
+                <>
+                  {serviceList?.map((item, index) => {
+                    let selectedItem = false
+                    selectedList?.map((key, index) => {
+                      if (key?.id === item?.id) {
+                        selectedItem = true
+                      }
+                    })
+                    return (
+                      <div
+                        key={index.toString()}
+                        style={{
+                          paddingLeft: 20,
+                          paddingRight: 20,
+                          paddingTop: 6,
+                          paddingBottom: 6,
+                          color: color.blackVariant,
+                          borderWidth: 1,
+                          borderColor: selectedItem
+                            ? color.btnColor
+                            : color.blackVariant,
+                          borderRadius: 22,
+                          marginRight: 10,
+                          marginBottom: 20,
+                          height: 43,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          display: 'flex',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => {
+                          let count = 0
+                          if (selectedList.length) {
+                            selectedList.map((items, index) => {
+                              if (items?.id === item?.id) {
+                                count = 1
+                                setSelectedList(
+                                  selectedList.filter(
+                                    (items) => items?.id !== item?.id,
+                                  ),
+                                )
                               }
-                            } else
+                            })
+                            if (count == 0) {
                               setSelectedList((selectedList) => [
                                 ...selectedList,
                                 item,
                               ])
+                            }
+                          } else
+                            setSelectedList((selectedList) => [
+                              ...selectedList,
+                              item,
+                            ])
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 400,
+                            color: color.blackVariant,
                           }}
                         >
-                          <div
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 400,
-                              color: color.blackVariant,
-                            }}
-                          >
-                            {item?.value}
-                          </div>
+                          {item?.value}
                         </div>
-                      )
-                    })}
-                    {showServiceInput && (
-                      <input
-                        style={{
-                          backgroundColor: 'transparent',
-                          borderRadius: 25,
-                          borderWidth: 1,
-                          borderColor: color.blackVariant,
-                          paddingLeft: 20,
-                          color: color.blackVariant,
-                          marginRight: 10,
-                          //   marginLeft: 10,
-                          width: 129,
-                          height: 43,
-                          fontSize: 14,
-                        }}
-                        placeholder="Enter here..."
-                        name="value"
-                        onChange={(e) => {
-                          setServiceName(() => ({
-                            [e.target.name]: e.target.value,
-                          }))
-                        }}
-                      />
-                    )}
+                      </div>
+                    )
+                  })}
+                  {showServiceInput && (
+                    <input
+                      style={{
+                        backgroundColor: 'transparent',
+                        borderRadius: 25,
+                        borderWidth: 1,
+                        borderColor: color.blackVariant,
+                        paddingLeft: 20,
+                        color: color.blackVariant,
+                        marginRight: 10,
+                        //   marginLeft: 10,
+                        height: 43,
+                        fontSize: 14,
+                      }}
+                      placeholder="Enter here..."
+                      name="value"
+                      onChange={(e) => {
+                        setServiceName(() => ({
+                          [e.target.name]: e.target.value,
+                        }))
+                      }}
+                    />
+                  )}
+                  <div className="flex justify-center mb-5">
                     <Button
                       label={showServiceInput ? 'Save' : 'Add another'}
                       styleOverride={{
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                        paddingTop: 6,
-                        paddingBottom: 6,
                         color: color.white,
                         borderWidth: 1,
                         borderColor: color.blackVariant,
                         borderRadius: 22,
-                        height: 43,
+                        marginRight: 10,
                         backgroundColor: color.blackVariant,
-                        width: showServiceInput ? 100 : 160,
+                        // width: showServiceInput ? 100 : 160,
                         fontSize: 14,
                       }}
                       loader={loading}
                       onClick={() => {
-                        setShowServiceInput(true)
                         if (showServiceInput) {
-                          saveDomainSkills()
+                          if (serviceName?.value) saveDomainSkills()
+                        } else {
+                          setShowServiceInput(true)
                         }
                       }}
                     />
-                  </>
-                ) : (
-                  <SkeletonLoader />
-                )}
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <Button
-                  label={'Previous'}
-                  className="cursor-pointer"
-                  styleOverride={{
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    paddingTop: 6,
-                    paddingBottom: 6,
-                    color: color.white,
-                    borderRadius: 22,
-                    height: 43,
-                    fontSize: 15,
-                    backgroundColor: color.blackVariant,
-                    width: 186,
-                    marginTop: 70,
-                    marginBottom: 48,
-                    marginRight: 24,
-                  }}
-                  loader={loading}
-                  onClick={() => {
-                    router.back()
-                  }}
-                />
-                <Button
-                  label={'Continue'}
-                  className="cursor-pointer"
-                  styleOverride={{
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    paddingTop: 6,
-                    paddingBottom: 6,
-                    color: color.white,
-                    borderRadius: 22,
-                    height: 43,
-                    fontSize: 15,
-                    backgroundColor: color.btnColor,
-                    width: 186,
-                    marginTop: 70,
-                    marginBottom: 48,
-                  }}
-                  loader={loading}
-                  onClick={() => {
-                    if (selectedList?.length) {
-                      dispatch({
-                        type: ACTION_KEYS.KYCSTEP2,
-                        payload: {
-                          mentor_service_id: selectedList,
-                        },
-                      })
-                      router.push('/register/MentorAvailability')
-                    }
-                  }}
-                />
-              </div>
+                    {showServiceInput && (
+                      <Button
+                        label={'cancel'}
+                        styleOverride={{
+                          color: color.white,
+                          borderWidth: 1,
+                          borderColor: color.blackVariant,
+                          borderRadius: 22,
+                          backgroundColor: color.blackVariant,
+                          // width: showServiceInput ? 100 : 160,
+                          fontSize: 14,
+                        }}
+                        loader={loading}
+                        onClick={() => {
+                          setShowServiceInput(false)
+                        }}
+                      />
+                    )}
+                  </div>
+                </>
+              ) : (
+                <SkeletonLoader />
+              )}
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                marginBottom: 20,
+              }}
+            >
+              <Button
+                label={'Previous'}
+                className="cursor-pointer"
+                styleOverride={{
+                  paddingLeft: 20,
+                  paddingRight: 20,
+                  color: color.white,
+                  borderRadius: 22,
+                  fontSize: 15,
+                  backgroundColor: color.blackVariant,
+                  // width: 186,
+                  marginRight: 24,
+                }}
+                loader={loading}
+                onClick={() => {
+                  router.back()
+                }}
+              />
+              <Button
+                label={'Continue'}
+                className="cursor-pointer"
+                styleOverride={{
+                  paddingLeft: 20,
+                  paddingRight: 20,
+                  color: color.white,
+                  borderRadius: 22,
+                  fontSize: 15,
+                  backgroundColor: color.btnColor,
+                  // width: 186,
+                }}
+                loader={loading}
+                onClick={() => {
+                  if (selectedList?.length) {
+                    dispatch({
+                      type: ACTION_KEYS.KYCSTEP2,
+                      payload: {
+                        mentor_service_id: selectedList,
+                      },
+                    })
+                    router.push('/register/MentorAvailability')
+                  }
+                }}
+              />
             </div>
           </div>
         </div>
-      }
-    />
+      </div>
+    </div>
   )
 }
 
