@@ -10,7 +10,7 @@ import { updateCourses } from '../../../../../src/graphql/mutations'
 import { deleteCourses } from '../../../../../src/graphql/mutations'
 import Pill from '../../Add/Header/Pill'
 import AddCourses from '../../Add/Content/Courses'
-import { getLoggedinUserEmail } from '../../../../Utilities/user'
+import { getLoggedinUserEmail } from '../../../../../utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context

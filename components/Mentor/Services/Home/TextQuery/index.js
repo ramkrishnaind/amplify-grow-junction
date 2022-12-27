@@ -10,7 +10,7 @@ import { updateTextQuery } from '../../../../../src/graphql/mutations'
 import { getTextQuery } from '../../../../../src/graphql/queries'
 import Pill from '../../../../Mentor/Services/Add/Header'
 import AddTextQuery from '../../Add/Content/TextQuery'
-import { getLoggedinUserEmail } from '../../../../Utilities/user'
+import { getLoggedinUserEmail } from '../../../../../utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context

@@ -10,7 +10,7 @@ import { updatePackages } from '../../../../../src/graphql/mutations'
 import { getPackages } from '../../../../../src/graphql/queries'
 import Pill from '../../Add/Header/Pill'
 import AddPackages from '../../Add/Content/Packages'
-import { getLoggedinUserEmail } from '../../../../Utilities/user'
+import { getLoggedinUserEmail } from '../../../../../utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context

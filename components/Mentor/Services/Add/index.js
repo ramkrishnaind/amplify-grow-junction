@@ -10,7 +10,7 @@ import {
   createPackages
 } from '../../../../src/graphql/mutations'
 import { createTextQuery } from '../../../../src/graphql/mutations'
-import {getLoggedinUserEmail} from '../../../Utilities/user'
+import {getLoggedinUserEmail} from '../../../../utilities/user'
 
 const AddService = () => {
   const items = ['1 on 1 Session', 'Workshop', 'Courses', 'Text query', 'Packages']

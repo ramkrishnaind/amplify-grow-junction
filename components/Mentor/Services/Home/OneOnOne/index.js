@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import { deleteOneOnOne, updateOneOnOne } from '../../../../../src/graphql/mutations'
 import  AddOneOnOne from '../../Add/Content/OneOnOne'
 import { getOneOnOne } from '../../../../../src/graphql/queries'
-import { getLoggedinUserEmail } from '../../Utilities/user'
+import { getLoggedinUserEmail } from '../../../../../utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context

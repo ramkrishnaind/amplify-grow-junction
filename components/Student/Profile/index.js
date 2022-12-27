@@ -13,7 +13,7 @@ import {
 } from '../../../src/graphql/mutations'
 
 import { listStudentRegisters } from '../../../src/graphql/queries'
-import { getLoggedinUserEmail } from '../../Utilities/user'
+import { getLoggedinUserEmail } from '../../../utilities/user'
 const initialState = {
   about_yourself: {
     first_name: '',

@@ -13,7 +13,7 @@ import {
 } from '../../../src/graphql/mutations'
 
 import { listMentorRegisters } from '../../../src/graphql/queries'
-import {getLoggedinUserEmail} from '../../utilities/user' 
+import {getLoggedinUserEmail} from '../../../utilities/user' 
 const initialState = {
   about_yourself: {
     grow_junction_url: '',

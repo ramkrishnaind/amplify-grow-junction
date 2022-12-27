@@ -10,7 +10,7 @@ import { listConfigurations } from '../../../src/graphql/queries'
 import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
 import { toast } from 'react-toastify'
-import { getLoggedinUserEmail } from '../../Utilities/user'
+import { getLoggedinUserEmail } from '../../../utilities/user'
 
 const Configurations = () => {
   const [timezone, setTimezone] = useState(

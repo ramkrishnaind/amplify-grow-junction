@@ -10,7 +10,7 @@ import { listOneOnOnes } from '/src/graphql/queries'
 import { listTextQueries } from '/src/graphql/queries'
 import { listWorkshops } from '/src/graphql/queries'
 import { listCourses } from '/src/graphql/queries'
-import { getLoggedinUserEmail } from '../../Utilities/user'
+import { getLoggedinUserEmail } from '../../../../../../utilities/user'
 
 const AutoSubmitToken = ({
   setValues,

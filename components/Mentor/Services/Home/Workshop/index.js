@@ -10,7 +10,7 @@ import { updateWorkshop } from '../../../../../src/graphql/mutations'
 import { getWorkshop } from '../../../../../src/graphql/queries'
 import Pill from '../../Add/Header/Pill'
 import AddWorkshop from '../../Add/Content/Workshop'
-import { getLoggedinUserEmail } from '../../../../Utilities/user'
+import { getLoggedinUserEmail } from '../../../../../utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
