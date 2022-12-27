@@ -53,7 +53,8 @@ type StudentRegister
   professional_info: Professionalinfo
   profile_image: String
   student_profile: String
-  interestedSkills: [String]
+  whatsapp_number: String
+  interestedSkills: [DomainInterestedList]
   linkedIn_url: String!
 }
 type OneOnOne
@@ -187,8 +188,9 @@ type MentorRegister
   education: Education
   professional_info: Professionalinfo
   profile_image: String
-  domain_id: [String!]
-  url: String!
+  domain_id: [String]
+  whatsapp_number: String
+  url: String
   mentor_service_id: [String]
 }
 type Professionalinfo {

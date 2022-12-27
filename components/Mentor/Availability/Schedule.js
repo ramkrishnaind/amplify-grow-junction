@@ -445,7 +445,7 @@ const Schedule = ({
                   </div>
                 </div>
               </div>
-              <div className="mt-10 md:m-10  w-full flex flex-col md:flex-row ">
+              <div className="mt-10 md:m-10  w-full flex flex-col md:flex-row justify-around">
                 <div className="basis-3/5 bg-white py-4 rounded-lg">
                   {availableSameTime ? (
                     <div

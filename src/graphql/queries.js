@@ -137,7 +137,14 @@ export const getStudentRegister = /* GraphQL */ `
       }
       profile_image
       student_profile
-      interestedSkills
+      whatsapp_number
+      interestedSkills {
+        id
+        username
+        value
+        createdAt
+        updatedAt
+      }
       linkedIn_url
       id
       createdAt
@@ -195,7 +202,14 @@ export const listStudentRegisters = /* GraphQL */ `
         }
         profile_image
         student_profile
-        interestedSkills
+        whatsapp_number
+        interestedSkills {
+          id
+          username
+          value
+          createdAt
+          updatedAt
+        }
         linkedIn_url
         id
         createdAt
@@ -535,6 +549,7 @@ export const getMentorRegister = /* GraphQL */ `
       }
       profile_image
       domain_id
+      whatsapp_number
       url
       mentor_service_id
       id
@@ -591,6 +606,7 @@ export const listMentorRegisters = /* GraphQL */ `
         }
         profile_image
         domain_id
+        whatsapp_number
         url
         mentor_service_id
         id

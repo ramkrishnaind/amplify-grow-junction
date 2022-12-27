@@ -10,7 +10,7 @@ import { API, Auth } from 'aws-amplify'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import ACTION_KEYS from '../../constants/action-keys'
-
+import WithAuthenticatedKYCDone from '../../hoc/WithAuthenticatedKYCDone'
 const KYC_step2 = () => {
   const registerType = useSelector((state) => state.AuthReducer)
   const router = useRouter()
@@ -351,4 +351,4 @@ const KYC_step2 = () => {
   )
 }
 
-export default KYC_step2
+export default WithAuthenticatedKYCDone(KYC_step2)

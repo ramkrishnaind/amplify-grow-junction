@@ -161,7 +161,14 @@ export const onCreateStudentRegister = /* GraphQL */ `
       }
       profile_image
       student_profile
-      interestedSkills
+      whatsapp_number
+      interestedSkills {
+        id
+        username
+        value
+        createdAt
+        updatedAt
+      }
       linkedIn_url
       id
       createdAt
@@ -212,7 +219,14 @@ export const onUpdateStudentRegister = /* GraphQL */ `
       }
       profile_image
       student_profile
-      interestedSkills
+      whatsapp_number
+      interestedSkills {
+        id
+        username
+        value
+        createdAt
+        updatedAt
+      }
       linkedIn_url
       id
       createdAt
@@ -263,7 +277,14 @@ export const onDeleteStudentRegister = /* GraphQL */ `
       }
       profile_image
       student_profile
-      interestedSkills
+      whatsapp_number
+      interestedSkills {
+        id
+        username
+        value
+        createdAt
+        updatedAt
+      }
       linkedIn_url
       id
       createdAt
@@ -700,6 +721,7 @@ export const onCreateMentorRegister = /* GraphQL */ `
       }
       profile_image
       domain_id
+      whatsapp_number
       url
       mentor_service_id
       id
@@ -753,6 +775,7 @@ export const onUpdateMentorRegister = /* GraphQL */ `
       }
       profile_image
       domain_id
+      whatsapp_number
       url
       mentor_service_id
       id
@@ -806,6 +829,7 @@ export const onDeleteMentorRegister = /* GraphQL */ `
       }
       profile_image
       domain_id
+      whatsapp_number
       url
       mentor_service_id
       id

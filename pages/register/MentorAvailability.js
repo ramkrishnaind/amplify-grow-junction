@@ -16,6 +16,7 @@ import Schedule from '../../components/Mentor/Availability/Schedule'
 import Availability from '../../components/Mentor/Availability/index'
 import { createSchedule, updateSchedule } from '../../src/graphql/mutations'
 import { getLoggedinUserEmail } from '../../utilities/user'
+import WithAuthenticatedKYCDone from '../../hoc/WithAuthenticatedKYCDone'
 const timeAvailability = [
   {
     day: 'Sunday',
@@ -325,4 +326,4 @@ const MentorAvailability = () => {
   )
 }
 
-export default MentorAvailability
+export default WithAuthenticatedKYCDone(MentorAvailability)

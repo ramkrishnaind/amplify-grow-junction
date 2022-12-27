@@ -26,7 +26,7 @@ import useWindowDimensions from '../../public/utils/useWindowDimensions'
 
 import ACTION_KEYS from '../../constants/action-keys'
 import Toaster from '../ui-kit/Toaster'
-
+import WithAuthenticatedKYCDone from '../../hoc/WithAuthenticatedKYCDone'
 Auth.configure(config)
 
 const spaceValidation = new RegExp(/^[^ ]*$/)
@@ -518,4 +518,4 @@ const KYC_step1 = () => {
   )
 }
 
-export default KYC_step1
+export default WithAuthenticatedKYCDone(KYC_step1)
