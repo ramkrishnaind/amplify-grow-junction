@@ -6,15 +6,13 @@ import { v4 as uuid } from 'uuid'
 import classes from './Workshop.module.css'
 import { Storage } from 'aws-amplify'
 
-const AutoSubmitToken = ({
-  setValues,
-}) => {
+const AutoSubmitToken = ({ setValues }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
 
   React.useEffect(() => {
     debugger
-   
+
     // values.questions = questions
     // values.limitedParticipants = limitedParticipants
     // values.hideService = hideService
@@ -29,7 +27,6 @@ const AutoSubmitToken = ({
   }, [values, submitForm])
   return null
 }
-
 
 const Workshop = ({
   setWorkshopValues,
@@ -99,7 +96,7 @@ const Workshop = ({
   const [questions, setQuestions] = useState([])
   const [imageName, setImageName] = useState('')
   const [selectedFile, setSelectedFile] = useState(null)
-  
+
   // if (!workshop) {
   //   const getImage = async () => {
   //     if (workshop.workshopImage) {
@@ -109,29 +106,31 @@ const Workshop = ({
   //   }
   // }
 
-  // useEffect(() => {
-  //   setImageName(image.name)
-  // }, [image])
+  useEffect(() => {
+    debugger
+    setImageName(image?.name)
+  }, [image])
 
-  const setValues=(values)=>{
-    values.file=image
+  const setValues = (values) => {
+    debugger
+    values.file = image
     setWorkshopValues(values)
-
   }
 
   const handleFileInput = (e) => {
     e.preventDefault()
+    debugger
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
-  }
-    // else{
-    //   console.log(this.imageInputref.current.e.target.files[0])
-  // }
-
     }
-  
+    console.log("image - ", image)
+  }
 
- 
+  const getImage = async () => {
+    // const image_key = await Storage.get(profile_image)
+    setConvertedImage(profile_image_url)
+  }
+
   //   console.log('image -', image)
   //   if (e.target.files[0]) {
   //     const name = e.target.files[0].name.substr(
@@ -395,18 +394,6 @@ const Workshop = ({
                               onChange={handleFileInput}
                             />
                           </button>
-                          <div>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.preventDefault()
-                                handleSave(e)
-                              }}
-                              className="mt-2 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6 ml-10 border rounded"
-                            >
-                              Save Changes
-                            </button>
-                          </div>
                           <p className="w-auto ml-3 mt-3 text-xs tracking-wide">
                             Max file size 5mb
                           </p>
@@ -586,9 +573,7 @@ const Workshop = ({
                 <div className="bg-white basis-2/5"></div>
               </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken
-                setValues={setValues}
-              />
+              <AutoSubmitToken setValues={setValues} />
             </form>
           )
         }}

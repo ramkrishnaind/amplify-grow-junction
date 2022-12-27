@@ -644,8 +644,8 @@ const Schedule = () => {
                   ) : (
                     <div>
                       {days.map((day) => (
+                        // eslint-disable-next-line react/jsx-key
                         <div
-                          key={index}
                           id="sundayId"
                           className=" flex flex-col md:flex-row  lg:flex-row w-full"
                         >
@@ -672,8 +672,8 @@ const Schedule = () => {
                           >
                             {values.daySchedules[day].time.map(
                               (time, index) => (
+                                // eslint-disable-next-line react/jsx-key
                                 <div 
-                                key={index}
                                 className="flex flex-row">
                                   <div className="w-1/3 mx-1">
                                     <span className="text-sm text-gray-900 font-normal">

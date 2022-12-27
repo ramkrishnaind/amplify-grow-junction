@@ -151,7 +151,7 @@ const Profile = () => {
       try {
         remaining.id = uuid()
         remaining.mentor_id = uuid()
-        
+        remaining.username = getLoggedinUserEmail()
         await API.graphql({
           query: createMentorRegister,
           variables: { input: { ...state, ...remaining } },

@@ -43,6 +43,7 @@ const Workshop = ({ services }) => {
   const setValues = (values) => {
     setWorkshop(values)
     console.log("values - ",values)
+    console.log("workshop value - ",values)
   }
 
   console.log("workshop - ", workshop)
@@ -275,7 +276,7 @@ const Workshop = ({ services }) => {
 
       {showReschedule && (
         <>
-          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-y-scroll fixed inset-0 z-50 outline-none focus:outline-none">
             <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/2 lg:w-1/2">
               <div className="flex justify-between px-8 py-4 border-b border-gray-300">
                 <div className="text-sm font-semibold mt-4">Workshop</div>
@@ -293,7 +294,7 @@ const Workshop = ({ services }) => {
                   </button>
                 </div>
               </div>
-              <AddWorkshop workshop={state.workshop} setValues={setValues} />
+              <AddWorkshop workshop={state.workshop} setWorkshopValues={setValues} />
               <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
               <div className="flex justify-between item-center w-auto">
                 <button
