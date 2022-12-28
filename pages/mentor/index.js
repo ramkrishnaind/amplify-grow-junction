@@ -3,9 +3,10 @@ import LeftMenu from '../../components/Mentor/LeftMenu'
 import MainContent from '../../components/Mentor/MainContent'
 import { useDispatch } from 'react-redux'
 import { setMentorTitle } from '../../redux/actions/MentorTitleAction'
-import { withAuthenticator } from '@aws-amplify/ui-react'
+// import { withAuthenticator } from '@aws-amplify/ui-react'
 // import withAuthenticator from '../add-todo'
-import WithAuthenticated from '../../hoc/withAuthenticated'
+import KYC_Done from '../../hoc/kyc_done'
+
 const Mentor = ({ children }) => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -19,4 +20,4 @@ const Mentor = ({ children }) => {
   )
 }
 
-export default WithAuthenticated(Mentor)
+export default KYC_Done(Mentor)

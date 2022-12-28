@@ -133,14 +133,6 @@ export const createStudentRegister = /* GraphQL */ `
     $condition: ModelStudentRegisterConditionInput
   ) {
     createStudentRegister(input: $input, condition: $condition) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -148,6 +140,12 @@ export const createStudentRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      current_employee
+      linkedIn_url
+      degree
+      experience
+      recent_college
+      your_role
       username
       social {
         linkedin_url
@@ -179,8 +177,8 @@ export const createStudentRegister = /* GraphQL */ `
       }
       profile_image
       student_profile
+      whatsapp_number
       interestedSkills
-      linkedIn_url
       id
       createdAt
       updatedAt
@@ -193,14 +191,6 @@ export const updateStudentRegister = /* GraphQL */ `
     $condition: ModelStudentRegisterConditionInput
   ) {
     updateStudentRegister(input: $input, condition: $condition) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -208,6 +198,12 @@ export const updateStudentRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      current_employee
+      linkedIn_url
+      degree
+      experience
+      recent_college
+      your_role
       username
       social {
         linkedin_url
@@ -239,8 +235,8 @@ export const updateStudentRegister = /* GraphQL */ `
       }
       profile_image
       student_profile
+      whatsapp_number
       interestedSkills
-      linkedIn_url
       id
       createdAt
       updatedAt
@@ -253,14 +249,6 @@ export const deleteStudentRegister = /* GraphQL */ `
     $condition: ModelStudentRegisterConditionInput
   ) {
     deleteStudentRegister(input: $input, condition: $condition) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -268,6 +256,12 @@ export const deleteStudentRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      current_employee
+      linkedIn_url
+      degree
+      experience
+      recent_college
+      your_role
       username
       social {
         linkedin_url
@@ -299,8 +293,8 @@ export const deleteStudentRegister = /* GraphQL */ `
       }
       profile_image
       student_profile
+      whatsapp_number
       interestedSkills
-      linkedIn_url
       id
       createdAt
       updatedAt
@@ -736,10 +730,6 @@ export const createMentorRegister = /* GraphQL */ `
     $condition: ModelMentorRegisterConditionInput
   ) {
     createMentorRegister(input: $input, condition: $condition) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -780,6 +770,7 @@ export const createMentorRegister = /* GraphQL */ `
       }
       profile_image
       domain_id
+      whatsapp_number
       url
       mentor_service_id
       id
@@ -794,10 +785,6 @@ export const updateMentorRegister = /* GraphQL */ `
     $condition: ModelMentorRegisterConditionInput
   ) {
     updateMentorRegister(input: $input, condition: $condition) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -838,6 +825,7 @@ export const updateMentorRegister = /* GraphQL */ `
       }
       profile_image
       domain_id
+      whatsapp_number
       url
       mentor_service_id
       id
@@ -852,10 +840,6 @@ export const deleteMentorRegister = /* GraphQL */ `
     $condition: ModelMentorRegisterConditionInput
   ) {
     deleteMentorRegister(input: $input, condition: $condition) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -896,6 +880,7 @@ export const deleteMentorRegister = /* GraphQL */ `
       }
       profile_image
       domain_id
+      whatsapp_number
       url
       mentor_service_id
       id

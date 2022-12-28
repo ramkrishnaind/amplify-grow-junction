@@ -1,12 +1,12 @@
-import React from "react";
-import { color } from "../../public/theme/Color";
+import React from 'react'
+import { color } from '../../public/theme/Color'
 
 const Loader = () => {
   return (
     <div role="status" className="flex  items-center justify-center">
       <svg
         aria-hidden="true"
-        class="mr-2 h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-white-600"
+        className="mr-2 h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-white-600"
         style={{ fill: color.btnColor }}
         viewBox="0 0 100 101"
         fill="none"
@@ -21,9 +21,9 @@ const Loader = () => {
           fill="currentFill"
         />
       </svg>
-      <span class="sr-only">Loading...</span>
+      <span className="sr-only">Loading...</span>
     </div>
-  );
-};
+  )
+}
 
-export default Loader;
+export default Loader

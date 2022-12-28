@@ -25,7 +25,6 @@ const Availability = () => {
                 >
                   Schedule
                 </a>
-                
               </li>
               <li className="mr-2">
                 <a
@@ -46,14 +45,12 @@ const Availability = () => {
             </ul>
 
             <div className={openTab === 1 ? 'block' : 'hidden'}>
-              <Schedule />
+              <Schedule setValuesParent={() => {}} />
             </div>
 
-
-             <div className={openTab === 2 ? 'block' : 'hidden'}>
+            <div className={openTab === 2 ? 'block' : 'hidden'}>
               <Configurations />
             </div>
-
           </div>
         </div>
       </div>

@@ -196,7 +196,7 @@ const ProfileInfo = ({
                       </label>
 
                       <div className="flex flex-wrap items-start w-full relative flex-col md:flex-row md-flex-row">
-                        <div class="focus-outline flex flex-row rounded-md border border-gray-300 px-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 pr-1">
+                        <div className="focus-outline flex flex-row rounded-md border border-gray-300 px-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 pr-1">
                           <label className="text-black py-2 flex-1 text-right pr-0  text-sm font-normal">
                             Growjunction.io/
                           </label>

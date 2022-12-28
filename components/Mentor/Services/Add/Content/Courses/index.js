@@ -5,7 +5,12 @@ import TextField from '../../../../../../pages/ui-kit/TextField'
 import { v4 as uuid } from 'uuid'
 import classes from './Courses.module.css'
 
-const AutoSubmitToken = ({ setValues, sessions, hideService, limitParticipants }) => {
+const AutoSubmitToken = ({
+  setValues,
+  sessions,
+  hideService,
+  limitParticipants,
+}) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
 
@@ -25,22 +30,26 @@ const AutoSubmitToken = ({ setValues, sessions, hideService, limitParticipants }
   }, [values, submitForm])
   return null
 }
-const Courses = ({ setValues, state: initial, courses = {
-  courseTitle: '',
-  description: '',
-  numberOfSessions: '',
-  sessionDuration: '',
-  sessionDurationIn: '',
-  listedPrice: '',
-  finalPrice: '',
-  courseDate: '',
-  courseTime: '',
-  hideService: '',
-  limitParticipants: '',
-  audienceSize: 0,
-  courseImage: '',
-  sessions: []
-} }) => {
+const Courses = ({
+  setValues,
+  state: initial,
+  courses = {
+    courseTitle: '',
+    description: '',
+    numberOfSessions: '',
+    sessionDuration: '',
+    sessionDurationIn: '',
+    listedPrice: '',
+    finalPrice: '',
+    courseDate: '',
+    courseTime: '',
+    hideService: '',
+    limitParticipants: '',
+    audienceSize: '',
+    courseImage: '',
+    sessions: [],
+  },
+}) => {
   // const {
   //   sessionTitle,
   //   listedPrice,
@@ -63,20 +72,20 @@ const Courses = ({ setValues, state: initial, courses = {
   //   description,
   // ])
   const initialState = {
-  courseTitle: '',
-  description: '',
-  numberOfSessions: '',
-  sessionDuration: '',
-  sessionDurationIn: '',
-  listedPrice: '',
-  finalPrice: '',
-  courseDate: '',
-  courseTime: '',
-  hideService: '',
-  limitParticipants: '',
-  audienceSize: 0,
-  courseImage: '',
-  sessions: []
+    courseTitle: '',
+    description: '',
+    numberOfSessions: '',
+    sessionDuration: '',
+    sessionDurationIn: '',
+    listedPrice: '',
+    finalPrice: '',
+    courseDate: '',
+    courseTime: '',
+    hideService: '',
+    limitParticipants: '',
+    audienceSize: '',
+    courseImage: '',
+    sessions: [],
   }
   const imageInputref = useRef()
   const [image, setImage] = useState()
@@ -86,7 +95,7 @@ const Courses = ({ setValues, state: initial, courses = {
   const toggleClass = ' transform translate-x-5'
 
   const items = ['Text', 'Upload (Pdf,jpeg)']
- // const [questionType, setQuestionType] = useState(items[0])
+  // const [questionType, setQuestionType] = useState(items[0])
   const [state, setState] = useState(initialState)
   const [session, setSession] = useState('')
   const [sDate, setSDate] = useState('')
@@ -96,11 +105,11 @@ const Courses = ({ setValues, state: initial, courses = {
     setSession(e.target.value)
   }
 
-  const handleSessionDateChange = (e) =>{
+  const handleSessionDateChange = (e) => {
     setSDate(e.target.value)
   }
 
-  const handleSessionTimeChange = (e) =>{
+  const handleSessionTimeChange = (e) => {
     setSTime(e.target.value)
   }
   const handleFileInput = (e) => {
@@ -112,14 +121,17 @@ const Courses = ({ setValues, state: initial, courses = {
 
   const addSession = () => {
     const found = sessions.find(
-      (item) => item.text === session && item.sessionDate === sDate && item.sessionTime === sTime,
+      (item) =>
+        item.text === session &&
+        item.sessionDate === sDate &&
+        item.sessionTime === sTime,
     )
     if (!found) {
       sessions.push({
         id: uuid(),
         text: session,
         sessionDate: sDate,
-        sessionTime: sTime
+        sessionTime: sTime,
       })
     }
     setSession('')
@@ -145,7 +157,7 @@ const Courses = ({ setValues, state: initial, courses = {
           values.courseImage = image
           values.limitParticipants = limitParticipants
           values.hideService = hideService
-          console.log("onsubmit - ", values)
+          console.log('onsubmit - ', values)
           // setProfileState(values)
         }}
         // enableReinitialize={true}
@@ -175,7 +187,7 @@ const Courses = ({ setValues, state: initial, courses = {
                       </label>
 
                       <div className="flex flex-wrap items-start w-auto  mr-4 md:mr-1 lg:mr-1 relative">
-                        {/* <div class="focus-outline flex flex-row rounded-md border border-gray-300 px-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 pr-1">
+                        {/* <div className="focus-outline flex flex-row rounded-md border border-gray-300 px-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 pr-1">
                         <label className="text-black py-2 flex-1 text-right pr-0  text-sm font-normal">
                           Growjunction.io/
                         </label>
@@ -360,30 +372,29 @@ const Courses = ({ setValues, state: initial, courses = {
                           ) : null}
                         </div>
                         <div className="flex flex-col justify-start items-start mt-16 px-2 py-2">
-                        <button className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md min-w-40">
-                          <button
-                            className="ml-3 text-lg"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              imageInputref.current.click()
-                            }}
-                          >
-                            Upload image
+                          <button className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md min-w-40">
+                            <button
+                              className="ml-3 text-lg"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                imageInputref.current.click()
+                              }}
+                            >
+                              Upload image
+                            </button>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              ref={imageInputref}
+                              className="absolute w-0 h-0 left-0 top-0"
+                              onChange={handleFileInput}
+                            />
                           </button>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            ref={imageInputref}
-                            className="absolute w-0 h-0 left-0 top-0"
-                            onChange={handleFileInput}
-                          />
-                        </button>
-                        <p className="w-auto ml-3 mt-3 text-xs tracking-wide">
-                        Max file size 5mb
-                        </p>
+                          <p className="w-auto ml-3 mt-3 text-xs tracking-wide">
+                            Max file size 5mb
+                          </p>
+                        </div>
                       </div>
-                      </div>
-
                     </div>
                   </div>
                 </div>
@@ -406,35 +417,35 @@ const Courses = ({ setValues, state: initial, courses = {
                     </span>
                   </div>
                   <div>
-                  {sessions.length > 0 && (
-                    <div className="grid gap-2 grid-cols-4 px-10 py-5 text-lg uppercase border-b-2">
-                      <span className="px-5">Session</span>
-                      <span>Start Date</span>
-                      <span>Start Time</span>
-                    </div>
-                  )}
+                    {sessions.length > 0 && (
+                      <div className="grid gap-2 grid-cols-4 px-10 py-5 text-lg uppercase border-b-2">
+                        <span className="px-5">Session</span>
+                        <span>Start Date</span>
+                        <span>Start Time</span>
+                      </div>
+                    )}
 
-                  {sessions.map((sns) => (
-                    <div
-                      key={sns.id}
-                      className="grid grid-cols-4 px-10 py-5 items-center gap-2  text-lg "
-                    >
-                      <span className="px-5">{sns.text}</span>
-                      <span>{sns.sessionDate}</span>
-                      <span>{sns.sessionTime}</span>
-                      <span
-                        className="text-red-700 cursor-pointer  rounded-full hover:bg-gray-100  "
-                        onClick={handleRemoveSession.bind(null, sns.id)}
+                    {sessions.map((sns) => (
+                      <div
+                        key={sns.id}
+                        className="grid grid-cols-4 px-10 py-5 items-center gap-2  text-lg "
                       >
-                        Remove
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                        <span className="px-5">{sns.text}</span>
+                        <span>{sns.sessionDate}</span>
+                        <span>{sns.sessionTime}</span>
+                        <span
+                          className="text-red-700 cursor-pointer  rounded-full hover:bg-gray-100  "
+                          onClick={handleRemoveSession.bind(null, sns.id)}
+                        >
+                          Remove
+                        </span>
+                      </div>
+                    ))}
+                  </div>
 
                   <div className="flex flex-col justify-center items-center font-normal mt-5 ml-5 md:flex-row lg:flex-row bg-gray-50">
                     <div className="px-2 text-sm w-full md:w-1/2 lg:w-1/2">
-                    <label className="leading-8 text-lg font-normal mt-5">
+                      <label className="leading-8 text-lg font-normal mt-5">
                         Session
                       </label>
                       <TextField
@@ -549,7 +560,7 @@ const Courses = ({ setValues, state: initial, courses = {
                       ></div>
                     </div>
                     <div className="flex items-center text-sm">
-                    Limit participants
+                      Limit participants
                     </div>
                   </div>
                   <div className="px-2 text-sm ml-5 w-full md:w-1/2 lg:w-1/2">
@@ -574,7 +585,12 @@ const Courses = ({ setValues, state: initial, courses = {
                 <div className="bg-white basis-2/5"></div>
               </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken setValues={setValues} sessions={sessions} hideService={hideService} limitParticipants={limitParticipants}/>
+              <AutoSubmitToken
+                setValues={setValues}
+                sessions={sessions}
+                hideService={hideService}
+                limitParticipants={limitParticipants}
+              />
             </form>
           )
         }}

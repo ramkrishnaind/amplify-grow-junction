@@ -123,14 +123,6 @@ export const onCreateStudentRegister = /* GraphQL */ `
     $filter: ModelSubscriptionStudentRegisterFilterInput
   ) {
     onCreateStudentRegister(filter: $filter) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -138,6 +130,12 @@ export const onCreateStudentRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      current_employee
+      linkedIn_url
+      degree
+      experience
+      recent_college
+      your_role
       username
       social {
         linkedin_url
@@ -169,8 +167,8 @@ export const onCreateStudentRegister = /* GraphQL */ `
       }
       profile_image
       student_profile
+      whatsapp_number
       interestedSkills
-      linkedIn_url
       id
       createdAt
       updatedAt
@@ -182,14 +180,6 @@ export const onUpdateStudentRegister = /* GraphQL */ `
     $filter: ModelSubscriptionStudentRegisterFilterInput
   ) {
     onUpdateStudentRegister(filter: $filter) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -197,6 +187,12 @@ export const onUpdateStudentRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      current_employee
+      linkedIn_url
+      degree
+      experience
+      recent_college
+      your_role
       username
       social {
         linkedin_url
@@ -228,8 +224,8 @@ export const onUpdateStudentRegister = /* GraphQL */ `
       }
       profile_image
       student_profile
+      whatsapp_number
       interestedSkills
-      linkedIn_url
       id
       createdAt
       updatedAt
@@ -241,14 +237,6 @@ export const onDeleteStudentRegister = /* GraphQL */ `
     $filter: ModelSubscriptionStudentRegisterFilterInput
   ) {
     onDeleteStudentRegister(filter: $filter) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -256,6 +244,12 @@ export const onDeleteStudentRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      current_employee
+      linkedIn_url
+      degree
+      experience
+      recent_college
+      your_role
       username
       social {
         linkedin_url
@@ -287,8 +281,8 @@ export const onDeleteStudentRegister = /* GraphQL */ `
       }
       profile_image
       student_profile
+      whatsapp_number
       interestedSkills
-      linkedIn_url
       id
       createdAt
       updatedAt
@@ -684,10 +678,6 @@ export const onCreateMentorRegister = /* GraphQL */ `
     $filter: ModelSubscriptionMentorRegisterFilterInput
   ) {
     onCreateMentorRegister(filter: $filter) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -728,6 +718,7 @@ export const onCreateMentorRegister = /* GraphQL */ `
       }
       profile_image
       domain_id
+      whatsapp_number
       url
       mentor_service_id
       id
@@ -741,10 +732,6 @@ export const onUpdateMentorRegister = /* GraphQL */ `
     $filter: ModelSubscriptionMentorRegisterFilterInput
   ) {
     onUpdateMentorRegister(filter: $filter) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -785,6 +772,7 @@ export const onUpdateMentorRegister = /* GraphQL */ `
       }
       profile_image
       domain_id
+      whatsapp_number
       url
       mentor_service_id
       id
@@ -798,10 +786,6 @@ export const onDeleteMentorRegister = /* GraphQL */ `
     $filter: ModelSubscriptionMentorRegisterFilterInput
   ) {
     onDeleteMentorRegister(filter: $filter) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -842,6 +826,7 @@ export const onDeleteMentorRegister = /* GraphQL */ `
       }
       profile_image
       domain_id
+      whatsapp_number
       url
       mentor_service_id
       id

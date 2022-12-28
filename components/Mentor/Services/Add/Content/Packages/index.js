@@ -418,7 +418,7 @@ const Packages = ({
                       </label>
 
                       <div className="flex flex-wrap items-start w-auto  mr-4 md:mr-1 lg:mr-1 relative">
-                        {/* <div class="focus-outline flex flex-row rounded-md border border-gray-300 px-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 pr-1">
+                        {/* <div className="focus-outline flex flex-row rounded-md border border-gray-300 px-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 pr-1">
                         <label className="text-black py-2 flex-1 text-right pr-0  text-sm font-normal">
                           Growjunction.io/
                         </label>
