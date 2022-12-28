@@ -78,6 +78,11 @@ export const NavigationLinks = [
         url: '',
         image: 'settings.png',
       },
+      {
+        title: 'Logout',
+        url: 'javascript:logout()',
+        image: 'logout.png',
+      },
     ],
   },
 ]

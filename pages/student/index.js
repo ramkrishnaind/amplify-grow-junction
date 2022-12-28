@@ -4,6 +4,7 @@ import MainContent from '../../components/Student/MainContent'
 import { useDispatch } from 'react-redux'
 import { setStudentTitle } from '../../redux/actions/StudentTitleAction'
 import { Auth, withAuthenticator } from '@aws-amplify/ui-react'
+import KYC_Done from '../../hoc/kyc_done'
 // import withAuthenticator from '../add-todo'
 const Student = ({ children }) => {
   const dispatch = useDispatch()
@@ -18,4 +19,4 @@ const Student = ({ children }) => {
   )
 }
 
-export default withAuthenticator(Student)
+export default KYC_Done(Student)

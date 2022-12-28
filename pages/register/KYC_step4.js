@@ -12,7 +12,7 @@ import ACTION_KEYS from '../../constants/action-keys'
 import { countryCodeJson } from '../../public/utils/CountryCodeJson'
 import { useRouter } from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
-import { Formik } from 'formik'
+import { Formik, useFormikContext } from 'formik'
 import { verifyStep4 } from '../../public/utils/schema'
 import { v4 as uuid } from 'uuid'
 import { listUserInfos } from '../../src/graphql/queries'
@@ -25,9 +25,29 @@ const KYC_step4 = () => {
   const dispatch = useDispatch()
   //   const [phoneNumber, setPhoneNumber] = useState()
   const [loading, setLoading] = useState()
-  // const [state, setState] = useState()
+  const [state, setState] = useState()
   // window.mentor = registerType
-  const handleSubmitOutside = async (values) => {
+  const AutoSubmitToken = ({ setValues }) => {
+    // Grab values and submitForm from context
+    const { values, submitForm } = useFormikContext()
+
+    React.useEffect(() => {
+      debugger
+      console.log('context_values', values)
+      // values.questions = questions
+      setValues(values)
+      // setProfile(values)
+      // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
+      // if (values.token.length === 6) {
+      //   submitForm();
+      // }
+    }, [values, submitForm])
+    return null
+  }
+  const setValues = (values) => {
+    setState(values)
+  }
+  const handleClick = async () => {
     if (registerType?.registerType === 'STUDENT') {
       debugger
       const { registerType: rt, ...restKycStep1 } =
@@ -35,7 +55,7 @@ const KYC_step4 = () => {
       let payload = {
         ...registerType?.professionalDetails?.payload,
         ...restKycStep1,
-        whatsapp_number: values.phoneNumber,
+        whatsapp_number: state.phoneNumber,
       }
       payload.interestedSkills = payload.interestedSkills.map((i) => i.id)
       try {
@@ -104,7 +124,7 @@ const KYC_step4 = () => {
       let payload = {
         ...registerType?.kycStep2,
         ...restKycStep1,
-        whatsapp_number: values.phoneNumber,
+        whatsapp_number: state.phoneNumber,
       }
       payload.mentor_service_id = payload.mentor_service_id.map((i) => i.id)
       payload.domain_id = payload.domain_id.map((i) => i.id)
@@ -350,7 +370,7 @@ const KYC_step4 = () => {
                           // marginTop: 70,
                           // marginBottom: 48,
                         }}
-                        type="submit"
+                        // type="submit"
                         loader={isSubmitting}
                         // onClick={() => {
                         //   //   setShowDomainInput(true);
@@ -359,9 +379,10 @@ const KYC_step4 = () => {
                         //   //   }
                         //   // router.push("/register/MentorAvailability");
                         // }}
-                        onClick={handleSubmit}
+                        onClick={handleClick}
                       />
                     </div>
+                    <AutoSubmitToken setValues={setValues} />
                   </form>
                 )}
               </Formik>

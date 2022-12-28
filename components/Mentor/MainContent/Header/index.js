@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Auth } from 'aws-amplify'
 import { useAuth0 } from '@auth0/auth0-react'
+import { useDispatch } from 'react-redux'
 import { ClearUser, StoreUserAuth } from '../../../../redux/actions/AuthAction'
 import useComponentVisible from '../../../../hooks/useComponentVisible'
 import ReactDOM from 'react-dom'
@@ -9,7 +10,7 @@ const Header = () => {
   const [open, setOpen] = useState(false)
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible(false)
-
+  const dispatch = useDispatch()
   debugger
   useEffect(() => {
     debugger
