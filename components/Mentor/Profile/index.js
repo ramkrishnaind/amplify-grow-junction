@@ -150,7 +150,7 @@ const Profile = () => {
     if (isNew) {
       try {
         remaining.id = uuid()
-        remaining.mentor_id = uuid()
+        //remaining.mentor_id = uuid()
         remaining.username = getLoggedinUserEmail()
         await API.graphql({
           query: createMentorRegister,
@@ -287,7 +287,7 @@ const Profile = () => {
                       social: state.social,
                       currency: state.currency,
                       time_zone: state.time_zone,
-                      profile_image_url: state.profile_image_url,
+                      profile_image_url: state.profile_image,
                       setProfileState: setModifiedState,
                       percentage,
                       // ,

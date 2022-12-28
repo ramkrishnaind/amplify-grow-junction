@@ -100,7 +100,7 @@ const ProfileInfo = ({
             setSubmitting(false)
           }, 400)
           values.time_zone = timeZone?.value || ''
-          values.profile_image_file = image
+          values.profile_image_url = image
           setProfileState(values)
         }}
         enableReinitialize={true}
