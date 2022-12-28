@@ -11,6 +11,7 @@ import { getWorkshop } from '../../../../../src/graphql/queries'
 import Pill from '../../Add/Header/Pill'
 import AddWorkshop from '../../Add/Content/Workshop'
 import { getLoggedinUserEmail } from '../../../../../utilities/user'
+import { v4 as uuid } from 'uuid'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
@@ -83,11 +84,31 @@ const Workshop = ({ services }) => {
   const editPost = async (id) => {
     debugger
     console.log('id', id)
+
     try {
       const usr = await Auth.currentAuthenticatedUser()
       const usrname = getLoggedinUserEmail()
-      const {createdAt, updatedAt, owner, ...rest}= workshop
+      
+      const {createdAt, updatedAt, owner,file, ...rest}= workshop
       rest.username = usrname
+      //console.log('filename -', filename)
+      const imageName = workshop.file?.name
+      console.log('image -', imageName)
+      if (imageName) {
+        const name = imageName.substr(
+          0,
+          imageName.lastIndexOf('.'),
+        )
+        const ext = imageName.substr(
+          imageName.lastIndexOf('.') + 1,
+        )
+        const filename = `${name}_${uuid()}.${ext}`
+        workshop.workshopImage = filename
+        console.log(filename)
+        await Storage.put(filename, workshop.file, {
+          contentType: `image/${ext}`, // contentType is optional
+        })
+      }
       await API.graphql({
         query: updateWorkshop,
         variables: { input: { ...rest } },
@@ -276,8 +297,8 @@ const Workshop = ({ services }) => {
 
       {showReschedule && (
         <>
-          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-y-scroll fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/2 lg:w-1/2">
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50  w-full h-full overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/2 lg:w-1/2 fixed  h-full overflow-x-hidden overflow-y-auto">
               <div className="flex justify-between px-8 py-4 border-b border-gray-300">
                 <div className="text-sm font-semibold mt-4">Workshop</div>
                 <div>

@@ -88,7 +88,7 @@ const Workshop = ({
   const [convertedImage, setConvertedImage] = useState()
   const [hideService, setHideService] = useState(true)
   const [limitedParticipants, setLimitedParticipants] = useState(true)
-  const toggleClass = ' transform translate-x-5'
+  const toggleClass = ' transform translate-x-5 bg-black'
 
   const items = ['Text', 'Upload (Pdf,jpeg)']
   const [questionType, setQuestionType] = useState(items[0])
@@ -96,14 +96,8 @@ const Workshop = ({
   const [question, setQuestion] = useState('')
   const [questions, setQuestions] = useState([])
   const [imageName, setImageName] = useState('')
-  const [imageKey, setImageKey] = useState('')
+  const [imageKey, setImageKey] = useState(state.workshopImage)
 
-  useEffect(() => {
-    debugger
-    //const key = ['workshopImage']
-    const imgName = state['workshopImage']
-    setImageKey(imgName)
-  }, [state])
 
   useEffect(() => {
     debugger
@@ -125,19 +119,30 @@ const Workshop = ({
     console.log('image - ', image)
   }
 
-  const getImage = async () => {
-      const imgUrl = await Storage.get(imageKey)
-    setConvertedImage(imgUrl)
-  }
+  
+  // useEffect(() => {
+  //   debugger
+  //   //const key = ['workshopImage']
+  //   const imgName = state['workshopImage']
+  //   if (imgName) {
+  //     setImageKey(imgName)
+  //   }
+  // }, [state])
 
   useEffect(() => {
     debugger
     if (imageKey) {
-      console.log("imageKey - ", imageKey)
+      console.log('imageKey - ', imageKey)
       getImage()
     }
   }, [imageKey])
 
+  const getImage = async () => {
+    const imgUrl = await Storage.get(imageKey)
+    setConvertedImage(imgUrl)
+  }
+
+  
   //   console.log('image -', image)
   //   if (e.target.files[0]) {
   //     const name = e.target.files[0].name.substr(
@@ -196,7 +201,7 @@ const Workshop = ({
           console.log('onsubmit - ', values)
           // setProfileState(values)
         }}
-        enableReinitialize={true}
+        enableReinitialize={false}
         // validateOnChange={true}
         // validateOnBlur={true}
         // validateOnMount={true}
@@ -529,7 +534,7 @@ const Workshop = ({
                       {/* Switch */}
                       <div
                         className={
-                          'bg-black md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
+                          'bg-white md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
                           (hideService ? null : toggleClass)
                         }
                       ></div>
@@ -580,7 +585,7 @@ const Workshop = ({
                 <div className="bg-white basis-2/5"></div>
               </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken setValues={setValues} questions={questions}/>
+              <AutoSubmitToken setValues={setValues} questions={questions} />
             </form>
           )
         }}
