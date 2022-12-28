@@ -7,6 +7,7 @@ import Button from '../ui-kit/Button'
 // import { useSelector } from "react-redux";
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const VerifyEmail = () => {
   const registerType = useSelector((state) => state.AuthReducer)
@@ -28,6 +29,16 @@ const VerifyEmail = () => {
   //     getInfo();
   //   }, []);
   const handleVerifyEmail = async () => {
+    // const res = await Auth.currentUserInfo()
+    // if (res) {
+    //   Object.entries(res?.attributes).forEach((item, index) => {
+    //     if (item[0] === 'email_verified' && item[1]) {
+    router.push('/auth/Login')
+    //     } else if (item[0] === 'email_verified' && !item[1]) {
+    //       toast.error(`Email not verified yet`)
+    //     }
+    //   })
+    // }
     // await Auth.userAttributes('er.riyaz2507@gmail.com')
     //   .then((res) => {
     //     console.log('res', res)
@@ -36,7 +47,6 @@ const VerifyEmail = () => {
     //   .catch((err) => {
     //     console.log('err', err)
     //   })
-    router.push('/auth/Login')
   }
   return (
     <BoxBodyContainer
@@ -127,6 +137,7 @@ const VerifyEmail = () => {
               fontWeight: 700,
             }}
             link={!verifyMail}
+            href={`https://${registerType.userAuth?.username.split('@')[1]}`}
             //   onClick={handleSubmit}
             onClick={() => {
               // router.push('/auth/VerifyEmail');

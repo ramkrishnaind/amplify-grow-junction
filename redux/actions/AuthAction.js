@@ -21,3 +21,13 @@ export const ClearUser = (dispatch) => {
     dispatch({ type: ACTION_KEYS.CLEAR_USER })
   } catch (err) {}
 }
+export const Signup = (dispatch) => {
+  try {
+    dispatch({ type: ACTION_KEYS.SIGN_UP })
+  } catch (err) {}
+}
+export const Login = (dispatch) => {
+  try {
+    dispatch({ type: ACTION_KEYS.LOG_IN })
+  } catch (err) {}
+}

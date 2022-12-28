@@ -323,7 +323,7 @@ const Upcoming = () => {
 
         {!upcomingBooking && (
           <>
-            <div class="flex flex-col justify-center items-center h-screen">
+            <div className="flex flex-col justify-center items-center h-screen">
               <div className="w-40 h-40 md:w-1/5 md:h-1/5 lg:w-1/5 lg:h-1/5 bg-gray-400 -mt-40 mb-5"></div>
               <p>No upcoming bookings to show</p>
             </div>
@@ -607,29 +607,59 @@ const Upcoming = () => {
 
                 <div className="flex flex-row mt-10 w-full">
                   <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
-                    <input type="date" id="date" name="date" className='text-sm font-normal'></input>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      className="text-sm font-normal"
+                    ></input>
                   </div>
                   <div className="p-1"></div>
                   <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
-                    <input type="time" id="time" name="time" className='text-sm font-normal'></input>
+                    <input
+                      type="time"
+                      id="time"
+                      name="time"
+                      className="text-sm font-normal"
+                    ></input>
                   </div>
                 </div>
                 <div className="flex flex-row md:flex-row lg:flex-row mt-2 w-full">
                   <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
-                    <input type="date" id="date" name="date" className='text-sm font-normal'></input>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      className="text-sm font-normal"
+                    ></input>
                   </div>
                   <div className="p-1"></div>
                   <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
-                    <input type="time" id="time" name="time" className='text-sm font-normal'></input>
+                    <input
+                      type="time"
+                      id="time"
+                      name="time"
+                      className="text-sm font-normal"
+                    ></input>
                   </div>
                 </div>
                 <div className="flex flex-row md:flex-row lg:flex-row mt-2 w-full">
                   <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
-                    <input type="date" id="date" name="date" className='text-sm font-normal'></input>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      className="text-sm font-normal"
+                    ></input>
                   </div>
                   <div className="p-1"></div>
                   <div className="flex flex-row justify-center border-2 mb-5 rounded-lg w-1/2">
-                    <input type="time" id="time" name="time" className='text-sm font-normal'></input>
+                    <input
+                      type="time"
+                      id="time"
+                      name="time"
+                      className="text-sm font-normal"
+                    ></input>
                   </div>
                 </div>
 

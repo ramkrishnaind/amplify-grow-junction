@@ -99,14 +99,6 @@ export const listSuggestedServiceLists = /* GraphQL */ `
 export const getStudentRegister = /* GraphQL */ `
   query GetStudentRegister($id: ID!) {
     getStudentRegister(id: $id) {
-      student_id
-      student_name
-      recent_college
-      degree
-      current_employee
-      your_role
-      experience
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -114,6 +106,12 @@ export const getStudentRegister = /* GraphQL */ `
         short_description
         about_yourself
       }
+      current_employee
+      linkedIn_url
+      degree
+      experience
+      recent_college
+      your_role
       username
       social {
         linkedin_url
@@ -145,8 +143,8 @@ export const getStudentRegister = /* GraphQL */ `
       }
       profile_image
       student_profile
+      whatsapp_number
       interestedSkills
-      linkedIn_url
       id
       createdAt
       updatedAt
@@ -165,14 +163,6 @@ export const listStudentRegisters = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
-        student_id
-        student_name
-        recent_college
-        degree
-        current_employee
-        your_role
-        experience
-        phone_number
         about_yourself {
           grow_junction_url
           first_name
@@ -180,6 +170,12 @@ export const listStudentRegisters = /* GraphQL */ `
           short_description
           about_yourself
         }
+        current_employee
+        linkedIn_url
+        degree
+        experience
+        recent_college
+        your_role
         username
         social {
           linkedin_url
@@ -211,8 +207,8 @@ export const listStudentRegisters = /* GraphQL */ `
         }
         profile_image
         student_profile
+        whatsapp_number
         interestedSkills
-        linkedIn_url
         id
         createdAt
         updatedAt
@@ -511,10 +507,6 @@ export const listPackages = /* GraphQL */ `
 export const getMentorRegister = /* GraphQL */ `
   query GetMentorRegister($id: ID!) {
     getMentorRegister(id: $id) {
-      mentor_id
-      mentor_name
-      mentor_availability_id
-      phone_number
       about_yourself {
         grow_junction_url
         first_name
@@ -555,6 +547,7 @@ export const getMentorRegister = /* GraphQL */ `
       }
       profile_image
       domain_id
+      whatsapp_number
       url
       mentor_service_id
       id
@@ -571,10 +564,6 @@ export const listMentorRegisters = /* GraphQL */ `
   ) {
     listMentorRegisters(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        mentor_id
-        mentor_name
-        mentor_availability_id
-        phone_number
         about_yourself {
           grow_junction_url
           first_name
@@ -615,6 +604,7 @@ export const listMentorRegisters = /* GraphQL */ `
         }
         profile_image
         domain_id
+        whatsapp_number
         url
         mentor_service_id
         id
@@ -777,6 +767,7 @@ export const getUserInfo = /* GraphQL */ `
     getUserInfo(id: $id) {
       kyc_done
       register_type
+      username
       email
       name
       profile_image
@@ -796,6 +787,7 @@ export const listUserInfos = /* GraphQL */ `
       items {
         kyc_done
         register_type
+        username
         email
         name
         profile_image

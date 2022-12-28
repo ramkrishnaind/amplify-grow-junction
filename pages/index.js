@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
-import { API } from 'aws-amplify'
+import { API, graphqlOperation } from 'aws-amplify'
 import styles from '../styles/Home.module.css'
-import { listTodos } from '../src/graphql/queries'
+// import { listTodos } from '../src/graphql/queries'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Auth, Hub } from 'aws-amplify'
 import { useRouter } from 'next/router'
@@ -14,22 +14,21 @@ import useWindowDimensions from '../public/utils/useWindowDimensions'
 import ACTION_KEYS from '../constants/action-keys'
 import { SetUser } from '../redux/actions/AuthAction'
 import { getLoggedinUserEmail } from '../utilities/user'
-import { createUserInfo } from '../src/graphql/mutations'
 import { listUserInfos } from '../src/graphql/queries'
 const Home = () => {
   const router = useRouter()
-  const email = getLoggedinUserEmail()
-  debugger
+  // debugger
   const registerType = useSelector((state) => state.AuthReducer)
   const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
     useAuth0()
   useEffect(() => {
-    const registerUser = async (user) => {
+    const registerUser = async () => {
       const userInfo = {
         kyc_done: false,
         register_type: registerType?.registerType,
         email: user.email,
         name: user.name,
+        username: user.email,
         profile_image: user.picture,
       }
       try {
@@ -37,18 +36,39 @@ const Home = () => {
           query: createUserInfo,
           variables: { input: { ...userInfo } },
         })
+        router.push('/register/KYC_step1')
       } catch {}
     }
-    const getUserData = async (user) => {
+    const updateUser = async (data) => {
+      const userInfo = {
+        id: data.id,
+        kyc_done: data.kyc_done,
+        register_type: registerType?.registerType,
+        email: user.email,
+        name: user.name,
+        profile_image: user.picture,
+      }
+      try {
+        await API.graphql({
+          query: updateUserInfo,
+          variables: { input: { ...userInfo } },
+        })
+      } catch (err) {
+        console.log('err', err)
+      }
+    }
+    const getUserData = async (usr) => {
       const results = await API.graphql(
         graphqlOperation(listUserInfos, {
-          filter: { username: { contains: user.email } },
+          filter: { username: { contains: usr.email } },
         }),
       )
       if (results.data.listUserInfos.items.length > 0) {
+        debugger
         const data = { ...results.data.listUserInfos.items[0] }
+        updateUser(data)
         if (data.kyc_done) {
-          if (registerType === 'STUDENT') {
+          if (registerType.registerType === 'STUDENT') {
             router.push('/student')
           } else {
             router.push('/mentor')
@@ -56,18 +76,21 @@ const Home = () => {
         } else {
           router.push('/register/KYC_step1')
         }
+      } else {
+        debugger
+        if (registerType.signup) {
+          registerUser()
+        } else {
+          router.push('/auth/TypeOfRegister')
+        }
       }
     }
-    debugger
+    // debugger
     if (isAuthenticated) {
       console.log('user', user)
       setIsLoggedIn(true)
       SetUser(dispatch, user)
-      if (registerType.signup) {
-        registerUser(user)
-      } else {
-        getUserData(user)
-      }
+      getUserData(user)
     }
   }, [isAuthenticated])
   useEffect(() => {
@@ -78,7 +101,7 @@ const Home = () => {
   // if (isLoading) {
   //   return <div>Loading ...</div>;
   // }
-  debugger
+  // debugger
   const [isLoggedin, setIsLoggedIn] = useState(false)
   const { width, height } = useWindowDimensions()
   const dispatch = useDispatch()
@@ -109,19 +132,19 @@ const Home = () => {
       // const credentials = await Auth.federatedSignIn()
     } catch (error) {}
   }
-  const [todos, setTodos] = useState([])
-  const fetchTodos = async () => {
-    const response = await API.graphql({
-      query: listTodos,
-    })
-    setTodos(response.data.listTodos.items)
-  }
+  // const [todos, setTodos] = useState([])
+  // const fetchTodos = async () => {
+  //   const response = await API.graphql({
+  //     query: listTodos,
+  //   })
+  //   setTodos(response.data.listTodos.items)
+  // }
   console.log('isLoggedIn', isLoggedin)
   useEffect(() => {
     dispatch({ type: ACTION_KEYS.WINDOWLAYOUT, payload: { height, width } })
 
     authListener()
-    fetchTodos()
+    // fetchTodos()
     getUser()
   }, [])
   return (

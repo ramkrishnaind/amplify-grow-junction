@@ -30,6 +30,7 @@ import Link from 'next/link'
 import {
   RegisterTypeRequest,
   StoreUserAuth,
+  Login,
 } from '../../redux/actions/AuthAction'
 import { useDispatch, useSelector } from 'react-redux'
 import config from '../../src/aws-exports'
@@ -99,7 +100,7 @@ const options = {
 }
 
 const spaceValidation = new RegExp(/^[^ ]*$/)
-const Login = (props) => {
+const LoginPage = (props) => {
   const router = useRouter()
   const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
     useAuth0()
@@ -293,7 +294,7 @@ const Login = (props) => {
                   username,
                   password,
                 })
-
+                Login(dispatch)
                 if (user) {
                   console.log('user', user)
                   StoreUserAuth(dispatch, user)
@@ -457,6 +458,7 @@ const Login = (props) => {
                           // logout({ returnTo: window.location.origin })
                           // setTimeout(() => {
                           //   debugger
+                          Login(dispatch)
                           loginWithRedirect()
                           // }, 3000)
                         }
@@ -486,6 +488,7 @@ const Login = (props) => {
                         // logout({ returnTo: window.location.origin })
                         // setTimeout(() => {
                         //   debugger
+                        Login(dispatch)
                         loginWithRedirect()
                         // }, 100)
                       }}
@@ -548,4 +551,4 @@ const Login = (props) => {
     </div>
   )
 }
-export default Login
+export default LoginPage
