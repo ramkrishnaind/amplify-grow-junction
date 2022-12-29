@@ -178,7 +178,7 @@ const Workshop = ({ services }) => {
                           className="w-3 h-3 mt-2"
                         ></img>
                         <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                          1 on 1 mock interview
+                          Workshop
                         </span>
                       </div>
 
