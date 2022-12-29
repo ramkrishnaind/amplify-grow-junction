@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { API, Auth, graphqlOperation, Storage } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
@@ -38,12 +38,14 @@ const Packages = ({ services }) => {
   const [packages, setPackages] = useState({})
   const [id, setId] = useState()
   const [state, setState] = useState({})
-
+  useEffect(() => {
+    setResults(services)
+  }, [services])
   const setValues = (values) => {
     setPackages(values)
     console.log('values - ', values)
   }
-
+  debugger
   console.log('packages - ', packages)
 
   const searchClick = () => {

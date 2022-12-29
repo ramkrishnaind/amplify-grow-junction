@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
@@ -42,7 +42,11 @@ const TextQuery = ({ services }) => {
     setTextQuery(values)
     console.log('values - ', values)
   }
-
+  useEffect(() => {
+    setResults(services)
+  }, [services])
+  // debugger
+  // debugger
   console.log('textQuery - ', textQuery)
 
   const searchClick = () => {

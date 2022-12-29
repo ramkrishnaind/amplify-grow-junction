@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { API, Auth, graphqlOperation, Storage } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
@@ -38,7 +38,9 @@ const Courses = ({ services }) => {
   const [courses, setCourses] = useState({})
   const [id, setId] = useState()
   const [state, setState] = useState({})
-
+  useEffect(() => {
+    setResults(services)
+  }, [services])
   const setValues = (values) => {
     setCourses(values)
     console.log('values - ', values)
