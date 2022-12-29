@@ -99,10 +99,10 @@ const Workshop = ({
   const [imageKey, setImageKey] = useState(state.workshopImage)
 
 
-  useEffect(() => {
-    debugger
-    setImageName(image?.name)
-  }, [image])
+  // useEffect(() => {
+  //   debugger
+  //   setImageName(image?.name)
+  // }, [image])
 
   const setValues = (values) => {
     debugger
@@ -116,6 +116,7 @@ const Workshop = ({
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
     }
+    setImageName(e.target.files[0]?.name)
     console.log('image - ', image)
   }
 
