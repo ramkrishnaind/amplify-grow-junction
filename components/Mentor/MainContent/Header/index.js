@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Auth } from 'aws-amplify'
+import { Auth, API, Storage, graphqlOperation } from 'aws-amplify'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch } from 'react-redux'
 import { ClearUser, StoreUserAuth } from '../../../../redux/actions/AuthAction'
 import useComponentVisible from '../../../../hooks/useComponentVisible'
 import ReactDOM from 'react-dom'
+import {
+  listUserInfos,
+  listMentorRegisters,
+} from '../../../../src/graphql/queries'
+import { getLoggedinUserEmail } from '../../../../utilities/user'
+
 const Header = () => {
   const [open, setOpen] = useState(false)
+  const [image, setImage] = useState('')
+
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible(false)
   const dispatch = useDispatch()
@@ -16,6 +24,11 @@ const Header = () => {
     debugger
     setOpen(isComponentVisible)
   }, [isComponentVisible])
+
+  useEffect(() => {
+    getUrl()
+  }, [])
+
   console.log('isComponentVisible', isComponentVisible)
   console.log('open', open)
   const { logout: oAuthLogout } = useAuth0()
@@ -30,6 +43,41 @@ const Header = () => {
     } catch (error) {}
   }
   const mentorHeader = useSelector((state) => state.MentorHeaderReducer)
+
+  const getUrl = async () => {
+    const usrName = getLoggedinUserEmail()
+    console.log('username - ', usrName)
+    const results = await API.graphql(
+      graphqlOperation(listMentorRegisters, {
+        filter: { username: { contains: usrName } },
+      }),
+    )
+    if (results.data.listMentorRegisters.items.length > 0) {
+      const data = { ...results.data.listMentorRegisters.items[0] }
+      debugger
+      if (data.profile_image) {
+        const img = await Storage.get(data.profile_image)
+        console.log('image - ', img)
+        setImage(img)
+      }
+      if (!data.profile_image) {
+        const results = await API.graphql(
+          graphqlOperation(listUserInfos, {
+            filter: { username: { contains: usrName } },
+          }),
+        )
+        if (results.data.listUserInfos.items.length > 0) {
+          debugger
+          const data = { ...results.data.listUserInfos.items[0] }
+          if (data.profile_image) {
+            const img = await Storage.get(data.profile_image)
+            setImage(img)
+          }
+        }
+      }
+    }
+  }
+
   return (
     <div
       ref={ref}
@@ -63,10 +111,7 @@ const Header = () => {
               setIsComponentVisible(true)
             }}
           >
-            <img
-              className=" w-full object-cover"
-              src={`/assets/icon/mentor-dashboard/persona.png`}
-            />
+            <img className=" w-full object-cover" src={image} />
           </li>
         </ul>
       </nav>
