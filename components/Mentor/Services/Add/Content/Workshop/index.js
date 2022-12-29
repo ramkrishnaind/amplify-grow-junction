@@ -6,35 +6,32 @@ import { v4 as uuid } from 'uuid'
 import classes from './Workshop.module.css'
 import { Storage } from 'aws-amplify'
 
-const AutoSubmitToken = ({
-  setValues,
-  questions,
-  hideService,
-  limitedParticipants,
-  imageUrl,
-}) => {
+const AutoSubmitToken = ({ setValues, questions, image }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
 
   React.useEffect(() => {
     debugger
+
+    // values.questions = questions
+    // values.limitedParticipants = limitedParticipants
+    // values.hideService = hideService
+    // values.workshopImage = image.name
     console.log('context_values', values)
     values.questions = questions
-    values.limitedParticipants = limitedParticipants
-    values.hideService = hideService
-    values.workshopImage = imageUrl
+    values.file = image
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
     // if (values.token.length === 6) {
     //   submitForm();
     // }
-  }, [values, submitForm])
+  }, [values,image, submitForm])
   return null
 }
+
 const Workshop = ({
-  setValues,
-  state: initial,
+  setWorkshopValues,
   workshop = {
     title: '',
     description: '',
@@ -88,55 +85,92 @@ const Workshop = ({
     //questions: []
   }
   const imageInputref = useRef()
-  const [image, setImage] = useState(null)
+  const [image, setImage] = useState()
   const [convertedImage, setConvertedImage] = useState()
   const [hideService, setHideService] = useState(true)
   const [limitedParticipants, setLimitedParticipants] = useState(true)
-  const toggleClass = ' transform translate-x-5'
+  const toggleClass = ' transform translate-x-5 bg-black'
 
   const items = ['Text', 'Upload (Pdf,jpeg)']
   const [questionType, setQuestionType] = useState(items[0])
-  const [state, setState] = useState(initialState)
+  const [state, setState] = useState(workshop)
   const [question, setQuestion] = useState('')
   const [questions, setQuestions] = useState([])
-  const [imageUrl, setImageUrl] = useState()
+  const [imageName, setImageName] = useState('')
+  const [imageKey, setImageKey] = useState(state.workshopImage)
+  useEffect(() => {
+    const getImage = async () => {
+      debugger
+      debugger
+      const img = await Storage.get(workshop.workshopImage)
+      setConvertedImage(img)
+    }
+    if (workshop.workshopImage) {
+      getImage()
+    }
+  }, [workshop.workshopImage])
 
-  // if (!workshop) {
-  //   const getImage = async () => {
-  //     if (workshop.workshopImage) {
-  //       const img = await Storage.get(data.profile_image)
-  //       setConvertedImage(img)
-  //     }
-  //   }
-  // }
+  // useEffect(() => {
+  //   debugger
+  //   setImageName(image?.name)
+  // }, [image])
 
-  const handleFileInput = async (e) => {
+  const setValues = (values) => {
+    debugger
+    values.file = image
+    setWorkshopValues(values)
+  }
+
+  const handleFileInput = (e) => {
     e.preventDefault()
     debugger
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
     }
-    // else{
-    //   console.log(this.imageInputref.current.e.target.files[0])
-    // }
-    //setImage(imageInputref.current.files[0].name)
-    console.log('image -', image)
-    if (e.target.files[0]) {
-      const name = e.target.files[0].name.substr(
-        0,
-        e.target.files[0].name.lastIndexOf('.'),
-      )
-      const ext = e.target.files[0].name.substr(
-        e.target.files[0].name.lastIndexOf('.') + 1,
-      )
-      const filename = `${name}_${uuid()}.${ext}`
-      setImageUrl(filename)
-      console.log(imageUrl)
-      await Storage.put(filename, e.target.files[0], {
-        contentType: `image/${ext}`, // contentType is optional
-      })
-    }
+    setImageName(e.target.files[0]?.name)
+    console.log('image - ', image)
+    // setWorkshopValues((prev) => ({ ...prev, file: e.target.files[0] }))
   }
+
+  // useEffect(() => {
+  //   debugger
+  //   //const key = ['workshopImage']
+  //   const imgName = state['workshopImage']
+  //   if (imgName) {
+  //     setImageKey(imgName)
+  //   }
+  // }, [state])
+
+  // useEffect(() => {
+  //   debugger
+  //   if (imageKey) {
+  //     console.log('imageKey - ', imageKey)
+  //     getImage()
+  //   }
+  // }, [imageKey])
+
+  // const getImage = async () => {
+  //   const imgUrl = await Storage.get(imageKey)
+  //   setConvertedImage(imgUrl)
+  // }
+
+  //   console.log('image -', image)
+  //   if (e.target.files[0]) {
+  //     const name = e.target.files[0].name.substr(
+  //       0,
+  //       e.target.files[0].name.lastIndexOf('.'),
+  //     )
+  //     const ext = e.target.files[0].name.substr(
+  //       e.target.files[0].name.lastIndexOf('.') + 1,
+  //     )
+  //     const filename = `${name}_${uuid()}.${ext}`
+  //     setImageUrl(filename)
+  //     console.log(imageUrl)
+  //     // await Storage.put(filename, e.target.files[0], {
+  //     //   contentType: `image/${ext}`, // contentType is optional
+  //     // })
+  //   }
+  // }
 
   const handleQuestionChange = (e) => {
     setQuestion(e.target.value)
@@ -172,13 +206,13 @@ const Workshop = ({
             setSubmitting(false)
           }, 400)
           values.questions = questions
-          values.workshopImage = imageUrl
+          values.workshopImage = image
           values.limitedParticipants = limitedParticipants
           values.hideService = hideService
           console.log('onsubmit - ', values)
           // setProfileState(values)
         }}
-        // enableReinitialize={true}
+        enableReinitialize={false}
         // validateOnChange={true}
         // validateOnBlur={true}
         // validateOnMount={true}
@@ -511,7 +545,7 @@ const Workshop = ({
                       {/* Switch */}
                       <div
                         className={
-                          'bg-black md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
+                          'bg-white md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform' +
                           (hideService ? null : toggleClass)
                         }
                       ></div>
@@ -523,7 +557,7 @@ const Workshop = ({
                   <div> </div>
                   <div className="flex flex-row bg-gray-50 ml-5 px-10 mt-5 rounded-md mr-4 md:mr-1 lg:mr-1 w-2/3">
                     <div
-                      className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-green-800 rounded-full p-1 cursor-pointer"
+                      className="md:w-14 md:h-7 w-12 h-6 mx-6 m-5 flex items-center bg-gray-400 rounded-full p-1 cursor-pointer"
                       onClick={() => {
                         setLimitedParticipants(!limitedParticipants)
                       }}
@@ -565,9 +599,7 @@ const Workshop = ({
               <AutoSubmitToken
                 setValues={setValues}
                 questions={questions}
-                hideService={hideService}
-                limitedParticipants={limitedParticipants}
-                workshopImage={imageUrl}
+                image={image}
               />
             </form>
           )

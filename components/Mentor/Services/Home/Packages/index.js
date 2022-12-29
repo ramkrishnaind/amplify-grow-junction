@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import Link from 'next/link'
-import { API, Auth, graphqlOperation } from 'aws-amplify'
+import { API, Auth, graphqlOperation, Storage } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
 //import services from '../../../../../pages/services'
 import classes from './Packages.module.css'
@@ -8,8 +8,10 @@ import { toast } from 'react-toastify'
 import { deletePackages } from '../../../../../src/graphql/mutations'
 import { updatePackages } from '../../../../../src/graphql/mutations'
 import { getPackages } from '../../../../../src/graphql/queries'
+import { v4 as uuid } from 'uuid'
 import Pill from '../../Add/Header/Pill'
 import AddPackages from '../../Add/Content/Packages'
+import { getLoggedinUserEmail } from '../../../../../utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
@@ -29,22 +31,20 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   return null
 }
 
-
-
 const Packages = ({ services }) => {
   const searchRef = useRef()
   const [results, setResults] = useState(services)
   const [showReschedule, setShowReschedule] = useState(false)
-   const [packages, setPackages]= useState({})
-  const [id, setId]= useState()
+  const [packages, setPackages] = useState({})
+  const [id, setId] = useState()
   const [state, setState] = useState({})
 
   const setValues = (values) => {
     setPackages(values)
-    console.log("values - ",values)
+    console.log('values - ', values)
   }
 
-  console.log("packages - ", packages)
+  console.log('packages - ', packages)
 
   const searchClick = () => {
     const filtered = services.filter((i) =>
@@ -61,10 +61,11 @@ const Packages = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const packagesResult = await API.graphql({
         query: getPackages,
         variables: { id },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       if (packagesResult.data.getPackages.id !== null) {
         setState({ ...state, packages: packagesResult.data.getPackages })
@@ -82,17 +83,33 @@ const Packages = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
-      const {createdAt, updatedAt, owner, ...rest}= packages
+      const usrname = getLoggedinUserEmail()
+      if (packages.file) {
+        const name = packages.file.name.substr(
+          0,
+          packages.file.name.lastIndexOf('.'),
+        )
+        const ext = packages.file.name.substr(
+          packages.file.name.lastIndexOf('.') + 1,
+        )
+        const filename = `${name}_${uuid()}.${ext}`
+        packages.packageImage = filename
+        console.log(filename)
+        await Storage.put(filename, packages.file, {
+          contentType: `image/${ext}`, // contentType is optional
+        })
+        delete packages.file
+      }
+      const { createdAt, updatedAt, file, owner, ...rest } = packages
+      rest.username = usrname
       await API.graphql({
         query: updatePackages,
         variables: { input: { ...rest } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Packages update successfully')
       setTimeout(() => {
         window.location.href = window.location.href
-      }, 2000);
-      
+      }, 2000)
     } catch (error) {
       toast.error(`Update Error:${error.errors[0].message}`)
     }
@@ -102,11 +119,12 @@ const Packages = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
       console.log('usr', usr)
       await API.graphql({
         query: deletePackages,
         variables: { input: { id } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       toast.success('Packages deleted successfully')
       window.location.href = window.location.href
@@ -252,7 +270,7 @@ const Packages = ({ services }) => {
       {showReschedule && (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/3 lg:w-1/3">
+            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/3 lg:w-1/3  fixed  h-full overflow-x-hidden overflow-y-auto">
               <div className="flex justify-between px-8 py-4 border-b border-gray-300">
                 <div className="text-sm font-semibold mt-4">Packages</div>
                 <div>
@@ -271,26 +289,25 @@ const Packages = ({ services }) => {
               </div>
               <AddPackages packages={state.packages} setValues={setValues} />
               <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
-              <div className="flex justify-between item-center w-auto">
-                <button
-                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
-                  type="button"
-                  onClick={() => setShowReschedule(false)}
-                >
-                  <span className="text-sm font-semibold py-2">Cancel</span>
-                </button>
+                <div className="flex justify-between item-center w-auto">
+                  <button
+                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
+                    type="button"
+                    onClick={() => setShowReschedule(false)}
+                  >
+                    <span className="text-sm font-semibold py-2">Cancel</span>
+                  </button>
 
-                <button
-                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
-                  type="button"
-                  onClick={() => editPost(id)}
-                >
-                  <span className="text-sm font-semibold py-2">Save</span>
-                </button>
+                  <button
+                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
+                    type="button"
+                    onClick={() => editPost(id)}
+                  >
+                    <span className="text-sm font-semibold py-2">Save</span>
+                  </button>
+                </div>
               </div>
             </div>
-            </div>
-
           </div>
         </>
       )}

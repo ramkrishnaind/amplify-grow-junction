@@ -7,12 +7,21 @@ import {
   createOneOnOne,
   createWorkshop,
   createCourses,
-  createPackages
+  createPackages,
 } from '../../../../src/graphql/mutations'
 import { createTextQuery } from '../../../../src/graphql/mutations'
+import { getLoggedinUserEmail } from '../../../../utilities/user'
+import { v4 as uuid } from 'uuid'
+import { Storage } from 'aws-amplify'
 
 const AddService = () => {
-  const items = ['1 on 1 Session', 'Workshop', 'Courses', 'Text query', 'Packages']
+  const items = [
+    '1 on 1 Session',
+    'Workshop',
+    'Courses',
+    'Text query',
+    'Packages',
+  ]
   const [state, setState] = useState({
     oneOnOne: {
       sessionTitle: '',
@@ -71,7 +80,7 @@ const AddService = () => {
       finalPrice: '',
       packageImage: '',
       emailContent: '',
-      uploadFile:'',
+      uploadFile: '',
       hideService: '',
       limitParticipants: '',
       audienceSize: '',
@@ -96,10 +105,10 @@ const AddService = () => {
       return
     }
     try {
+      state.oneOnOne.username = getLoggedinUserEmail()
       await API.graphql({
         query: createOneOnOne,
         variables: { input: { ...state.oneOnOne } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Profile added successfully')
       window.location.href = '/mentor/services'
@@ -124,10 +133,10 @@ const AddService = () => {
       return
     }
     try {
+      state.textQuery.username = getLoggedinUserEmail()
       await API.graphql({
         query: createTextQuery,
         variables: { input: { ...state.textQuery } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Text query added successfully')
       window.location.href = '/mentor/services'
@@ -138,6 +147,7 @@ const AddService = () => {
 
   const handleWorkshopChange = (values) => {
     setState((prev) => ({ ...prev, workshop: values }))
+    // image key and s3 bucket save
   }
   const workshopSave = async () => {
     debugger
@@ -153,11 +163,33 @@ const AddService = () => {
       toast.error('Mandatory fields not entered')
       return
     }
+    const imageName = state.workshop.file?.name
+    console.log('image -', imageName)
+
+    if (state.workshop.file) {
+      const name = state.workshop.file.name.substr(
+        0,
+        state.workshop.file.name.lastIndexOf('.'),
+      )
+      const ext = state.workshop.file.name.substr(
+        state.workshop.file.name.lastIndexOf('.') + 1,
+      )
+      const filename = `${name}_${uuid()}.${ext}`
+      state.workshop.workshopImage = filename
+      console.log(filename)
+      await Storage.put(filename, state.workshop.file, {
+        contentType: `image/${ext}`, // contentType is optional
+      })
+      // delete state.workshop.file
+    }
+
     try {
+      debugger
+      state.workshop.username = getLoggedinUserEmail()
+      const { file, ...rest } = state.workshop
       await API.graphql({
         query: createWorkshop,
-        variables: { input: { ...state.workshop } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        variables: { input: { ...rest } },
       })
       toast.success('Workshop added successfully')
       window.location.href = '/mentor/services'
@@ -175,7 +207,7 @@ const AddService = () => {
       !state.courses.courseTitle ||
       !state.courses.description ||
       !state.courses.numberOfSessions ||
-      !state.courses.sessionDuration||
+      !state.courses.sessionDuration ||
       !state.courses.listedPrice ||
       !state.courses.finalPrice ||
       !state.courses.courseDate ||
@@ -184,11 +216,27 @@ const AddService = () => {
       toast.error('Mandatory fields not entered')
       return
     }
+    if (state.courses.file) {
+      const name = state.courses.file.name.substr(
+        0,
+        state.courses.file.name.lastIndexOf('.'),
+      )
+      const ext = state.courses.file.name.substr(
+        state.courses.file.name.lastIndexOf('.') + 1,
+      )
+      const filename = `${name}_${uuid()}.${ext}`
+      state.courses.courseImage = filename
+      console.log(filename)
+      await Storage.put(filename, state.courses.file, {
+        contentType: `image/${ext}`, // contentType is optional
+      })
+      delete state.courses.file
+    }
     try {
+      state.courses.username = getLoggedinUserEmail()
       await API.graphql({
         query: createCourses,
         variables: { input: { ...state.courses } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Courses added successfully')
       window.location.href = '/mentor/services'
@@ -212,10 +260,26 @@ const AddService = () => {
       return
     }
     try {
+      if (state.packages.file) {
+        const name = state.packages.file.name.substr(
+          0,
+          state.packages.file.name.lastIndexOf('.'),
+        )
+        const ext = state.packages.file.name.substr(
+          state.packages.file.name.lastIndexOf('.') + 1,
+        )
+        const filename = `${name}_${uuid()}.${ext}`
+        state.packages.packageImage = filename
+        console.log(filename)
+        await Storage.put(filename, state.packages.file, {
+          contentType: `image/${ext}`, // contentType is optional
+        })
+        delete state.packages.file
+      }
+      state.packages.username = getLoggedinUserEmail()
       await API.graphql({
         query: createPackages,
         variables: { input: { ...state.packages } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Packages added successfully')
       window.location.href = '/mentor/services'
@@ -223,7 +287,6 @@ const AddService = () => {
       toast.error(`Save Error:${error.errors[0].message}`)
     }
   }
-
 
   const setValues = (values) => {
     switch (currentService) {

@@ -10,6 +10,7 @@ import { updateTextQuery } from '../../../../../src/graphql/mutations'
 import { getTextQuery } from '../../../../../src/graphql/queries'
 import Pill from '../../../../Mentor/Services/Add/Header'
 import AddTextQuery from '../../Add/Content/TextQuery'
+import { getLoggedinUserEmail } from '../../../../../utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
@@ -29,22 +30,20 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   return null
 }
 
-
-
 const TextQuery = ({ services }) => {
   const searchRef = useRef()
   const [results, setResults] = useState(services)
   const [showReschedule, setShowReschedule] = useState(false)
-   const [textQuery, setTextQuery]= useState({})
-  const [id, setId]= useState()
+  const [textQuery, setTextQuery] = useState({})
+  const [id, setId] = useState()
   const [state, setState] = useState({})
 
   const setValues = (values) => {
     setTextQuery(values)
-    console.log("values - ",values)
+    console.log('values - ', values)
   }
 
-  console.log("textQuery - ", textQuery)
+  console.log('textQuery - ', textQuery)
 
   const searchClick = () => {
     const filtered = services.filter((i) =>
@@ -61,10 +60,11 @@ const TextQuery = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const textQueryResult = await API.graphql({
         query: getTextQuery,
         variables: { id },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       // toast.success('TextQuery get successfully')
       // window.location.href = window.location.href
@@ -84,17 +84,17 @@ const TextQuery = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
-      const {createdAt, updatedAt, owner, ...rest}= textQuery
+      const usrname = getLoggedinUserEmail()
+      const { createdAt, updatedAt, owner, ...rest } = textQuery
+      rest.username = usrname
       await API.graphql({
         query: updateTextQuery,
         variables: { input: { ...rest } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('TextQuery update successfully')
       setTimeout(() => {
         window.location.href = window.location.href
-      }, 2000);
-      
+      }, 2000)
     } catch (error) {
       toast.error(`Update Error:${error.errors[0].message}`)
     }
@@ -104,11 +104,12 @@ const TextQuery = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
       console.log('usr', usr)
       await API.graphql({
         query: deleteTextQuery,
         variables: { input: { id } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        usename: usrname,
       })
       toast.success('TextQuery deleted successfully')
       window.location.href = window.location.href
@@ -158,7 +159,7 @@ const TextQuery = ({ services }) => {
                           className="w-3 h-3 mt-2"
                         ></img>
                         <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                          1 on 1 mock interview
+                          Text Query
                         </span>
                       </div>
 
@@ -293,26 +294,25 @@ const TextQuery = ({ services }) => {
               </div>
               <AddTextQuery textQuery={state.textQuery} setValues={setValues} />
               <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
-              <div className="flex justify-between item-center w-auto">
-                <button
-                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
-                  type="button"
-                  onClick={() => setShowReschedule(false)}
-                >
-                  <span className="text-sm font-semibold py-2">Cancel</span>
-                </button>
+                <div className="flex justify-between item-center w-auto">
+                  <button
+                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
+                    type="button"
+                    onClick={() => setShowReschedule(false)}
+                  >
+                    <span className="text-sm font-semibold py-2">Cancel</span>
+                  </button>
 
-                <button
-                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
-                  type="button"
-                  onClick={() => editPost(id)}
-                >
-                  <span className="text-sm font-semibold py-2">Save</span>
-                </button>
+                  <button
+                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
+                    type="button"
+                    onClick={() => editPost(id)}
+                  >
+                    <span className="text-sm font-semibold py-2">Save</span>
+                  </button>
+                </div>
               </div>
             </div>
-            </div>
-
           </div>
         </>
       )}

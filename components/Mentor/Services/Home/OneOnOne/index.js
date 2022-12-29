@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import { deleteOneOnOne, updateOneOnOne } from '../../../../../src/graphql/mutations'
 import  AddOneOnOne from '../../Add/Content/OneOnOne'
 import { getOneOnOne } from '../../../../../src/graphql/queries'
+import { getLoggedinUserEmail } from '../../../../../utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
@@ -61,10 +62,11 @@ const OneOnOne = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const oneOnOneResult = await API.graphql({
         query: getOneOnOne,
         variables: { id },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       if (oneOnOneResult.data.getOneOnOne.id !== null) {
         setState({ ...state, oneOnOne: oneOnOneResult.data.getOneOnOne })
@@ -82,11 +84,12 @@ const OneOnOne = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
       const {createdAt, updatedAt, owner, ...rest}= oneOnOne
+      rest.username = usrname
       await API.graphql({
         query: updateOneOnOne,
         variables: { input: { ...rest } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('OneOnOne update successfully')
       setTimeout(() => {
@@ -103,11 +106,12 @@ const OneOnOne = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
       console.log('usr', usr)
       await API.graphql({
         query: deleteOneOnOne,
         variables: { input: { id } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       toast.success('Profile deleted successfully')
       window.location.href = window.location.href

@@ -13,6 +13,7 @@ import {
 } from '../../../src/graphql/mutations'
 
 import { listStudentRegisters } from '../../../src/graphql/queries'
+import { getLoggedinUserEmail } from '../../../utilities/user'
 const initialState = {
   about_yourself: {
     first_name: '',
@@ -63,9 +64,10 @@ const Profile = () => {
     const usr = await Auth.currentAuthenticatedUser()
     if (usr) setUser(usr)
     debugger
+    const usrname = getLoggedinUserEmail()
     const results = await API.graphql(
       graphqlOperation(listStudentRegisters, {
-        filter: { username: { contains: usr.username } },
+        filter: { username: { contains: usrname} },
       }),
     )
     if (results.data.listStudentRegisters.items.length > 0) {
@@ -141,11 +143,12 @@ const Profile = () => {
       })
     }
     if (isNew) {
+      const usrname = getLoggedinUserEmail()
+      remaining.username = usrname
       try {
         await API.graphql({
           query: createStudentRegister,
           variables: { input: { ...state, ...remaining } },
-          authMode: 'AMAZON_COGNITO_USER_POOLS',
         })
         toast.success('Profile added successfully')
       } catch (err) {
@@ -161,13 +164,14 @@ const Profile = () => {
       //   ...remaining,
       // }
       try {
+        const usrname = getLoggedinUserEmail()
+        rest.username = usrname
         await API.graphql({
           query: updateStudentRegister,
           variables: {
             input: { ...rest },
             // condition: { username: { contains: state.username } },
           },
-          authMode: 'AMAZON_COGNITO_USER_POOLS',
         })
         toast.success('Profile updated successfully')
       } catch (error) {

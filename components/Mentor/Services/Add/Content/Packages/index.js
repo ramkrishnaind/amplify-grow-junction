@@ -5,42 +5,43 @@ import TextField from '../../../../../../pages/ui-kit/TextField'
 import { v4 as uuid } from 'uuid'
 import classes from './Packages.module.css'
 import { Storage } from 'aws-amplify'
-// import OneOnOne from '../OneOnOne'
-// import TextQuery from '../TextQuery'
-// import Workshop from '../Workshop'
-// import Courses from '../Courses'
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import { listOneOnOnes } from '/src/graphql/queries'
 import { listTextQueries } from '/src/graphql/queries'
 import { listWorkshops } from '/src/graphql/queries'
 import { listCourses } from '/src/graphql/queries'
+import { getLoggedinUserEmail } from '../../../../../../utilities/user'
 
 const AutoSubmitToken = ({
   setValues,
-  packageServices,
   hideService,
   limitParticipants,
-  imageUrl,
-  fileUrl,
+  packageImage,
+  uploadFileUrl,
+  packageServices,
 }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
-
+  debugger
   React.useEffect(() => {
     debugger
     console.log('context_values', values)
-    values.packageServices = packageServices
     values.limitParticipants = limitParticipants
     values.hideService = hideService
-    values.packageImage = imageUrl
-    values.uploadFile = fileUrl
+    if (packageImage) values.file = packageImage
+    values.uploadFile = uploadFileUrl
+    // if (sessions.length > 0) packageServices.push(sessions)
+    // if (textQueries.length > 0) packageServices.push(textQueries)
+    // if (workshops.length > 0) packageServices.push(workshops)
+    // if (courses.length > 0) packageServices.push(courses)
+    values.packageServices = packageServices
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
     // if (values.token.length === 6) {
     //   submitForm();
     // }
-  }, [values, submitForm])
+  }, [values,packageImage, submitForm])
   return null
 }
 
@@ -109,11 +110,45 @@ const Packages = ({
     loadWorkshop()
     loadCourses()
   }, [])
+  useEffect(() => {
+    const getImage = async () => {
+      debugger
+      debugger
+      const img = await Storage.get(packages.packageImage)
+      setConvertedImage(img)
+    }
+    if (packages.packageImage) {
+      getImage()
+    }
+  }, [packages.packageImage])
+  const [sessionResults, setSessionResults] = useState([])
+  const [workshopResults, setWorkshopResults] = useState([])
+  const [textQueryResults, setTextQueryResults] = useState([])
+  const [coursesResults, setCoursesResults] = useState([])
+  const [sessions, setSessions] = useState([])
+  const [workshops, setWorkshops] = useState([])
+  const [textQueries, setTextQueries] = useState([])
+  const [courses, setCourses] = useState([])
+  const [sessionState, setSessionState] = useState()
+  const imageInputref = useRef()
+  const fileInputref = useRef()
+  const [image, setImage] = useState(null)
+  const [uploadFile, setUploadFile] = useState(null)
+  const [convertedImage, setConvertedImage] = useState()
+  const [hideService, setHideService] = useState(true)
+  const [limitParticipants, setLimitParticipants] = useState(true)
+  const toggleClass = ' transform translate-x-5'
 
-  const [sessionResults, setSessionResults] = useState(null)
-  const [workshopResults, setWorkshopResults] = useState(null)
-  const [textQueryResults, setTextQueryResults] = useState(null)
-  const [coursesResults, setCoursesResults] = useState(null)
+  // const [questionType, setQuestionType] = useState(items[0])
+  // const [state, setState] = useState(initialState)
+  // const [question, setQuestion] = useState('')
+  const [packageServices, setPackageServices] = useState([])
+  const [imageUrl, setImageUrl] = useState()
+  const [fileUrl, setFileUrl] = useState()
+  const [flag, setFlag] = useState(false)
+
+  const items = ['Text', 'Upload (Pdf,jpeg)']
+  const usrname = getLoggedinUserEmail()
 
   const loadOneOnOne = async () => {
     try {
@@ -121,9 +156,10 @@ const Packages = ({
       console.log('usr', usr)
       const results = await API.graphql(
         graphqlOperation(listOneOnOnes, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
+      debugger
       if (results.data.listOneOnOnes.items.length > 0) {
         setSessionResults(results.data.listOneOnOnes.items)
         console.log('oneonone- ', sessionResults)
@@ -133,23 +169,6 @@ const Packages = ({
     }
   }
 
-  //console.log('results - ', results)
-
-  // const addPackage = (title, duration,price) => {
-
-  //   debugger
-  //    const found = packageServices.find(
-  //      (item) => item.text === title && item.duration === duration && item.price === price,
-  //    )
-  //   if (!found) {
-  //     packageServices.push({
-  //       id: uuid(),
-  //       text: title,
-  //       duration: duration,
-  //       price: price
-  //     })
-  //   }
-  // }
   const loadWorkshop = async () => {
     debugger
     try {
@@ -157,12 +176,12 @@ const Packages = ({
       console.log('usr', usr)
       const results = await API.graphql(
         graphqlOperation(listWorkshops, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listWorkshops.items.length > 0) {
         setWorkshopResults(results.data.listWorkshops.items)
-        console.log('oneonone- ', workshopResults)
+        console.log('workshop- ', workshopResults)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
@@ -175,12 +194,12 @@ const Packages = ({
       console.log('usr', usr)
       const results = await API.graphql(
         graphqlOperation(listCourses, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listCourses.items.length > 0) {
         setCoursesResults(results.data.listCourses.items)
-        console.log('oneonone- ', coursesResults)
+        console.log('courses- ', coursesResults)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
@@ -193,37 +212,17 @@ const Packages = ({
       console.log('usr', usr)
       const results = await API.graphql(
         graphqlOperation(listTextQueries, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listTextQueries.items.length > 0) {
         setTextQueryResults(results.data.listTextQueries.items)
-        console.log('oneonone- ', textQueryResults)
+        console.log('textquery- ', textQueryResults)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
     }
   }
-
-  //console.log("Services - ", services)
-
-  const imageInputref = useRef()
-  const fileInputref = useRef()
-  const [image, setImage] = useState(null)
-  const [uploadFile, setUploadFile] = useState(null)
-  const [convertedImage, setConvertedImage] = useState()
-  const [hideService, setHideService] = useState(true)
-  const [limitParticipants, setLimitParticipants] = useState(true)
-  const toggleClass = ' transform translate-x-5'
-
-  const items = ['Text', 'Upload (Pdf,jpeg)']
-  // const [questionType, setQuestionType] = useState(items[0])
-  // const [state, setState] = useState(initialState)
-  // const [question, setQuestion] = useState('')
-  const [packageServices, setPackageServices] = useState([])
-  const [imageUrl, setImageUrl] = useState()
-  const [fileUrl, setFileUrl] = useState()
-  const [flag] = useState(false)
 
   const handleFileInput = async (e) => {
     e.preventDefault()
@@ -231,22 +230,7 @@ const Packages = ({
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
     }
-    console.log('image -', image)
-    if (e.target.files[0]) {
-      const name = e.target.files[0].name.substr(
-        0,
-        e.target.files[0].name.lastIndexOf('.'),
-      )
-      const ext = e.target.files[0].name.substr(
-        e.target.files[0].name.lastIndexOf('.') + 1,
-      )
-      const filename = `${name}_${uuid()}.${ext}`
-      setImageUrl(filename)
-      console.log(imageUrl)
-      await Storage.put(filename, e.target.files[0], {
-        contentType: `image/${ext}`, // contentType is optional
-      })
-    }
+    // setValues((prev) => ({ ...prev, file: e.target.files[0] }))
   }
 
   const handleFileUpload = async (e) => {
@@ -273,6 +257,114 @@ const Packages = ({
     }
   }
 
+  const sessionState1 = () => {
+    return {
+      sessionResults: [
+        ...sessionResults.map((session) => {
+          return { ...session }
+        }),
+      ],
+    }
+  }
+
+  const toggleSessionSelect = (index) => {
+    debugger
+    console.log('index - ', index)
+    const { sessionResults } = sessionState1()
+    sessionResults[index].selected = !sessionResults[index].selected
+    setSessionResults(sessionResults)
+    setSessions(sessionResults)
+    sessionResults.map((s, idx) => {
+      if (s.selected) {
+        packageServices.push({
+          id: uuid(),
+          text: '1 on 1 Session',
+          title: s.sessionTitle,
+          duration: s.sessionDuration + ' ' + s.sessionDurationIn,
+          price: s.finalPrice,
+        })
+      }
+    })
+  }
+
+  const workshopState1 = {
+    workshopResults: [
+      ...workshopResults.map((workshop) => {
+        return { ...workshop }
+      }),
+    ],
+  }
+
+  const toggleWorkshopSelect = (index) => {
+    const { workshopResults } = workshopState1
+    workshopResults[index].selected = !workshopResults[index].selected
+    setWorkshopResults(workshopResults)
+    setWorkshops(workshopResults)
+    workshopResults.map((s, idx) => {
+      if (s.selected) {
+        packageServices.push({
+          id: uuid(),
+          text: 'Workshop',
+          title: s.title,
+          duration: s.callDuration + ' ' + s.callDurationIn,
+          price: s.finalPrice,
+        })
+      }
+    })
+  }
+
+  const coursesState1 = {
+    coursesResults: [
+      ...coursesResults.map((course) => {
+        return { ...course }
+      }),
+    ],
+  }
+
+  const toggleCoursesSelect = (index) => {
+    const { coursesResults } = coursesState1
+    coursesResults[index].selected = !coursesResults[index].selected
+    setCoursesResults(coursesResults)
+    setCourses(coursesResults)
+    coursesResults.map((s, idx) => {
+      if (s.selected) {
+        packageServices.push({
+          id: uuid(),
+          text: 'Courses',
+          title: s.courseTitle,
+          duration: s.sessionDuration + ' ' + s.sessionDurationIn,
+          price: s.finalPrice,
+        })
+      }
+    })
+  }
+
+  const textQueryState1 = {
+    textQueryResults: [
+      ...textQueryResults.map((textQuery) => {
+        return { ...textQuery }
+      }),
+    ],
+  }
+
+  const toggleTextQuerySelect = (index) => {
+    const { textQueryResults } = textQueryState1
+    textQueryResults[index].selected = !textQueryResults[index].selected
+    setTextQueryResults(textQueryResults)
+    setTextQueries(textQueryResults)
+    textQueryResults.map((s, idx) => {
+      if (s.selected) {
+        packageServices.push({
+          id: uuid(),
+          text: 'TextQuery',
+          title: s.title,
+          duration: s.responseTime + ' ' + s.responseTimeIn,
+          price: s.finalPrice,
+        })
+      }
+    })
+  }
+
   return (
     <>
       <Formik
@@ -284,6 +376,10 @@ const Packages = ({
             // alert(JSON.stringify(values, null, 2));
             setSubmitting(false)
           }, 400)
+          if (sessions.length > 0) packageServices.push(sessions)
+          if (textQueries.length > 0) packageServices.push(textQueries)
+          if (workshops.length > 0) packageServices.push(workshops)
+          if (courses.length > 0) packageServices.push(courses)
           values.packageServices = packageServices
           values.packageImage = imageUrl
           values.uploadFile = fileUrl
@@ -471,11 +567,11 @@ const Packages = ({
                         </div>
                       </div>
 
-                      <div className="flex flex-col mt-10 mb-10 px-2 w-auto">
+                      <div className="flex flex-col mt-10 mb-10 px-2 w-1/3">
                         <p className="flex justify-start items-start text-sm ">
                           Upload file (optional)
                         </p>
-                        <button className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md min-w-40">
+                        <div className="flex justify-start items-start bg-white hover:bg-gray-900 hover:text-white text-black font-bold py-4 px-6 border-2 rounded-md">
                           <button
                             className="ml-3 text-lg"
                             onClick={(e) => {
@@ -492,7 +588,7 @@ const Packages = ({
                             className="absolute w-0 h-0 left-0 top-0"
                             onChange={handleFileUpload}
                           />
-                        </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -585,393 +681,259 @@ const Packages = ({
                       Select services added by you to create a package
                     </span>
                   </div>
-                  {/* todo - dynamic data comes from all service to be displayed here seems */}
 
                   <div className=" mt-5  bg-white"></div>
                 </div>
                 <div className="bg-white basis-2/5"></div>
               </div>
 
-              <div className="bg-white w-full p-4">
-                <div className="flex flex-col font-normal py-4 mb-5 mr-5 ml-5">
-                  {/* session start */}
-                  <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
-                    Sessions
-                  </div>
-                  <div className="flex justify-start p-4 w-full">
-                    {sessionResults !== null && sessionResults.length > 0 ? (
-                      <div className="my-3 bg-white p-10">
-                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-0 w-full">
-                          {sessionResults.map((item, index) => {
-                            return (
-                              <div
-                                key={index}
-                                className="flex justify-center align-center mb-10 hover:shadow-[0px_22px_70px_4px_rgba(0,0,0,0.56)] "
-                              >
-                                <div
-                                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
-                                >
-                                  <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                                    <div className="flex justify-between p-2">
-                                      <img
-                                        src="../../../assets/icon/clock.png"
-                                        alt=""
-                                        className="w-3 h-3 mt-2"
-                                      ></img>
-                                      <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                                        1 on 1 mock interview
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div className="flex flex-col">
-                                    <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                                      {item.sessionTitle}
-                                    </div>
-                                    <div className="flex items-center px-6 mr-5 min-w-[30%]">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/clock-two.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        {item.sessionDuration}{' '}
-                                        {item.sessionDurationIn}
-                                      </span>
-                                    </div>
-                                    <div className="flex items-center  py-1 px-6 ">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/price.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        ₹
-                                        {item.listedPrice ===
-                                        item.finalPrice ? (
-                                          item.finalPrice
-                                        ) : (
-                                          <>
-                                            <span className="  text-red-800 bold">
-                                              <s className="bold">
-                                                {item.listedPrice}
-                                              </s>
-                                            </span>{' '}
-                                            <span className="bold">
-                                              {item.finalPrice}
-                                            </span>
-                                          </>
-                                        )}
-                                      </span>
-                                    </div>
-                                    <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
-                                  </div>
-                                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
-                                    <button className="flex justify-center items-center hover:bg-gray-900 hover:text-white text-black border-2 broder-gray rounded-full w-full">
-                                      <span className="text-sm font-semibold py-3">
-                                        Add to package
-                                      </span>
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          })}
-                        </div>
-
-                        {/* outer */}
-                      </div>
-                    ) : (
-                      <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
-                        No sessions found
-                      </div>
-                    )}
-                  </div>
-                  {/*session  end */}
-
-                  {/* workshop start */}
-                  <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
-                    workshop
-                  </div>
-                  <div className="flex justify-start p-4">
-                    {workshopResults !== null && workshopResults.length > 0 ? (
-                      <div className="my-3 bg-white p-10">
-                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-0 w-full">
-                          {workshopResults.map((item, index) => {
-                            return (
-                              <div
-                                key={index}
-                                className="flex justify-center align-center mb-10 hover:shadow-[0px_22px_70px_4px_rgba(0,0,0,0.56)]"
-                              >
-                                <div
-                                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
-                                >
-                                  <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                                    <div className="flex justify-between p-2">
-                                      <img
-                                        src="../../../assets/icon/clock.png"
-                                        alt=""
-                                        className="w-3 h-3 mt-2"
-                                      ></img>
-                                      <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                                        1 on 1 mock interview
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div className="flex flex-col">
-                                    <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                                      {item.sessionTitle}
-                                    </div>
-                                    <div className="flex items-center px-6 mr-5 min-w-[30%]">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/clock-two.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        {item.sessionDuration}{' '}
-                                        {item.sessionDurationIn}
-                                      </span>
-                                    </div>
-                                    <div className="flex items-center  py-1 px-6 ">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/price.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        ₹
-                                        {item.listedPrice ===
-                                        item.finalPrice ? (
-                                          item.finalPrice
-                                        ) : (
-                                          <>
-                                            <span className="  text-red-800 bold">
-                                              <s className="bold">
-                                                {item.listedPrice}
-                                              </s>
-                                            </span>{' '}
-                                            <span className="bold">
-                                              {item.finalPrice}
-                                            </span>
-                                          </>
-                                        )}
-                                      </span>
-                                    </div>
-                                    <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
-                                  </div>
-                                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
-                                    <button className="flex justify-center items-center hover:bg-gray-900 hover:text-white text-black border-2 broder-gray rounded-full w-full">
-                                      <span className="text-sm font-semibold py-3">
-                                        Add to package
-                                      </span>
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          })}
-                        </div>
-
-                        {/* outer */}
-                      </div>
-                    ) : (
-                      <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
-                        No sessions found
-                      </div>
-                    )}
-                  </div>
-                  {/*workshop  end */}
-
-                  {/* TextQuery start */}
-                  <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
-                    TextQuery
-                  </div>
-                  <div className="flex justify-start p-4">
-                    {textQueryResults !== null &&
-                    textQueryResults.length > 0 ? (
-                      <div className="my-3 bg-white p-10">
-                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-0 w-full">
-                          {textQueryResults.map((item, index) => {
-                            return (
-                              <div
-                                key={index}
-                                className="flex justify-center align-center mb-10 hover:shadow-[0px_22px_70px_4px_rgba(0,0,0,0.56)]"
-                              >
-                                <div
-                                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
-                                >
-                                  <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                                    <div className="flex justify-between p-2">
-                                      <img
-                                        src="../../../assets/icon/clock.png"
-                                        alt=""
-                                        className="w-3 h-3 mt-2"
-                                      ></img>
-                                      <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                                        1 on 1 mock interview
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div className="flex flex-col">
-                                    <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                                      {item.sessionTitle}
-                                    </div>
-                                    <div className="flex items-center px-6 mr-5 min-w-[30%]">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/clock-two.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        {item.sessionDuration}{' '}
-                                        {item.sessionDurationIn}
-                                      </span>
-                                    </div>
-                                    <div className="flex items-center  py-1 px-6 ">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/price.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        ₹
-                                        {item.listedPrice ===
-                                        item.finalPrice ? (
-                                          item.finalPrice
-                                        ) : (
-                                          <>
-                                            <span className="  text-red-800 bold">
-                                              <s className="bold">
-                                                {item.listedPrice}
-                                              </s>
-                                            </span>{' '}
-                                            <span className="bold">
-                                              {item.finalPrice}
-                                            </span>
-                                          </>
-                                        )}
-                                      </span>
-                                    </div>
-                                    <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
-                                  </div>
-                                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
-                                    <button className="flex justify-center items-center hover:bg-gray-900 hover:text-white text-black border-2 broder-gray rounded-full w-full">
-                                      <span className="text-sm font-semibold py-3">
-                                        Add to package
-                                      </span>
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          })}
-                        </div>
-
-                        {/* outer */}
-                      </div>
-                    ) : (
-                      <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
-                        No sessions found
-                      </div>
-                    )}
-                  </div>
-                  {/*TextQuery  end */}
-
-                  {/* Courses start */}
-                  <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
-                    Courses
-                  </div>
-                  <div className="flex justify-start p-4">
-                    {coursesResults !== null && coursesResults.length > 0 ? (
-                      <div className="my-3 bg-white p-10">
-                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-0 w-full">
-                          {coursesResults.map((item, index) => {
-                            return (
-                              <div
-                                key={index}
-                                className="flex justify-center align-center mb-10 hover:shadow-[0px_22px_70px_4px_rgba(0,0,0,0.56)]"
-                              >
-                                <div
-                                  className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full ${classes.itemContainer}`}
-                                >
-                                  <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                                    <div className="flex justify-between p-2">
-                                      <img
-                                        src="../../../assets/icon/clock.png"
-                                        alt=""
-                                        className="w-3 h-3 mt-2"
-                                      ></img>
-                                      <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                                        1 on 1 mock interview
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div className="flex flex-col">
-                                    <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                                      {item.sessionTitle}
-                                    </div>
-                                    <div className="flex items-center px-6 mr-5 min-w-[30%]">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/clock-two.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        {item.sessionDuration}{' '}
-                                        {item.sessionDurationIn}
-                                      </span>
-                                    </div>
-                                    <div className="flex items-center  py-1 px-6 ">
-                                      <img
-                                        src="/assets/icon/mentor-dashboard/price.svg"
-                                        className="h-5 mr-5"
-                                      />
-                                      <span className="text-sm font-semibold py-3">
-                                        ₹
-                                        {item.listedPrice ===
-                                        item.finalPrice ? (
-                                          item.finalPrice
-                                        ) : (
-                                          <>
-                                            <span className="  text-red-800 bold">
-                                              <s className="bold">
-                                                {item.listedPrice}
-                                              </s>
-                                            </span>{' '}
-                                            <span className="bold">
-                                              {item.finalPrice}
-                                            </span>
-                                          </>
-                                        )}
-                                      </span>
-                                    </div>
-                                    <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
-                                  </div>
-                                  <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
-                                    <button className="flex justify-center items-center hover:bg-gray-900 hover:text-white text-black border-2 broder-gray rounded-full w-full">
-                                      <span className="text-sm font-semibold py-3">
-                                        Add to package
-                                      </span>
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          })}
-                        </div>
-
-                        {/* outer */}
-                      </div>
-                    ) : (
-                      <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
-                        No sessions found
-                      </div>
-                    )}
-                  </div>
-                  {/*Courses  end */}
+              <div className="bg-white w-auto">
+                {/* session start */}
+                <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
+                  Sessions
                 </div>
+                <div className="flex-wrap w-auto">
+                  {sessionResults !== null && sessionResults.length > 0 ? (
+                    <div className="my-3 bg-white p-2">
+                      <div className="flex flex-wrap w-auto">
+                        {sessionResults.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex relative w-1/3 m-5"
+                              onClick={() => toggleSessionSelect(index)}
+                            >
+                              <div className="flex flex-col justify-center items-center p-2  text-center rounded-2xl shadow-lg m-4 w-full border-2">
+                                <div className="flex text-black text-2xl font-semibold px-4 py-2">
+                                  {item.sessionTitle}
+                                </div>
+                                <div className="flex items-center">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item.sessionDuration}{' '}
+                                    {item.sessionDurationIn}
+                                  </span>
+                                </div>
+                                <div className="flex items-center  py-1 px-2 ">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/price.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold py-3">
+                                    ₹{item.finalPrice}
+                                  </span>
+                                </div>
+                              </div>
+                              {item.selected && (
+                                <div
+                                  className={`absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`}
+                                ></div>
+                              )}
+                            </div>
+                          )
+                        })}
+                      </div>
+
+                      {/* outer */}
+                    </div>
+                  ) : (
+                    <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                      No sessions found
+                    </div>
+                  )}
+                </div>
+                {/*session  end */}
               </div>
 
+              <div className="bg-white w-auto">
+                {/* workshop start */}
+                <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
+                  Workshop
+                </div>
+                <div className="flex-wrap w-auto">
+                  {workshopResults !== null && workshopResults.length > 0 ? (
+                    <div className="my-3 bg-white p-2">
+                      <div className="flex flex-wrap w-auto">
+                        {workshopResults.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex relative w-1/3 m-5"
+                              onClick={() => toggleWorkshopSelect(index)}
+                            >
+                              <div className="flex flex-col justify-center items-center p-2  text-center rounded-2xl shadow-lg m-4 w-full border-2">
+                                <div className="flex text-black text-2xl font-semibold px-4 py-2">
+                                  {item.title}
+                                </div>
+                                <div className="flex items-center">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item.callDuration} {item.callDurationIn}
+                                  </span>
+                                </div>
+                                <div className="flex items-center  py-1 px-2 ">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/price.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold py-3">
+                                    ₹{item.finalPrice}
+                                  </span>
+                                </div>
+                              </div>
+                              {item.selected && (
+                                <div
+                                  className={`absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`}
+                                ></div>
+                              )}
+                            </div>
+                          )
+                        })}
+                      </div>
+
+                      {/* outer */}
+                    </div>
+                  ) : (
+                    <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                      No workshop found
+                    </div>
+                  )}
+                </div>
+                {/*Workshop  end */}
+              </div>
+
+              <div className="bg-white w-auto">
+                {/* courses start */}
+                <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
+                  Courses
+                </div>
+                <div className="flex-wrap w-auto">
+                  {coursesResults !== null && coursesResults.length > 0 ? (
+                    <div className="my-3 bg-white p-2">
+                      <div className="flex flex-wrap w-auto">
+                        {coursesResults.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex relative w-1/3 m-5"
+                              onClick={() => toggleCoursesSelect(index)}
+                            >
+                              <div className="flex flex-col justify-center items-center p-2  text-center rounded-2xl shadow-lg m-4 w-full border-2">
+                                <div className="flex text-black text-2xl font-semibold px-4 py-2">
+                                  {item.courseTitle}
+                                </div>
+                                <div className="flex items-center">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item.sessionDuration}{' '}
+                                    {item.sessionDurationIn}
+                                  </span>
+                                </div>
+                                <div className="flex items-center  py-1 px-2 ">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/price.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold py-3">
+                                    ₹{item.finalPrice}
+                                  </span>
+                                </div>
+                              </div>
+                              {item.selected && (
+                                <div
+                                  className={`absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`}
+                                ></div>
+                              )}
+                            </div>
+                          )
+                        })}
+                      </div>
+                      {/* outer */}
+                    </div>
+                  ) : (
+                    <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                      No courses found
+                    </div>
+                  )}
+                </div>
+                {/*Courses  end */}
+              </div>
+
+              <div className="bg-white w-auto">
+                {/* Text query start */}
+                <div className="flex justify-start bg-amber-400 p-4 w-full rounded-lg text-xl font-bold">
+                  Text Query
+                </div>
+                <div className="flex-wrap w-auto">
+                  {textQueryResults !== null && textQueryResults.length > 0 ? (
+                    <div className="my-3 bg-white p-2">
+                      <div className="flex flex-wrap w-auto">
+                        {textQueryResults.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex relative w-1/3 m-5"
+                              onClick={() => toggleTextQuerySelect(index)}
+                            >
+                              <div className="flex flex-col justify-center items-center p-2  text-center rounded-2xl shadow-lg m-4 w-full border-2">
+                                <div className="flex text-black text-2xl font-semibold px-4 py-2">
+                                  {item.title}
+                                </div>
+                                <div className="flex items-center">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item.responseTime} {item.responseTimeIn}
+                                  </span>
+                                </div>
+                                <div className="flex items-center  py-1 px-2 ">
+                                  <img
+                                    src="/assets/icon/mentor-dashboard/price.svg"
+                                    className="h-5 mr-2"
+                                  />
+                                  <span className="text-sm font-semibold py-3">
+                                    ₹{item.finalPrice}
+                                  </span>
+                                </div>
+                              </div>
+                              {item.selected && (
+                                <div
+                                  className={`absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`}
+                                ></div>
+                              )}
+                            </div>
+                          )
+                        })}
+                      </div>
+                      {/* outer */}
+                    </div>
+                  ) : (
+                    <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                      No text query found
+                    </div>
+                  )}
+                </div>
+                {/*Text query  end */}
+              </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
               <AutoSubmitToken
                 setValues={setValues}
                 hideService={hideService}
                 limitParticipants={limitParticipants}
-                packageImage={imageUrl}
-                uploadFile={fileUrl}
+                packageImage={image}
+                uploadFileUrl={fileUrl}
+                packageServices={packageServices}
               />
             </form>
           )

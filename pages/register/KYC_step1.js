@@ -291,7 +291,7 @@ const KYC_step1 = () => {
                     })
 
                     return (
-                      <div className="relative mt-5">
+                      <div key={index} className="relative mt-5">
                         <div
                           key={index.toString()}
                           style={{

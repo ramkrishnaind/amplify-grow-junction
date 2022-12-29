@@ -14,6 +14,7 @@ import { listTextQueries } from '/src/graphql/queries'
 import { listWorkshops } from '/src/graphql/queries'
 import { listCourses } from '/src/graphql/queries'
 import { listPackages } from '/src/graphql/queries'
+import { getLoggedinUserEmail } from '../../../../utilities/user'
 
 const Home = () => {
   // return <div>Hi</div>
@@ -43,9 +44,10 @@ const Home = () => {
       setLoading(true)
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listOneOnOnes, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listOneOnOnes.items.length > 0) {
@@ -63,16 +65,17 @@ const Home = () => {
       setLoading(true)
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listWorkshops, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listWorkshops.items.length > 0) {
         setServices({ ...services, workshop: results.data.listWorkshops.items })
       }
     } catch (error) {
-      // toast.error(`Load Error:${error.errors[0].message}`)
+      toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
@@ -83,16 +86,17 @@ const Home = () => {
       setLoading(true)
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listCourses, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listCourses.items.length > 0) {
         setServices({ ...services, courses: results.data.listCourses.items })
       }
     } catch (error) {
-      // toast.error(`Load Error:${error.errors[0].message}`)
+      toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
@@ -102,9 +106,10 @@ const Home = () => {
       setLoading(true)
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listTextQueries, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listTextQueries.items.length > 0) {
@@ -125,16 +130,17 @@ const Home = () => {
       setLoading(true)
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listPackages, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrname } },
         }),
       )
       if (results.data.listPackages.items.length > 0) {
         setServices({ ...services, packages: results.data.listPackages.items })
       }
     } catch (error) {
-      // toast.error(`Load Error:${error.errors[0].message}`)
+      toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
