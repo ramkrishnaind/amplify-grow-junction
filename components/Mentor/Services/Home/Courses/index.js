@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
-import { API, Auth, graphqlOperation } from 'aws-amplify'
+import { API, Auth, graphqlOperation, Storage } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
+import { v4 as uuid } from 'uuid'
 //import services from '../../../../../pages/services'
 import classes from './Courses.module.css'
 import { toast } from 'react-toastify'
@@ -10,6 +11,7 @@ import { updateCourses } from '../../../../../src/graphql/mutations'
 import { deleteCourses } from '../../../../../src/graphql/mutations'
 import Pill from '../../Add/Header/Pill'
 import AddCourses from '../../Add/Content/Courses'
+import { getLoggedinUserEmail } from '../../../../../utilities/user'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
@@ -36,7 +38,9 @@ const Courses = ({ services }) => {
   const [courses, setCourses] = useState({})
   const [id, setId] = useState()
   const [state, setState] = useState({})
-
+  useEffect(() => {
+    setResults(services)
+  }, [services])
   const setValues = (values) => {
     setCourses(values)
     console.log('values - ', values)
@@ -59,10 +63,11 @@ const Courses = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const coursesResult = await API.graphql({
         query: getCourses,
         variables: { id },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       if (coursesResult.data.getCourses.id !== null) {
         setState({ ...state, courses: coursesResult.data.getCourses })
@@ -80,11 +85,30 @@ const Courses = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
+      debugger
+      if (courses.file) {
+        const name = courses.file.name.substr(
+          0,
+          courses.file.name.lastIndexOf('.'),
+        )
+        const ext = courses.file.name.substr(
+          courses.file.name.lastIndexOf('.') + 1,
+        )
+        const filename = `${name}_${uuid()}.${ext}`
+        courses.courseImage = filename
+
+        console.log(filename)
+        await Storage.put(filename, courses.file, {
+          contentType: `image/${ext}`, // contentType is optional
+        })
+        delete courses.file
+      }
       const { createdAt, updatedAt, owner, ...rest } = courses
+      rest.username = usrname
       await API.graphql({
         query: updateCourses,
         variables: { input: { ...rest } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Courses update successfully')
       setTimeout(() => {
@@ -100,10 +124,11 @@ const Courses = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       await API.graphql({
         query: deleteCourses,
         variables: { input: { id } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       toast.success('Courses deleted successfully')
       window.location.href = window.location.href
@@ -153,7 +178,7 @@ const Courses = ({ services }) => {
                           className="w-3 h-3 mt-2"
                         ></img>
                         <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                          1 on 1 mock interview
+                          Courses
                         </span>
                       </div>
 
@@ -269,7 +294,7 @@ const Courses = ({ services }) => {
       {showReschedule && (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/3 lg:w-1/3">
+            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/2 lg:w-1/2  fixed  h-full overflow-x-hidden overflow-y-auto">
               <div className="flex justify-between px-8 py-4 border-b border-gray-300">
                 <div className="text-sm font-semibold mt-4">Courses</div>
                 <div>
@@ -287,7 +312,7 @@ const Courses = ({ services }) => {
                 </div>
               </div>
               <AddCourses courses={state.courses} setValues={setValues} />
-              <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
+              <div className="py-4 px-6 border-t border-gray-300 text-gray-600 mb-5">
                 <div className="flex justify-between item-center w-auto">
                   <button
                     className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"

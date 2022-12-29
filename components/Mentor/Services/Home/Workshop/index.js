@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import Link from 'next/link'
-import { API, Auth, graphqlOperation } from 'aws-amplify'
+import { API, Auth, graphqlOperation, Storage } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
 //import services from '../../../../../pages/services'
 import classes from './Workshop.module.css'
@@ -10,6 +10,8 @@ import { updateWorkshop } from '../../../../../src/graphql/mutations'
 import { getWorkshop } from '../../../../../src/graphql/queries'
 import Pill from '../../Add/Header/Pill'
 import AddWorkshop from '../../Add/Content/Workshop'
+import { getLoggedinUserEmail } from '../../../../../utilities/user'
+import { v4 as uuid } from 'uuid'
 
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
@@ -29,22 +31,21 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   return null
 }
 
-
-
 const Workshop = ({ services }) => {
   const searchRef = useRef()
   const [results, setResults] = useState(services)
   const [showReschedule, setShowReschedule] = useState(false)
-   const [workshop, setWorkshop]= useState({})
-  const [id, setId]= useState()
+  const [workshop, setWorkshop] = useState({})
+  const [id, setId] = useState()
   const [state, setState] = useState({})
 
   const setValues = (values) => {
     setWorkshop(values)
-    console.log("values - ",values)
+    console.log('values - ', values)
+    console.log('workshop value - ', values)
   }
 
-  console.log("workshop - ", workshop)
+  console.log('workshop - ', workshop)
 
   const searchClick = () => {
     const filtered = services.filter((i) =>
@@ -61,10 +62,11 @@ const Workshop = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrname = getLoggedinUserEmail()
       const workshopResult = await API.graphql({
         query: getWorkshop,
         variables: { id },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       if (workshopResult.data.getWorkshop.id !== null) {
         setState({ ...state, workshop: workshopResult.data.getWorkshop })
@@ -80,19 +82,38 @@ const Workshop = ({ services }) => {
   const editPost = async (id) => {
     debugger
     console.log('id', id)
+
     try {
       const usr = await Auth.currentAuthenticatedUser()
-      const {createdAt, updatedAt, owner, ...rest}= workshop
+      const usrname = getLoggedinUserEmail()
+
+      //console.log('filename -', filename)
+      if (workshop.file) {
+        const name = workshop.file.name.substr(
+          0,
+          workshop.file.name.lastIndexOf('.'),
+        )
+        const ext = workshop.file.name.substr(
+          workshop.file.name.lastIndexOf('.') + 1,
+        )
+        const filename = `${name}_${uuid()}.${ext}`
+        workshop.workshopImage = filename
+        console.log(filename)
+        await Storage.put(filename, workshop.file, {
+          contentType: `image/${ext}`, // contentType is optional
+        })
+        delete workshop.file
+      }
+      const { createdAt, updatedAt, owner, file, ...rest } = workshop
+      rest.username = usrname
       await API.graphql({
         query: updateWorkshop,
         variables: { input: { ...rest } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
       })
       toast.success('Workshop update successfully')
       setTimeout(() => {
         window.location.href = window.location.href
-      }, 2000);
-      
+      }, 2000)
     } catch (error) {
       toast.error(`Update Error:${error.errors[0].message}`)
     }
@@ -102,11 +123,12 @@ const Workshop = ({ services }) => {
     console.log('id', id)
     try {
       const usr = await Auth.currentAuthenticatedUser()
+      const usrname = getLoggedinUserEmail()
       console.log('usr', usr)
       await API.graphql({
         query: deleteWorkshop,
         variables: { input: { id } },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
+        username: usrname,
       })
       toast.success('Workshop deleted successfully')
       window.location.href = window.location.href
@@ -271,8 +293,8 @@ const Workshop = ({ services }) => {
 
       {showReschedule && (
         <>
-          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/3 lg:w-1/3">
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50  w-full h-full overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/2 lg:w-1/2 fixed  h-full overflow-x-hidden overflow-y-auto">
               <div className="flex justify-between px-8 py-4 border-b border-gray-300">
                 <div className="text-sm font-semibold mt-4">Workshop</div>
                 <div>
@@ -289,28 +311,30 @@ const Workshop = ({ services }) => {
                   </button>
                 </div>
               </div>
-              <AddWorkshop workshop={state.workshop} setValues={setValues} />
-              <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
-              <div className="flex justify-between item-center w-auto">
-                <button
-                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
-                  type="button"
-                  onClick={() => setShowReschedule(false)}
-                >
-                  <span className="text-sm font-semibold py-2">Cancel</span>
-                </button>
+              <AddWorkshop
+                workshop={state.workshop}
+                setWorkshopValues={setValues}
+              />
+              <div className="py-4 px-6 border-t border-gray-300 text-gray-600 mb-5">
+                <div className="flex justify-between item-center w-auto">
+                  <button
+                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
+                    type="button"
+                    onClick={() => setShowReschedule(false)}
+                  >
+                    <span className="text-sm font-semibold py-2">Cancel</span>
+                  </button>
 
-                <button
-                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
-                  type="button"
-                  onClick={() => editPost(id)}
-                >
-                  <span className="text-sm font-semibold py-2">Save</span>
-                </button>
+                  <button
+                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
+                    type="button"
+                    onClick={() => editPost(id)}
+                  >
+                    <span className="text-sm font-semibold py-2">Save</span>
+                  </button>
+                </div>
               </div>
             </div>
-            </div>
-
           </div>
         </>
       )}

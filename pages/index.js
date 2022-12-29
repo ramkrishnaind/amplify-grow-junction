@@ -14,9 +14,11 @@ import useWindowDimensions from '../public/utils/useWindowDimensions'
 import ACTION_KEYS from '../constants/action-keys'
 import { SetUser } from '../redux/actions/AuthAction'
 import { getLoggedinUserEmail } from '../utilities/user'
+import { createUserInfo, updateUserInfo } from '../src/graphql/mutations'
 import { listUserInfos } from '../src/graphql/queries'
 const Home = () => {
   const router = useRouter()
+  const email = getLoggedinUserEmail()
   // debugger
   const registerType = useSelector((state) => state.AuthReducer)
   const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =

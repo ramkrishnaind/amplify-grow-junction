@@ -13,6 +13,7 @@ import {
 } from '../../../src/graphql/mutations'
 
 import { listMentorRegisters } from '../../../src/graphql/queries'
+import { getLoggedinUserEmail } from '../../../utilities/user'
 const initialState = {
   about_yourself: {
     grow_junction_url: '',
@@ -63,12 +64,14 @@ const Profile = () => {
   const [loading, setLoading] = useState(false)
   const [percentage, setPercentage] = useState(40)
   const getUser = async () => {
+    debugger
     const usr = await Auth.currentAuthenticatedUser()
     if (usr) setUser(usr)
     debugger
+    const usrName = getLoggedinUserEmail()
     const results = await API.graphql(
       graphqlOperation(listMentorRegisters, {
-        filter: { username: { contains: usr.username } },
+        filter: { username: { contains: usrName } },
       }),
     )
     if (results.data.listMentorRegisters.items.length > 0) {
@@ -148,8 +151,8 @@ const Profile = () => {
     if (isNew) {
       try {
         remaining.id = uuid()
-        remaining.mentor_id = uuid()
-        
+        //remaining.mentor_id = uuid()
+        remaining.username = getLoggedinUserEmail()
         await API.graphql({
           query: createMentorRegister,
           variables: { input: { ...state, ...remaining } },
@@ -177,6 +180,7 @@ const Profile = () => {
       //   ...state,
       //   ...remaining,
       // }
+      rest.username = getLoggedinUserEmail()
       try {
         await API.graphql({
           query: updateMentorRegister,
@@ -184,7 +188,6 @@ const Profile = () => {
             input: { ...rest },
             // condition: { username: { contains: state.username } },
           },
-          authMode: 'AMAZON_COGNITO_USER_POOLS',
         })
         toast.success('Profile updated successfully')
       } catch (error) {

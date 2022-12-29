@@ -6,20 +6,20 @@ import classes from './ProfileInfo.module.css'
 import ProgressBar from '../../Utilities/ProgressBar'
 import Preview from './Preview'
 import { Storage } from 'aws-amplify'
-const AutoSubmitToken = () => {
-  // Grab values and submitForm from context
-  const { values, submitForm } = useFormikContext()
+// const AutoSubmitToken = ({setProfile}) => {
+//   // Grab values and submitForm from context
+//   const { values, submitForm } = useFormikContext()
 
-  React.useEffect(() => {
-    console.log('context_values', values)
-    // setProfile(values)
-    // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
-    // if (values.token.length === 6) {
-    //   submitForm();
-    // }
-  }, [values, submitForm])
-  return null
-}
+//   React.useEffect(() => {
+//     console.log('context_values', values)
+//     setProfile(values)
+//     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
+//     // if (values.token.length === 6) {
+//     //   submitForm();
+//     // }
+//   }, [values, submitForm])
+//   return null
+// }
 const ProfileInfo = ({
   about_yourself,
   social,
@@ -100,6 +100,7 @@ const ProfileInfo = ({
             setSubmitting(false)
           }, 400)
           values.time_zone = timeZone?.value || ''
+          delete values.profile_image_url
           values.profile_image_file = image
           setProfileState(values)
         }}
@@ -133,7 +134,7 @@ const ProfileInfo = ({
                             <img
                               src={URL.createObjectURL(image)}
                               alt=""
-                              className={`${classes['img-profile']} rounded-full`}
+                              className={`${classes['img-profile']} object-cover rounded-full`}
                             />
                           ) : convertedImage ? (
                             <img
@@ -477,7 +478,7 @@ const ProfileInfo = ({
                   </div>
                 </div>
               </div>
-              <AutoSubmitToken />
+              {/* <AutoSubmitToken /> */}
             </form>
           )
         }}

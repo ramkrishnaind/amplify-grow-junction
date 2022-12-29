@@ -10,6 +10,7 @@ import { listConfigurations } from '../../../src/graphql/queries'
 import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
 import { toast } from 'react-toastify'
+import { getLoggedinUserEmail } from '../../../utilities/user'
 
 const Configurations = () => {
   const [timezone, setTimezone] = useState(
@@ -54,9 +55,10 @@ const Configurations = () => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
+      const usrName = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listConfigurations, {
-          filter: { username: { contains: usr.username } },
+          filter: { username: { contains: usrName } },
         }),
       )
       if (results.data.listConfigurations.items.length > 0) {
@@ -80,6 +82,7 @@ const Configurations = () => {
         onSubmit={async (values, e) => {
           debugger
           values.timezone = timezone
+          values.username = getLoggedinUserEmail()
           try {
             if (!values?.id) {
               try {
@@ -88,7 +91,6 @@ const Configurations = () => {
                 await API.graphql({
                   query: createConfigurations,
                   variables: { input: { ...values } },
-                  authMode: 'AMAZON_COGNITO_USER_POOLS',
                 })
                 toast.success('Configuration added successfully')
                 // window.location.href = window.location.href
@@ -99,6 +101,7 @@ const Configurations = () => {
               const { createdAt, updatedAt, domain_id, owner, ...rest } = {
                 ...values,
               }
+              rest.username = getLoggedinUserEmail()
               try {
                 await API.graphql({
                   query: updateConfigurations,
@@ -106,7 +109,6 @@ const Configurations = () => {
                     input: { ...rest },
                     // condition: { username: { contains: state.username } },
                   },
-                  authMode: 'AMAZON_COGNITO_USER_POOLS',
                 })
                 toast.success('Configuration updated successfully')
               } catch (error) {

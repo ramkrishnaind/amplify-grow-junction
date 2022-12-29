@@ -13,7 +13,7 @@ const Content = ({ currentService, setValues, state }) => {
     return <TextQuery setValues={setValues} state={state.textQuery} />
   }
   if (currentService === 'Workshop') {
-    return <Workshop setValues={setValues} state={state.workshop} />
+    return <Workshop setWorkshopValues={setValues} state={state.workshop} />
   }
   if (currentService === 'Courses') {
     return <Courses setValues={setValues} state={state.courses} />
