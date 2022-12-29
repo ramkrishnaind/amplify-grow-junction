@@ -4,39 +4,6 @@ import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import TextField from '../../../pages/ui-kit/TextField'
 //import MultipleDatePicker from 'react-multiple-datepicker'
 import DatePicker from 'react-multi-date-picker'
-<<<<<<< HEAD
-import Icon from 'react-multi-date-picker/components/icon'
-import { date } from 'yup'
-import {
-  createSchedule,
-  updateSchedule,
-  deleteSchedule,
-} from '../../../src/graphql/mutations'
-import { listSchedules } from '../../../src/graphql/queries'
-import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
-import { v4 as uuid } from 'uuid'
-import { toast } from 'react-toastify'
-<<<<<<< HEAD
-// const AutoSubmitToken = ({ setValues }) => {
-//   // Grab values and submitForm from context
-//   const { values, submitForm } = useFormikContext()
-
-//   React.useEffect(() => {
-//     debugger
-//     console.log('context_values', values)
-//     // values.questions = questions
-//     setValues(values)
-//     // setProfile(values)
-//     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
-//     // if (values.token.length === 6) {
-//     //   submitForm();
-//     // }
-//   }, [values, submitForm])
-//   return null
-// }
-const Schedule = () => {
-=======
-=======
 
 import Icon from 'react-multi-date-picker/components/icon'
 import { date } from 'yup'
@@ -49,7 +16,6 @@ import { listSchedules } from '../../../src/graphql/queries'
 import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
 import { toast } from 'react-toastify'
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
 import { useSelector } from 'react-redux'
 import { getLoggedinUserEmail } from '../../../utilities/user'
 const AutoSubmitToken = ({ setValues }) => {
@@ -75,10 +41,6 @@ const Schedule = ({
   setValuesParent = (v) => {},
 }) => {
   const authReducer = useSelector((state) => state.AuthReducer)
-<<<<<<< HEAD
->>>>>>> e353a882e33a845b2e68f53cddb5a8b616aed67e
-=======
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
   const [timeZone, setTimeZone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   )
@@ -96,17 +58,6 @@ const Schedule = ({
     obj[day] = { time: [{ startTime: '', endTime: '' }], [day]: false }
   })
   const getUser = async () => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    const usr = await Auth.currentAuthenticatedUser()
-    // if (usr) setUser(usr)
-    debugger
-    const results = await API.graphql(
-      graphqlOperation(listSchedules, {
-        filter: { username: { contains: usr.username } },
-=======
-=======
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
     // const usr = await Auth.currentAuthenticatedUser()
     // // if (usr) setUser(usr)
     // debugger
@@ -117,10 +68,6 @@ const Schedule = ({
             eq: getLoggedinUserEmail(),
           },
         },
-<<<<<<< HEAD
->>>>>>> e353a882e33a845b2e68f53cddb5a8b616aed67e
-=======
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
       }),
     )
     if (results.data.listSchedules.items.length > 0) {
@@ -190,15 +137,6 @@ const Schedule = ({
     setUnavailableDate([])
     setUnavailableDates([])
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-  // const setValues = (values) => {
-  //   console.log('values', values)
-  //   setState(values)
-  // }
-=======
-=======
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
   const setValues = (values) => {
     values.unavailableDates = unavailableDate
     console.log('values', values)
@@ -206,10 +144,6 @@ const Schedule = ({
     console.log('setValuesParent', setValuesParent)
     setValuesParent(values)
   }
-<<<<<<< HEAD
->>>>>>> e353a882e33a845b2e68f53cddb5a8b616aed67e
-=======
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
   // console.log('initialState', initialState)
   // const dateRef = useRef()
   const [state, setState] = useState(initialState)
@@ -239,15 +173,7 @@ const Schedule = ({
   console.log('unavailableDates', unavailableDates)
   useEffect(() => {
     getUser()
-<<<<<<< HEAD
-<<<<<<< HEAD
-  }, [])
-=======
   }, [reload])
->>>>>>> e353a882e33a845b2e68f53cddb5a8b616aed67e
-=======
-  }, [reload])
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
   // console.log(
   //   'unavailableDate',
   //   unavailableDate.map((d) => {
@@ -299,92 +225,7 @@ const Schedule = ({
     debugger
     setStartTime(e.target.value)
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const handleEndTimeChange = (e) => {
-    debugger
-    setEndTime(e.target.value)
 
-    setWeekDay(e.target.id)
-    const day = e.target.id
-    const endTime = e.target.value
-    console.log('endTime = ', endTime)
-
-    if (startTime !== '' && endTime !== '' && day !== '') {
-      const found = daySchedules.find(
-        (item) =>
-          item.startTime === startTime &&
-          item.endTime === e.target.value &&
-          item.day === day,
-      )
-      if (!found) {
-        daySchedules.push({
-          id: uuid(),
-          day: day,
-          startTime: startTime.toString(),
-          endTime: endTime.toString(),
-        })
-      }
-    }
-    setAvailableSameTime(true)
-    setStartTime('')
-    // setEndTime('')
-    setWeekDay('')
-  }
-  const addDaySchedule = () => {
-    debugger
-    if (startTime !== '' && endTime !== '' && weekDay !== '') {
-      const found = daySchedules.find(
-        (item) =>
-          item.startTime === startTime &&
-          item.endTime === endTime &&
-          item.day === 'Everyday',
-      )
-      if (!found) {
-        daySchedules.push({
-          id: uuid(),
-          day: 'Everyday',
-          startTime: startTime.toString(),
-          endTime: endTime.toString(),
-        })
-      }
-    }
-    setAvailableSameTime(true)
-    setStartTime('')
-    setEndTime('')
-    setWeekDay('')
-    setIsAddRow(true)
-  }
-
-  const addWeekDaySchedule = () => {
-    debugger
-    if (startTime !== '' && endTime !== '' && weekDay !== '') {
-      const found = daySchedules.find(
-        (item) =>
-          item.startTime === startTime &&
-          item.endTime === endTime &&
-          item.day === weekDay,
-      )
-      if (!found) {
-        daySchedules.push({
-          id: uuid(),
-          day: weekDay,
-          startTime: startTime.toString(),
-          endTime: endTime.toString(),
-        })
-      }
-    }
-    setAvailableSameTime(true)
-    setStartTime('')
-    setEndTime('')
-    setWeekDay('')
-  }
-=======
-
->>>>>>> e353a882e33a845b2e68f53cddb5a8b616aed67e
-=======
-
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
   const handleDate = (date) => {
     debugger
     // console.log('AA', dateRef.current.value)
@@ -417,40 +258,6 @@ const Schedule = ({
     //console.log("dates - ", values)
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const handleDayChange = (e) => {
-    debugger
-    setSelectedDay(e.target.value)
-  }
-
-  const addSchedule = () => {
-    debugger
-    if (startTime !== '' && endTime !== '' && selectedDay !== '') {
-      const found = daySchedules.find(
-        (item) =>
-          item.startTime === startTime &&
-          item.endTime === endTime &&
-          item.day === selectedDay,
-      )
-      if (!found) {
-        daySchedules.push({
-          id: uuid(),
-          day: selectedDay,
-          startTime: startTime.toString(),
-          endTime: endTime.toString(),
-        })
-      }
-    }
-    setAvailableSameTime(true)
-    // setStartTime('')
-    // setEndTime('')
-    // setDay('')
-  }
-=======
->>>>>>> e353a882e33a845b2e68f53cddb5a8b616aed67e
-=======
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
   const handleRemoveDate = (dt) => {
     debugger
     const newUnavailableDate = unavailableDate.filter((uDate) => uDate !== dt)
@@ -518,14 +325,7 @@ const Schedule = ({
         enableReinitialize={true}
         onSubmit={async (values, e) => {
           values.unavailableDates = unavailableDate
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
           values.username = getLoggedinUserEmail()
->>>>>>> e353a882e33a845b2e68f53cddb5a8b616aed67e
-=======
-          values.username = getLoggedinUserEmail()
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
           //addDaySchedule
           // values.username = usrName
           // values.availableSameTime = availableSameTime
@@ -539,15 +339,7 @@ const Schedule = ({
                 await API.graphql({
                   query: createSchedule,
                   variables: { input: { ...values } },
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  authMode: 'AMAZON_COGNITO_USER_POOLS',
-=======
                   // authMode: 'AMAZON_COGNITO_USER_POOLS',
->>>>>>> e353a882e33a845b2e68f53cddb5a8b616aed67e
-=======
-                  // authMode: 'AMAZON_COGNITO_USER_POOLS',
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
                 })
                 toast.success('Schedule added successfully')
                 // window.location.href = window.location.href
@@ -565,15 +357,7 @@ const Schedule = ({
                     input: { ...values },
                     // condition: { username: { contains: state.username } },
                   },
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  authMode: 'AMAZON_COGNITO_USER_POOLS',
-=======
                   // authMode: 'AMAZON_COGNITO_USER_POOLS',
->>>>>>> e353a882e33a845b2e68f53cddb5a8b616aed67e
-=======
-                  // authMode: 'AMAZON_COGNITO_USER_POOLS',
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
                 })
                 toast.success('Schedule updated successfully')
                 setDay('')
@@ -611,32 +395,11 @@ const Schedule = ({
                   <div className="flex justify-center items-center text-2xl font-semibold text-gray-900 py-6">
                     Availability details
                   </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  <div className="flex flex-row">
-                    <div
-                      className="flex justify-center items-center text-black text-base font-semibold cursor-pointer hover:bg-white px-5 py-1 hover:border-2 hover:border-black"
-                      onClick={resetState}
-                    >
-                      Reset all
-                    </div>
-                    <div>
-                      <button
-                        type="submit"
-                        onClick={handleSubmit}
-                        className="mt-2 text-base bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-bold py-4 px-6 ml-10 border rounded"
-=======
-=======
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
                   {!insideStep && (
                     <div className="flex flex-row">
                       <div
                         className="flex justify-center items-center text-black text-base font-semibold cursor-pointer hover:bg-white px-5 py-1 hover:border-2 hover:border-black"
                         onClick={resetState}
-<<<<<<< HEAD
->>>>>>> e353a882e33a845b2e68f53cddb5a8b616aed67e
-=======
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
                       >
                         Reset all
                       </div>
@@ -688,15 +451,7 @@ const Schedule = ({
                   {availableSameTime ? (
                     <div
                       id="everydayId"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                      className=" flex flex-col md:flex-row  lg:flex-row w-full"
-=======
                       className=" flex flex-col md:flex-row  lg:flex-row w-full px-10"
->>>>>>> e353a882e33a845b2e68f53cddb5a8b616aed67e
-=======
-                      className=" flex flex-col md:flex-row  lg:flex-row w-full px-10"
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
                     >
                       <div className="basis-1/4">
                         <div className="flex justify-start ml-5 md:ml-10 lg:ml-10 mt-10">
@@ -728,11 +483,7 @@ const Schedule = ({
                             //   values.daySchedules.everyday,
                             // )
                             return (
-<<<<<<< HEAD
-                              <div className="flex flex-row">
-=======
                               <div key={index} className="flex flex-row">
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
                                 <div className="w-1/3 mx-1">
                                   <span className="text-sm text-gray-900 font-normal">
                                     Start Time
@@ -813,10 +564,7 @@ const Schedule = ({
                   ) : (
                     <div>
                       {days.map((day) => (
-<<<<<<< HEAD
-=======
                         // eslint-disable-next-line react/jsx-key
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
                         <div
                           id="sundayId"
                           className=" flex flex-col md:flex-row  lg:flex-row w-full"
@@ -844,10 +592,7 @@ const Schedule = ({
                           >
                             {values.daySchedules[day].time.map(
                               (time, index) => (
-<<<<<<< HEAD
-=======
                                 // eslint-disable-next-line react/jsx-key
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
                                 <div className="flex flex-row">
                                   <div className="w-1/3 mx-1">
                                     <span className="text-sm text-gray-900 font-normal">
@@ -1030,15 +775,7 @@ const Schedule = ({
                     </div>
                   </div> 
                  */}
-<<<<<<< HEAD
-<<<<<<< HEAD
-              {/* <AutoSubmitToken setValues={setValues} /> */}
-=======
               <AutoSubmitToken setValues={setValues} />
->>>>>>> e353a882e33a845b2e68f53cddb5a8b616aed67e
-=======
-              <AutoSubmitToken setValues={setValues} />
->>>>>>> c9b275ff551cc5e20920355416800ccdd06100a5
             </form>
           )
         }}
