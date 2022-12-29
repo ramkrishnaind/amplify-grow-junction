@@ -297,7 +297,7 @@ const TextQuery = ({ services }) => {
                 </div>
               </div>
               <AddTextQuery textQuery={state.textQuery} setValues={setValues} />
-              <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
+              <div className="py-4 px-6 border-t border-gray-300 text-gray-600 mb-5">
                 <div className="flex justify-between item-center w-auto">
                   <button
                     className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
