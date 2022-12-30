@@ -4,6 +4,7 @@ import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import TextField from '../../../pages/ui-kit/TextField'
 //import MultipleDatePicker from 'react-multiple-datepicker'
 import DatePicker from 'react-multi-date-picker'
+
 import Icon from 'react-multi-date-picker/components/icon'
 import { date } from 'yup'
 import {
@@ -592,8 +593,7 @@ const Schedule = ({
                             {values.daySchedules[day].time.map(
                               (time, index) => (
                                 // eslint-disable-next-line react/jsx-key
-                                <div 
-                                className="flex flex-row">
+                                <div className="flex flex-row">
                                   <div className="w-1/3 mx-1">
                                     <span className="text-sm text-gray-900 font-normal">
                                       Start Time

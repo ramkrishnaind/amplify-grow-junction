@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
-import { API, Auth, graphqlOperation } from 'aws-amplify'
+import { API, Auth, graphqlOperation, Storage } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
 //import services from '../../../../../pages/services'
 import classes from './Packages.module.css'
@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import { deletePackages } from '../../../../../src/graphql/mutations'
 import { updatePackages } from '../../../../../src/graphql/mutations'
 import { getPackages } from '../../../../../src/graphql/queries'
+import { v4 as uuid } from 'uuid'
 import Pill from '../../Add/Header/Pill'
 import AddPackages from '../../Add/Content/Packages'
 import { getLoggedinUserEmail } from '../../../../../utilities/user'
@@ -30,22 +31,22 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   return null
 }
 
-
-
 const Packages = ({ services }) => {
   const searchRef = useRef()
   const [results, setResults] = useState(services)
   const [showReschedule, setShowReschedule] = useState(false)
-   const [packages, setPackages]= useState({})
-  const [id, setId]= useState()
+  const [packages, setPackages] = useState({})
+  const [id, setId] = useState()
   const [state, setState] = useState({})
-
+  useEffect(() => {
+    setResults(services)
+  }, [services])
   const setValues = (values) => {
     setPackages(values)
-    console.log("values - ",values)
+    console.log('values - ', values)
   }
-
-  console.log("packages - ", packages)
+  debugger
+  console.log('packages - ', packages)
 
   const searchClick = () => {
     const filtered = services.filter((i) =>
@@ -85,7 +86,23 @@ const Packages = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       const usrname = getLoggedinUserEmail()
-      const {createdAt, updatedAt, owner, ...rest}= packages
+      if (packages.file) {
+        const name = packages.file.name.substr(
+          0,
+          packages.file.name.lastIndexOf('.'),
+        )
+        const ext = packages.file.name.substr(
+          packages.file.name.lastIndexOf('.') + 1,
+        )
+        const filename = `${name}_${uuid()}.${ext}`
+        packages.packageImage = filename
+        console.log(filename)
+        await Storage.put(filename, packages.file, {
+          contentType: `image/${ext}`, // contentType is optional
+        })
+        delete packages.file
+      }
+      const { createdAt, updatedAt, file, owner, ...rest } = packages
       rest.username = usrname
       await API.graphql({
         query: updatePackages,
@@ -94,8 +111,7 @@ const Packages = ({ services }) => {
       toast.success('Packages update successfully')
       setTimeout(() => {
         window.location.href = window.location.href
-      }, 2000);
-      
+      }, 2000)
     } catch (error) {
       toast.error(`Update Error:${error.errors[0].message}`)
     }
@@ -274,27 +290,26 @@ const Packages = ({ services }) => {
                 </div>
               </div>
               <AddPackages packages={state.packages} setValues={setValues} />
-              <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
-              <div className="flex justify-between item-center w-auto">
-                <button
-                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
-                  type="button"
-                  onClick={() => setShowReschedule(false)}
-                >
-                  <span className="text-sm font-semibold py-2">Cancel</span>
-                </button>
+              <div className="py-4 px-6 border-t border-gray-300 text-gray-600  mb-5">
+                <div className="flex justify-between item-center w-auto">
+                  <button
+                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
+                    type="button"
+                    onClick={() => setShowReschedule(false)}
+                  >
+                    <span className="text-sm font-semibold py-2">Cancel</span>
+                  </button>
 
-                <button
-                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
-                  type="button"
-                  onClick={() => editPost(id)}
-                >
-                  <span className="text-sm font-semibold py-2">Save</span>
-                </button>
+                  <button
+                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
+                    type="button"
+                    onClick={() => editPost(id)}
+                  >
+                    <span className="text-sm font-semibold py-2">Save</span>
+                  </button>
+                </div>
               </div>
             </div>
-            </div>
-
           </div>
         </>
       )}

@@ -16,20 +16,20 @@ const AutoSubmitToken = ({
   setValues,
   hideService,
   limitParticipants,
-  imageUrl,
-  fileUrl,
+  packageImage,
+  uploadFileUrl,
   packageServices,
 }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
-
+  debugger
   React.useEffect(() => {
     debugger
     console.log('context_values', values)
     values.limitParticipants = limitParticipants
     values.hideService = hideService
-    values.packageImage = imageUrl
-    values.uploadFile = fileUrl
+    if (packageImage) values.file = packageImage
+    values.uploadFile = uploadFileUrl
     // if (sessions.length > 0) packageServices.push(sessions)
     // if (textQueries.length > 0) packageServices.push(textQueries)
     // if (workshops.length > 0) packageServices.push(workshops)
@@ -41,7 +41,7 @@ const AutoSubmitToken = ({
     // if (values.token.length === 6) {
     //   submitForm();
     // }
-  }, [values, submitForm])
+  }, [values, packageImage, submitForm])
   return null
 }
 
@@ -110,7 +110,17 @@ const Packages = ({
     loadWorkshop()
     loadCourses()
   }, [])
-
+  useEffect(() => {
+    const getImage = async () => {
+      debugger
+      debugger
+      const img = await Storage.get(packages.packageImage)
+      setConvertedImage(img)
+    }
+    if (packages.packageImage) {
+      getImage()
+    }
+  }, [packages.packageImage])
   const [sessionResults, setSessionResults] = useState([])
   const [workshopResults, setWorkshopResults] = useState([])
   const [textQueryResults, setTextQueryResults] = useState([])
@@ -220,22 +230,7 @@ const Packages = ({
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
     }
-    console.log('image -', image)
-    if (e.target.files[0]) {
-      const name = e.target.files[0].name.substr(
-        0,
-        e.target.files[0].name.lastIndexOf('.'),
-      )
-      const ext = e.target.files[0].name.substr(
-        e.target.files[0].name.lastIndexOf('.') + 1,
-      )
-      const filename = `${name}_${uuid()}.${ext}`
-      setImageUrl(filename)
-      console.log(imageUrl)
-      await Storage.put(filename, e.target.files[0], {
-        contentType: `image/${ext}`, // contentType is optional
-      })
-    }
+    // setValues((prev) => ({ ...prev, file: e.target.files[0] }))
   }
 
   const handleFileUpload = async (e) => {
@@ -262,12 +257,14 @@ const Packages = ({
     }
   }
 
-  const sessionState1 =()=> {
-   return ({sessionResults: [
-      ...sessionResults.map((session) => {
-        return { ...session }
-      }),
-    ],})
+  const sessionState1 = () => {
+    return {
+      sessionResults: [
+        ...sessionResults.map((session) => {
+          return { ...session }
+        }),
+      ],
+    }
   }
 
   const toggleSessionSelect = (index) => {
@@ -319,7 +316,7 @@ const Packages = ({
   const coursesState1 = {
     coursesResults: [
       ...coursesResults.map((course) => {
-        return { ...course}
+        return { ...course }
       }),
     ],
   }
@@ -730,12 +727,11 @@ const Packages = ({
                                   </span>
                                 </div>
                               </div>
-                              {item.selected &&  <div 
-                                className={
-                                `absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`
-                                }
-                              ></div>}
-                             
+                              {item.selected && (
+                                <div
+                                  className={`absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`}
+                                ></div>
+                              )}
                             </div>
                           )
                         })}
@@ -778,8 +774,7 @@ const Packages = ({
                                     className="h-5 mr-2"
                                   />
                                   <span className="text-sm font-semibold">
-                                    {item.callDuration}{' '}
-                                    {item.callDurationIn}
+                                    {item.callDuration} {item.callDurationIn}
                                   </span>
                                 </div>
                                 <div className="flex items-center  py-1 px-2 ">
@@ -792,12 +787,11 @@ const Packages = ({
                                   </span>
                                 </div>
                               </div>
-                              {item.selected &&  <div 
-                                className={
-                                `absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`
-                                }
-                              ></div>}
-                             
+                              {item.selected && (
+                                <div
+                                  className={`absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`}
+                                ></div>
+                              )}
                             </div>
                           )
                         })}
@@ -822,7 +816,7 @@ const Packages = ({
                 <div className="flex-wrap w-auto">
                   {coursesResults !== null && coursesResults.length > 0 ? (
                     <div className="my-3 bg-white p-2">
-                          <div className="flex flex-wrap w-auto">
+                      <div className="flex flex-wrap w-auto">
                         {coursesResults.map((item, index) => {
                           return (
                             <div
@@ -854,12 +848,11 @@ const Packages = ({
                                   </span>
                                 </div>
                               </div>
-                              {item.selected &&  <div 
-                                className={
-                                `absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`
-                                }
-                              ></div>}
-                             
+                              {item.selected && (
+                                <div
+                                  className={`absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`}
+                                ></div>
+                              )}
                             </div>
                           )
                         })}
@@ -883,7 +876,7 @@ const Packages = ({
                 <div className="flex-wrap w-auto">
                   {textQueryResults !== null && textQueryResults.length > 0 ? (
                     <div className="my-3 bg-white p-2">
-                                            <div className="flex flex-wrap w-auto">
+                      <div className="flex flex-wrap w-auto">
                         {textQueryResults.map((item, index) => {
                           return (
                             <div
@@ -901,8 +894,7 @@ const Packages = ({
                                     className="h-5 mr-2"
                                   />
                                   <span className="text-sm font-semibold">
-                                    {item.responseTime}{' '}
-                                    {item.responseTimeIn}
+                                    {item.responseTime} {item.responseTimeIn}
                                   </span>
                                 </div>
                                 <div className="flex items-center  py-1 px-2 ">
@@ -915,12 +907,11 @@ const Packages = ({
                                   </span>
                                 </div>
                               </div>
-                              {item.selected &&  <div 
-                                className={
-                                `absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`
-                                }
-                              ></div>}
-                             
+                              {item.selected && (
+                                <div
+                                  className={`absolute w-full h-full  text-center rounded-2xl shadow-lg ${classes.backdrop} ${classes.itemContainer}`}
+                                ></div>
+                              )}
                             </div>
                           )
                         })}
@@ -940,8 +931,8 @@ const Packages = ({
                 setValues={setValues}
                 hideService={hideService}
                 limitParticipants={limitParticipants}
-                packageImage={imageUrl}
-                uploadFile={fileUrl}
+                packageImage={image}
+                uploadFileUrl={fileUrl}
                 packageServices={packageServices}
               />
             </form>

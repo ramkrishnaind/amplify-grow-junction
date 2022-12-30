@@ -12,6 +12,7 @@ const WithAuthenticatedKYCDone =
     const router = useRouter()
     useEffect(() => {
       const checkUserKyc = async () => {
+        debugger
         const username = getLoggedinUserEmail()
         if (!username) {
           router.replace('/auth/Login')

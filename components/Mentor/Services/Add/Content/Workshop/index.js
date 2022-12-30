@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid'
 import classes from './Workshop.module.css'
 import { Storage } from 'aws-amplify'
 
-const AutoSubmitToken = ({ setValues, questions }) => {
+const AutoSubmitToken = ({ setValues, questions, image }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
 
@@ -19,13 +19,14 @@ const AutoSubmitToken = ({ setValues, questions }) => {
     // values.workshopImage = image.name
     console.log('context_values', values)
     values.questions = questions
+    values.file = image
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
     // if (values.token.length === 6) {
     //   submitForm();
     // }
-  }, [values, submitForm])
+  }, [values,image, submitForm])
   return null
 }
 
@@ -97,7 +98,17 @@ const Workshop = ({
   const [questions, setQuestions] = useState([])
   const [imageName, setImageName] = useState('')
   const [imageKey, setImageKey] = useState(state.workshopImage)
-
+  useEffect(() => {
+    const getImage = async () => {
+      debugger
+      debugger
+      const img = await Storage.get(workshop.workshopImage)
+      setConvertedImage(img)
+    }
+    if (workshop.workshopImage) {
+      getImage()
+    }
+  }, [workshop.workshopImage])
 
   // useEffect(() => {
   //   debugger
@@ -118,9 +129,9 @@ const Workshop = ({
     }
     setImageName(e.target.files[0]?.name)
     console.log('image - ', image)
+    // setWorkshopValues((prev) => ({ ...prev, file: e.target.files[0] }))
   }
 
-  
   // useEffect(() => {
   //   debugger
   //   //const key = ['workshopImage']
@@ -130,20 +141,19 @@ const Workshop = ({
   //   }
   // }, [state])
 
-  useEffect(() => {
-    debugger
-    if (imageKey) {
-      console.log('imageKey - ', imageKey)
-      getImage()
-    }
-  }, [imageKey])
+  // useEffect(() => {
+  //   debugger
+  //   if (imageKey) {
+  //     console.log('imageKey - ', imageKey)
+  //     getImage()
+  //   }
+  // }, [imageKey])
 
-  const getImage = async () => {
-    const imgUrl = await Storage.get(imageKey)
-    setConvertedImage(imgUrl)
-  }
+  // const getImage = async () => {
+  //   const imgUrl = await Storage.get(imageKey)
+  //   setConvertedImage(imgUrl)
+  // }
 
-  
   //   console.log('image -', image)
   //   if (e.target.files[0]) {
   //     const name = e.target.files[0].name.substr(
@@ -586,7 +596,11 @@ const Workshop = ({
                 <div className="bg-white basis-2/5"></div>
               </div>
               <div className="w-full h-px bg-gray-300 border-0"></div>
-              <AutoSubmitToken setValues={setValues} questions={questions} />
+              <AutoSubmitToken
+                setValues={setValues}
+                questions={questions}
+                image={image}
+              />
             </form>
           )
         }}

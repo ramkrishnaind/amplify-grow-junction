@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
-import { API, Auth, graphqlOperation } from 'aws-amplify'
+import { API, Auth, graphqlOperation, Storage } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
+import { v4 as uuid } from 'uuid'
 //import services from '../../../../../pages/services'
 import classes from './Courses.module.css'
 import { toast } from 'react-toastify'
@@ -37,7 +38,9 @@ const Courses = ({ services }) => {
   const [courses, setCourses] = useState({})
   const [id, setId] = useState()
   const [state, setState] = useState({})
-
+  useEffect(() => {
+    setResults(services)
+  }, [services])
   const setValues = (values) => {
     setCourses(values)
     console.log('values - ', values)
@@ -83,6 +86,24 @@ const Courses = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       const usrname = getLoggedinUserEmail()
+      debugger
+      if (courses.file) {
+        const name = courses.file.name.substr(
+          0,
+          courses.file.name.lastIndexOf('.'),
+        )
+        const ext = courses.file.name.substr(
+          courses.file.name.lastIndexOf('.') + 1,
+        )
+        const filename = `${name}_${uuid()}.${ext}`
+        courses.courseImage = filename
+
+        console.log(filename)
+        await Storage.put(filename, courses.file, {
+          contentType: `image/${ext}`, // contentType is optional
+        })
+        delete courses.file
+      }
       const { createdAt, updatedAt, owner, ...rest } = courses
       rest.username = usrname
       await API.graphql({
@@ -157,7 +178,7 @@ const Courses = ({ services }) => {
                           className="w-3 h-3 mt-2"
                         ></img>
                         <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                          1 on 1 mock interview
+                          Courses
                         </span>
                       </div>
 
@@ -291,7 +312,7 @@ const Courses = ({ services }) => {
                 </div>
               </div>
               <AddCourses courses={state.courses} setValues={setValues} />
-              <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
+              <div className="py-4 px-6 border-t border-gray-300 text-gray-600 mb-5">
                 <div className="flex justify-between item-center w-auto">
                   <button
                     className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"

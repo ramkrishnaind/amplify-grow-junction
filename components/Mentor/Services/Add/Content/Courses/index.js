@@ -4,12 +4,13 @@ import Pill from '../../Header/Pill'
 import TextField from '../../../../../../pages/ui-kit/TextField'
 import { v4 as uuid } from 'uuid'
 import classes from './Courses.module.css'
-
+import { Storage } from 'aws-amplify'
 const AutoSubmitToken = ({
   setValues,
   sessions,
   hideService,
   limitParticipants,
+  image,
 }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
@@ -21,13 +22,14 @@ const AutoSubmitToken = ({
     values.sessions = sessions
     values.limitParticipants = limitParticipants
     values.hideService = hideService
+    values.file = image
     setValues(values)
     // setProfile(values)
     // Submit the form imperatively as an effect as soon as form values.token are 6 digits long
     // if (values.token.length === 6) {
     //   submitForm();
     // }
-  }, [values, submitForm])
+  }, [values, image, submitForm])
   return null
 }
 const Courses = ({
@@ -101,6 +103,17 @@ const Courses = ({
   const [sDate, setSDate] = useState('')
   const [sTime, setSTime] = useState('')
   const [sessions, setSessions] = useState([])
+  useEffect(() => {
+    const getImage = async () => {
+      debugger
+      debugger
+      const img = await Storage.get(courses.courseImage)
+      setConvertedImage(img)
+    }
+    if (courses.courseImage) {
+      getImage()
+    }
+  }, [courses.courseImage])
   const handleSessionChange = (e) => {
     setSession(e.target.value)
   }
@@ -113,10 +126,12 @@ const Courses = ({
     setSTime(e.target.value)
   }
   const handleFileInput = (e) => {
+    debugger
     e.preventDefault()
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
     }
+    // setValues((prev) => ({ ...prev, file: e.target.files[0] }))
   }
 
   const addSession = () => {
@@ -152,9 +167,11 @@ const Courses = ({
             // alert(JSON.stringify(values, null, 2));
             setSubmitting(false)
           }, 400)
-          audienceSize ==='' ? values.audienceSize = 0: values.audienceSize = audienceSize
+          audienceSize === ''
+            ? (values.audienceSize = 0)
+            : (values.audienceSize = audienceSize)
           values.sessions = sessions
-          values.courseImage = image
+          values.file = image
           values.limitParticipants = limitParticipants
           values.hideService = hideService
           console.log('onsubmit - ', values)
@@ -590,6 +607,7 @@ const Courses = ({
                 sessions={sessions}
                 hideService={hideService}
                 limitParticipants={limitParticipants}
+                image={image}
               />
             </form>
           )

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import Link from 'next/link'
-import { API, Auth, graphqlOperation } from 'aws-amplify'
+import { API, Auth, graphqlOperation, Storage } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
 //import services from '../../../../../pages/services'
 import classes from './Workshop.module.css'
@@ -31,23 +31,21 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   return null
 }
 
-
-
 const Workshop = ({ services }) => {
   const searchRef = useRef()
   const [results, setResults] = useState(services)
   const [showReschedule, setShowReschedule] = useState(false)
-   const [workshop, setWorkshop]= useState({})
-  const [id, setId]= useState()
+  const [workshop, setWorkshop] = useState({})
+  const [id, setId] = useState()
   const [state, setState] = useState({})
 
   const setValues = (values) => {
     setWorkshop(values)
-    console.log("values - ",values)
-    console.log("workshop value - ",values)
+    console.log('values - ', values)
+    console.log('workshop value - ', values)
   }
 
-  console.log("workshop - ", workshop)
+  console.log('workshop - ', workshop)
 
   const searchClick = () => {
     const filtered = services.filter((i) =>
@@ -88,19 +86,15 @@ const Workshop = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       const usrname = getLoggedinUserEmail()
-      
-      const {createdAt, updatedAt, owner,file, ...rest}= workshop
-      rest.username = usrname
+
       //console.log('filename -', filename)
-      const imageName = workshop.file?.name
-      console.log('image -', imageName)
-      if (imageName) {
-        const name = imageName.substr(
+      if (workshop.file) {
+        const name = workshop.file.name.substr(
           0,
-          imageName.lastIndexOf('.'),
+          workshop.file.name.lastIndexOf('.'),
         )
-        const ext = imageName.substr(
-          imageName.lastIndexOf('.') + 1,
+        const ext = workshop.file.name.substr(
+          workshop.file.name.lastIndexOf('.') + 1,
         )
         const filename = `${name}_${uuid()}.${ext}`
         workshop.workshopImage = filename
@@ -108,7 +102,10 @@ const Workshop = ({ services }) => {
         await Storage.put(filename, workshop.file, {
           contentType: `image/${ext}`, // contentType is optional
         })
+        delete workshop.file
       }
+      const { createdAt, updatedAt, owner, file, ...rest } = workshop
+      rest.username = usrname
       await API.graphql({
         query: updateWorkshop,
         variables: { input: { ...rest } },
@@ -116,8 +113,7 @@ const Workshop = ({ services }) => {
       toast.success('Workshop update successfully')
       setTimeout(() => {
         window.location.href = window.location.href
-      }, 2000);
-      
+      }, 2000)
     } catch (error) {
       toast.error(`Update Error:${error.errors[0].message}`)
     }
@@ -182,7 +178,7 @@ const Workshop = ({ services }) => {
                           className="w-3 h-3 mt-2"
                         ></img>
                         <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                          1 on 1 mock interview
+                          Workshop
                         </span>
                       </div>
 
@@ -315,28 +311,30 @@ const Workshop = ({ services }) => {
                   </button>
                 </div>
               </div>
-              <AddWorkshop workshop={state.workshop} setWorkshopValues={setValues} />
-              <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
-              <div className="flex justify-between item-center w-auto">
-                <button
-                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
-                  type="button"
-                  onClick={() => setShowReschedule(false)}
-                >
-                  <span className="text-sm font-semibold py-2">Cancel</span>
-                </button>
+              <AddWorkshop
+                workshop={state.workshop}
+                setWorkshopValues={setValues}
+              />
+              <div className="py-4 px-6 border-t border-gray-300 text-gray-600 mb-5">
+                <div className="flex justify-between item-center w-auto">
+                  <button
+                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
+                    type="button"
+                    onClick={() => setShowReschedule(false)}
+                  >
+                    <span className="text-sm font-semibold py-2">Cancel</span>
+                  </button>
 
-                <button
-                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
-                  type="button"
-                  onClick={() => editPost(id)}
-                >
-                  <span className="text-sm font-semibold py-2">Save</span>
-                </button>
+                  <button
+                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
+                    type="button"
+                    onClick={() => editPost(id)}
+                  >
+                    <span className="text-sm font-semibold py-2">Save</span>
+                  </button>
+                </div>
               </div>
             </div>
-            </div>
-
           </div>
         </>
       )}

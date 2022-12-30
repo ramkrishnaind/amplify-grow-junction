@@ -101,7 +101,7 @@ const Configurations = () => {
               const { createdAt, updatedAt, domain_id, owner, ...rest } = {
                 ...values,
               }
-              rest.username=getLoggedinUserEmail()
+              rest.username = getLoggedinUserEmail()
               try {
                 await API.graphql({
                   query: updateConfigurations,

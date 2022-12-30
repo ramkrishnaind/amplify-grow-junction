@@ -179,12 +179,13 @@ const AddService = () => {
       await Storage.put(filename, state.workshop.file, {
         contentType: `image/${ext}`, // contentType is optional
       })
+      // delete state.workshop.file
     }
 
     try {
       debugger
       state.workshop.username = getLoggedinUserEmail()
-      const {file, ...rest}= state.workshop
+      const { file, ...rest } = state.workshop
       await API.graphql({
         query: createWorkshop,
         variables: { input: { ...rest } },
@@ -214,6 +215,22 @@ const AddService = () => {
       toast.error('Mandatory fields not entered')
       return
     }
+    if (state.courses.file) {
+      const name = state.courses.file.name.substr(
+        0,
+        state.courses.file.name.lastIndexOf('.'),
+      )
+      const ext = state.courses.file.name.substr(
+        state.courses.file.name.lastIndexOf('.') + 1,
+      )
+      const filename = `${name}_${uuid()}.${ext}`
+      state.courses.courseImage = filename
+      console.log(filename)
+      await Storage.put(filename, state.courses.file, {
+        contentType: `image/${ext}`, // contentType is optional
+      })
+      delete state.courses.file
+    }
     try {
       state.courses.username = getLoggedinUserEmail()
       await API.graphql({
@@ -242,6 +259,22 @@ const AddService = () => {
       return
     }
     try {
+      if (state.packages.file) {
+        const name = state.packages.file.name.substr(
+          0,
+          state.packages.file.name.lastIndexOf('.'),
+        )
+        const ext = state.packages.file.name.substr(
+          state.packages.file.name.lastIndexOf('.') + 1,
+        )
+        const filename = `${name}_${uuid()}.${ext}`
+        state.packages.packageImage = filename
+        console.log(filename)
+        await Storage.put(filename, state.packages.file, {
+          contentType: `image/${ext}`, // contentType is optional
+        })
+        delete state.packages.file
+      }
       state.packages.username = getLoggedinUserEmail()
       await API.graphql({
         query: createPackages,

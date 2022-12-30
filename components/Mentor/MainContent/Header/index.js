@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { ClearUser, StoreUserAuth } from '../../../../redux/actions/AuthAction'
 import useComponentVisible from '../../../../hooks/useComponentVisible'
 import ReactDOM from 'react-dom'
+import classes from './Header.module.css'
 import {
   listUserInfos,
   listMentorRegisters,
@@ -19,9 +20,9 @@ const Header = () => {
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible(false)
   const dispatch = useDispatch()
-  debugger
+  // debugger
   useEffect(() => {
-    debugger
+    // debugger
     setOpen(isComponentVisible)
   }, [isComponentVisible])
 
@@ -54,25 +55,24 @@ const Header = () => {
     )
     if (results.data.listMentorRegisters.items.length > 0) {
       const data = { ...results.data.listMentorRegisters.items[0] }
-      debugger
+      // debugger
       if (data.profile_image) {
         const img = await Storage.get(data.profile_image)
         console.log('image - ', img)
         setImage(img)
       }
-      if (!data.profile_image) {
-        const results = await API.graphql(
-          graphqlOperation(listUserInfos, {
-            filter: { username: { contains: usrName } },
-          }),
-        )
-        if (results.data.listUserInfos.items.length > 0) {
-          debugger
-          const data = { ...results.data.listUserInfos.items[0] }
-          if (data.profile_image) {
-            const img = await Storage.get(data.profile_image)
-            setImage(img)
-          }
+    } else {
+      const results = await API.graphql(
+        graphqlOperation(listUserInfos, {
+          filter: { username: { contains: usrName } },
+        }),
+      )
+      if (results.data.listUserInfos.items.length > 0) {
+        // debugger
+        const data = { ...results.data.listUserInfos.items[0] }
+        if (data.profile_image) {
+          setImage(data.profile_image)
+          // setImage(img)
         }
       }
     }
@@ -86,7 +86,7 @@ const Header = () => {
       <div className="header"> {mentorHeader?.title}</div>
       <nav className="nav-links w-64 md:w-80">
         <ul className="w-full flex justify-evenly">
-          <li className="link w-10 h-10">
+          <li className={'link w-10 h-10'}>
             <img
               className="w-full object-cover"
               src={`/assets/icon/mentor-dashboard/phone.png`}
@@ -105,13 +105,15 @@ const Header = () => {
             />
           </li>
           <li
-            className="link w-10 h-10 cursor-pointer"
+            className={`${classes['profile-img']} link w-10 h-10 cursor-pointer overflow-hidden bg-gray-300`}
             onClick={() => {
               setOpen((prev) => !prev)
               setIsComponentVisible(true)
             }}
           >
-            <img className=" w-full object-cover" src={image} />
+            {image && (
+              <img className=" w-full h-full object-cover" src={image} />
+            )}
           </li>
         </ul>
       </nav>

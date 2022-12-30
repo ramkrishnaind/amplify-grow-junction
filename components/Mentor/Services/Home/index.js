@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import classes from './Home.module.css'
 import { toast } from 'react-toastify'
 // import { useRouter } from 'next/router'
@@ -16,29 +16,57 @@ import { listCourses } from '/src/graphql/queries'
 import { listPackages } from '/src/graphql/queries'
 import { getLoggedinUserEmail } from '../../../../utilities/user'
 
+const reducerFunction = (
+  state = {
+    oneOnOne: [],
+    workshop: [],
+    courses: [],
+    textQuery: [],
+    packages: [],
+  },
+  action,
+) => {
+  switch (action.type) {
+    case 'ONE_ON_ONE':
+      return { ...state, oneOnOne: action.payload }
+    case 'WORKSHOP':
+      return { ...state, workshop: action.payload }
+    case 'COURSES':
+      return { ...state, courses: action.payload }
+    case 'TEXT_QUERY':
+      debugger
+      return { ...state, textQuery: action.payload }
+    case 'PACKAGES':
+      return { ...state, packages: action.payload }
+    default:
+      return state
+  }
+}
 const Home = () => {
   // return <div>Hi</div>
   // const router= useRouter()
+  const [state, dispatch] = useReducer(reducerFunction)
   const checkIfItems = () => {
-    const keys = Object.keys(services)
+    const keys = Object.keys(state)
     let itemsExist = false
     keys.forEach((key) => {
-      if (services[key].length > 0) {
+      if (state[key].length > 0) {
         itemsExist = true
         return
       }
     })
     return itemsExist
   }
+
   const [openTab, setOpenTab] = useState(1)
   const [loading, setLoading] = useState(true)
-  const [services, setServices] = useState({
-    oneOnOne: [],
-    workshop: [],
-    courses: [],
-    textQuery: [],
-    packages: [],
-  })
+  // const [services, setServices] = useState({
+  //   oneOnOne: [],
+  //   workshop: [],
+  //   courses: [],
+  //   textQuery: [],
+  //   packages: [],
+  // })
   const loadOneOnOne = async () => {
     try {
       setLoading(true)
@@ -51,7 +79,14 @@ const Home = () => {
         }),
       )
       if (results.data.listOneOnOnes.items.length > 0) {
-        setServices({ ...services, oneOnOne: results.data.listOneOnOnes.items })
+        dispatch({
+          type: 'ONE_ON_ONE',
+          payload: results.data.listOneOnOnes.items,
+        })
+        // setServices((prev) => ({
+        //   ...prev,
+        //   oneOnOne: results.data.listOneOnOnes.items,
+        // }))
       }
     } catch (error) {
       // toast.error(`Load Error:${error.errors[0].message}`)
@@ -72,8 +107,15 @@ const Home = () => {
           filter: { username: { contains: usrname } },
         }),
       )
-      if (results.data.listWorkshops.items.length> 0) {
-        setServices({ ...services, workshop: results.data.listWorkshops.items })
+      if (results.data.listWorkshops.items.length > 0) {
+        dispatch({
+          type: 'WORKSHOP',
+          payload: results.data.listWorkshops.items,
+        })
+        // setServices((prev) => ({
+        //   ...prev,
+        //   workshop: results.data.listWorkshops.items,
+        // }))
       }
     } catch (error) {
       toast.error(`Load Error:${error.errors[0].message}`)
@@ -93,8 +135,12 @@ const Home = () => {
           filter: { username: { contains: usrname } },
         }),
       )
-      if (results.data.listCourses.items.length> 0) {
-        setServices({ ...services, courses: results.data.listCourses.items })
+      if (results.data.listCourses.items.length > 0) {
+        dispatch({ type: 'COURSES', payload: results.data.listCourses.items })
+        // setServices((prev) => ({
+        //   ...prev,
+        //   courses: results.data.listCourses.items,
+        // }))
       }
     } catch (error) {
       toast.error(`Load Error:${error.errors[0].message}`)
@@ -113,11 +159,16 @@ const Home = () => {
           filter: { username: { contains: usrname } },
         }),
       )
+      debugger
       if (results.data.listTextQueries.items.length > 0) {
-        setServices({
-          ...services,
-          textQuery: results.data.listTextQueries.items,
+        dispatch({
+          type: 'TEXT_QUERY',
+          payload: results.data.listTextQueries.items,
         })
+        // setServices((prev) => ({
+        //   ...prev,
+        //   textQuery: results.data.listTextQueries.items,
+        // }))
       }
     } catch (error) {
       // toast.error(`Load Error:${error.errors[0].message}`)
@@ -137,8 +188,12 @@ const Home = () => {
           filter: { username: { contains: usrname } },
         }),
       )
-      if (results.data.listPackages.items.length> 0) {
-        setServices({ ...services, packages: results.data.listPackages.items })
+      if (results.data.listPackages.items.length > 0) {
+        dispatch({ type: 'PACKAGES', payload: results.data.listPackages.items })
+        // setServices((prev) => ({
+        //   ...prev,
+        //   packages: results.data.listPackages.items,
+        // }))
       }
     } catch (error) {
       toast.error(`Load Error:${error.errors[0].message}`)
@@ -245,19 +300,19 @@ const Home = () => {
                 </li>
               </ul>
               <div className={openTab === 1 ? 'block' : 'hidden'}>
-                <OneOnOne services={services.oneOnOne} />
+                <OneOnOne services={state.oneOnOne} />
               </div>
               <div className={openTab === 2 ? 'block' : 'hidden'}>
-                <Workshop services={services.workshop} />
+                <Workshop services={state.workshop} />
               </div>
               <div className={openTab === 3 ? 'block' : 'hidden'}>
-                <Courses services={services.courses} />
+                <Courses services={state.courses} />
               </div>
               <div className={openTab === 4 ? 'block' : 'hidden'}>
-                <TextQuery services={services.textQuery} />
+                <TextQuery services={state.textQuery} />
               </div>
               <div className={openTab === 5 ? 'block' : 'hidden'}>
-                <Packages services={services.packages} />
+                <Packages services={state.packages} />
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
@@ -30,22 +30,24 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   return null
 }
 
-
-
 const TextQuery = ({ services }) => {
   const searchRef = useRef()
   const [results, setResults] = useState(services)
   const [showReschedule, setShowReschedule] = useState(false)
-   const [textQuery, setTextQuery]= useState({})
-  const [id, setId]= useState()
+  const [textQuery, setTextQuery] = useState({})
+  const [id, setId] = useState()
   const [state, setState] = useState({})
 
   const setValues = (values) => {
     setTextQuery(values)
-    console.log("values - ",values)
+    console.log('values - ', values)
   }
-
-  console.log("textQuery - ", textQuery)
+  useEffect(() => {
+    setResults(services)
+  }, [services])
+  // debugger
+  // debugger
+  console.log('textQuery - ', textQuery)
 
   const searchClick = () => {
     const filtered = services.filter((i) =>
@@ -87,7 +89,7 @@ const TextQuery = ({ services }) => {
     try {
       const usr = await Auth.currentAuthenticatedUser()
       const usrname = getLoggedinUserEmail()
-      const {createdAt, updatedAt, owner, ...rest}= textQuery
+      const { createdAt, updatedAt, owner, ...rest } = textQuery
       rest.username = usrname
       await API.graphql({
         query: updateTextQuery,
@@ -96,8 +98,7 @@ const TextQuery = ({ services }) => {
       toast.success('TextQuery update successfully')
       setTimeout(() => {
         window.location.href = window.location.href
-      }, 2000);
-      
+      }, 2000)
     } catch (error) {
       toast.error(`Update Error:${error.errors[0].message}`)
     }
@@ -162,7 +163,7 @@ const TextQuery = ({ services }) => {
                           className="w-3 h-3 mt-2"
                         ></img>
                         <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                          1 on 1 mock interview
+                          Text Query
                         </span>
                       </div>
 
@@ -296,27 +297,26 @@ const TextQuery = ({ services }) => {
                 </div>
               </div>
               <AddTextQuery textQuery={state.textQuery} setValues={setValues} />
-              <div className="py-4 px-6 border-t border-gray-300 text-gray-600">
-              <div className="flex justify-between item-center w-auto">
-                <button
-                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
-                  type="button"
-                  onClick={() => setShowReschedule(false)}
-                >
-                  <span className="text-sm font-semibold py-2">Cancel</span>
-                </button>
+              <div className="py-4 px-6 border-t border-gray-300 text-gray-600 mb-5">
+                <div className="flex justify-between item-center w-auto">
+                  <button
+                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"
+                    type="button"
+                    onClick={() => setShowReschedule(false)}
+                  >
+                    <span className="text-sm font-semibold py-2">Cancel</span>
+                  </button>
 
-                <button
-                  className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
-                  type="button"
-                  onClick={() => editPost(id)}
-                >
-                  <span className="text-sm font-semibold py-2">Save</span>
-                </button>
+                  <button
+                    className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md"
+                    type="button"
+                    onClick={() => editPost(id)}
+                  >
+                    <span className="text-sm font-semibold py-2">Save</span>
+                  </button>
+                </div>
               </div>
             </div>
-            </div>
-
           </div>
         </>
       )}

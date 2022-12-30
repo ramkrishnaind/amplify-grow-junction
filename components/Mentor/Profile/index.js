@@ -13,7 +13,7 @@ import {
 } from '../../../src/graphql/mutations'
 
 import { listMentorRegisters } from '../../../src/graphql/queries'
-import {getLoggedinUserEmail} from '../../../utilities/user' 
+import { getLoggedinUserEmail } from '../../../utilities/user'
 const initialState = {
   about_yourself: {
     grow_junction_url: '',
@@ -64,6 +64,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(false)
   const [percentage, setPercentage] = useState(40)
   const getUser = async () => {
+    debugger
     const usr = await Auth.currentAuthenticatedUser()
     if (usr) setUser(usr)
     debugger
