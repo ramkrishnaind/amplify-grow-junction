@@ -1,6 +1,72 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import classes from './Preview.module.css'
+import { API, Storage, graphqlOperation } from 'aws-amplify'
+import { listMentorRegisters } from '../../../src/graphql/queries'
+import { getLoggedinUserEmail } from '../../../utilities/user'
+
 const Preview = ({ showServices }) => {
+  const [image, setImage] = useState('')
+  const [firstName, setFirstName] = useState()
+  const [lastName, setLastName] = useState()
+  const [url, setUrl] = useState()
+  const [shortDescription, setShortDescription] = useState()
+  const [aboutYourself, setAboutYourself] = useState()
+  const [occupation, setOccupation] = useState()
+  const [organisation, setOrganisation] = useState()
+  const [linkedin, setLinkedin] = useState()
+  const [instagram, setInstagram] = useState()
+  const [personalurl, setPersonalurl] = useState()
+
+  const getUser = async () => {
+    // debugger
+    const usrName = getLoggedinUserEmail()
+    console.log('username - ', usrName)
+    const results = await API.graphql(
+      graphqlOperation(listMentorRegisters, {
+        filter: { username: { contains: usrName } },
+      }),
+    )
+    if (results.data.listMentorRegisters.items.length > 0) {
+      const data = { ...results.data.listMentorRegisters.items[0] }
+      // debugger
+      if (data.profile_image) {
+        const img = await Storage.get(data.profile_image)
+        console.log('image - ', img)
+        setImage(img)
+      }
+      // debugger
+      setFirstName(data.about_yourself?.first_name)
+      setLastName(data.about_yourself?.last_name)
+      setShortDescription(data.about_yourself?.short_description)
+      setAboutYourself(data.about_yourself?.about_yourself)
+      setOccupation(data.Professionalinfo?.occupation)
+      setOrganisation(data.Professionalinfo?.organization)
+      setLinkedin(data.SocialUrl?.linkedin_url)
+      setInstagram(data.SocialUrl?.instagram_url)
+      setPersonalurl(data.SocialUrl?.personal_web_url)
+      setUrl(data.about_yourself?.grow_junction_url || '')
+    } else {
+      const results = await API.graphql(
+        graphqlOperation(listUserInfos, {
+          filter: { username: { contains: usrName } },
+        }),
+      )
+      if (results.data.listUserInfos.items.length > 0) {
+        // debugger
+        const data = { ...results.data.listUserInfos.items[0] }
+        if (data.profile_image) {
+          // const img = await Storage.get(data.profile_image)
+          setImage(data.profile_image)
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    getUser()
+  }, [])
+
+
   return (
     <div className="flex flex-col items-center bg-white ">
       <div className="w-full">
@@ -9,16 +75,25 @@ const Preview = ({ showServices }) => {
         </div>
       </div>
       <div className="p-5 items-center flex flex-col">
-        <img
-          className={classes.img}
-          src="../../../images/add-post-profile.png"
-        />
+      <div
+          className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
+        >
+          {
+            image ? (
+              <img
+                src={image}
+                alt=""
+                className={`${classes['persona']} rounded-full`}
+              />
+            ) : null
+          }
+        </div>
         <div className="flex flex-col items-center">
           <span className="text-4xl font-semibold mt-5 text-center">
-            Michel Scott
+            {firstName} {lastName}
           </span>
           <span className="text-xl font-normal text-center">
-            Founder and CEO at Twitter
+            {occupation} {organisation}
           </span>
           <div className="flex flex-row mt-5">
             <img src="../../../images/linkedin.png" alt="" className="px-4" />
@@ -26,26 +101,25 @@ const Preview = ({ showServices }) => {
             <img src="../../../images/www.png" alt="" className="px-4" />
           </div>
           <span className="text-2xl font-semibold mt-5  text-center">
-            Michael scott is a Co-Founder CEO at Twitter,
+            {shortDescription}
           </span>
 
           <span className="text-2xl font-semibold mt-2  text-center">
-            also an entrepreneur from Newyork, USA.
+            {/* also an entrepreneur from Newyork, USA. */}
           </span>
           <span className="text-xs font-semibold underline underline-offset-4 mt-5  text-center">
-            About Michael
+            About {firstName}
           </span>
           <span className="text-xs font-normal mt-5  text-center">
-            Hey this is michael, co-founder and executive officer at twitter.
-            I’m here to offer my services,
+            {aboutYourself}
           </span>
           <span className="text-xs font-normal mt-2  text-center">
-            mentor young entrepreneurs out there. Hey this is michael,
-            co-founder and executive officer at
+            {/* mentor young entrepreneurs out there. Hey this is michael,
+            co-founder and executive officer at */}
           </span>
           <span className="text-xs font-normal mt-2  text-center">
-            twitter. I’m here to offer my services , mentor young entrepreneurs
-            out there.
+            {/* twitter. I’m here to offer my services , mentor young entrepreneurs
+            out there. */}
           </span>
           <div className="flex flex-row mt-5">
             <img

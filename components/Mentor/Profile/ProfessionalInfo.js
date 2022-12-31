@@ -224,7 +224,7 @@ const ProfessionalInfo = ({
                           >
                             {Array.from({ length: 51 }, (x, i) => i).map(
                               (i) => (
-                                <option value={String(i).padStart(2, '0')}>
+                                <option key={i} value={String(i).padStart(2, '0')}>
                                   {String(i).padStart(2, '0')}
                                 </option>
                               ),
@@ -244,7 +244,7 @@ const ProfessionalInfo = ({
                           >
                             {Array.from({ length: 12 }, (x, i) => i).map(
                               (i) => (
-                                <option value={String(i + 1).padStart(2, '0')}>
+                                <option key={i} value={String(i + 1).padStart(2, '0')}>
                                   {String(i + 1).padStart(2, '0')}
                                 </option>
                               ),
