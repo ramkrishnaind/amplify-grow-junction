@@ -26,7 +26,7 @@ import useWindowDimensions from '../../public/utils/useWindowDimensions'
 
 import ACTION_KEYS from '../../constants/action-keys'
 import Toaster from '../ui-kit/Toaster'
-import WithAuthenticatedKYCDone from '../../hoc/WithAuthenticatedKYCDone'
+import WithAuthenticatedKYCDone from '../../hoc/withAuthenticatedKYCDone'
 Auth.configure(config)
 
 const spaceValidation = new RegExp(/^[^ ]*$/)

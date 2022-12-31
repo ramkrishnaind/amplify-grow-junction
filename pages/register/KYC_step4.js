@@ -17,7 +17,7 @@ import { verifyStep4 } from '../../public/utils/schema'
 import { v4 as uuid } from 'uuid'
 import { listUserInfos } from '../../src/graphql/queries'
 import { getLoggedinUserEmail } from '../../utilities/user'
-import WithAuthenticatedKYCDone from '../../hoc/WithAuthenticatedKYCDone'
+import WithAuthenticatedKYCDone from '../../hoc/withAuthenticatedKYCDone'
 const numberValidation = new RegExp(/^[0-9]{0,10}$/)
 const KYC_step4 = () => {
   const registerType = useSelector((state) => state.AuthReducer)
