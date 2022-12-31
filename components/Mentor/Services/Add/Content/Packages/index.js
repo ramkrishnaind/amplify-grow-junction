@@ -22,9 +22,9 @@ const AutoSubmitToken = ({
 }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
-  debugger
+  // debugger
   React.useEffect(() => {
-    debugger
+    // debugger
     console.log('context_values', values)
     values.limitParticipants = limitParticipants
     values.hideService = hideService
@@ -109,11 +109,9 @@ const Packages = ({
     loadTextQuery()
     loadWorkshop()
     loadCourses()
-  }, [])
+  }, [packages.packageServices])
   useEffect(() => {
     const getImage = async () => {
-      debugger
-      debugger
       const img = await Storage.get(packages.packageImage)
       setConvertedImage(img)
     }
@@ -121,6 +119,7 @@ const Packages = ({
       getImage()
     }
   }, [packages.packageImage])
+
   const [sessionResults, setSessionResults] = useState([])
   const [workshopResults, setWorkshopResults] = useState([])
   const [textQueryResults, setTextQueryResults] = useState([])
@@ -159,9 +158,21 @@ const Packages = ({
           filter: { username: { contains: usrname } },
         }),
       )
-      debugger
+      // debugger
       if (results.data.listOneOnOnes.items.length > 0) {
-        setSessionResults(results.data.listOneOnOnes.items)
+        // debugger
+
+        const resultsCloned = [...results.data.listOneOnOnes.items]
+        const editedValues = [...packages.packageServices]
+        editedValues.forEach((a) => {
+          const foundItem = resultsCloned.find(
+            (it) => a.title === it.sessionTitle,
+          )
+          if (foundItem) {
+            foundItem.selected = true
+          }
+        })
+        setSessionResults(resultsCloned)
         console.log('oneonone- ', sessionResults)
       }
     } catch (error) {
@@ -170,7 +181,7 @@ const Packages = ({
   }
 
   const loadWorkshop = async () => {
-    debugger
+    // debugger
     try {
       const usr = await Auth.currentAuthenticatedUser()
       console.log('usr', usr)
@@ -180,8 +191,16 @@ const Packages = ({
         }),
       )
       if (results.data.listWorkshops.items.length > 0) {
-        setWorkshopResults(results.data.listWorkshops.items)
-        console.log('workshop- ', workshopResults)
+        const resultsCloned = [...results.data.listWorkshops.items]
+        const editedValues = [...packages.packageServices]
+        editedValues.forEach((a) => {
+          const foundItem = resultsCloned.find((it) => a.title === it.title)
+          if (foundItem) {
+            foundItem.selected = true
+          }
+        })
+        setWorkshopResults(resultsCloned)
+        console.log('oneonone- ', sessionResults)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
@@ -198,8 +217,18 @@ const Packages = ({
         }),
       )
       if (results.data.listCourses.items.length > 0) {
-        setCoursesResults(results.data.listCourses.items)
-        console.log('courses- ', coursesResults)
+        const resultsCloned = [...results.data.listCourses.items]
+        const editedValues = [...packages.packageServices]
+        editedValues.forEach((a) => {
+          const foundItem = resultsCloned.find(
+            (it) => a.title === it.courseTitle,
+          )
+          if (foundItem) {
+            foundItem.selected = true
+          }
+        })
+        setCoursesResults(resultsCloned)
+        console.log('oneonone- ', sessionResults)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
@@ -216,8 +245,16 @@ const Packages = ({
         }),
       )
       if (results.data.listTextQueries.items.length > 0) {
-        setTextQueryResults(results.data.listTextQueries.items)
-        console.log('textquery- ', textQueryResults)
+        const resultsCloned = [...results.data.listTextQueries.items]
+        const editedValues = [...packages.packageServices]
+        editedValues.forEach((a) => {
+          const foundItem = resultsCloned.find((it) => a.title === it.title)
+          if (foundItem) {
+            foundItem.selected = true
+          }
+        })
+        setTextQueryResults(resultsCloned)
+        console.log('oneonone- ', sessionResults)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
@@ -226,7 +263,7 @@ const Packages = ({
 
   const handleFileInput = async (e) => {
     e.preventDefault()
-    debugger
+    // debugger
     if (e.target.files?.[0]) {
       setImage(e.target.files[0])
     }
@@ -235,7 +272,7 @@ const Packages = ({
 
   const handleFileUpload = async (e) => {
     e.preventDefault()
-    debugger
+    // debugger
     if (e.target.files?.[0]) {
       setUploadFile(e.target.files[0])
     }
@@ -268,7 +305,7 @@ const Packages = ({
   }
 
   const toggleSessionSelect = (index) => {
-    debugger
+    // debugger
     console.log('index - ', index)
     const { sessionResults } = sessionState1()
     sessionResults[index].selected = !sessionResults[index].selected
@@ -370,7 +407,7 @@ const Packages = ({
       <Formik
         initialValues={{ ...packages }}
         onSubmit={(values, e) => {
-          debugger
+          // debugger
           const { setSubmitting } = e
           setTimeout(() => {
             // alert(JSON.stringify(values, null, 2));
