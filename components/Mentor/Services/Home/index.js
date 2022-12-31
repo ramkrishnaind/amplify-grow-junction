@@ -94,6 +94,7 @@ const Home = () => {
     setLoading(false)
   }
 
+
   const loadWorkshop = async () => {
     debugger
     try {
@@ -117,7 +118,7 @@ const Home = () => {
         // }))
       }
     } catch (error) {
-      // toast.error(`Load Error:${error.errors[0].message}`)
+      toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
@@ -142,7 +143,7 @@ const Home = () => {
         // }))
       }
     } catch (error) {
-      // toast.error(`Load Error:${error.errors[0].message}`)
+      toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
@@ -195,10 +196,11 @@ const Home = () => {
         // }))
       }
     } catch (error) {
-      // toast.error(`Load Error:${error.errors[0].message}`)
+      toast.error(`Load Error:${error.errors[0].message}`)
     }
     setLoading(false)
   }
+
 
   useEffect(() => {
     loadOneOnOne()

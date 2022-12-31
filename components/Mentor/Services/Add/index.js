@@ -165,7 +165,6 @@ const AddService = () => {
     }
     const imageName = state.workshop.file?.name
     console.log('image -', imageName)
-
     if (state.workshop.file) {
       const name = state.workshop.file.name.substr(
         0,
