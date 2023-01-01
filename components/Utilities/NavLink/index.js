@@ -31,8 +31,8 @@ export default function NavLink({
   }
   if (js) console.log('js---', js)
   return (
-    <Link legacyBehavior href={href} {...props}>
-      <a href={href}>{children}</a>
+    <Link href={href} {...props}>
+      {children}
     </Link>
   )
 }

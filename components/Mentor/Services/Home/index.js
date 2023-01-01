@@ -47,15 +47,17 @@ const Home = () => {
   // const router= useRouter()
   const [state, dispatch] = useReducer(reducerFunction)
   const checkIfItems = () => {
-    const keys = Object.keys(state)
-    let itemsExist = false
-    keys.forEach((key) => {
-      if (state[key].length > 0) {
-        itemsExist = true
-        return
-      }
-    })
-    return itemsExist
+    if (state) {
+      const keys = Object.keys(state)
+      let itemsExist = false
+      keys.forEach((key) => {
+        if (state[key].length > 0) {
+          itemsExist = true
+          return
+        }
+      })
+      return itemsExist
+    }
   }
 
   const [openTab, setOpenTab] = useState(1)
@@ -93,7 +95,6 @@ const Home = () => {
     }
     setLoading(false)
   }
-
 
   const loadWorkshop = async () => {
     debugger
@@ -200,7 +201,6 @@ const Home = () => {
     }
     setLoading(false)
   }
-
 
   useEffect(() => {
     loadOneOnOne()
