@@ -212,7 +212,7 @@ const Courses = ({ services }) => {
                     </div>
                     <div className="flex flex-col">
                       <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                        {item.title}
+                        {item.courseTitle}
                       </div>
                       <div className="flex justify-start text-black text-lg font-semibold p-6">
                         {item.description}

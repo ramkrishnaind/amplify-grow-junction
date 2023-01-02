@@ -8,7 +8,7 @@ import TextField from '../ui-kit/TextField'
 import DropDown from '../ui-kit/DropDown'
 import { ProfessionalDetailSchema } from '../../public/utils/schema'
 import { useRouter } from 'next/router'
-import WithAuthenticatedKYCDone from '../../hoc/WithAuthenticatedKYCDone'
+import WithAuthenticatedKYCDone from '../../hoc/withAuthenticatedKYCDone'
 // import { toast } from 'react-toastify'
 
 import ACTION_KEYS from '../../constants/action-keys'

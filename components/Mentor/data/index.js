@@ -71,7 +71,7 @@ export const NavigationLinks = [
       },
       {
         title: 'Payment',
-        url: '/mentor/home',
+        url: '',
         image: 'payment.png',
       },
       {
