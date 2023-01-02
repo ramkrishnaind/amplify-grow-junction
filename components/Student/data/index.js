@@ -21,8 +21,9 @@ export const NavigationLinks = [
   },
   {
     title: 'Services',
-    url: '',
+    url: '/student/services',
     image: 'services.png',
+    partial: true,
   },
   {
     title: 'Availability',
