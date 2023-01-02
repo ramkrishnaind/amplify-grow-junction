@@ -15,9 +15,18 @@ import { listTextQueries } from '/src/graphql/queries'
 import { listWorkshops } from '/src/graphql/queries'
 import { listCourses } from '/src/graphql/queries'
 import { listPackages } from '/src/graphql/queries'
-import { getLoggedinUserEmail } from '../../../../utilities/user'
-
+import { useSelector, useDispatch } from 'react-redux'
+import { getLoggedinUserEmail, getMentorData } from '../../../../utilities/user'
+import { setMentors } from '../../../../redux/actions/MentorTitleAction'
 const Home = () => {
+  const mentorsState = useSelector((state) => state.MentorHeaderReducer)
+  useEffect(() => {
+    debugger
+    if (!mentorsState.mentors || mentorsState.mentors?.length === 0) {
+      debugger
+      setMentors(dispatch)
+    }
+  }, [])
   // return <div>Hi</div>
   // const router= useRouter()
   const searchRef = useRef()
@@ -32,7 +41,9 @@ const Home = () => {
   const [textQueryResults, setTextQueryResults] = useState([])
   const [coursesResults, setCoursesResults] = useState([])
   const [packagesResults, setPackagesResults] = useState([])
-
+  const showPreview = (mentorPassed) => {
+    console.log('mentorPassed', mentorPassed)
+  }
   const loadOneOnOne = async () => {
     try {
       debugger
@@ -42,10 +53,10 @@ const Home = () => {
       debugger
       if (results.data.listOneOnOnes.items.length > 0) {
         setSessionResults(results.data.listOneOnOnes.items)
-        console.log('oneonone- ', sessionResults)
+        // console.log('oneonone- ', sessionResults)
       }
     } catch (error) {
-      console.log(`Load Error:${error}`)
+      // console.log(`Load Error:${error}`)
     }
   }
 
@@ -179,9 +190,7 @@ const Home = () => {
               <option value="all">All</option>
             </select>
           </div>
-          <div className=''>
-            
-          </div>
+          <div className=""></div>
         </div>
         <div className="mb-10">
           {showSession &&
@@ -189,6 +198,11 @@ const Home = () => {
               <div className="my-3 bg-white p-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
                   {sessionResults.map((item, index) => {
+                    // debugger
+                    // debugger
+                    const mentor = getMentorData(item.username)
+                    // console.log('mentor', mentor)
+                    // console.log('item.username', item.username)
                     return (
                       <div
                         key={index}
@@ -216,6 +230,18 @@ const Home = () => {
                             <div className="flex justify-start text-black text-lg font-semibold p-6">
                               {item.description}
                             </div>
+                            {mentor && (
+                              <div
+                                className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end border-2
+                                 text-black p-10"
+                                onClick={showPreview.bind(null, mentor)}
+                              >
+                                {'- '}{' '}
+                                {mentor.about_yourself.first_name +
+                                  ' ' +
+                                  mentor.about_yourself.last_name}
+                              </div>
+                            )}
                             <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
                           </div>
                           <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
@@ -287,6 +313,8 @@ const Home = () => {
               <div className="my-3 bg-white p-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
                   {workshopResults.map((item, index) => {
+                    const mentor = getMentorData(item.username)
+                    // console.log('mentor', mentor)
                     return (
                       <div
                         key={index}
@@ -314,6 +342,19 @@ const Home = () => {
                             <div className="flex justify-start text-black text-lg font-semibold p-6">
                               {item.description}
                             </div>
+                            {mentor && (
+                              <div
+                                className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end   border-2
+                                 text-black p-10"
+                                onClick={showPreview.bind(null, mentor)}
+                              >
+                                {'- '}{' '}
+                                {mentor.about_yourself.first_name +
+                                  ' ' +
+                                  mentor.about_yourself.last_name}
+                              </div>
+                            )}
+
                             <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
                           </div>
                           <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
@@ -374,9 +415,7 @@ const Home = () => {
                 {/* outer */}
               </div>
             ) : (
-              <div
-                className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer"
-              >
+              <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
                 No Workshop found
               </div>
             ))}
@@ -386,6 +425,8 @@ const Home = () => {
               <div className="my-3 bg-white">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
                   {coursesResults.map((item, index) => {
+                    const mentor = getMentorData(item.username)
+                    // console.log('mentor', mentor)
                     return (
                       <div
                         key={index}
@@ -413,6 +454,19 @@ const Home = () => {
                             <div className="flex justify-start text-black text-lg font-semibold p-6">
                               {item.description}
                             </div>
+                            {mentor && (
+                              <div
+                                className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end  border-2
+                                 text-black p-10"
+                                onClick={showPreview.bind(null, mentor)}
+                              >
+                                {'- '}{' '}
+                                {mentor.about_yourself.first_name +
+                                  ' ' +
+                                  mentor.about_yourself.last_name}
+                              </div>
+                            )}
+
                             <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
                           </div>
                           <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
@@ -428,7 +482,123 @@ const Home = () => {
                                   className="h-5 mr-5"
                                 />
                                 <span className="text-sm font-semibold py-3">
-                                  {item.sessionDuration} {item.sessionDurationIn}
+                                  {item.sessionDuration}{' '}
+                                  {item.sessionDurationIn}
+                                </span>
+                              </div>
+
+                              {/* </button> */}
+
+                              {/* <button
+                                      className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
+                                      type="button"
+                                    > */}
+                              <div className="flex items-center  py-1 px-4 border-2 border-black min-w-[20%]">
+                                <img
+                                  src="/assets/icon/mentor-dashboard/price.svg"
+                                  className="h-5 mr-5"
+                                />
+                                <span className="text-sm font-semibold py-3">
+                                  ₹
+                                  {item.listedPrice === item.finalPrice ? (
+                                    item.finalPrice
+                                  ) : (
+                                    <>
+                                      <span className="  text-red-800 bold">
+                                        <s className="bold">
+                                          {item.listedPrice}
+                                        </s>
+                                      </span>{' '}
+                                      <span className="bold">
+                                        {item.finalPrice}
+                                      </span>
+                                    </>
+                                  )}
+                                </span>
+                              </div>
+                              {/* </button> */}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {/* outer */}
+              </div>
+            ) : (
+              <div
+                className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer"
+                onClick={searchClick}
+              >
+                No courses found
+              </div>
+            ))}
+
+          {showTextquery &&
+            (textQueryResults.length > 0 ? (
+              <div className="my-3 bg-white p-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
+                  {textQueryResults.map((item, index) => {
+                    const mentor = getMentorData(item.username)
+                    // console.log('mentor', mentor)
+                    return (
+                      <div
+                        key={index}
+                        className="flex justify-center align-center mb-10  "
+                      >
+                        <div
+                          className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
+                        >
+                          <div className="flex justify-between py-6 px-6 border-b border-gray-300">
+                            <div className="flex justify-between p-2">
+                              <img
+                                src="../../../assets/icon/clock.png"
+                                alt=""
+                                className="w-3 h-3 mt-2"
+                              ></img>
+                              <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
+                                Text Query
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col">
+                            <div className="flex justify-start text-black text-2xl font-semibold p-6">
+                              {item.title}
+                            </div>
+                            <div className="flex justify-start text-black text-lg font-semibold p-6">
+                              {item.description}
+                            </div>
+                            {mentor && (
+                              <div
+                                className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end border-2
+                                 text-black p-10"
+                                onClick={showPreview.bind(null, mentor)}
+                              >
+                                {'- '}{' '}
+                                {mentor.about_yourself.first_name +
+                                  ' ' +
+                                  mentor.about_yourself.last_name}
+                              </div>
+                            )}
+
+                            <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
+                          </div>
+                          <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
+                            {/* <div className="flex justify-end"> */}
+                            <div className="flex">
+                              {/* <button
+                                      className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
+                                      type="button"
+                                    > */}
+                              <div className="flex items-center py-1 px-3 border-2 mr-5 border-black rounded-full min-w-[20%]">
+                                <img
+                                  src="/assets/icon/mentor-dashboard/clock-two.svg"
+                                  className="h-5 mr-5"
+                                />
+                                <span className="text-sm font-semibold py-3">
+                                  {item.responseTime} {item.responseTimeIn}
                                 </span>
                               </div>
 
@@ -473,115 +643,18 @@ const Home = () => {
                 {/* outer */}
               </div>
             ) : (
-              <div
-                className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer"
-                onClick={searchClick}
-              >
-                No courses found
+              <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+                No text query found
               </div>
             ))}
-
-          {showTextquery && (textQueryResults.length > 0 ? (
-            <div className="my-3 bg-white p-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-                {textQueryResults.map((item, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="flex justify-center align-center mb-10  "
-                    >
-                      <div
-                        className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
-                      >
-                        <div className="flex justify-between py-6 px-6 border-b border-gray-300">
-                          <div className="flex justify-between p-2">
-                            <img
-                              src="../../../assets/icon/clock.png"
-                              alt=""
-                              className="w-3 h-3 mt-2"
-                            ></img>
-                            <span className="text-base font-normal md:text-xl lg:text-xl ml-2">
-                              Text Query
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-col">
-                          <div className="flex justify-start text-black text-2xl font-semibold p-6">
-                            {item.title}
-                          </div>
-                          <div className="flex justify-start text-black text-lg font-semibold p-6">
-                            {item.description}
-                          </div>
-                          <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
-                        </div>
-                        <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">
-                          {/* <div className="flex justify-end"> */}
-                          <div className="flex">
-                            {/* <button
-                                      className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-amber-400 hover:bg-amber-400 hover:text-white text-black  rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
-                                      type="button"
-                                    > */}
-                            <div className="flex items-center py-1 px-3 border-2 mr-5 border-black rounded-full min-w-[20%]">
-                              <img
-                                src="/assets/icon/mentor-dashboard/clock-two.svg"
-                                className="h-5 mr-5"
-                              />
-                              <span className="text-sm font-semibold py-3">
-                                {item.responseTime} {item.responseTimeIn}
-                              </span>
-                            </div>
-
-                            {/* </button> */}
-
-                            {/* <button
-                                      className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
-                                      type="button"
-                                    > */}
-                            <div className="flex items-center  py-1 px-4 border-2 border-black rounded-full min-w-[20%]">
-                              <img
-                                src="/assets/icon/mentor-dashboard/price.svg"
-                                className="h-5 mr-5"
-                              />
-                              <span className="text-sm font-semibold py-3">
-                                ₹
-                                {item.listedPrice === item.finalPrice ? (
-                                  item.finalPrice
-                                ) : (
-                                  <>
-                                    <span className="  text-red-800 bold">
-                                      <s className="bold">{item.listedPrice}</s>
-                                    </span>{' '}
-                                    <span className="bold">
-                                      {item.finalPrice}
-                                    </span>
-                                  </>
-                                )}
-                              </span>
-                            </div>
-                            {/* </button> */}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-
-              {/* outer */}
-            </div>
-          ) : (
-            <div
-              className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer"
-            >
-              No text query found
-            </div>
-          ))}
 
           {showPackages &&
             (packagesResults.length > 0 ? (
               <div className="my-3 bg-white p-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
                   {packagesResults.map((item, index) => {
+                    const mentor = getMentorData(item.username)
+                    // console.log('mentor', mentor)
                     return (
                       <div
                         key={index}
@@ -609,6 +682,19 @@ const Home = () => {
                             <div className="flex justify-start text-black text-lg font-semibold p-6">
                               {item.description}
                             </div>
+                            {mentor && (
+                              <div
+                                className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end border-2
+                                 text-black p-10"
+                                onClick={showPreview.bind(null, mentor)}
+                              >
+                                {'- '}{' '}
+                                {mentor.about_yourself.first_name +
+                                  ' ' +
+                                  mentor.about_yourself.last_name}
+                              </div>
+                            )}
+
                             <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
                           </div>
                           <div className="py-4 px-6 border-t border-gray-300 text-gray-600 md:flex-row flex-col flex md:justify-between items-center">

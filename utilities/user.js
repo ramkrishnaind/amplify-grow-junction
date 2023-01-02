@@ -10,3 +10,9 @@ export const getLoggedinUserEmail = () => {
     return ''
   }
 }
+export const getMentorData = (userName) => {
+  const { title, mentors } = store.getState().MentorHeaderReducer
+  if(!mentors) return null
+  const mentor = mentors.find((i) => i.username === userName)
+  return mentor ? { ...mentor } : null
+}
