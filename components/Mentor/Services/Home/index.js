@@ -96,6 +96,7 @@ const Home = () => {
     setLoading(false)
   }
 
+
   const loadWorkshop = async () => {
     debugger
     try {
@@ -201,6 +202,7 @@ const Home = () => {
     }
     setLoading(false)
   }
+
 
   useEffect(() => {
     loadOneOnOne()
