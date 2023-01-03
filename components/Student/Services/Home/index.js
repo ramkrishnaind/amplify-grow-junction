@@ -33,6 +33,7 @@ const Home = () => {
   // return <div>Hi</div>
   // const router= useRouter()
   const searchRef = useRef()
+  const [openTab, setOpenTab] = React.useState(1)
   const [showSession, setShowSession] = useState(false)
   const [showWorkshop, setShowWorkshop] = useState(false)
   const [showTextquery, setShowTextquery] = useState(false)
@@ -270,8 +271,96 @@ const Home = () => {
           </div>
           <div className=""></div>
         </div>
-        <div className="mb-10">
-          {showSession &&
+        <div className="flex flex-row w-full">
+        <div className="w-full">
+          <div className="bg-grey-50">
+            <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200">
+              <li className="mr-2">
+                <a
+                  href="#"
+                  className={
+                    openTab === 1
+                      ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                      : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                  }
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setOpenTab(1)
+                  }}
+                >
+                  1 on 1 Session
+                </a>
+                
+              </li>
+              <li className="mr-2">
+                <a
+                  href="#"
+                  className={
+                    openTab === 2
+                      ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                      : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                  }
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setOpenTab(2)
+                  }}
+                >
+                  Workshop
+                </a>
+              </li>
+              <li className="mr-2">
+                <a
+                  href="#"
+                  className={
+                    openTab === 3
+                      ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                      : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                  }
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setOpenTab(3)
+                  }}
+                >
+                  Courses
+                </a>
+                
+              </li>
+              <li className="mr-2">
+                <a
+                  href="#"
+                  className={
+                    openTab === 4
+                      ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                      : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                  }
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setOpenTab(4)
+                  }}
+                >
+                  Text query
+                </a>
+              </li>
+              <li className="mr-2">
+                <a
+                  href="#"
+                  className={
+                    openTab === 5
+                      ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                      : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                  }
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setOpenTab(5)
+                  }}
+                >
+                  Packages
+                </a>
+              </li>
+            </ul>
+
+            <div className={openTab === 1 ? 'block' : 'hidden'}>
+            {showSession &&
             (sessionResults.length > 0 ? (
               <div className="my-3 bg-white p-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
@@ -388,7 +477,11 @@ const Home = () => {
               </div>
             ))}
 
-          {showWorkshop &&
+            </div>
+
+
+             <div className={openTab === 2 ? 'block' : 'hidden'}>
+             {showWorkshop &&
             (workshopResults.length > 0 ? (
               <div className="my-3 bg-white p-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
@@ -501,8 +594,10 @@ const Home = () => {
                 No Workshop found
               </div>
             ))}
+            </div>
 
-          {showCourses &&
+            <div className={openTab === 3 ? 'block' : 'hidden'}>
+            {showCourses &&
             (coursesResults.length > 0 ? (
               <div className="my-3 bg-white">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
@@ -619,7 +714,10 @@ const Home = () => {
                 No courses found
               </div>
             ))}
+            </div>
 
+            <div className={openTab === 4 ? 'block' : 'hidden'}>
+              
           {showTextquery &&
             (textQueryResults.length > 0 ? (
               <div className="my-3 bg-white p-10">
@@ -733,8 +831,10 @@ const Home = () => {
                 No text query found
               </div>
             ))}
+            </div>
 
-          {showPackages &&
+            <div className={openTab === 5 ? 'block' : 'hidden'}>
+            {showPackages &&
             (packagesResults.length > 0 ? (
               <div className="my-3 bg-white p-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
@@ -830,7 +930,17 @@ const Home = () => {
                 No packages found
               </div>
             ))}
+            </div>
+
+          </div>
         </div>
+      </div>
+
+
+
+      {/* service display start */}
+        {/* <div className="mb-10">
+        </div> */}
       </div>
 
       {showServiceDetail ? (
