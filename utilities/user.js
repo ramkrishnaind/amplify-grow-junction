@@ -16,3 +16,10 @@ export const getMentorData = (userName) => {
   const mentor = mentors.find((i) => i.username === userName)
   return mentor ? { ...mentor } : null
 }
+
+export const getMentorDataOnName = (userName) => {
+  const { title, mentors } = store.getState().MentorHeaderReducer
+  if(!mentors) return null
+  const mentor = mentors.find((i) => (i.about_yourself.first_name + ' ' + i.about_yourself.last_name) === userName)
+  return mentor ? { ...mentor } : null
+}
