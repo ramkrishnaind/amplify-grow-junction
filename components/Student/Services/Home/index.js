@@ -18,6 +18,9 @@ import { listPackages } from '/src/graphql/queries'
 import { useSelector, useDispatch } from 'react-redux'
 import { getLoggedinUserEmail, getMentorData } from '../../../../utilities/user'
 import { setMentors } from '../../../../redux/actions/MentorTitleAction'
+import DatePicker from 'react-multi-date-picker'
+import TimezoneSelect, { allTimezones } from 'react-timezone-select'
+
 const Home = () => {
   const mentorsState = useSelector((state) => state.MentorHeaderReducer)
   useEffect(() => {
@@ -41,6 +44,15 @@ const Home = () => {
   const [textQueryResults, setTextQueryResults] = useState([])
   const [coursesResults, setCoursesResults] = useState([])
   const [packagesResults, setPackagesResults] = useState([])
+  const [showServiceDetail, setShowServiceDetail] = useState(false)
+  const [bookNow, setBookNow] = useState([])
+  const [value, onChange] = useState(new Date())
+  const [timeZone, setTimeZone] = useState({})
+
+  const [bookSession1, setBookSession1] = useState(false)
+  const [bookSession2, setBookSession2] = useState(false)
+  const [bookSession3, setBookSession3] = useState(false)
+
   const showPreview = (mentorPassed) => {
     console.log('mentorPassed', mentorPassed)
   }
@@ -169,6 +181,58 @@ const Home = () => {
     //setShowSession(false)
   }
 
+  const handleSessionClick = (index) => {
+    debugger
+    setShowServiceDetail(true)
+    const id = index
+    setBookNow(sessionResults[id])
+    console.log('id=', sessionResults[id])
+  }
+
+  const handleWorkshopClick = (index) => {
+    debugger
+    setShowServiceDetail(true)
+    const id = index
+    setBookNow(workshopResults[id])
+    console.log('id=', workshopResults[id])
+  }
+  const handleCoursesClick = (index) => {
+    debugger
+    setShowServiceDetail(true)
+    const id = index
+    setBookNow(coursesResults[id])
+    console.log('id=', coursesResults[id])
+  }
+  const handleTextqueryClick = (index) => {
+    debugger
+    setShowServiceDetail(true)
+    const id = index
+    setBookNow(textQueryResults[id])
+    console.log('id=', textQueryResults[id])
+  }
+  const handlePackagesClick = (index) => {
+    debugger
+    setShowServiceDetail(true)
+    const id = index
+    setBookNow(packagesResults[id])
+    console.log('id=', packagesResults[id])
+  }
+  const handleBookClick =() =>{
+    setShowServiceDetail(false)
+    setBookSession1(true)
+  }
+
+  const handleBookSession2 = () =>{
+    setBookSession1(false)
+    setBookSession2(true)
+  }
+
+  const handleBookSession3 =() =>{
+    setBookSession2(false)
+    setBookSession3(true)
+  }
+
+
   if (loading) return null
   return (
     <>
@@ -209,7 +273,8 @@ const Home = () => {
                         className="flex justify-center align-center mb-10  "
                       >
                         <div
-                          className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
+                          className={` bg-white text-center border border-b-2 cursor-pointer rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
+                          onClick={() => handleSessionClick(index)}
                         >
                           <div className="flex justify-between py-6 px-6 border-b border-gray-300">
                             <div className="flex justify-between p-2">
@@ -224,6 +289,7 @@ const Home = () => {
                             </div>
                           </div>
                           <div className="flex flex-col">
+                          <div className="hidden">{item.id}</div>
                             <div className="flex justify-start text-black text-2xl font-semibold p-6">
                               {item.sessionTitle}
                             </div>
@@ -321,7 +387,8 @@ const Home = () => {
                         className="flex justify-center align-center mb-10  "
                       >
                         <div
-                          className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
+                          className={` bg-white text-center border border-b-2 cursor-pointer rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
+                          onClick={() => handleWorkshopClick(index)}
                         >
                           <div className="flex justify-between py-6 px-6 border-b border-gray-300">
                             <div className="flex justify-between p-2">
@@ -336,6 +403,7 @@ const Home = () => {
                             </div>
                           </div>
                           <div className="flex flex-col">
+                          <div className="hidden">{item.id}</div>
                             <div className="flex justify-start text-black text-2xl font-semibold p-6">
                               {item.title}
                             </div>
@@ -433,7 +501,8 @@ const Home = () => {
                         className="flex justify-center align-center mb-10  "
                       >
                         <div
-                          className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
+                          className={` bg-white text-center cursor-pointer border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
+                          onClick={() => handleCoursesClick(index)}
                         >
                           <div className="flex justify-between py-6 px-6 border-b border-gray-300">
                             <div className="flex justify-between p-2">
@@ -448,6 +517,7 @@ const Home = () => {
                             </div>
                           </div>
                           <div className="flex flex-col">
+                          <div className="hidden">{item.id}</div>
                             <div className="flex justify-start text-black text-2xl font-semibold p-6">
                               {item.courseTitle}
                             </div>
@@ -493,7 +563,7 @@ const Home = () => {
                                       className="flex justify-center items-center bg-black hover:bg-amber-400 text-white rounded-full mr-5 w-full md:w-1/4 lg:w-1/4"
                                       type="button"
                                     > */}
-                              <div className="flex items-center  py-1 px-4 border-2 border-black min-w-[20%]">
+                              <div className="flex items-center  py-1 px-4 border-2 rounded-full border-black min-w-[20%]">
                                 <img
                                   src="/assets/icon/mentor-dashboard/price.svg"
                                   className="h-5 mr-5"
@@ -549,7 +619,8 @@ const Home = () => {
                         className="flex justify-center align-center mb-10  "
                       >
                         <div
-                          className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
+                          className={` bg-white text-center cursor-pointer border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
+                          onClick={() => handleTextqueryClick(index)}
                         >
                           <div className="flex justify-between py-6 px-6 border-b border-gray-300">
                             <div className="flex justify-between p-2">
@@ -564,6 +635,7 @@ const Home = () => {
                             </div>
                           </div>
                           <div className="flex flex-col">
+                          <div className="hidden">{item.id}</div>
                             <div className="flex justify-start text-black text-2xl font-semibold p-6">
                               {item.title}
                             </div>
@@ -661,7 +733,8 @@ const Home = () => {
                         className="flex justify-center align-center mb-10  "
                       >
                         <div
-                          className={` bg-white text-center border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
+                          className={` bg-white text-center cursor-pointer border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
+                          onClick={() => handlePackagesClick(index)}
                         >
                           <div className="flex justify-between py-6 px-6 border-b border-gray-300">
                             <div className="flex justify-between p-2">
@@ -676,6 +749,7 @@ const Home = () => {
                             </div>
                           </div>
                           <div className="flex flex-col">
+                          <div className="hidden">{item.id}</div>
                             <div className="flex justify-start text-black text-2xl font-semibold p-6">
                               {item.packageTitle}
                             </div>
@@ -744,6 +818,635 @@ const Home = () => {
             ))}
         </div>
       </div>
+
+      {showServiceDetail ? (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+              <div className="flex justify-between px-8 py-4  border-gray-300">
+                <div className="flex flex-row justify-start items-start px-6 py-6 bg-gray-100 rounded-md">
+                  <div
+                    className={`${classes['img-profile']} bg-gray-300 rounded-md`}
+                  ></div>
+                  <div className="ml-2 mt-6 p-2">
+                    <span className="text-3xl font-semibold ">
+                      1 on 1 Mock Interview
+                    </span>
+                    <div className="flex flex-row justify-start items-start mt-2">
+                      {/* <span className="text-4xl font-bold mt-4">
+                        Rs. {bookNow.listedPrice} {bookNow.finalPrice}
+                      </span> */}
+                      <span className="text-4xl font-bold py-3">
+                        ₹
+                        {bookNow.listedPrice === bookNow.finalPrice ? (
+                          bookNow.finalPrice
+                        ) : (
+                          <>
+                            <span className="  bold">
+                              <span className="bold">{bookNow.listedPrice}</span>
+                            </span>{' '}
+                            <s className="text-xl   text-red-800 bold">
+                              {bookNow.finalPrice}
+                            </s>
+                          </>
+                        )}
+                        <span className="text-xl font-semibold ml-5">
+                          {`(`}
+                          {(bookNow.finalPrice - bookNow.listedPrice) / 100}
+                        </span>
+                        <span className="text-xl font-semibold">%{`)`}</span>
+                      </span>
+                    </div>
+                    <div className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-1/2 text-2xl font-semibold hover:bg-gray-900 hover:text-white w-auto"
+                    onClick={() => handleBookClick()}
+                    >
+                      Book Now
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setShowServiceDetail(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2 ml-2"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex flex-col justify-start items-start ml-10">
+                <div className="mt-5">
+                  <p className="text-xl font-bold mb-3 -ml-4">
+                    Session includes
+                  </p>
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    1 on 1 mock interviwes
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Career guidance
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    portfolio review
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-10">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Placement guidance
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+
+
+
+{bookSession1 && (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+              <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                <div className="flex flex-col justify-start items-start border=b-2">
+                  <span className="text-2xl font-semibold mt-3">
+                    Select the date you want to schedule a meet
+                  </span>
+                </div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setBookSession1(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2 mt-5"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
+                <div className="border-r-2">
+                  <div className="bg-gray-100 m-2 mr-3 w-auto rounded-lg ">
+                    <div className="flex flex-row justify-start items-start px-4 py-2">
+                      <img
+                        src="../../../images/student.png"
+                        alt=""
+                        className="w-20 h-20 mt-2"
+                      />
+                      <div>
+                        <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
+                          Call with Michael
+                        </p>
+                        <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
+                          For 1 on 1 mock interview
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex justify-around w-full p-2">
+                      <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                        <img
+                          src="../../../assets/icon/clock.png"
+                          alt=""
+                          className="w-4 h-3"
+                        ></img>
+                        <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                          30 minutes
+                        </p>
+                      </button>
+                      <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                        <img
+                          src="../../../images/camera.png"
+                          alt=""
+                          className="w-4 h-3"
+                        ></img>
+                        <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                          Video session
+                        </p>
+                      </button>
+                      <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                        <img
+                          src="../../../assets/icon/money.png"
+                          alt=""
+                          className="w-4 h-3"
+                        ></img>
+                        <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                          ₹ 1000
+                        </p>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div className=" text-base font-normal p-8 w-full">
+                    <DatePicker onChange={onChange} value={value} />
+                  </div>
+                  <div className="select-wrapper  text-base font-normal w-full p-6">
+                    <TimezoneSelect
+                      value={timeZone}
+                      onChange={setTimeZone}
+                      timezones={{
+                        ...allTimezones,
+                        'America/Lima': 'Pittsburgh',
+                        'Europe/Berlin': 'Frankfurt',
+                      }}
+                    />
+                  </div>
+                </div>
+                {/* gird */}
+              </div>
+              <div className="flex justify-evenly w-full">
+                <div className="py-4 px-6 border-t border-gray-300 w-full">
+                  <div className="flex justify-center items-center w-full">
+                    <button className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                     onClick={() => setBookSession1(false)}
+                    >
+                      <span className="text-base font-semibold py-1">
+                        Close
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="py-4 px-6 border-t border-gray-300 w-full">
+                  <div className="flex justify-center items-center w-full">
+                    <button className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                    onClick={()=>handleBookSession2()}
+                    >
+                      <span className="text-base font-semibold py-1">
+                        Continue
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+{bookSession2 && (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+              <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                <div className="flex flex-col justify-start items-start border=b-2">
+                  <span className="text-2xl font-semibold mt-3">
+                    Select the date you want to schedule a meet
+                  </span>
+                </div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setBookSession2(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2 mt-5"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
+                <div className="border-r-2">
+                  <div className="bg-gray-100 m-2 mr-3 w-auto rounded-lg ">
+                    <div className="flex flex-row justify-start items-start px-4 py-2">
+                      <img
+                        src="../../../images/student.png"
+                        alt=""
+                        className="w-20 h-20 mt-2"
+                      />
+                      <div>
+                        <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
+                          Call with Michael
+                        </p>
+                        <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
+                          For 1 on 1 mock interview
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex justify-around w-full p-2">
+                      <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                        <img
+                          src="../../../assets/icon/clock.png"
+                          alt=""
+                          className="w-4 h-3"
+                        ></img>
+                        <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                          30 minutes
+                        </p>
+                      </button>
+                      <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                        <img
+                          src="../../../images/camera.png"
+                          alt=""
+                          className="w-4 h-3"
+                        ></img>
+                        <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                          Video session
+                        </p>
+                      </button>
+                      <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                        <img
+                          src="../../../assets/icon/money.png"
+                          alt=""
+                          className="w-4 h-3"
+                        ></img>
+                        <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                          ₹ 1000
+                        </p>
+                      </button>
+                    </div>
+                  </div>
+                  <span className="flex justify-start text-sm font-semibold p-4">
+                    Pick a time
+                  </span>
+                  <div className="flex justify-start w-full px-4 py-2">
+                    <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white p-1 mr-2 rounded-full">
+                      <p className="text-sm text-black hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                        05:00 AM
+                      </p>
+                    </button>
+
+                    <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white p-1 mr-2 rounded-full">
+                      <p className="text-sm text-black  hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                        05:30 AM
+                      </p>
+                    </button>
+
+                    <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white p-1 mr-2 rounded-full">
+                      <p className="text-sm text-black  hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                        06:00 AM
+                      </p>
+                    </button>
+                    <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white p-1 mr-2 rounded-full">
+                      <p className="text-sm text-black  hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                        07:00 AM
+                      </p>
+                    </button>
+                  </div>
+                  <div className="flex justify-start w-full px-4 py-2">
+                    <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white p-1 mr-2 rounded-full">
+                      <p className="text-sm text-black  hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                        04:00 PM
+                      </p>
+                    </button>
+                    <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white p-1 mr-2 rounded-full">
+                      <p className="text-sm text-black  hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                        05:00 PM
+                      </p>
+                    </button>
+                    <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white p-1 mr-2 rounded-full">
+                      <p className="text-sm text-black  hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                        07:00 PM
+                      </p>
+                    </button>
+                    <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white p-1 mr-2 rounded-full">
+                      <p className="text-sm text-black  hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                        08:00 PM
+                      </p>
+                    </button>
+                  </div>
+                  <div className="flex justify-start w-full px-4 py-2 mb-10">
+                    <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white p-1 mr-2 rounded-full">
+                      <p className="text-sm text-black  hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                        11:00 PM
+                      </p>
+                    </button>
+                    <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white p-1 mr-2 rounded-full">
+                      <p className="text-sm text-black  hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                        11:30 PM
+                      </p>
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <div className=" text-base font-normal py-8 w-full mt-10">
+                    <DatePicker onChange={onChange} value={value} />
+                  </div>
+                  <div className="select-wrapper  text-base font-normal w-full p-6">
+                    <TimezoneSelect
+                      value={timeZone}
+                      onChange={setTimeZone}
+                      timezones={{
+                        ...allTimezones,
+                        'America/Lima': 'Pittsburgh',
+                        'Europe/Berlin': 'Frankfurt',
+                      }}
+                    />
+                  </div>
+                </div>
+                {/* gird */}
+              </div>
+              <div className="flex justify-evenly w-full">
+                <div className="py-4 px-6 border-t border-gray-300 w-full">
+                  <div className="flex justify-center items-center w-full">
+                    <button className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                     onClick={() => setBookSession2(false)}
+                    >
+                      <span className="text-base font-semibold py-1">
+                        Close
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="py-4 px-6 border-t border-gray-300 w-full">
+                  <div className="flex justify-center items-center w-full">
+                    <button className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                    onClick={() => handleBookSession3()}
+                    >
+                      <span className="text-base font-semibold py-1">
+                        Continue
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {bookSession3 && (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+              <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                <div className="flex flex-col justify-start items-start border=b-2">
+                  <span className="text-2xl font-semibold mt-3">
+                    Select the date you want to schedule a meet
+                  </span>
+                </div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setBookSession3(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2 mt-5"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
+                <div className="border-r-2">
+                  <div className="bg-gray-100 m-4 mr-3 w-auto rounded-lg border-2 border-blue-500">
+                    <div className="flex flex-row justify-start items-start px-4 py-2 ">
+                      <img
+                        src="../../../images/student.png"
+                        alt=""
+                        className="w-20 h-20 mt-2"
+                      />
+                      <div>
+                        <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
+                          Call with Michael
+                        </p>
+                        <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
+                          For 1 on 1 mock interview
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex justify-around w-full p-2">
+                      <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                        <img
+                          src="../../../assets/icon/clock.png"
+                          alt=""
+                          className="w-4 h-3"
+                        ></img>
+                        <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white">
+                          30 minutes
+                        </p>
+                      </button>
+                      <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                        <img
+                          src="../../../images/camera.png"
+                          alt=""
+                          className="w-4 h-3"
+                        ></img>
+                        <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white">
+                          Video session
+                        </p>
+                      </button>
+                      <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                        <img
+                          src="../../../assets/icon/money.png"
+                          alt=""
+                          className="w-4 h-3"
+                        ></img>
+                        <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white">
+                          ₹ 1000
+                        </p>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <div className="flex justify-cener item-center m-3 bg-gray-100 border-2 border-blue-500 p-2 rounded-lg">
+                      <img
+                        src="../../../assets/icon/dateBlue.png"
+                        className="w-6 h-6 p-1 mr-2"
+                      ></img>
+                      <span className="text-sm font-blue text-blue-700">
+                        Wed, 22 Sep 2022 | 07:00 PM - 07:30 PM
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div className=" text-base font-normal p-6 w-full">
+                    {/* <Calendar onChange={onChange} value={value} />
+                    <span>name</span> */}
+
+                    <div className="flex flex-col">
+                      <div className="text-sm w-full">
+                        <label className="flex justify-start text-sm font-normal">
+                          Name
+                        </label>
+                        <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                          <TextField
+                            placeholder="Name"
+                            name="name"
+                            type="text"
+                            id="name"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="text-sm w-full">
+                        <label className="flex justify-start text-sm font-normal">
+                          Email
+                        </label>
+                        <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                          <TextField
+                            placeholder="examplemail@gmail.com"
+                            name="email"
+                            type="email"
+                            id="email"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="text-sm w-full">
+                        <label className="flex justify-start text-sm font-normal">
+                          What is this call about? (optional)
+                        </label>
+                        <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                          <TextField
+                            placeholder="Hey this is michael, co-founder and executive officer at twitter. "
+                            name="callForWhat"
+                            type="text"
+                            id="callForWhat"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="text-sm w-full">
+                        <label className="flex justify-start text-sm font-normal">
+                          Mobile Number
+                        </label>
+                        <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                          <TextField
+                            placeholder="+91 | 986 747 6346"
+                            name="mobile"
+                            type="text"
+                            id="mobile"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex justify-start text-sm w-full">
+                        <input
+                          id="update"
+                          type="checkbox"
+                          value=""
+                          className="w-4 h-4 text-gray-900 bg-gray-100 rounded border-gray-300 focus:ring-black"
+                        />
+                        <label
+                          htmlFor="update"
+                          className="text-sm font-medium text-gray-900"
+                        >
+                          Receive updates on phone and whatsapp
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="select-wrapper  text-base font-normal w-full p-6">
+                    <TimezoneSelect
+                      value={timeZone}
+                      onChange={setTimeZone}
+                      timezones={{
+                        ...allTimezones,
+                        'America/Lima': 'Pittsburgh',
+                        'Europe/Berlin': 'Frankfurt',
+                      }}
+                    />
+                  </div>
+                </div>
+                {/* gird */}
+              </div>
+              <div className="flex justify-evenly w-full">
+                <div className="py-4 px-6 border-t border-gray-300 w-full">
+                  <div className="flex justify-center items-center w-full">
+                    <button className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                    //  onClick={() => setBookSession3(false)}
+                    >
+                      <span className="text-base font-semibold py-1">
+                        Change date and time
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="py-4 px-6 border-t border-gray-300 w-full">
+                  <div className="flex justify-center items-center w-full">
+                    <button className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md">
+                      <span className="text-base font-semibold py-1">
+                        Schedule booking
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
     </>
   )
 }
