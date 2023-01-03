@@ -9,7 +9,7 @@ import Courses from '../../../Student/Services/Home/Courses'
 import Packages from '../../../Student/Services/Home/Packages'
 import Link from 'next/link'
 import TextField from '../../../../pages/ui-kit/TextField'
-import { API, Auth, graphqlOperation } from 'aws-amplify'
+import { API, Auth, Storage, graphqlOperation } from 'aws-amplify'
 import { listOneOnOnes } from '/src/graphql/queries'
 import { listTextQueries } from '/src/graphql/queries'
 import { listWorkshops } from '/src/graphql/queries'
@@ -52,8 +52,23 @@ const Home = () => {
   const [bookSession1, setBookSession1] = useState(false)
   const [bookSession2, setBookSession2] = useState(false)
   const [bookSession3, setBookSession3] = useState(false)
+  const [mentor, setMentor] = useState([])
+  const [showMentor, setShowMentor] = useState(false)
+  const [image, setImage] = useState('')
 
-  const showPreview = (mentorPassed) => {
+  const showPreview = async (mentorPassed) => {
+    if (mentorPassed) {
+      if (mentorPassed.profile_image) {
+        const img = await Storage.get(mentorPassed.profile_image)
+        console.log('image - ', img)
+        setImage(img)
+      }
+
+      setMentor(mentorPassed)
+      setShowServiceDetail(false)
+      setShowMentor(true)
+    }
+    debugger
     console.log('mentorPassed', mentorPassed)
   }
   const loadOneOnOne = async () => {
@@ -217,21 +232,20 @@ const Home = () => {
     setBookNow(packagesResults[id])
     console.log('id=', packagesResults[id])
   }
-  const handleBookClick =() =>{
+  const handleBookClick = () => {
     setShowServiceDetail(false)
     setBookSession1(true)
   }
 
-  const handleBookSession2 = () =>{
+  const handleBookSession2 = () => {
     setBookSession1(false)
     setBookSession2(true)
   }
 
-  const handleBookSession3 =() =>{
+  const handleBookSession3 = () => {
     setBookSession2(false)
     setBookSession3(true)
   }
-
 
   if (loading) return null
   return (
@@ -289,7 +303,7 @@ const Home = () => {
                             </div>
                           </div>
                           <div className="flex flex-col">
-                          <div className="hidden">{item.id}</div>
+                            <div className="hidden">{item.id}</div>
                             <div className="flex justify-start text-black text-2xl font-semibold p-6">
                               {item.sessionTitle}
                             </div>
@@ -403,7 +417,7 @@ const Home = () => {
                             </div>
                           </div>
                           <div className="flex flex-col">
-                          <div className="hidden">{item.id}</div>
+                            <div className="hidden">{item.id}</div>
                             <div className="flex justify-start text-black text-2xl font-semibold p-6">
                               {item.title}
                             </div>
@@ -517,7 +531,7 @@ const Home = () => {
                             </div>
                           </div>
                           <div className="flex flex-col">
-                          <div className="hidden">{item.id}</div>
+                            <div className="hidden">{item.id}</div>
                             <div className="flex justify-start text-black text-2xl font-semibold p-6">
                               {item.courseTitle}
                             </div>
@@ -635,7 +649,7 @@ const Home = () => {
                             </div>
                           </div>
                           <div className="flex flex-col">
-                          <div className="hidden">{item.id}</div>
+                            <div className="hidden">{item.id}</div>
                             <div className="flex justify-start text-black text-2xl font-semibold p-6">
                               {item.title}
                             </div>
@@ -749,7 +763,7 @@ const Home = () => {
                             </div>
                           </div>
                           <div className="flex flex-col">
-                          <div className="hidden">{item.id}</div>
+                            <div className="hidden">{item.id}</div>
                             <div className="flex justify-start text-black text-2xl font-semibold p-6">
                               {item.packageTitle}
                             </div>
@@ -843,7 +857,9 @@ const Home = () => {
                         ) : (
                           <>
                             <span className="  bold">
-                              <span className="bold">{bookNow.listedPrice}</span>
+                              <span className="bold">
+                                {bookNow.listedPrice}
+                              </span>
                             </span>{' '}
                             <s className="text-xl   text-red-800 bold">
                               {bookNow.finalPrice}
@@ -857,8 +873,9 @@ const Home = () => {
                         <span className="text-xl font-semibold">%{`)`}</span>
                       </span>
                     </div>
-                    <div className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-1/2 text-2xl font-semibold hover:bg-gray-900 hover:text-white w-auto"
-                    onClick={() => handleBookClick()}
+                    <div
+                      className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-1/2 text-2xl font-semibold hover:bg-gray-900 hover:text-white w-auto"
+                      onClick={() => handleBookClick()}
                     >
                       Book Now
                     </div>
@@ -926,9 +943,7 @@ const Home = () => {
         </>
       ) : null}
 
-
-
-{bookSession1 && (
+      {bookSession1 && (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
@@ -1026,8 +1041,9 @@ const Home = () => {
               <div className="flex justify-evenly w-full">
                 <div className="py-4 px-6 border-t border-gray-300 w-full">
                   <div className="flex justify-center items-center w-full">
-                    <button className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                     onClick={() => setBookSession1(false)}
+                    <button
+                      className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                      onClick={() => setBookSession1(false)}
                     >
                       <span className="text-base font-semibold py-1">
                         Close
@@ -1038,8 +1054,9 @@ const Home = () => {
 
                 <div className="py-4 px-6 border-t border-gray-300 w-full">
                   <div className="flex justify-center items-center w-full">
-                    <button className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                    onClick={()=>handleBookSession2()}
+                    <button
+                      className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                      onClick={() => handleBookSession2()}
                     >
                       <span className="text-base font-semibold py-1">
                         Continue
@@ -1053,7 +1070,7 @@ const Home = () => {
         </>
       )}
 
-{bookSession2 && (
+      {bookSession2 && (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
@@ -1212,8 +1229,9 @@ const Home = () => {
               <div className="flex justify-evenly w-full">
                 <div className="py-4 px-6 border-t border-gray-300 w-full">
                   <div className="flex justify-center items-center w-full">
-                    <button className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                     onClick={() => setBookSession2(false)}
+                    <button
+                      className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                      onClick={() => setBookSession2(false)}
                     >
                       <span className="text-base font-semibold py-1">
                         Close
@@ -1224,8 +1242,9 @@ const Home = () => {
 
                 <div className="py-4 px-6 border-t border-gray-300 w-full">
                   <div className="flex justify-center items-center w-full">
-                    <button className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                    onClick={() => handleBookSession3()}
+                    <button
+                      className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                      onClick={() => handleBookSession3()}
                     >
                       <span className="text-base font-semibold py-1">
                         Continue
@@ -1422,8 +1441,9 @@ const Home = () => {
               <div className="flex justify-evenly w-full">
                 <div className="py-4 px-6 border-t border-gray-300 w-full">
                   <div className="flex justify-center items-center w-full">
-                    <button className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                    //  onClick={() => setBookSession3(false)}
+                    <button
+                      className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                      //  onClick={() => setBookSession3(false)}
                     >
                       <span className="text-base font-semibold py-1">
                         Change date and time
@@ -1447,6 +1467,115 @@ const Home = () => {
         </>
       )}
 
+      {showMentor && (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+              <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                <div className="flex flex-col justify-start items-start border=b-2">
+                  <span className="text-2xl font-semibold mt-3">Mentor</span>
+                </div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setShowMentor(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2 mt-5"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-5 items-center flex flex-col">
+                <div
+                  className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
+                >
+                  {image ? (
+                    <img
+                      src={image}
+                      alt=""
+                      className={`${classes['persona']} rounded-full`}
+                    />
+                  ) : null}
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="text-4xl font-semibold mt-5 text-center">
+                    {mentor.about_yourself?.first_name}{' '}
+                    {mentor.about_yourself?.last_name}
+                  </span>
+                  <span className="text-xl font-normal text-center">
+                    {mentor.professional_info?.occupation}{' '}
+                    {mentor.professional_info?.organisation}
+                  </span>
+                  <div className="flex flex-row mt-5">
+                    <img
+                      src="../../../images/linkedin.png"
+                      alt=""
+                      className="px-4"
+                    />
+                    <img
+                      src="../../../images/instagram.png"
+                      alt=""
+                      className="px-4"
+                    />
+                    <img
+                      src="../../../images/www.png"
+                      alt=""
+                      className="px-4"
+                    />
+                  </div>
+                  <span className="text-2xl font-semibold mt-5  text-center">
+                    {mentor.about_yourself.short_description}
+                  </span>
+                  <span className="text-2xl font-semibold mt-2  text-center">
+                    {/* also an entrepreneur from Newyork, USA. */}
+                  </span>
+                  <span className="text-xs font-semibold underline underline-offset-4 mt-5  text-center">
+                    About {mentor.about_yourself.first_name}
+                  </span>
+                  <span className="text-xs font-normal mt-5  text-center">
+                    {mentor.about_yourself.about_yourself}
+                  </span>
+                  <span className="text-xs font-normal mt-2  text-center">
+                    {/* mentor young entrepreneurs out there. Hey this is michael,
+              co-founder and executive officer at */}
+                  </span>
+                  <span className="text-xs font-normal mt-2  text-center">
+                    {/* twitter. I’m here to offer my services , mentor young entrepreneurs
+              out there. */}
+                  </span>
+                  <div className="flex flex-row mt-5">
+                    <img
+                      src="../../../images/Star.png"
+                      alt=""
+                      className="w-3 h-3 mr-2"
+                    ></img>
+                    <div className="text-xs font-semibold">4.8</div>
+                    <div className="text-xs font-normal">
+                      /5.0 (200+Sessions)
+                    </div>
+                  </div>
+                  {/* <span className="text-xs font-semibold underline underline-offset-4 mt-5">
+                Domain Experties
+              </span> */}
+                  {/* <div className="flex  flex-col md:flex-row  my-5">
+                <button className="flex py-2 px-5 mb-3 md:mb-0 justify-center items-center bg-black hover:bg-blue-700 text-sm  p-2 text-white rounded-full w-auto">
+                  Entrepreneurship
+                </button>
+                <button className="flex py-3 px-5 justify-center items-center bg-black hover:bg-blue-700 text-sm p-2 text-white rounded-full w-auto ml-5">
+                  Product Management
+                </button>
+              </div> */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   )
 }
