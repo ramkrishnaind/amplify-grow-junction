@@ -16,6 +16,8 @@ import { listWorkshops } from '/src/graphql/queries'
 import { listCourses } from '/src/graphql/queries'
 import { listPackages } from '/src/graphql/queries'
 import { useSelector, useDispatch } from 'react-redux'
+import { RxCrossCircled } from 'react-icons/rx'
+
 import {
   getLoggedinUserEmail,
   getMentorData,
@@ -35,14 +37,14 @@ const Home = () => {
       setMentors(dispatch)
     }
   }, [])
-  const [tabs, setTabs] = useState([
+  const tabs = [
     { name: 'All', id: 0 },
     { name: 'One On One', id: 1 },
     { name: 'Workshops', id: 2 },
     { name: 'Courses', id: 3 },
     { name: 'Text query', id: 4 },
     { name: 'Packages', id: 5 },
-  ])
+  ]
   const onSelect = (selectedList, selectedItem) => {
     console.log('Add-selectedList', selectedList)
     console.log('Add-selectedItem', selectedItem)
@@ -97,6 +99,11 @@ const Home = () => {
   const [textQueryResults, setTextQueryResults] = useState([])
   const [coursesResults, setCoursesResults] = useState([])
   const [packagesResults, setPackagesResults] = useState([])
+  const [sessionFilteredResults, setSessionFilteredResults] = useState([])
+  const [workshopFilteredResults, setWorkshopFilteredResults] = useState([])
+  const [textQueryFilteredResults, setTextQueryFilteredResults] = useState([])
+  const [coursesFilteredResults, setCoursesFilteredResults] = useState([])
+  const [packagesFilteredResults, setPackagesFilteredResults] = useState([])
   const [showServiceDetail, setShowServiceDetail] = useState(false)
   const [bookNow, setBookNow] = useState([])
   const [value, onChange] = useState(new Date())
@@ -108,13 +115,19 @@ const Home = () => {
   const [mentor, setMentor] = useState([])
   const [showMentor, setShowMentor] = useState(false)
   const [image, setImage] = useState('')
-  const [fieldName, setFieldName] = useState('')
+  const [fieldName, setFieldName] = useState('title')
   const [mentorName, setMentorName] = useState('')
   const [serviceName, setServiceName] = useState('')
   const [mentorData, setMentorData] = useState([])
   const [mentorUserName, setMentorUserName] = useState('')
-  const [filterSessionResults, setFilterSessionResults] = useState([])
-
+  // const [filterSessionResults, setFilterSessionResults] = useState([])
+  const addmentorData = (items) => {
+    items.forEach((item) => {
+      if (item.username) {
+        item.user = getMentorData(item.username)
+      }
+    })
+  }
   const showPreview = async (mentorPassed) => {
     if (mentorPassed) {
       if (mentorPassed.profile_image) {
@@ -138,7 +151,9 @@ const Home = () => {
       const results = await API.graphql(graphqlOperation(listOneOnOnes))
       debugger
       if (results.data.listOneOnOnes.items.length > 0) {
+        addmentorData(results.data.listOneOnOnes.items)
         setSessionResults(results.data.listOneOnOnes.items)
+        setSessionFilteredResults(results.data.listOneOnOnes.items)
         // console.log('oneonone- ', sessionResults)
       }
     } catch (error) {
@@ -153,7 +168,9 @@ const Home = () => {
       // console.log('usr', usr)
       const results = await API.graphql(graphqlOperation(listWorkshops))
       if (results.data.listWorkshops.items.length > 0) {
+        addmentorData(results.data.listWorkshops.items)
         setWorkshopResults(results.data.listWorkshops.items)
+        setWorkshopFilteredResults(results.data.listWorkshops.items)
         console.log('workshop- ', workshopResults)
       }
     } catch (error) {
@@ -167,7 +184,9 @@ const Home = () => {
       // console.log('usr', usr)
       const results = await API.graphql(graphqlOperation(listCourses))
       if (results.data.listCourses.items.length > 0) {
+        addmentorData(results.data.listCourses.items)
         setCoursesResults(results.data.listCourses.items)
+        setCoursesFilteredResults(results.data.listCourses.items)
         console.log('courses- ', coursesResults)
       }
     } catch (error) {
@@ -181,7 +200,9 @@ const Home = () => {
       // console.log('usr', usr)
       const results = await API.graphql(graphqlOperation(listTextQueries))
       if (results.data.listTextQueries.items.length > 0) {
+        addmentorData(results.data.listTextQueries.items)
         setTextQueryResults(results.data.listTextQueries.items)
+        setTextQueryFilteredResults(results.data.listTextQueries.items)
         console.log('textquery- ', textQueryResults)
       }
     } catch (error) {
@@ -195,7 +216,9 @@ const Home = () => {
       // console.log('usr', usr)
       const results = await API.graphql(graphqlOperation(listPackages))
       if (results.data.listPackages.items.length > 0) {
+        addmentorData(results.data.listPackages.items)
         setPackagesResults(results.data.listPackages.items)
+        setPackagesFilteredResults(results.data.listPackages.items)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
@@ -210,9 +233,9 @@ const Home = () => {
     loadPackages()
   }, [])
 
-  useEffect(() => {
-    setSessionResults(filterSessionResults)
-  }, [filterSessionResults])
+  // useEffect(() => {
+  //   setSessionResults(filterSessionResults)
+  // }, [filterSessionResults])
 
   useEffect(() => {
     setMentorUserName(mentorUserName)
@@ -269,49 +292,91 @@ const Home = () => {
     setFieldName(type)
   }
 
-  const handleSearch = (e) => {
+  const handleSearch = (menName) => {
     debugger
-    if (fieldName === 'name' && mentorName !== null) {
-      const mentor = getMentorDataOnName(mentorName)
-      // setMentorData(mentor)
-      setMentorUserName(mentor.username)
+    // if (fieldName === 'name' && mentorName !== null) {
+    //   const mentor = getMentorDataOnName(mentorName)
+    //   // setMentorData(mentor)
+    //   setMentorUserName(mentor.username)
+    // }
+    // if (serviceName && fieldName && mentorName) {
+    // if (serviceName === 'session') {
+    if (fieldName === 'title') {
+      if (menName) {
+        const resultsSess = sessionResults.filter(function (session) {
+          return session.sessionTitle
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setSessionFilteredResults(resultsSess)
+        const resultsWork = workshopResults.filter(function (session) {
+          return session.title.toLowerCase().includes(menName.toLowerCase())
+        })
+        setWorkshopFilteredResults(resultsWork)
+        const resultsCour = coursesResults.filter(function (session) {
+          return session.courseTitle
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setCoursesFilteredResults(resultsCour)
+        const resultsText = textQueryResults.filter(function (session) {
+          return session.title.toLowerCase().includes(menName.toLowerCase())
+        })
+        setTextQueryFilteredResults(resultsText)
+        const resultsPack = packagesResults.filter(function (session) {
+          return session.packageTitle
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setPackagesFilteredResults(resultsPack)
+      } else {
+        setSessionFilteredResults([...sessionResults])
+        setWorkshopFilteredResults([...workshopResults])
+        setCoursesFilteredResults([...coursesResults])
+        setTextQueryFilteredResults([...textQueryResults])
+        setPackagesFilteredResults([...packagesResults])
+      }
+    } else if (fieldName === 'name') {
+      if (menName) {
+        const resultsSess = sessionResults.filter(function (session) {
+          return `${session?.user?.about_yourself.first_name} ${session?.user?.about_yourself.last_name}`
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setSessionFilteredResults(resultsSess)
+        const resultsWork = workshopResults.filter(function (session) {
+          return `${session?.user?.about_yourself.first_name} ${session?.user?.about_yourself.last_name}`
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setWorkshopFilteredResults(resultsWork)
+        const resultsCour = coursesResults.filter(function (session) {
+          return `${session?.user?.about_yourself.first_name} ${session?.user?.about_yourself.last_name}`
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setCoursesFilteredResults(resultsCour)
+        const resultsText = textQueryResults.filter(function (session) {
+          return `${session?.user?.about_yourself.first_name} ${session?.user?.about_yourself.last_name}`
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setTextQueryFilteredResults(resultsText)
+        const resultsPack = packagesResults.filter(function (session) {
+          return `${session?.user?.about_yourself.first_name} ${session?.user?.about_yourself.last_name}`
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setPackagesFilteredResults(resultsPack)
+      } else {
+        setSessionFilteredResults([...sessionResults])
+        setWorkshopFilteredResults([...workshopResults])
+        setCoursesFilteredResults([...coursesResults])
+        setTextQueryFilteredResults([...textQueryResults])
+        setPackagesFilteredResults([...packagesResults])
+      }
     }
-    if (serviceName && fieldName && mentorName) {
-      if (serviceName === 'session') {
-        if (fieldName === 'title') {
-          if (mentorName) {
-            const results = sessionResults.filter(function (session) {
-              return (
-                session.sessionTitle.toLowerCase() === mentorName.toLowerCase()
-              )
-            })
-            setFilterSessionResults(results)
-          }
-        } else if (fieldName === 'name') {
-          if (mentorUserName) {
-            const results = sessionResults.filter(function (session) {
-              return session.username === mentorUserName
-            })
-            setFilterSessionResults(results)
-          }
-        }
-      }
-
-      if (serviceName === 'worskshop') {
-      }
-
-      if (serviceName === 'textquery') {
-      }
-
-      if (serviceName === 'courses') {
-      }
-
-      if (serviceName === 'packages') {
-      }
-
-      if (serviceName === 'all') {
-      }
-    }
+    // }
   }
 
   const handleSessionClick = (index) => {
@@ -403,21 +468,36 @@ const Home = () => {
               <option value="title">Title</option>
               <option value="name">Mentor</option>
             </select>
-            <div className="ml-5 w-1/2">
+            <div className="ml-5 w-1/2 relative h-16 flex items-center ">
               <TextField
                 type="text"
                 id="name"
+                value={mentorName}
+                classOverrideContainer="mb-0"
                 placeholder="Title/Mentor name"
                 onChange={(e) => setMentorName(e.target.value)}
               />
+              {mentorName && (
+                <div
+                  className="absolute cursor-pointer right-2 flex items-start"
+                  onClick={(e) => {
+                    setMentorName('')
+                    // setTimeout(() => {
+                    handleSearch('')
+                    // }, 1000)
+                  }}
+                >
+                  <RxCrossCircled color="black" />
+                </div>
+              )}
             </div>
             <button
               type="button"
               onClick={(e) => {
                 e.preventDefault()
-                handleSearch(e)
+                handleSearch(mentorName)
               }}
-              className="h-16 ml-5 w-2/6 text-lg font-semibold bg-white hover:bg-gray-900 hover:text-white text-black border-gray-300 font-bold  border rounded-lg"
+              className="h-16 ml-5 w-2/6 text-lg font-semibold bg-white hover:bg-gray-900 hover:text-white text-black border-gray-300  border rounded-lg"
             >
               Search
             </button>
@@ -522,10 +602,10 @@ const Home = () => {
 
               <div className={openTab === 1 ? 'block' : 'hidden'}>
                 {showSession &&
-                  (sessionResults.length > 0 ? (
+                  (sessionFilteredResults.length > 0 ? (
                     <div className="my-3 bg-white p-10">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-                        {sessionResults.map((item, index) => {
+                        {sessionFilteredResults.map((item, index) => {
                           // debugger
                           // debugger
                           const mentor = getMentorData(item.username)
@@ -642,10 +722,10 @@ const Home = () => {
 
               <div className={openTab === 2 ? 'block' : 'hidden'}>
                 {showWorkshop &&
-                  (workshopResults.length > 0 ? (
+                  (workshopFilteredResults.length > 0 ? (
                     <div className="my-3 bg-white p-10">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-                        {workshopResults.map((item, index) => {
+                        {workshopFilteredResults.map((item, index) => {
                           const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           return (
@@ -760,10 +840,10 @@ const Home = () => {
 
               <div className={openTab === 3 ? 'block' : 'hidden'}>
                 {showCourses &&
-                  (coursesResults.length > 0 ? (
+                  (coursesFilteredResults.length > 0 ? (
                     <div className="my-3 bg-white">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-                        {coursesResults.map((item, index) => {
+                        {coursesFilteredResults.map((item, index) => {
                           const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           return (
@@ -881,10 +961,10 @@ const Home = () => {
 
               <div className={openTab === 4 ? 'block' : 'hidden'}>
                 {showTextquery &&
-                  (textQueryResults.length > 0 ? (
+                  (textQueryFilteredResults.length > 0 ? (
                     <div className="my-3 bg-white p-10">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-                        {textQueryResults.map((item, index) => {
+                        {textQueryFilteredResults.map((item, index) => {
                           const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           return (
@@ -999,10 +1079,10 @@ const Home = () => {
 
               <div className={openTab === 5 ? 'block' : 'hidden'}>
                 {showPackages &&
-                  (packagesResults.length > 0 ? (
+                  (packagesFilteredResults.length > 0 ? (
                     <div className="my-3 bg-white p-10">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-                        {packagesResults.map((item, index) => {
+                        {packagesFilteredResults.map((item, index) => {
                           const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           return (
