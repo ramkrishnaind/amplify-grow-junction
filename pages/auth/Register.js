@@ -102,13 +102,16 @@ const Register = (props) => {
   console.log('assdasda', registerType?.registerType)
 
   return (
+    
+    <div className='flex flex-row bg-gray-50'>
+    
     <div
-      className="flex flex-col md:flex-row flex-1"
+      className="flex flex-row md:flex-row lg:flex-row  bg-gray-50"
       style={{
         backgroundColor: color.headerColor,
       }}
     >
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div className='flex flex-col'>
         <Header
           btnName="Log In"
           onClickBtn={() => {
@@ -117,7 +120,7 @@ const Register = (props) => {
           style={{
             backgroundColor: color.blackVariant,
             height: 42,
-            // width: 95,
+           width: 95,
             fontSize: 16,
           }}
         />
@@ -130,22 +133,23 @@ const Register = (props) => {
           }}
         >
           <div
-            className=" text-center md:text-left"
+            className="text-gray-900 font-semibold text-3xl mt-16"
             style={{
               // textAlign: 'center',
-              color: color.blackVariant,
-              fontSize: 28,
-              marginTop: 56,
+              // color: color.blackVariant,
+              // fontSize: 28,
+              // marginTop: 56,
             }}
           >
             Welcome to Grow Junction
           </div>
           <div
-            style={{
-              fontSize: 16,
-              color: color.blackVariant,
-              marginBottom: 40,
-            }}
+           className="text-gray-900 font-normal text-base mt-10 mb-10"
+            // style={{
+            //   fontSize: 16,
+            //   color: color.blackVariant,
+            //   marginBottom: 40,
+            // }}
           >
             Fill in the details to create your account
           </div>
@@ -313,7 +317,7 @@ const Register = (props) => {
                     height: 62,
                     backgroundColor: color.btnColor,
                     color: color.blackVariant,
-                    marginTop: 40,
+                    marginTop: 35,
                     fontSize: 16,
                   }}
                   loader={loader}
@@ -327,12 +331,13 @@ const Register = (props) => {
                     label="Google"
                     image="/assets/icon/google.svg"
                     styleOverride={{
-                      height: 62,
+                      height: 50,
                       backgroundColor: 'white',
                       color: color.blackVariant,
                       border: '1px solid black',
                       fontSize: 16,
                       marginTop: 40,
+                      marginBottom:10,
                     }}
                     // containerOverride={{
                     //   marginLeft: 10,
@@ -361,12 +366,13 @@ const Register = (props) => {
                     label="LinkedIn"
                     image="/assets/icon/inkedin-circled.svg"
                     styleOverride={{
-                      height: 62,
+                      height: 50,
                       backgroundColor: 'white',
                       color: color.blackVariant,
                       border: '1px solid black',
                       fontSize: 16,
                       marginTop: 40,
+                      marginBottom:10,
                     }}
                     containerOverride={{
                       marginLeft: 10,
@@ -391,14 +397,7 @@ const Register = (props) => {
           </Formik>
         </div>
       </div>
-      <div className="hidden md:block">
-        <Image
-          src={require('../../public/assets/icon/rectangle.png')}
-          alt={''}
-          style={{ width: width / 2.5, height: height }}
-          // style={{width: 600, height: 400}}
-        />
-      </div>
+    
 
       {/* <OwlCarousel
         className="owl-theme"
@@ -435,6 +434,19 @@ const Register = (props) => {
           : ''}
       </OwlCarousel> */}
     </div>
+    
+  
+    <div className=" order-1 md:order-2 lg:order-2 hidden md:block">
+        <Image
+          src={require('../../public/assets/icon/rectangle.png')}
+          alt={''}
+          style={{ width: width / 1.75, height: height }}
+          // style={{width: 600, height: 400}}
+        />
+      </div>
+    
+    </div>
+    
   )
 }
 export default Register

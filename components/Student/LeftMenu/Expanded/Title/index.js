@@ -8,7 +8,7 @@ const Title = ({ onCollapse }) => {
         onClick={onCollapse}
         src="/assets/icon/mentor-dashboard/hamburger.png"
       />
-      <img src="/assets/icon/mentor-dashboard/GJ App logo.png" />
+      <img src="/assets/icon/mentor-dashboard/GJ App logo.svg" />
     </section>
   )
 }
