@@ -237,7 +237,7 @@ const LoginPage = (props) => {
   }
   return (
     <div
-      className="flex flex-col md:flex-row flex-1"
+      className="flex flex-col md:flex-row lg:flex-row flex-1 bg-gray-50"
       style={{
         backgroundColor: color.headerColor,
       }}
@@ -262,24 +262,26 @@ const LoginPage = (props) => {
         <div style={{ borderWidth: 1, borderColor: color.divider }} />
 
         <div
-          className="flex flex-col px-12 md:px-44"
+          className="flex flex-col px-8 md:px-44 lg:px-44"
           style={{
             backgroundColor: color.headerColor,
           }}
         >
           <div
-            style={{ color: color.blackVariant, fontSize: 28, marginTop: 56 }}
+            className="text-gray-900 font-semibold text-3xl mt-20"
+            // style={{ color: color.blackVariant, fontSize: 28, marginTop: 56 }}
           >
             Welcome to Grow Junction
           </div>
           <div
-            style={{
-              fontSize: 16,
-              color: color.blackVariant,
-              marginBottom: 40,
-            }}
+            className="text-gray-900 font-normal text-base mt-10"
+            // style={{
+            //   fontSize: 16,
+            //   color: color.blackVariant,
+            //   marginBottom: 40,
+            // }}
           >
-            Fill in the details to create your account as Student
+            Fill in the details to create your account as student
           </div>
           <Formik
             enableReinitialize={true}
@@ -369,54 +371,58 @@ const LoginPage = (props) => {
                 <form autoComplete="off">
                   <input type="hidden" value="prayer" />
                   {/* <input type="email" /> */}
-                  <TextField
-                    label="Email"
-                    id="email"
-                    type="email"
-                    name="email"
-                    placeholder="examplemail@gmail.com"
-                    value={values.email}
-                    onChangeValue={(text) => {
-                      if (spaceValidation.test(text.target.value)) {
-                        setFieldValue(text.target.id, text.target.value)
-                      }
-                    }}
-                    errMsg={errors.email}
-                  />
-
-                  <TextField
-                    label="Password"
-                    id="password"
-                    type="password"
-                    name="password"
-                    placeholder="Enter Password"
-                    icon={require('../../public/assets/icon/eye.png')}
-                    value={values.password}
-                    onChangeValue={(text) => {
-                      if (spaceValidation.test(text.target.value)) {
-                        setFieldValue(text.target.id, text.target.value)
-                      }
-                    }}
-                    errMsg={errors.password}
-                  />
-
-                  <Button
-                    label="Sign-in"
-                    type="submit"
-                    styleOverride={{
-                      height: 62,
-                      backgroundColor: color.btnColor,
-                      color: color.blackVariant,
-                      marginTop: 40,
-                      fontSize: 16,
-                    }}
-                    loader={loader}
-                    onClick={handleSubmit}
-                    //   onClick={() => {
-                    //     // router.prefetch('www.google.com')
-                    //     window.open('https://www.codexworld.com/', '_self')
-                    //   }}
-                  />
+                  <div className='mt-10 text-sm font-normal'>
+                    <TextField
+                      label="Email"
+                      id="email"
+                      type="email"
+                      name="email"
+                      placeholder="examplemail@gmail.com"
+                      value={values.email}
+                      onChangeValue={(text) => {
+                        if (spaceValidation.test(text.target.value)) {
+                          setFieldValue(text.target.id, text.target.value)
+                        }
+                      }}
+                      errMsg={errors.email}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      label="Password"
+                      id="password"
+                      type="password"
+                      name="password"
+                      placeholder="Enter Password"
+                      icon={require('../../public/assets/icon/eye.png')}
+                      value={values.password}
+                      onChangeValue={(text) => {
+                        if (spaceValidation.test(text.target.value)) {
+                          setFieldValue(text.target.id, text.target.value)
+                        }
+                      }}
+                      errMsg={errors.password}
+                    />
+                  </div>
+                  <div>
+                    <Button
+                      label="Sign-in"
+                      type="submit"
+                      styleOverride={{
+                        height: 62,
+                        backgroundColor: color.btnColor,
+                        color: color.blackVariant,
+                        marginTop: 40,
+                        fontSize: 16,
+                      }}
+                      loader={loader}
+                      onClick={handleSubmit}
+                      //   onClick={() => {
+                      //     // router.prefetch('www.google.com')
+                      //     window.open('https://www.codexworld.com/', '_self')
+                      //   }}
+                    />
+                  </div>
                   {/* <Button
                     label="Sign-out"
                     type="button"
@@ -439,7 +445,7 @@ const LoginPage = (props) => {
                       label="Google"
                       image="/assets/icon/google.svg"
                       styleOverride={{
-                        height: 62,
+                        height: 50,
                         backgroundColor: 'white',
                         color: color.blackVariant,
                         border: '1px solid black',
@@ -473,7 +479,7 @@ const LoginPage = (props) => {
                       label="LinkedIn"
                       image="/assets/icon/inkedin-circled.svg"
                       styleOverride={{
-                        height: 62,
+                        height: 50,
                         backgroundColor: 'white',
                         color: color.blackVariant,
                         border: '1px solid black',
@@ -508,7 +514,7 @@ const LoginPage = (props) => {
         <Image
           src={require('../../public/assets/icon/rectangle.png')}
           alt={''}
-          style={{ width: width / 2.5, height: height }}
+          style={{ width: width / 2, height: height }}
           // style={{width:600, height: 400}}
         />
 

@@ -7,32 +7,41 @@ const Header = (props) => {
   const { btnName, onClickBtn, style } = props
   return (
     <div
-      className="flex flex-col md:flex-row mb-10 md:mb-0 md:justify-between justify-center w-full md:max-w-sm"
-      style={{
-        // justifyContent: 'space-between',
-        backgroundColor: color.headerColor,
-        // maxWidth: 300,
-        alignItems: 'center',
-        paddingLeft: 48,
-        paddingRight: 48,
-      }}
+      className="flex flex-row justify-between w-full p-6"
+      // style={{
+      //   // justifyContent: 'space-between',
+      //   backgroundColor: color.headerColor,
+      //   // maxWidth: 300,
+      //   alignItems: 'center',
+      //   paddingLeft: 48,
+      //   paddingRight: 48,
+      // }}
     >
       <Image
-        src={require('../../../public/assets/icon/logo.png')}
+        className=''
+        src={require('../../../public/assets/icon/logo.svg')}
         alt={''}
-        style={{
-          height: 89,
-          // , width: 224
-        }}
+        // style={{
+        //   height: 89,
+        //   // , width: 224
+        // }}
       />
-      <Button
+      <button
+      className='px-8 mt-10 text-base font-bold bg-gray-900 text-white hover:bg-white hover:text-black h-16 rounded-md'
+      onClick={() => {
+        onClickBtn()
+      }}
+      >
+        Log In
+      </button>
+      {/* <Button
         label={btnName}
-        containerOverride={{ minWidth: 200 }}
+         containerOverride={{ minWidth: 200 }}
         onClick={() => {
           onClickBtn()
         }}
         styleOverride={style}
-      />
+      /> */}
     </div>
   )
 }
