@@ -65,3 +65,12 @@ textarea {
   height: 8em;
   /* width: 57rem; */
 }
+div.search-wrapper > span.chip {
+  display: none;
+}
+div.search-wrapper > input {
+  font-size: 11px;
+}
+.optionContainer li {
+  font-size: 11px;
+}

@@ -17,7 +17,7 @@ import { listCourses } from '/src/graphql/queries'
 import { listPackages } from '/src/graphql/queries'
 import { useSelector, useDispatch } from 'react-redux'
 import { RxCrossCircled } from 'react-icons/rx'
-
+import Preview from '../../../Mentor/Profile/Preview'
 import {
   getLoggedinUserEmail,
   getMentorData,
@@ -51,7 +51,7 @@ const Home = () => {
     if (selectedItem.name === 'All') {
       setSelectedvalue([...tabs])
     } else {
-      if (selectedList.length === 4) {
+      if (selectedList.length === 5) {
         setSelectedvalue([...tabs])
       } else {
         setSelectedvalue([...selectedList])
@@ -608,7 +608,7 @@ const Home = () => {
                         {sessionFilteredResults.map((item, index) => {
                           // debugger
                           // debugger
-                          const mentor = getMentorData(item.username)
+                          // const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           // console.log('item.username', item.username)
                           return (
@@ -640,16 +640,19 @@ const Home = () => {
                                   <div className="flex justify-start text-black text-lg font-semibold p-6">
                                     {item.description}
                                   </div>
-                                  {mentor && (
+                                  {item?.user && (
                                     <div
                                       className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end border-2
                                  text-black p-10"
-                                      onClick={showPreview.bind(null, mentor)}
+                                      onClick={showPreview.bind(
+                                        null,
+                                        item?.user,
+                                      )}
                                     >
                                       {'- '}{' '}
-                                      {mentor.about_yourself.first_name +
+                                      {item?.user.about_yourself.first_name +
                                         ' ' +
-                                        mentor.about_yourself.last_name}
+                                        item?.user.about_yourself.last_name}
                                     </div>
                                   )}
                                   <div className="flex justify-start text-black text-xl font-normal px-6 mb-10"></div>
@@ -726,7 +729,7 @@ const Home = () => {
                     <div className="my-3 bg-white p-10">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
                         {workshopFilteredResults.map((item, index) => {
-                          const mentor = getMentorData(item.username)
+                          // const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           return (
                             <div
@@ -757,16 +760,19 @@ const Home = () => {
                                   <div className="flex justify-start text-black text-lg font-semibold p-6">
                                     {item.description}
                                   </div>
-                                  {mentor && (
+                                  {item?.user && (
                                     <div
                                       className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end   border-2
                                  text-black p-10"
-                                      onClick={showPreview.bind(null, mentor)}
+                                      onClick={showPreview.bind(
+                                        null,
+                                        item?.user,
+                                      )}
                                     >
                                       {'- '}{' '}
-                                      {mentor.about_yourself.first_name +
+                                      {item?.user.about_yourself.first_name +
                                         ' ' +
-                                        mentor.about_yourself.last_name}
+                                        item?.user.about_yourself.last_name}
                                     </div>
                                   )}
 
@@ -844,7 +850,7 @@ const Home = () => {
                     <div className="my-3 bg-white">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
                         {coursesFilteredResults.map((item, index) => {
-                          const mentor = getMentorData(item.username)
+                          // const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           return (
                             <div
@@ -875,16 +881,19 @@ const Home = () => {
                                   <div className="flex justify-start text-black text-lg font-semibold p-6">
                                     {item.description}
                                   </div>
-                                  {mentor && (
+                                  {item?.user && (
                                     <div
                                       className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end  border-2
                                  text-black p-10"
-                                      onClick={showPreview.bind(null, mentor)}
+                                      onClick={showPreview.bind(
+                                        null,
+                                        item?.user,
+                                      )}
                                     >
                                       {'- '}{' '}
-                                      {mentor.about_yourself.first_name +
+                                      {item?.user.about_yourself.first_name +
                                         ' ' +
-                                        mentor.about_yourself.last_name}
+                                        item?.user.about_yourself.last_name}
                                     </div>
                                   )}
 
@@ -965,7 +974,7 @@ const Home = () => {
                     <div className="my-3 bg-white p-10">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
                         {textQueryFilteredResults.map((item, index) => {
-                          const mentor = getMentorData(item.username)
+                          // const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           return (
                             <div
@@ -996,16 +1005,19 @@ const Home = () => {
                                   <div className="flex justify-start text-black text-lg font-semibold p-6">
                                     {item.description}
                                   </div>
-                                  {mentor && (
+                                  {item?.user && (
                                     <div
                                       className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end border-2
                                  text-black p-10"
-                                      onClick={showPreview.bind(null, mentor)}
+                                      onClick={showPreview.bind(
+                                        null,
+                                        item?.user,
+                                      )}
                                     >
                                       {'- '}{' '}
-                                      {mentor.about_yourself.first_name +
+                                      {item?.user.about_yourself.first_name +
                                         ' ' +
-                                        mentor.about_yourself.last_name}
+                                        item?.user.about_yourself.last_name}
                                     </div>
                                   )}
 
@@ -1083,7 +1095,7 @@ const Home = () => {
                     <div className="my-3 bg-white p-10">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
                         {packagesFilteredResults.map((item, index) => {
-                          const mentor = getMentorData(item.username)
+                          // const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           return (
                             <div
@@ -1114,16 +1126,19 @@ const Home = () => {
                                   <div className="flex justify-start text-black text-lg font-semibold p-6">
                                     {item.description}
                                   </div>
-                                  {mentor && (
+                                  {item?.user && (
                                     <div
                                       className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end border-2
                                  text-black p-10"
-                                      onClick={showPreview.bind(null, mentor)}
+                                      onClick={showPreview.bind(
+                                        null,
+                                        item?.user,
+                                      )}
                                     >
                                       {'- '}{' '}
-                                      {mentor.about_yourself.first_name +
+                                      {item?.user.about_yourself.first_name +
                                         ' ' +
-                                        mentor.about_yourself.last_name}
+                                        item?.user.about_yourself.last_name}
                                     </div>
                                   )}
 
@@ -1820,113 +1835,29 @@ const Home = () => {
       )}
 
       {showMentor && (
-        <>
-          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
-              <div className="flex justify-between px-8 py-4 border-b border-gray-300">
-                <div className="flex flex-col justify-start items-start border=b-2">
-                  <span className="text-2xl font-semibold mt-3">Mentor</span>
-                </div>
-                <div>
-                  <button
-                    className=""
-                    type="button"
-                    onClick={() => setShowMentor(false)}
-                  >
-                    <img
-                      src="../../../assets/icon/cross.png"
-                      alt=""
-                      className="w-4 h-4 mr-2 mt-5"
-                    ></img>
-                  </button>
-                </div>
+        <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+            <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+              <div className="flex flex-col justify-start items-start border=b-2">
+                <span className="text-2xl font-semibold mt-3">Mentor</span>
               </div>
-
-              <div className="p-5 items-center flex flex-col">
-                <div
-                  className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
+              <div>
+                <button
+                  className=""
+                  type="button"
+                  onClick={() => setShowMentor(false)}
                 >
-                  {image ? (
-                    <img
-                      src={image}
-                      alt=""
-                      className={`${classes['persona']} rounded-full`}
-                    />
-                  ) : null}
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="text-4xl font-semibold mt-5 text-center">
-                    {mentor.about_yourself?.first_name}{' '}
-                    {mentor.about_yourself?.last_name}
-                  </span>
-                  <span className="text-xl font-normal text-center">
-                    {mentor.professional_info?.occupation}{' '}
-                    {mentor.professional_info?.organisation}
-                  </span>
-                  <div className="flex flex-row mt-5">
-                    <img
-                      src="../../../images/linkedin.png"
-                      alt=""
-                      className="px-4"
-                    />
-                    <img
-                      src="../../../images/instagram.png"
-                      alt=""
-                      className="px-4"
-                    />
-                    <img
-                      src="../../../images/www.png"
-                      alt=""
-                      className="px-4"
-                    />
-                  </div>
-                  <span className="text-2xl font-semibold mt-5  text-center">
-                    {mentor.about_yourself.short_description}
-                  </span>
-                  <span className="text-2xl font-semibold mt-2  text-center">
-                    {/* also an entrepreneur from Newyork, USA. */}
-                  </span>
-                  <span className="text-xs font-semibold underline underline-offset-4 mt-5  text-center">
-                    About {mentor.about_yourself.first_name}
-                  </span>
-                  <span className="text-xs font-normal mt-5  text-center">
-                    {mentor.about_yourself.about_yourself}
-                  </span>
-                  <span className="text-xs font-normal mt-2  text-center">
-                    {/* mentor young entrepreneurs out there. Hey this is michael,
-              co-founder and executive officer at */}
-                  </span>
-                  <span className="text-xs font-normal mt-2  text-center">
-                    {/* twitter. I’m here to offer my services , mentor young entrepreneurs
-              out there. */}
-                  </span>
-                  <div className="flex flex-row mt-5">
-                    <img
-                      src="../../../images/Star.png"
-                      alt=""
-                      className="w-3 h-3 mr-2"
-                    ></img>
-                    <div className="text-xs font-semibold">4.8</div>
-                    <div className="text-xs font-normal">
-                      /5.0 (200+Sessions)
-                    </div>
-                  </div>
-                  {/* <span className="text-xs font-semibold underline underline-offset-4 mt-5">
-                Domain Experties
-              </span> */}
-                  {/* <div className="flex  flex-col md:flex-row  my-5">
-                <button className="flex py-2 px-5 mb-3 md:mb-0 justify-center items-center bg-black hover:bg-blue-700 text-sm  p-2 text-white rounded-full w-auto">
-                  Entrepreneurship
+                  <img
+                    src="../../../assets/icon/cross.png"
+                    alt=""
+                    className="w-4 h-4 mr-2 mt-5"
+                  ></img>
                 </button>
-                <button className="flex py-3 px-5 justify-center items-center bg-black hover:bg-blue-700 text-sm p-2 text-white rounded-full w-auto ml-5">
-                  Product Management
-                </button>
-              </div> */}
-                </div>
               </div>
             </div>
+            <Preview mentor={mentor} showServices={true} />
           </div>
-        </>
+        </div>
       )}
     </>
   )

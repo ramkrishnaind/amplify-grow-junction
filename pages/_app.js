@@ -20,6 +20,7 @@ import { Auth0Provider } from '@auth0/auth0-react'
 // check if env is localhost or not
 // if you're not developing on localhost, you will need to detect this is another way—the docs linked above give some examples.
 function MyApp({ Component, pageProps }) {
+  // debugger
   const [host, setHost] = useState()
   useEffect(() => {
     const isLocalhost = !!(window.location.hostname === 'localhost')
@@ -50,6 +51,7 @@ function MyApp({ Component, pageProps }) {
   }, [])
   // console.log('toast', toast)
   const router = useRouter()
+  // debugger
   if (router.asPath.includes('/mentor/')) {
     return (
       host && (

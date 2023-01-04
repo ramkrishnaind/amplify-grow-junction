@@ -4,15 +4,23 @@ import { API, Storage, graphqlOperation } from 'aws-amplify'
 import { listMentorRegisters } from '../../../src/graphql/queries'
 import { getLoggedinUserEmail } from '../../../utilities/user'
 
-const Preview = ({ showServices }) => {
+const Preview = ({ showServices, mentor }) => {
   const [image, setImage] = useState('')
-  const [firstName, setFirstName] = useState()
-  const [lastName, setLastName] = useState()
-  const [url, setUrl] = useState()
-  const [shortDescription, setShortDescription] = useState()
-  const [aboutYourself, setAboutYourself] = useState()
-  const [occupation, setOccupation] = useState()
-  const [organisation, setOrganisation] = useState()
+  const [firstName, setFirstName] = useState(mentor?.about_yourself?.first_name)
+  const [lastName, setLastName] = useState(mentor?.about_yourself?.last_name)
+  const [url, setUrl] = useState(mentor.about_yourself?.grow_junction_url)
+  const [shortDescription, setShortDescription] = useState(
+    mentor.about_yourself?.short_description,
+  )
+  const [aboutYourself, setAboutYourself] = useState(
+    mentor.about_yourself?.about_yourself,
+  )
+  const [occupation, setOccupation] = useState(
+    mentor.Professionalinfo?.occupation,
+  )
+  const [organisation, setOrganisation] = useState(
+    mentor.Professionalinfo?.organization,
+  )
   const [linkedin, setLinkedin] = useState()
   const [instagram, setInstagram] = useState()
   const [personalurl, setPersonalurl] = useState()
@@ -23,7 +31,7 @@ const Preview = ({ showServices }) => {
     console.log('username - ', usrName)
     const results = await API.graphql(
       graphqlOperation(listMentorRegisters, {
-        filter: { username: { contains: usrName } },
+        filter: { username: { contains: mentor ? mentor.username : usrName } },
       }),
     )
     if (results.data.listMentorRegisters.items.length > 0) {
@@ -48,7 +56,9 @@ const Preview = ({ showServices }) => {
     } else {
       const results = await API.graphql(
         graphqlOperation(listUserInfos, {
-          filter: { username: { contains: usrName } },
+          filter: {
+            username: { contains: mentor ? mentor.username : usrName },
+          },
         }),
       )
       if (results.data.listUserInfos.items.length > 0) {
@@ -63,9 +73,8 @@ const Preview = ({ showServices }) => {
   }
 
   useEffect(() => {
-    getUser()
+    if (!mentor) getUser()
   }, [])
-
 
   return (
     <div className="flex flex-col items-center bg-white ">
@@ -75,18 +84,16 @@ const Preview = ({ showServices }) => {
         </div>
       </div>
       <div className="p-5 items-center flex flex-col">
-      <div
+        <div
           className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
         >
-          {
-            image ? (
-              <img
-                src={image}
-                alt=""
-                className={`${classes['persona']} rounded-full`}
-              />
-            ) : null
-          }
+          {image ? (
+            <img
+              src={image}
+              alt=""
+              className={`${classes['persona']} rounded-full`}
+            />
+          ) : null}
         </div>
         <div className="flex flex-col items-center">
           <span className="text-4xl font-semibold mt-5 text-center">
