@@ -12,23 +12,23 @@ export const NavigationLinks = [
   {
     title: 'Text Queries',
     url: '',
-    image: 'text.png',
+    image: 'text.svg',
   },
   {
     title: 'Rewards',
     url: '',
-    image: 'rewards.png',
+    image: 'rewards.svg',
   },
   {
     title: 'Services',
     url: '/mentor/services',
-    image: 'services.png',
+    image: 'services.svg',
     partial: true,
   },
   {
     title: 'Availability',
     url: '/mentor/availability',
-    image: 'availability.png',
+    image: 'availability.svg',
   },
   {
     title: 'Payment',
@@ -43,31 +43,31 @@ export const NavigationLinks = [
   {
     title: 'Courses',
     url: '',
-    image: 'courses.png',
+    image: 'courses.svg',
   },
   {
     title: 'Marketing',
     url: '',
-    image: 'marketing.png',
+    image: 'marketing.svg',
   },
   {
     title: 'Profile',
     url: '/mentor/profile',
-    image: 'profile.png',
+    image: 'profile.svg',
   },
   {
     title: 'More',
-    image: 'more.png',
+    image: 'more.svg',
     items: [
       {
         title: 'Your students',
         url: '',
-        image: 'your_students.png',
+        image: 'your_students.svg',
       },
       {
         title: 'Integrations',
         url: '',
-        image: 'integrations.png',
+        image: 'integrations.svg',
       },
       {
         title: 'Payment',

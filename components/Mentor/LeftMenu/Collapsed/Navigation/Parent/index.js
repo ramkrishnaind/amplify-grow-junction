@@ -41,9 +41,9 @@ const Parent = ({ image, url, hasItems, js, items, partial }) => {
         className={`${classes.container} w-full my-2 text-2xl flex justify-center items-center cursor-pointer`}
       >
         <img
-          style={{ width: '75px' }}
+          //style={{ width: '75px' }}
           src={`/assets/icon/mentor-dashboard/${image}`}
-          className="w-50 h-50"
+          //className="w-50 h-50"
         />
         {/* <span>{title}</span> */}
       </div>
