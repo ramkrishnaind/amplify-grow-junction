@@ -25,7 +25,7 @@ import { setMentors } from '../../../../redux/actions/MentorTitleAction'
 import DatePicker from 'react-multi-date-picker'
 import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import { AmplifySelectMfaType } from '@aws-amplify/ui-react'
-
+import Multiselect from 'multiselect-react-dropdown'
 const Home = () => {
   const mentorsState = useSelector((state) => state.MentorHeaderReducer)
   useEffect(() => {
@@ -35,8 +35,55 @@ const Home = () => {
       setMentors(dispatch)
     }
   }, [])
+  const [tabs, setTabs] = useState([
+    { name: 'All', id: 0 },
+    { name: 'One On One', id: 1 },
+    { name: 'Workshops', id: 2 },
+    { name: 'Courses', id: 3 },
+    { name: 'Text query', id: 4 },
+    { name: 'Packages', id: 5 },
+  ])
+  const onSelect = (selectedList, selectedItem) => {
+    console.log('Add-selectedList', selectedList)
+    console.log('Add-selectedItem', selectedItem)
+    if (selectedItem.name === 'All') {
+      setSelectedvalue([...tabs])
+    } else {
+      if (selectedList.length === 4) {
+        setSelectedvalue([...tabs])
+      } else {
+        setSelectedvalue([...selectedList])
+      }
+    }
+  }
+  const searchClick = () => {}
+  const onRemove = (selectedList, removedItem) => {
+    console.log('Remove-selectedList', selectedList)
+    console.log('Remove-selectedItem', removedItem)
+    if (removedItem.name === 'All') {
+      setSelectedvalue([])
+    } else {
+      setSelectedvalue([...selectedList.filter((item) => item.name !== 'All')])
+    }
+  }
+  const [selectedValue, setSelectedvalue] = useState([
+    { name: 'All', id: 0 },
+    { name: 'One On One', id: 1 },
+    { name: 'Workshops', id: 2 },
+    { name: 'Courses', id: 3 },
+    { name: 'Text query', id: 4 },
+    { name: 'Packages', id: 5 },
+  ])
   // return <div>Hi</div>
   // const router= useRouter()
+  useEffect(() => {
+    setShowSession(selectedValue.some((item) => item.name === 'One On One'))
+    setShowWorkshop(selectedValue.some((item) => item.name === 'Workshops'))
+    setShowTextquery(selectedValue.some((item) => item.name === 'Text query'))
+    setShowCourses(selectedValue.some((item) => item.name === 'Courses'))
+    setShowPackages(selectedValue.some((item) => item.name === 'Packages'))
+  }, [selectedValue])
+  console.log('selectedValue', selectedValue)
   const searchRef = useRef()
   const [openTab, setOpenTab] = React.useState(1)
   const [showSession, setShowSession] = useState(true)
@@ -324,7 +371,16 @@ const Home = () => {
       <div className="w-full">
         <div className="flex justify-center item-center mt-10 w-auto ">
           <div className="flex md:flex-row lg:flex-row justify-center item-center bg-white mb-5 w-auto p-6 rounded-lg">
-            <select
+            <Multiselect
+              showCheckbox
+              placeholder="Select services"
+              options={tabs} // Options to display in the dropdown
+              selectedValues={selectedValue} // Preselected value to persist in dropdown
+              onSelect={onSelect} // Function will trigger on select event
+              onRemove={onRemove} // Function will trigger on remove event
+              displayValue="name" // Property name to display in the dropdown options
+            />
+            {/* <select
               className="h-16 px-10 py-4 text-lg  bg-white border-2 border-gray-300 rounded-lg"
               multiple=""
               //value={values.bookingPeriodIn}
@@ -337,7 +393,7 @@ const Home = () => {
               <option value="courses">Courses</option>
               <option value="packages">Packages</option>
               <option value="all">All</option>
-            </select>
+            </select> */}
 
             <select
               className=" h-16 ml-5 px-10 py-4 text-lg  bg-white border-2 border-gray-300 rounded-lg"
@@ -372,86 +428,96 @@ const Home = () => {
           <div className="w-full">
             <div className="bg-grey-50">
               <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200">
-                <li className="mr-2">
-                  <a
-                    href="#"
-                    className={
-                      openTab === 1
-                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
-                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
-                    }
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setOpenTab(1)
-                    }}
-                  >
-                    1 on 1 Session
-                  </a>
-                </li>
-                <li className="mr-2">
-                  <a
-                    href="#"
-                    className={
-                      openTab === 2
-                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
-                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
-                    }
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setOpenTab(2)
-                    }}
-                  >
-                    Workshop
-                  </a>
-                </li>
-                <li className="mr-2">
-                  <a
-                    href="#"
-                    className={
-                      openTab === 3
-                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
-                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
-                    }
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setOpenTab(3)
-                    }}
-                  >
-                    Courses
-                  </a>
-                </li>
-                <li className="mr-2">
-                  <a
-                    href="#"
-                    className={
-                      openTab === 4
-                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
-                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
-                    }
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setOpenTab(4)
-                    }}
-                  >
-                    Text query
-                  </a>
-                </li>
-                <li className="mr-2">
-                  <a
-                    href="#"
-                    className={
-                      openTab === 5
-                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
-                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
-                    }
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setOpenTab(5)
-                    }}
-                  >
-                    Packages
-                  </a>
-                </li>
+                {showSession && (
+                  <li className="mr-2">
+                    <a
+                      href="#"
+                      className={
+                        openTab === 1
+                          ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                          : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                      }
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setOpenTab(1)
+                      }}
+                    >
+                      1 on 1 Session
+                    </a>
+                  </li>
+                )}
+                {showWorkshop && (
+                  <li className="mr-2">
+                    <a
+                      href="#"
+                      className={
+                        openTab === 2
+                          ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                          : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                      }
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setOpenTab(2)
+                      }}
+                    >
+                      Workshop
+                    </a>
+                  </li>
+                )}
+                {showCourses && (
+                  <li className="mr-2">
+                    <a
+                      href="#"
+                      className={
+                        openTab === 3
+                          ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                          : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                      }
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setOpenTab(3)
+                      }}
+                    >
+                      Courses
+                    </a>
+                  </li>
+                )}
+                {showTextquery && (
+                  <li className="mr-2">
+                    <a
+                      href="#"
+                      className={
+                        openTab === 4
+                          ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                          : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                      }
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setOpenTab(4)
+                      }}
+                    >
+                      Text query
+                    </a>
+                  </li>
+                )}
+                {showPackages && (
+                  <li className="mr-2">
+                    <a
+                      href="#"
+                      className={
+                        openTab === 5
+                          ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                          : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                      }
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setOpenTab(5)
+                      }}
+                    >
+                      Packages
+                    </a>
+                  </li>
+                )}
               </ul>
 
               <div className={openTab === 1 ? 'block' : 'hidden'}>
