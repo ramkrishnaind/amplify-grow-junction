@@ -16,6 +16,8 @@ import { listWorkshops } from '/src/graphql/queries'
 import { listCourses } from '/src/graphql/queries'
 import { listPackages } from '/src/graphql/queries'
 import { useSelector, useDispatch } from 'react-redux'
+import { RxCrossCircled } from 'react-icons/rx'
+
 import {
   getLoggedinUserEmail,
   getMentorData,
@@ -25,7 +27,7 @@ import { setMentors } from '../../../../redux/actions/MentorTitleAction'
 import DatePicker from 'react-multi-date-picker'
 import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import { AmplifySelectMfaType } from '@aws-amplify/ui-react'
-
+import Multiselect from 'multiselect-react-dropdown'
 const Home = () => {
   const mentorsState = useSelector((state) => state.MentorHeaderReducer)
   useEffect(() => {
@@ -35,8 +37,55 @@ const Home = () => {
       setMentors(dispatch)
     }
   }, [])
+  const tabs = [
+    { name: 'All', id: 0 },
+    { name: 'One On One', id: 1 },
+    { name: 'Workshops', id: 2 },
+    { name: 'Courses', id: 3 },
+    { name: 'Text query', id: 4 },
+    { name: 'Packages', id: 5 },
+  ]
+  const onSelect = (selectedList, selectedItem) => {
+    console.log('Add-selectedList', selectedList)
+    console.log('Add-selectedItem', selectedItem)
+    if (selectedItem.name === 'All') {
+      setSelectedvalue([...tabs])
+    } else {
+      if (selectedList.length === 4) {
+        setSelectedvalue([...tabs])
+      } else {
+        setSelectedvalue([...selectedList])
+      }
+    }
+  }
+  const searchClick = () => {}
+  const onRemove = (selectedList, removedItem) => {
+    console.log('Remove-selectedList', selectedList)
+    console.log('Remove-selectedItem', removedItem)
+    if (removedItem.name === 'All') {
+      setSelectedvalue([])
+    } else {
+      setSelectedvalue([...selectedList.filter((item) => item.name !== 'All')])
+    }
+  }
+  const [selectedValue, setSelectedvalue] = useState([
+    { name: 'All', id: 0 },
+    { name: 'One On One', id: 1 },
+    { name: 'Workshops', id: 2 },
+    { name: 'Courses', id: 3 },
+    { name: 'Text query', id: 4 },
+    { name: 'Packages', id: 5 },
+  ])
   // return <div>Hi</div>
   // const router= useRouter()
+  useEffect(() => {
+    setShowSession(selectedValue.some((item) => item.name === 'One On One'))
+    setShowWorkshop(selectedValue.some((item) => item.name === 'Workshops'))
+    setShowTextquery(selectedValue.some((item) => item.name === 'Text query'))
+    setShowCourses(selectedValue.some((item) => item.name === 'Courses'))
+    setShowPackages(selectedValue.some((item) => item.name === 'Packages'))
+  }, [selectedValue])
+  console.log('selectedValue', selectedValue)
   const searchRef = useRef()
   const [openTab, setOpenTab] = React.useState(1)
   const [showSession, setShowSession] = useState(true)
@@ -50,6 +99,11 @@ const Home = () => {
   const [textQueryResults, setTextQueryResults] = useState([])
   const [coursesResults, setCoursesResults] = useState([])
   const [packagesResults, setPackagesResults] = useState([])
+  const [sessionFilteredResults, setSessionFilteredResults] = useState([])
+  const [workshopFilteredResults, setWorkshopFilteredResults] = useState([])
+  const [textQueryFilteredResults, setTextQueryFilteredResults] = useState([])
+  const [coursesFilteredResults, setCoursesFilteredResults] = useState([])
+  const [packagesFilteredResults, setPackagesFilteredResults] = useState([])
   const [showServiceDetail, setShowServiceDetail] = useState(false)
   const [bookNow, setBookNow] = useState([])
   const [value, onChange] = useState(new Date())
@@ -61,13 +115,19 @@ const Home = () => {
   const [mentor, setMentor] = useState([])
   const [showMentor, setShowMentor] = useState(false)
   const [image, setImage] = useState('')
-  const [fieldName, setFieldName] = useState('')
+  const [fieldName, setFieldName] = useState('title')
   const [mentorName, setMentorName] = useState('')
   const [serviceName, setServiceName] = useState('')
   const [mentorData, setMentorData] = useState([])
   const [mentorUserName, setMentorUserName] = useState('')
-  const [filterSessionResults, setFilterSessionResults] = useState([])
-
+  // const [filterSessionResults, setFilterSessionResults] = useState([])
+  const addmentorData = (items) => {
+    items.forEach((item) => {
+      if (item.username) {
+        item.user = getMentorData(item.username)
+      }
+    })
+  }
   const showPreview = async (mentorPassed) => {
     if (mentorPassed) {
       if (mentorPassed.profile_image) {
@@ -91,7 +151,9 @@ const Home = () => {
       const results = await API.graphql(graphqlOperation(listOneOnOnes))
       debugger
       if (results.data.listOneOnOnes.items.length > 0) {
+        addmentorData(results.data.listOneOnOnes.items)
         setSessionResults(results.data.listOneOnOnes.items)
+        setSessionFilteredResults(results.data.listOneOnOnes.items)
         // console.log('oneonone- ', sessionResults)
       }
     } catch (error) {
@@ -106,7 +168,9 @@ const Home = () => {
       // console.log('usr', usr)
       const results = await API.graphql(graphqlOperation(listWorkshops))
       if (results.data.listWorkshops.items.length > 0) {
+        addmentorData(results.data.listWorkshops.items)
         setWorkshopResults(results.data.listWorkshops.items)
+        setWorkshopFilteredResults(results.data.listWorkshops.items)
         console.log('workshop- ', workshopResults)
       }
     } catch (error) {
@@ -120,7 +184,9 @@ const Home = () => {
       // console.log('usr', usr)
       const results = await API.graphql(graphqlOperation(listCourses))
       if (results.data.listCourses.items.length > 0) {
+        addmentorData(results.data.listCourses.items)
         setCoursesResults(results.data.listCourses.items)
+        setCoursesFilteredResults(results.data.listCourses.items)
         console.log('courses- ', coursesResults)
       }
     } catch (error) {
@@ -134,7 +200,9 @@ const Home = () => {
       // console.log('usr', usr)
       const results = await API.graphql(graphqlOperation(listTextQueries))
       if (results.data.listTextQueries.items.length > 0) {
+        addmentorData(results.data.listTextQueries.items)
         setTextQueryResults(results.data.listTextQueries.items)
+        setTextQueryFilteredResults(results.data.listTextQueries.items)
         console.log('textquery- ', textQueryResults)
       }
     } catch (error) {
@@ -148,7 +216,9 @@ const Home = () => {
       // console.log('usr', usr)
       const results = await API.graphql(graphqlOperation(listPackages))
       if (results.data.listPackages.items.length > 0) {
+        addmentorData(results.data.listPackages.items)
         setPackagesResults(results.data.listPackages.items)
+        setPackagesFilteredResults(results.data.listPackages.items)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
@@ -163,9 +233,9 @@ const Home = () => {
     loadPackages()
   }, [])
 
-  useEffect(() => {
-    setSessionResults(filterSessionResults)
-  }, [filterSessionResults])
+  // useEffect(() => {
+  //   setSessionResults(filterSessionResults)
+  // }, [filterSessionResults])
 
   useEffect(() => {
     setMentorUserName(mentorUserName)
@@ -222,49 +292,91 @@ const Home = () => {
     setFieldName(type)
   }
 
-  const handleSearch = (e) => {
+  const handleSearch = (menName) => {
     debugger
-    if (fieldName === 'name' && mentorName !== null) {
-      const mentor = getMentorDataOnName(mentorName)
-      // setMentorData(mentor)
-      setMentorUserName(mentor.username)
+    // if (fieldName === 'name' && mentorName !== null) {
+    //   const mentor = getMentorDataOnName(mentorName)
+    //   // setMentorData(mentor)
+    //   setMentorUserName(mentor.username)
+    // }
+    // if (serviceName && fieldName && mentorName) {
+    // if (serviceName === 'session') {
+    if (fieldName === 'title') {
+      if (menName) {
+        const resultsSess = sessionResults.filter(function (session) {
+          return session.sessionTitle
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setSessionFilteredResults(resultsSess)
+        const resultsWork = workshopResults.filter(function (session) {
+          return session.title.toLowerCase().includes(menName.toLowerCase())
+        })
+        setWorkshopFilteredResults(resultsWork)
+        const resultsCour = coursesResults.filter(function (session) {
+          return session.courseTitle
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setCoursesFilteredResults(resultsCour)
+        const resultsText = textQueryResults.filter(function (session) {
+          return session.title.toLowerCase().includes(menName.toLowerCase())
+        })
+        setTextQueryFilteredResults(resultsText)
+        const resultsPack = packagesResults.filter(function (session) {
+          return session.packageTitle
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setPackagesFilteredResults(resultsPack)
+      } else {
+        setSessionFilteredResults([...sessionResults])
+        setWorkshopFilteredResults([...workshopResults])
+        setCoursesFilteredResults([...coursesResults])
+        setTextQueryFilteredResults([...textQueryResults])
+        setPackagesFilteredResults([...packagesResults])
+      }
+    } else if (fieldName === 'name') {
+      if (menName) {
+        const resultsSess = sessionResults.filter(function (session) {
+          return `${session?.user?.about_yourself.first_name} ${session?.user?.about_yourself.last_name}`
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setSessionFilteredResults(resultsSess)
+        const resultsWork = workshopResults.filter(function (session) {
+          return `${session?.user?.about_yourself.first_name} ${session?.user?.about_yourself.last_name}`
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setWorkshopFilteredResults(resultsWork)
+        const resultsCour = coursesResults.filter(function (session) {
+          return `${session?.user?.about_yourself.first_name} ${session?.user?.about_yourself.last_name}`
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setCoursesFilteredResults(resultsCour)
+        const resultsText = textQueryResults.filter(function (session) {
+          return `${session?.user?.about_yourself.first_name} ${session?.user?.about_yourself.last_name}`
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setTextQueryFilteredResults(resultsText)
+        const resultsPack = packagesResults.filter(function (session) {
+          return `${session?.user?.about_yourself.first_name} ${session?.user?.about_yourself.last_name}`
+            .toLowerCase()
+            .includes(menName.toLowerCase())
+        })
+        setPackagesFilteredResults(resultsPack)
+      } else {
+        setSessionFilteredResults([...sessionResults])
+        setWorkshopFilteredResults([...workshopResults])
+        setCoursesFilteredResults([...coursesResults])
+        setTextQueryFilteredResults([...textQueryResults])
+        setPackagesFilteredResults([...packagesResults])
+      }
     }
-    if (serviceName && fieldName && mentorName) {
-      if (serviceName === 'session') {
-        if (fieldName === 'title') {
-          if (mentorName) {
-            const results = sessionResults.filter(function (session) {
-              return (
-                session.sessionTitle.toLowerCase() === mentorName.toLowerCase()
-              )
-            })
-            setFilterSessionResults(results)
-          }
-        } else if (fieldName === 'name') {
-          if (mentorUserName) {
-            const results = sessionResults.filter(function (session) {
-              return session.username === mentorUserName
-            })
-            setFilterSessionResults(results)
-          }
-        }
-      }
-
-      if (serviceName === 'worskshop') {
-      }
-
-      if (serviceName === 'textquery') {
-      }
-
-      if (serviceName === 'courses') {
-      }
-
-      if (serviceName === 'packages') {
-      }
-
-      if (serviceName === 'all') {
-      }
-    }
+    // }
   }
 
   const handleSessionClick = (index) => {
@@ -324,7 +436,16 @@ const Home = () => {
       <div className="w-full">
         <div className="flex justify-center item-center mt-10 w-auto ">
           <div className="flex md:flex-row lg:flex-row justify-center item-center bg-white mb-5 w-auto p-6 rounded-lg">
-            <select
+            <Multiselect
+              showCheckbox
+              placeholder="Select services"
+              options={tabs} // Options to display in the dropdown
+              selectedValues={selectedValue} // Preselected value to persist in dropdown
+              onSelect={onSelect} // Function will trigger on select event
+              onRemove={onRemove} // Function will trigger on remove event
+              displayValue="name" // Property name to display in the dropdown options
+            />
+            {/* <select
               className="h-16 px-10 py-4 text-lg  bg-white border-2 border-gray-300 rounded-lg"
               multiple=""
               //value={values.bookingPeriodIn}
@@ -337,7 +458,7 @@ const Home = () => {
               <option value="courses">Courses</option>
               <option value="packages">Packages</option>
               <option value="all">All</option>
-            </select>
+            </select> */}
 
             <select
               className=" h-16 ml-5 px-10 py-4 text-lg  bg-white border-2 border-gray-300 rounded-lg"
@@ -347,21 +468,36 @@ const Home = () => {
               <option value="title">Title</option>
               <option value="name">Mentor</option>
             </select>
-            <div className="ml-5 w-1/2">
+            <div className="ml-5 w-1/2 relative h-16 flex items-center ">
               <TextField
                 type="text"
                 id="name"
+                value={mentorName}
+                classOverrideContainer="mb-0"
                 placeholder="Title/Mentor name"
                 onChange={(e) => setMentorName(e.target.value)}
               />
+              {mentorName && (
+                <div
+                  className="absolute cursor-pointer right-2 flex items-start"
+                  onClick={(e) => {
+                    setMentorName('')
+                    // setTimeout(() => {
+                    handleSearch('')
+                    // }, 1000)
+                  }}
+                >
+                  <RxCrossCircled color="black" />
+                </div>
+              )}
             </div>
             <button
               type="button"
               onClick={(e) => {
                 e.preventDefault()
-                handleSearch(e)
+                handleSearch(mentorName)
               }}
-              className="h-16 ml-5 w-2/6 text-lg font-semibold bg-white hover:bg-gray-900 hover:text-white text-black border-gray-300 font-bold  border rounded-lg"
+              className="h-16 ml-5 w-2/6 text-lg font-semibold bg-white hover:bg-gray-900 hover:text-white text-black border-gray-300  border rounded-lg"
             >
               Search
             </button>
@@ -372,94 +508,104 @@ const Home = () => {
           <div className="w-full">
             <div className="bg-grey-50">
               <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200">
-                <li className="mr-2">
-                  <a
-                    href="#"
-                    className={
-                      openTab === 1
-                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
-                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
-                    }
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setOpenTab(1)
-                    }}
-                  >
-                    1 on 1 Session
-                  </a>
-                </li>
-                <li className="mr-2">
-                  <a
-                    href="#"
-                    className={
-                      openTab === 2
-                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
-                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
-                    }
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setOpenTab(2)
-                    }}
-                  >
-                    Workshop
-                  </a>
-                </li>
-                <li className="mr-2">
-                  <a
-                    href="#"
-                    className={
-                      openTab === 3
-                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
-                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
-                    }
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setOpenTab(3)
-                    }}
-                  >
-                    Courses
-                  </a>
-                </li>
-                <li className="mr-2">
-                  <a
-                    href="#"
-                    className={
-                      openTab === 4
-                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
-                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
-                    }
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setOpenTab(4)
-                    }}
-                  >
-                    Text query
-                  </a>
-                </li>
-                <li className="mr-2">
-                  <a
-                    href="#"
-                    className={
-                      openTab === 5
-                        ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
-                        : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
-                    }
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setOpenTab(5)
-                    }}
-                  >
-                    Packages
-                  </a>
-                </li>
+                {showSession && (
+                  <li className="mr-2">
+                    <a
+                      href="#"
+                      className={
+                        openTab === 1
+                          ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                          : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                      }
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setOpenTab(1)
+                      }}
+                    >
+                      1 on 1 Session
+                    </a>
+                  </li>
+                )}
+                {showWorkshop && (
+                  <li className="mr-2">
+                    <a
+                      href="#"
+                      className={
+                        openTab === 2
+                          ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                          : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                      }
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setOpenTab(2)
+                      }}
+                    >
+                      Workshop
+                    </a>
+                  </li>
+                )}
+                {showCourses && (
+                  <li className="mr-2">
+                    <a
+                      href="#"
+                      className={
+                        openTab === 3
+                          ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                          : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                      }
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setOpenTab(3)
+                      }}
+                    >
+                      Courses
+                    </a>
+                  </li>
+                )}
+                {showTextquery && (
+                  <li className="mr-2">
+                    <a
+                      href="#"
+                      className={
+                        openTab === 4
+                          ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                          : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                      }
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setOpenTab(4)
+                      }}
+                    >
+                      Text query
+                    </a>
+                  </li>
+                )}
+                {showPackages && (
+                  <li className="mr-2">
+                    <a
+                      href="#"
+                      className={
+                        openTab === 5
+                          ? 'inline-block p-4 text-xl text-white bg-amber-400 rounded-t-lg active'
+                          : 'inline-block p-4 text-xl text-black rounded-t-lg hover:text-white hover:bg-amber-400'
+                      }
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setOpenTab(5)
+                      }}
+                    >
+                      Packages
+                    </a>
+                  </li>
+                )}
               </ul>
 
               <div className={openTab === 1 ? 'block' : 'hidden'}>
                 {showSession &&
-                  (sessionResults.length > 0 ? (
+                  (sessionFilteredResults.length > 0 ? (
                     <div className="my-3 bg-white p-10">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-                        {sessionResults.map((item, index) => {
+                        {sessionFilteredResults.map((item, index) => {
                           // debugger
                           // debugger
                           const mentor = getMentorData(item.username)
@@ -576,10 +722,10 @@ const Home = () => {
 
               <div className={openTab === 2 ? 'block' : 'hidden'}>
                 {showWorkshop &&
-                  (workshopResults.length > 0 ? (
+                  (workshopFilteredResults.length > 0 ? (
                     <div className="my-3 bg-white p-10">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-                        {workshopResults.map((item, index) => {
+                        {workshopFilteredResults.map((item, index) => {
                           const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           return (
@@ -694,10 +840,10 @@ const Home = () => {
 
               <div className={openTab === 3 ? 'block' : 'hidden'}>
                 {showCourses &&
-                  (coursesResults.length > 0 ? (
+                  (coursesFilteredResults.length > 0 ? (
                     <div className="my-3 bg-white">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-                        {coursesResults.map((item, index) => {
+                        {coursesFilteredResults.map((item, index) => {
                           const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           return (
@@ -815,10 +961,10 @@ const Home = () => {
 
               <div className={openTab === 4 ? 'block' : 'hidden'}>
                 {showTextquery &&
-                  (textQueryResults.length > 0 ? (
+                  (textQueryFilteredResults.length > 0 ? (
                     <div className="my-3 bg-white p-10">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-                        {textQueryResults.map((item, index) => {
+                        {textQueryFilteredResults.map((item, index) => {
                           const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           return (
@@ -933,10 +1079,10 @@ const Home = () => {
 
               <div className={openTab === 5 ? 'block' : 'hidden'}>
                 {showPackages &&
-                  (packagesResults.length > 0 ? (
+                  (packagesFilteredResults.length > 0 ? (
                     <div className="my-3 bg-white p-10">
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
-                        {packagesResults.map((item, index) => {
+                        {packagesFilteredResults.map((item, index) => {
                           const mentor = getMentorData(item.username)
                           // console.log('mentor', mentor)
                           return (
