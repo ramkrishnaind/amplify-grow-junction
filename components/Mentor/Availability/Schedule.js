@@ -667,7 +667,7 @@ const Schedule = ({
                 </div>
 
                 <div className="basis-2/5">
-                  <div className="flex flex-col justify-start bg-white px-4 py-4  border-2 rounded-2xl m-20">
+                  <div className="flex flex-col justify-start bg-white px-4 py-4  border-2 rounded-2xl m-10">
                     <span className="text-gray-900 font-semibold text-lg">
                       Unavailable dates
                     </span>

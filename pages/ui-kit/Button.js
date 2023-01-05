@@ -46,7 +46,7 @@ const Button = (props) => {
             {loader ? (
               <Loader />
             ) : (
-              <div className="flex w-full justify-around items-center p-5">
+              <div className="flex w-full justify-center items-center p-5">
                 {image && (
                   <img
                     src={image}
