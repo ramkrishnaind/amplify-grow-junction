@@ -171,348 +171,360 @@ const KYC_step1 = () => {
   }, [link, selectedList.length])
   console.log(`domainName`, domainName)
   return (
-    <div className="md:p-40 bg-white p-20">
-      <div
-        className="p-10 flex flex-col justify-start items-center"
-        style={{
-          backgroundColor: color.headerColor,
-        }}
-      >
-        <KYC_header
-          stepImage={
-            registerType?.registerType === 'STUDENT'
-              ? '/assets/icon/stu_StepIndicator.png'
-              : '/assets/icon/StepIndicator.png'
-          }
-        />
+    <div className="flex h-screen bg-white">
+      <div className="m-auto px-4">
         <div
-          style={{
-            display: 'flex',
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          className="flex flex-col justify-center items-center bg-gray-50 md:p-20 lg:p-20 m-5 p-5"
+          // style={{
+          //   backgroundColor: color.headerColor,
+          // }}
         >
+          <KYC_header
+            stepImage={
+              registerType?.registerType === 'STUDENT'
+                ? '/assets/icon/stu_StepIndicator.png'
+                : '/assets/icon/StepIndicator.png'
+            }
+          />
           <div
             style={{
               display: 'flex',
               flex: 1,
               justifyContent: 'center',
-              flexDirection: 'column',
+              alignItems: 'center',
             }}
           >
             <div
               style={{
-                color: color.blackVariant,
-                fontWeight: 400,
-                fontSize: 36,
-                marginTop: 60,
-              }}
-            >
-              {registerType?.registerType === 'STUDENT'
-                ? 'Learn and grow from mentors'
-                : 'Get ready to mentor and share'}
-            </div>
-            <div
-              style={{
-                color: color.lightGrey,
-                fontSize: 16,
-                fontWeight: 400,
-                marginTop: 16,
-              }}
-            >
-              Add some basic details to personalise the experience
-            </div>
-            <div
-              style={{
                 display: 'flex',
                 flex: 1,
-                flexDirection: 'row',
-                marginTop: 60,
-              }}
-            >
-              <TextField
-                label="LinkedIn Profile URL"
-                id="url"
-                type="url"
-                placeholder="Paster Linkedin profile URL "
-                value={link}
-                styleOverride={{
-                  backgroundColor: color.white,
-                  height: 56,
-                }}
-                textStyleOverride={{
-                  backgroundColor: color.white,
-                  paddingLeft: 8,
-                }}
-                link="https://linkedin.com"
-                infoMsg="Get yout linkedin URL, click here."
-                onChangeValue={(text) => {
-                  if (spaceValidation.test(text.target.value)) {
-                    setLink(text.target.value)
-                  }
-                }}
-                // errMsg={touched.email && errors.email}
-              />
-            </div>
-            <div
-              style={{
-                color: color.blackVariant,
-                marginBottom: 20,
-                fontSize: 16,
-                fontWeight: 400,
-                marginTop: 56,
-                marginBottom: 24,
-              }}
-            >
-              {registerType?.registerType === 'STUDENT'
-                ? 'Domain you are intrested to learn'
-                : 'Domain you want to provide mentorship'}
-            </div>
-            <div
-              className=""
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                flexWrap: 'wrap',
                 justifyContent: 'center',
-                flex: 1,
-                maxWidth: 700,
+                flexDirection: 'column',
               }}
             >
-              {!domainListLoading ? (
-                <>
-                  {domainList?.map((item, index) => {
-                    let selectedItem = false
-                    selectedList?.map((key, index) => {
-                      if (key?.id === item?.id) {
-                        selectedItem = true
-                      }
-                    })
+              <div
+                className="flex justify-center items-center text-3xl font-semibold text-gray-900 mt-10 mb-5"
+                // style={{
+                //   color: color.blackVariant,
+                //   fontWeight: 400,
+                //   fontSize: 36,
+                //   //marginTop: 60,
+                // }}
+              >
+                {registerType?.registerType === 'STUDENT'
+                  ? 'Learn and grow from mentors'
+                  : 'Get ready to mentor and share'}
+              </div>
+              <div
+                className="flex justify-center item-center text-base font-normal text-gray-400 mb-10"
+                // style={{
+                //   color: color.lightGrey,
+                //   fontSize: 16,
+                //   fontWeight: 400,
+                //   //marginTop: 16,
+                // }}
+              >
+                Add some basic details to personalise the experience
+              </div>
+              <div
+                className="text-sm font-normal text-gray-900 mt-5"
+                // style={{
+                //   display: 'flex',
+                //   flex: 1,
+                //   flexDirection: 'row',
+                //  // marginTop: 60,
+                // }}
+              >
+                LinkedIn Profile URL
+                <TextField
+                  //label="LinkedIn Profile URL"
+                  id="url"
+                  type="url"
+                  placeholder="Paster Linkedin profile URL "
+                  value={link}
+                  styleOverride={{
+                    backgroundColor: color.white,
+                    fontSize: 14
+                    //height: 56,
+                  }}
+                  textStyleOverride={{
+                    backgroundColor: color.white,
+                    paddingLeft: 8,
+                    fontSize:14
+                  }}
+                  link="https://linkedin.com"
+                  infoMsg="Get yout linkedin URL, click here."
+                  onChangeValue={(text) => {
+                    if (spaceValidation.test(text.target.value)) {
+                      setLink(text.target.value)
+                    }
+                  }}
+                  // errMsg={touched.email && errors.email}
+                />
+              </div>
+              <div
+                className="text-base font-semibold text-gray-900 mt-10"
+                // style={{
+                //   color: color.blackVariant,
+                //  // marginBottom: 20,
+                //   fontSize: 16,
+                //   fontWeight: 400,
+                //  // marginTop: 56,
+                //   //marginBottom: 24,
+                // }}
+              >
+                {registerType?.registerType === 'STUDENT'
+                  ? 'Domain you are intrested to learn'
+                  : 'Domain you want to provide mentorship'}
+              </div>
+              <div
+                // className="flex flex-row  justify-center p-4 text-gray-900 font-normal text-sm"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  justifyContent: 'center',
+                  flex: 1,
+                  maxWidth: 700,
+                }}
+              >
+                {!domainListLoading ? (
+                  <>
+                    {domainList?.map((item, index) => {
+                      let selectedItem = false
+                      selectedList?.map((key, index) => {
+                        if (key?.id === item?.id) {
+                          selectedItem = true
+                        }
+                      })
 
-                    return (
-                      <div key={index} className="relative mt-5">
-                        <div
-                          key={index.toString()}
-                          style={{
-                            cursor: 'pointer',
-                            paddingLeft: 20,
-                            paddingRight: 20,
-                            // backgroundColor: "red",
-                            borderWidth: 1,
-                            borderColor: selectedItem
-                              ? color.btnColor
-                              : color.blackVariant,
-                            borderRadius: 22,
-                            marginRight: 10,
+                      return (
+                        <div key={index} className="relative mt-5">
+                          <div
+                            key={index.toString()}
+                            style={{
+                              cursor: 'pointer',
+                              paddingLeft: 20,
+                              paddingRight: 20,
+                              // backgroundColor: "red",
+                              borderWidth: 1,
+                              borderColor: selectedItem
+                                ? color.btnColor
+                                : color.blackVariant,
+                              borderRadius: 22,
+                              marginRight: 10,
 
-                            marginBottom: 10,
-                            height: 43,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            display: 'flex',
-                          }}
-                          onClick={() => {
-                            let count = 0
-                            if (selectedList.length) {
-                              selectedList.map((items, index) => {
-                                if (items?.id === item?.id) {
-                                  count = 1
-                                  setSelectedList(
-                                    selectedList.filter(
-                                      (items) => items?.id !== item?.id,
-                                    ),
-                                  )
+                              marginBottom: 10,
+                              height: 35,
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              display: 'flex',
+                              fontSize: 14,
+                              fontWeight: 400,
+                            }}
+                            onClick={() => {
+                              let count = 0
+                              if (selectedList.length) {
+                                selectedList.map((items, index) => {
+                                  if (items?.id === item?.id) {
+                                    count = 1
+                                    setSelectedList(
+                                      selectedList.filter(
+                                        (items) => items?.id !== item?.id,
+                                      ),
+                                    )
+                                  }
+                                })
+                                if (count == 0) {
+                                  setSelectedList((selectedList) => [
+                                    ...selectedList,
+                                    item,
+                                  ])
                                 }
-                              })
-                              if (count == 0) {
+                              } else
                                 setSelectedList((selectedList) => [
                                   ...selectedList,
                                   item,
                                 ])
-                              }
-                            } else
-                              setSelectedList((selectedList) => [
-                                ...selectedList,
-                                item,
-                              ])
-                          }}
-                        >
-                          <div
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 400,
-                              color: color.blackVariant,
                             }}
                           >
-                            {item?.value}
+                            <div
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 400,
+                                color: color.blackVariant,
+                              }}
+                            >
+                              {item?.value}
+                            </div>
                           </div>
-                        </div>
-                        {/* <div
+                          {/* <div
                             className="w-10 -top-5 text-sm right-0 h-10 rounded-full bg-red-600 text-white cursor-pointer absolute flex justify-center items-center p-5"
                             onClick={deleteDomainList.bind(null, item?.id)}
                           >
                             X
                           </div> */}
-                      </div>
-                    )
-                  })}
+                        </div>
+                      )
+                    })}
 
-                  <div className="flex flex-col md:flex-row justify-between mt-5 ">
-                    {showDomainInput && (
-                      <input
-                        style={{
-                          textAlign: 'center',
-                          backgroundColor: 'transparent',
-                          borderRadius: 25,
-                          borderWidth: 1,
-                          borderColor: color.blackVariant,
-                          color: color.blackVariant,
+                    <div className="flex flex-col md:flex-row justify-between mt-5 ">
+                      {showDomainInput && (
+                        <input
+                          style={{
+                            textAlign: 'center',
+                            backgroundColor: 'transparent',
+                            borderRadius: 25,
+                            borderWidth: 1,
+                            borderColor: color.blackVariant,
+                            color: color.blackVariant,
                           marginRight: 10,
                           width: 129,
-                          fontSize: 14,
-                        }}
-                        placeholder="Enter here..."
-                        name="value"
-                        value={domainName?.value}
-                        onChange={(e) => {
-                          setDomainName(() => ({
-                            [e.target.name]: e.target.value,
-                          }))
-                        }}
-                      />
-                    )}
-                    <Button
-                      className="cursor-pointer"
-                      label={
-                        showDomainInput
-                          ? 'Save'
-                          : `Add ${domainList.length > 0 ? ' another' : ''}`
-                      }
-                      styleOverride={{
-                        // paddingLeft: 20,
-                        // paddingRight: 20,
-                        // paddingTop: 6,
-                        // paddingBottom: 6,
-                        color: color.white,
-                        borderWidth: 1,
-                        borderColor: color.blackVariant,
-                        borderRadius: 22,
-                        // marginBottom: 10,
-                        // height: 43,
-                        backgroundColor: color.blackVariant,
-                        width: showDomainInput ? 100 : 160,
-                        fontSize: 14,
-                      }}
-                      loader={loading}
-                      onClick={() => {
-                        debugger
-                        if (showDomainInput) {
-                          if (domainName?.value) saveDomainSkills()
-                        } else {
-                          setShowDomainInput(true)
-                        }
-                      }}
-                    />
-                    {showDomainInput && (
+                            fontSize: 14,
+                          }}
+                          placeholder="Enter here..."
+                          name="value"
+                          value={domainName?.value}
+                          onChange={(e) => {
+                            setDomainName(() => ({
+                              [e.target.name]: e.target.value,
+                            }))
+                          }}
+                        />
+                      )}
                       <Button
-                        label={'Cancel'}
-                        className="cursor-pointer md:ml-5"
+                        className="cursor-pointer"
+                        label={
+                          showDomainInput
+                            ? 'Save'
+                            : `Add ${domainList.length > 0 ? ' another' : ''}`
+                        }
                         styleOverride={{
                           // paddingLeft: 20,
                           // paddingRight: 20,
-                          // marginLeft: 20,
                           // paddingTop: 6,
                           // paddingBottom: 6,
-
                           color: color.white,
                           borderWidth: 1,
                           borderColor: color.blackVariant,
                           borderRadius: 22,
-                          // height: 43,
+                        // marginBottom: 10,
+                        // height: 43,
                           backgroundColor: color.blackVariant,
                           width: showDomainInput ? 100 : 160,
                           fontSize: 14,
                         }}
-                        // loader={loading}
+                        loader={loading}
                         onClick={() => {
-                          setShowDomainInput(false)
+                          debugger
+                          if (showDomainInput) {
+                            if (domainName?.value) saveDomainSkills()
+                          } else {
+                            setShowDomainInput(true)
+                          }
                         }}
                       />
-                    )}
-                  </div>
-                </>
-              ) : (
-                <SkeletonLoader />
-              )}
-            </div>
-            <Button
-              label={'Continue'}
-              className="cursor-pointer"
-              styleOverride={{
-                // paddingLeft: 20,
-                // paddingRight: 20,
-                // paddingTop: 6,
-                // paddingBottom: 6,
-                color: color.white,
-                borderRadius: 22,
-                // height: 43,
-                marginTop: 10,
+                      {showDomainInput && (
+                        <Button
+                          label={'Cancel'}
+                          className="cursor-pointer md:ml-5"
+                          styleOverride={{
+                            // paddingLeft: 20,
+                            // paddingRight: 20,
+                            // marginLeft: 20,
+                            // paddingTop: 6,
+                            // paddingBottom: 6,
 
-                fontSize: 15,
-                backgroundColor: color.btnColor,
+                            color: color.white,
+                            borderWidth: 1,
+                            borderColor: color.blackVariant,
+                            borderRadius: 22,
+                            // height: 43,
+                            backgroundColor: color.blackVariant,
+                          width: showDomainInput ? 100 : 160,
+                            fontSize: 14,
+                          }}
+                          // loader={loading}
+                          onClick={() => {
+                            setShowDomainInput(false)
+                          }}
+                        />
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <SkeletonLoader />
+                )}
+              </div>
+              <Button
+                label={'Continue'}
+                className="cursor-pointer"
+                styleOverride={{
+                  // paddingLeft: 20,
+                  // paddingRight: 20,
+                  // paddingTop: 6,
+                  // paddingBottom: 6,
+                  color: color.white,
+                  borderRadius: 22,
+                  // height: 43,
+               // marginTop: 10,
+
+                  fontSize: 14,
+                  backgroundColor: color.btnColor,
                 width: 186,
-                marginTop: 70,
-                marginBottom: 48,
-              }}
-              onClick={() => {
-                if (registerType?.registerType === 'STUDENT') {
-                  if (link && selectedList.length) {
-                    dispatch({
-                      type: ACTION_KEYS.KYCSTEP1,
-                      payload: {
-                        linkedIn_url: link,
-                        interestedSkills: selectedList,
-                        registerType: 'STUDENT',
-                      },
-                    })
-                    router.push('/register/StudentProfessionalDetails')
+                marginTop: 10,
+                marginBottom: 10,
+                }}
+                onClick={() => {
+                  if (registerType?.registerType === 'STUDENT') {
+                    if (link && selectedList.length) {
+                      dispatch({
+                        type: ACTION_KEYS.KYCSTEP1,
+                        payload: {
+                          linkedIn_url: link,
+                          interestedSkills: selectedList,
+                          registerType: 'STUDENT',
+                        },
+                      })
+                      router.push('/register/StudentProfessionalDetails')
+                    } else {
+                      setToastContent({
+                        message: 'Please fill all details',
+                        type: 'failure',
+                      })
+                      setShowToast(true)
+                    }
                   } else {
-                    setToastContent({
-                      message: 'Please fill all details',
-                      type: 'failure',
-                    })
-                    setShowToast(true)
+                    if (link && selectedList.length) {
+                      dispatch({
+                        type: ACTION_KEYS.KYCSTEP1,
+                        payload: {
+                          url: link,
+                          domain_id: selectedList,
+                          registerType: 'MENTOR',
+                        },
+                      })
+                      router.push('/register/KYC_step2')
+                    } else {
+                      setToastContent({
+                        message: 'Please fill all details',
+                        type: 'failure',
+                      })
+                      setShowToast(true)
+                    }
                   }
-                } else {
-                  if (link && selectedList.length) {
-                    dispatch({
-                      type: ACTION_KEYS.KYCSTEP1,
-                      payload: {
-                        url: link,
-                        domain_id: selectedList,
-                        registerType: 'MENTOR',
-                      },
-                    })
-                    router.push('/register/KYC_step2')
-                  } else {
-                    setToastContent({
-                      message: 'Please fill all details',
-                      type: 'failure',
-                    })
-                    setShowToast(true)
-                  }
-                }
-              }}
-            />
-            {showtoast ? (
-              <Toaster
-                message={toastContent?.message}
-                type={toastContent.type}
+                }}
               />
-            ) : null}
+              {showtoast ? (
+                <Toaster
+                  message={toastContent?.message}
+                  type={toastContent.type}
+                />
+              ) : null}
+            </div>
           </div>
         </div>
+        
       </div>
     </div>
   )
