@@ -318,3 +318,14 @@ type Configurations
   noticePeriod: Int
   noticePeriodIn: String
 }
+type Payment
+  @model
+  @auth(
+    rules: [{ allow: public, operations: [read, update, create, delete] }]
+  ) {
+  accountType: String
+  accountHolderName: String
+  username: String
+  ifscCode: String
+  accountNumber: String
+}

@@ -47,12 +47,12 @@ const StudentProfessionalDetails = () => {
     experience: professionalDetails?.experience || '',
   }
   return (
-    <div className="md:p-40 bg-white p-20">
+    <div className="md:p-10 bg-white p-10">
       <div
-        className="p-10 flex flex-col justify-start items-center"
+        className="flex flex-col justify-start items-center"
         style={{
           backgroundColor: color.headerColor,
-          padding: 20,
+          padding: 10,
         }}
       >
         {/* <ToastContainer align={'right'} position={'bottom'} /> */}
@@ -76,25 +76,25 @@ const StudentProfessionalDetails = () => {
               backgroundColor: color.headerColor,
             }}
           >
-            <div
-              style={{
-                color: color.blackVariant,
-                fontWeight: 400,
-                fontSize: 36,
-                marginTop: 60,
-                padding: 20,
-              }}
+            <div className='text-gray-900 text-4xl font-semibold p-5'
+              // style={{
+              //   color: color.blackVariant,
+              //   fontWeight: 400,
+              //   fontSize: 26,
+              //   marginTop: 20,
+              //   padding: 5,
+              // }}
             >
               Professional Details
             </div>
-            <div
-              style={{
-                color: color.lightGrey,
-                fontSize: 16,
-                fontWeight: 400,
-                marginTop: 16,
-                padding: 20,
-              }}
+            <div className='text-gray-400 text-base font-normal p-5'
+              // style={{
+              //   color: color.lightGrey,
+              //   fontSize: 10,
+              //   fontWeight: 400,
+              //   //marginTop: 16,
+              //   padding: 5,
+              // }}
             >
               Add some basic details to personalise the experience
             </div>
@@ -152,12 +152,13 @@ const StudentProfessionalDetails = () => {
                   {showToaster ? (
                     <Toaster message={'hellow'} type="success" />
                   ) : null}
+
                   <TextField
                     label="Your Recent college"
                     id="recent_college"
                     //   type="Email"
                     placeholder="Enter college name"
-                    style={{ padding: 20 }}
+                    style={{ padding: 5 }}
                     value={values.recent_college}
                     onChangeValue={(text) => {
                       if (spaceValidation.test(text.target.value)) {
@@ -166,7 +167,7 @@ const StudentProfessionalDetails = () => {
                     }}
                     styleOverride={{
                       backgroundColor: color.white,
-                      height: 56,
+                      height: 36,
                       borderColor: color.borderGrey,
                     }}
                     textStyleOverride={{
@@ -179,7 +180,7 @@ const StudentProfessionalDetails = () => {
                     value={values.degree}
                     label="Choose your degree"
                     placeholder="Choose college degree"
-                    style={{ padding: 20 }}
+                    style={{ padding: 5 }}
                     onChangeValue={(text) => {
                       if (spaceValidation.test(text.target.value)) {
                         setFieldValue('degree', text.target.value)
@@ -187,7 +188,7 @@ const StudentProfessionalDetails = () => {
                     }}
                     styleOverride={{
                       backgroundColor: color.white,
-                      height: 56,
+                      height: 36,
                       borderColor: color.borderGrey,
                     }}
                     textStyleOverride={{
@@ -273,10 +274,10 @@ const StudentProfessionalDetails = () => {
                         setFieldValue('current_employee', text.target.value)
                       }
                     }}
-                    style={{ padding: 20 }}
+                    style={{ padding: 5 }}
                     styleOverride={{
                       backgroundColor: color.white,
-                      height: 56,
+                      height: 36,
                       borderColor: color.borderGrey,
                     }}
                     textStyleOverride={{
@@ -356,10 +357,10 @@ const StudentProfessionalDetails = () => {
                     type="role"
                     placeholder="Enter your role"
                     //   icon={require('../../public/assets/icon/eye.png')}
-                    style={{ padding: 20 }}
+                    style={{ padding: 5 }}
                     styleOverride={{
                       backgroundColor: color.white,
-                      height: 56,
+                      height: 36,
                       borderColor: color.borderGrey,
                     }}
                     textStyleOverride={{
@@ -379,13 +380,13 @@ const StudentProfessionalDetails = () => {
                     value={values.experience}
                     label="Experience in years (optional)"
                     placeholder="Choose experience in year"
-                    style={{ padding: 20 }}
+                    style={{ padding: 5 }}
                     id="experience"
                     type="role"
                     //   icon={require('../../public/assets/icon/eye.png')}
                     styleOverride={{
                       backgroundColor: color.white,
-                      height: 56,
+                      height: 36,
                       borderColor: color.borderGrey,
                     }}
                     textStyleOverride={{
@@ -452,7 +453,7 @@ const StudentProfessionalDetails = () => {
                     style={{
                       display: 'flex',
                       flexDirection: 'row',
-                      padding: 20,
+                      padding: 5,
                     }}
                   >
                     <Button
@@ -463,10 +464,11 @@ const StudentProfessionalDetails = () => {
                         // paddingRight: 20,
                         // paddingTop: 6,
                         // paddingBottom: 6,
+                        
                         color: color.white,
                         borderRadius: 22,
-                        // height: 43,
-                        fontSize: 15,
+                        height: 43,
+                        fontSize: 12,
                         backgroundColor: color.blackVariant,
                         // width: 186,
                         // marginTop: 70,
@@ -489,7 +491,7 @@ const StudentProfessionalDetails = () => {
                         color: color.white,
                         borderRadius: 22,
                         // height: 43,
-                        fontSize: 15,
+                        fontSize: 12,
                         backgroundColor: color.btnColor,
                         // width: 186,
                         // marginTop: 70,

@@ -32,7 +32,7 @@ export const NavigationLinks = [
   },
   {
     title: 'Payment',
-    url: '',
+    url: '/mentor/payment',
     image: 'payment.png',
   },
   {

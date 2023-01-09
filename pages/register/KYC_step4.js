@@ -238,8 +238,8 @@ const KYC_step4 = () => {
               style={{
                 color: color.blackVariant,
                 fontWeight: 400,
-                fontSize: 36,
-                marginTop: 60,
+                fontSize: 26,
+                marginTop: 20,
                 padding: 20,
               }}
             >
@@ -250,8 +250,8 @@ const KYC_step4 = () => {
                 color: color.lightGrey,
                 fontSize: 16,
                 fontWeight: 400,
-                marginTop: 16,
-                marginBottom: 60,
+                marginTop: 5,
+                marginBottom: 10,
                 padding: 20,
               }}
             >
@@ -328,7 +328,7 @@ const KYC_step4 = () => {
                           color: color.white,
                           borderRadius: 22,
                           // height: 43,
-                          fontSize: 15,
+                          fontSize: 12,
                           backgroundColor: color.blackVariant,
                           // width: 186,
                           // marginTop: 70,
@@ -364,7 +364,7 @@ const KYC_step4 = () => {
                           color: color.white,
                           borderRadius: 22,
                           // height: 43,
-                          fontSize: 15,
+                          fontSize: 12,
                           backgroundColor: color.btnColor,
                           // width: 186,
                           // marginTop: 70,

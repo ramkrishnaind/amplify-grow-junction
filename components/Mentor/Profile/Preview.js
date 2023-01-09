@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import classes from './Preview.module.css'
 import { API, Storage, graphqlOperation } from 'aws-amplify'
-import { listMentorRegisters } from '../../../src/graphql/queries'
+import { listMentorRegisters, listUserInfos } from '../../../src/graphql/queries'
 import { getLoggedinUserEmail } from '../../../utilities/user'
 
 const Preview = ({ showServices, mentor }) => {
   const [image, setImage] = useState('')
   const [firstName, setFirstName] = useState(mentor?.about_yourself?.first_name)
   const [lastName, setLastName] = useState(mentor?.about_yourself?.last_name)
-  const [url, setUrl] = useState(mentor.about_yourself?.grow_junction_url)
+  const [url, setUrl] = useState(mentor?.about_yourself?.grow_junction_url)
   const [shortDescription, setShortDescription] = useState(
-    mentor.about_yourself?.short_description,
+    mentor?.about_yourself?.short_description,
   )
   const [aboutYourself, setAboutYourself] = useState(
-    mentor.about_yourself?.about_yourself,
+    mentor?.about_yourself?.about_yourself,
   )
   const [occupation, setOccupation] = useState(
-    mentor.Professionalinfo?.occupation,
+    mentor?.Professionalinfo?.occupation,
   )
   const [organisation, setOrganisation] = useState(
-    mentor.Professionalinfo?.organization,
+    mentor?.Professionalinfo?.organization,
   )
   const [linkedin, setLinkedin] = useState()
   const [instagram, setInstagram] = useState()
@@ -154,7 +154,7 @@ const Preview = ({ showServices, mentor }) => {
                 Services Offered
               </span>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 w-full p-4 bg-gray-100">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 w-full p-4">
                 <div className="relative overflow-hidden w-auto  rounded-xl shadow-xl">
                   <img
                     src="../../../images/CardRectangle.png"
@@ -186,7 +186,7 @@ const Preview = ({ showServices, mentor }) => {
                     </button>
                   </div>
 
-                  <div className="flex flex-row justify-end bg-gray-200 bg-opacity-25 md:bg-opacity-50">
+                  <div className="flex flex-row justify-end bg-gray-200 bg-opacity-25 md:bg-opacity-50 ">
                     <button className="inset-x-0 bottom-0 mr-2">
                       <p className="text-sm text-black underline dark:text-gray-100">
                         View Details
