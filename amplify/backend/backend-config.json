@@ -32,6 +32,20 @@
           ]
         }
       }
+    },
+    "getCashfreeSessionId": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "createOrder",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   },
   "auth": {
@@ -66,6 +80,14 @@
     "testAmplify": {
       "service": "S3",
       "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
+  },
+  "function": {
+    "createOrder": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
       "dependsOn": []
     }
   }

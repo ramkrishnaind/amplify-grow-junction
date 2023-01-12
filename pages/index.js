@@ -19,6 +19,27 @@ import { listUserInfos } from '../src/graphql/queries'
 const Home = () => {
   const router = useRouter()
   const email = getLoggedinUserEmail()
+
+  // const getData = async () => {
+  //   debugger
+  //   const myInit = {
+  //     body: {
+  //       order_note: 'New Note',
+  //       order_amount: 200,
+  //       customer_id: 'cust1',
+  //       customer_name: 'custOne',
+  //       customer_email: 'cust1@cashfree.com',
+  //       customer_phone: '9816512999',
+  //     },
+  //   }
+  //   const paymentData = await API.post(
+  //     'getCashfreeSessionId',
+  //     '/createOrder',
+  //     myInit,
+  //   )
+  //   debugger
+  // }
+  // getData()
   // debugger
   const registerType = useSelector((state) => state.AuthReducer)
   const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
