@@ -49,19 +49,20 @@ const VerifyEmail = () => {
     //   })
   }
   return (
-    <BoxBodyContainer
-      body={
-        <>
+    
+      <div className="flex h-screen bg-white">
+        <div className='m-auto px-4'>
+        <div className="flex flex-col justify-center items-center mt-10 bg-gray-50   md:p-20 lg:p-20">
           <Image
-            src={require('../../public/assets/icon/logo.png')}
+            src={require('../../public/assets/icon/logo.svg')}
             alt=""
-            style={{ height: 89, width: 224 }}
+            //style={{ height: 89, width: 224 }}
           />
           <div
             style={{
               backgroundColor: color.blackVariant,
-              height: 66,
-              width: 66,
+              //height: 66,
+              //width: 66,
               borderRadius: 66,
               display: 'flex',
               justifyContent: 'center',
@@ -74,68 +75,57 @@ const VerifyEmail = () => {
               style={{ height: 42, width: 42 }}
             />
           </div>
-          <div
-            style={{
-              marginTop: 40,
-              fontSize: 36,
-              color: color.blackVariant,
-              //   lineHeight: 49.03,
-            }}
+          <div className='mt-20 text-gray-900 text-4xl font-bold'
+            // style={{
+            //   marginTop: 40,
+            //   fontSize: 36,
+            //   color: color.blackVariant,
+            //   //   lineHeight: 49.03,
+            // }}
           >
-            Verify your Email
+            <span>Verify your email</span>
           </div>
-          <div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
-            <div
-              style={{
-                marginTop: 40,
-                fontSize: 20,
-                color: color.blackVariant,
-                textAlign: 'center',
-                paddingLeft: 373,
-                paddingRight: 373,
-                //   lineHeight: 27.24,
-              }}
-            >
-              To keep a trusted and safe community, we’ve sent an email to{' '}
-              <span style={{ fontWeight: 700 }}>
+          <div className='mt-5 text-gray-900 text-xl p-5'
+            // style={{
+            //   display: 'flex',
+            //   flex: 1,
+            //   justifyContent: 'center',
+            //   padding: 10,
+            // }}
+          >
+             <span className='text-gray-900 text-xl font-normal'>To keep a trusted and safe community, we’ve sent an email to{' '}</span> 
+              <span className='text-gray-900 text-2xl font-bold' >  
                 {registerType.userAuth?.username}
               </span>{' '}
-              for verification, and you’ll only do this once.
-            </div>
+              <span className='text-gray-900 text-xl font-normal'>for verification, and you’ll only do this once.</span>
+            
           </div>
-          <div
-            style={{
-              marginTop: 48,
-              display: 'flex',
-              flexDirection: 'row',
-              flex: 1,
-              color: color.blackVariant,
-              fontSize: 16,
-            }}
-          >
-            Not the correct email?{' '}
+          <div className='flex flex-row text-gray-900 text-base mt-10'>
+            <span>Not the correct email?{' '}</span>
             <div
-              style={{ fontSize: 16, color: color.blue }}
+              className='text-blue-900 font-bold text-base'
+              // style={{ fontSize: 16, color: color.blue }}
               onClick={() => {
                 router.back()
               }}
             >
-              {' '}
+              {'  '}
               Change email address
             </div>
           </div>
           <Button
             label={!verifyMail ? 'Open my email' : 'Continue'}
-            styleOverride={{
-              height: 62,
-              backgroundColor: color.blackVariant,
-              color: color.white,
-              //   alignSelf: 'center',
-              //   marginTop: 40,
-              width: 494,
-              fontSize: 16,
-              fontWeight: 700,
-            }}
+            className='flex justify-center item-center bg-gray-900 text-white text-base font-bold  px-24 py-4 mt-5 rounded-md'
+            // styleOverride={{
+            //   height: 62,
+            //   backgroundColor: color.blackVariant,
+            //   color: color.white,
+            //   //   alignSelf: 'center',
+            //   //   marginTop: 40,
+            //   //  width: 494,
+            //   fontSize: 16,
+            //   fontWeight: 700,
+            // }}
             link={!verifyMail}
             href={`https://${registerType.userAuth?.username.split('@')[1]}`}
             //   onClick={handleSubmit}
@@ -173,15 +163,15 @@ const VerifyEmail = () => {
               }
             }}
           >
-            <div
-              style={{
-                marginTop: 48,
-                display: 'flex',
-                flexDirection: 'row',
-                flex: 1,
-                color: color.blackVariant,
-                fontSize: 16,
-              }}
+            <div className='flex flex-row text-gray-900 text-base mt-5 mb-10'
+              // style={{
+              //   marginTop: 48,
+              //   display: 'flex',
+              //   flexDirection: 'row',
+              //   flex: 1,
+              //   color: color.blackVariant,
+              //   fontSize: 16,
+              // }}
               onClick={async () => {
                 try {
                   await Auth.resendSignUp('er.riyaz2507@gmail.com')
@@ -197,15 +187,16 @@ const VerifyEmail = () => {
               }}
             >
               Did not receive any mail?{' '}
-              <div style={{ fontSize: 16, color: color.blue }}>
+              <div className='text-blue-900 font-bold text-base'>
                 {' '}
                 Resend email
               </div>
             </div>
           </div>
-        </>
-      }
-    />
+        </div>
+        </div>
+      </div>
+    
   )
 }
 

@@ -13,7 +13,7 @@ const KYC_header = (props) => {
       style={{
         display: 'flex',
         flex: 1,
-        marginTop: 60,
+        marginTop: 5,
         justifyContent: 'center',
       }}
     >
@@ -23,7 +23,7 @@ const KYC_header = (props) => {
         style={{
           // height: height / 8,
           // width: width / 2.5,
-          maxHeight: 100,
+          maxHeight: 50,
         }}
       />
     </div>
