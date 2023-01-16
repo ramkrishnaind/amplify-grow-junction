@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import classes from './Preview.module.css'
 import { API, Storage, graphqlOperation } from 'aws-amplify'
-import { listMentorRegisters, listUserInfos } from '../../../src/graphql/queries'
+import { listMentorRegisters, listUserInfos, listOneOnOnes, listTextQueries, listWorkshops, listCourses } from '../../../src/graphql/queries'
 import { getLoggedinUserEmail } from '../../../utilities/user'
 
 const Preview = ({ showServices, mentor }) => {
@@ -24,10 +24,14 @@ const Preview = ({ showServices, mentor }) => {
   const [linkedin, setLinkedin] = useState()
   const [instagram, setInstagram] = useState()
   const [personalurl, setPersonalurl] = useState()
-
+  const [sessionResults, setSessionResults] = useState([])
+  const [workshopResults, setWorkshopResults] = useState([])
+  const [textQueryResults, setTextQueryResults] = useState([])
+  const [coursesResults, setCoursesResults] = useState([])
+  const usrName = getLoggedinUserEmail()
   const getUser = async () => {
     // debugger
-    const usrName = getLoggedinUserEmail()
+    //const usrName = getLoggedinUserEmail()
     console.log('username - ', usrName)
     const results = await API.graphql(
       graphqlOperation(listMentorRegisters, {
@@ -72,12 +76,80 @@ const Preview = ({ showServices, mentor }) => {
     }
   }
 
+
+  const loadOneOnOne = async () => {
+    debugger
+    try {
+      const results = await API.graphql(
+        graphqlOperation(listOneOnOnes, {
+          filter: { username: { contains: usrName } },
+        }),
+      )
+      // debugger
+      if (results.data.listOneOnOnes.items.length > 0) {
+        setSessionResults(results.data.listOneOnOnes.items)
+        console.log('oneonone- ', sessionResults)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
+
+  const loadWorkshop = async () => {
+    debugger
+    try {
+      const results = await API.graphql(graphqlOperation(listWorkshops, {
+        filter: { username: { contains: usrName } },
+      }),
+    )
+      if (results.data.listWorkshops.items.length > 0) {
+        setWorkshopResults(results.data.listWorkshops.items)
+        console.log('workshop- ', workshopResults)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
+
+  const loadCourses = async () => {
+    try {
+      const results = await API.graphql(graphqlOperation(listCourses, {
+        filter: { username: { contains: usrName } },
+      }),
+    )
+      if (results.data.listCourses.items.length > 0) {
+        setCoursesResults(results.data.listCourses.items)
+        console.log('courses- ', coursesResults)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
+
+  const loadTextQuery = async () => {
+    try {
+      const results = await API.graphql(graphqlOperation(listTextQueries, {
+        filter: { username: { contains: usrName } },
+      }),
+    )
+      if (results.data.listTextQueries.items.length > 0) {
+        setTextQueryResults(results.data.listTextQueries.items)
+        console.log('textquery- ', textQueryResults)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
   useEffect(() => {
     if (!mentor) getUser()
+    loadOneOnOne()
+    loadTextQuery()
+    loadWorkshop()
+    loadCourses()
   }, [])
 
   return (
-    <div className="flex flex-col items-center bg-white ">
+    <div className="flex flex-col items-center bg-white">
       <div className="w-full">
         <div className="flex justify-center items-center text-base text-semibold border-2 rounded-md bg-white h-14 mb-2 w-full">
           Preview
@@ -154,55 +226,148 @@ const Preview = ({ showServices, mentor }) => {
                 Services Offered
               </span>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 w-full p-4">
-                <div className="relative overflow-hidden w-auto  rounded-xl shadow-xl">
-                  <img
-                    src="../../../images/CardRectangle.png"
-                    className="object-cover w-full"
-                  />
-                  <span className="absolute top-0 left-0">
-                    <p className="text-sm text-black font-semibold mt-3 p-1">
-                      1 on 1 Mock Interview
-                    </p>
-                    <p className="text-sm text-black font-normal p-2">
-                      60 min | 30 min | 15 min sessions
-                    </p>
-                    <p className="text-xs text-black font-normal mt-2 p-2">
-                      Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                      Aenean commodo ligula eget dolor.
-                    </p>
-                  </span>
-
-                  <div className="absolute top-0 right-0 items-center inline-flex  p-2 rounded-full z-10 text-sm font-medium text-white select-none">
-                    {/* <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 w-auto p-4">
+                {
+                  sessionResults !== null && sessionResults.length > 0 ?
+                  (
+                      sessionResults.map((s, index) =>{
+                        return(
+                          <>
+                        <div key={index}
+                        className="relative overflow-hidden w-1/2 rounded-xl shadow-xl">
+                        <img
+                          src="../../../images/CardRectangle.png"
+                          className="object-cover"
+                        />
+                        <span className="absolute inset-x-0 top-0 mt-5">
+                          <p className="text-sm text-black font-semibold p-1">
+                            1 on 1 Mock Interview
+                          </p>
+                          <p className="text-sm text-black font-normal p-2">
+                          {s.sessionDuration}{' '}{s.sessionDurationIn}
+                          </p>
+                          <p className="text-xs text-black font-normal mt-2 p-2">
+                            {s.description}
+                          </p>
+                        </span>
+      
+                        <div className="absolute top-0 right-0 items-center inline-flex  p-2 rounded-full z-10 text-sm font-medium text-white select-none">
+                          {/* <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                            <img
+                              src="../../../images/camera.png"
+                              alt=""
+                              className="w-4 h-3"
+                            ></img>
+                            <p className="text-sm text-black dark:text-gray-100 ml-3">
+                              Video session
+                            </p>
+                          </button> */}
+                        </div>
+      
+                        <div className="flex flex-row justify-end bg-gray-200 bg-opacity-25 md:bg-opacity-50 ">
+                          {/* <button className="inset-x-0 bottom-0 mr-2">
+                            <p className="text-sm text-black underline dark:text-gray-100">
+                              View Details
+                            </p>
+                          </button> */}
+                          {/* <button className="bottom-0 right-0 bg-amber-400 hover:bg-blue-700 text-white p-2 rounded-full m-2">
+                            <p className="text-xs text-black font-bold">
+                              Book a session
+                            </p>
+                          </button> */}
+                        </div>
+                      </div>
+                      </>
+                      )})
+                  ) :(<div></div>)
+                }
+                {/* {
+                  workshopResults !== null && workshopResults.length > 0 ?
+                  (
+                      workshopResults.map((s, index) =>{
+                        return(
+                          <>
+                        <div key={index}
+                        className="relative overflow-hidden w-auto  rounded-xl shadow-xl">
+                        <img
+                          src="../../../images/CardRectangle.png"
+                          className="object-cover w-full"
+                        />
+                        <span className="absolute inset-x-0 top-0 mt-10">
+                          <p className="text-sm text-black font-semibold mt-5 p-1">
+                            {s.title}
+                          </p>
+                          <p className="text-sm text-black font-normal p-2">
+                          {s.callDuration}{' '}
+                                        {s.callDurationIn}
+                          </p>
+                          <p className="text-xs text-black font-normal mt-2 p-2">
+                            {s.description}
+                          </p>
+                        </span>
+                      </div>
+                      </>
+                      )})
+                  ) :(<div></div>)
+                }
+                {
+                  textQueryResults !== null && textQueryResults.length > 0 ? (
+                    textQueryResults.map((s, index) =>{
+                      return(
+                        <>
+                      <div key={index}
+                      className="relative overflow-hidden w-auto  rounded-xl shadow-xl">
                       <img
-                        src="../../../images/camera.png"
-                        alt=""
-                        className="w-4 h-3"
-                      ></img>
-                      <p className="text-sm text-black dark:text-gray-100 ml-3">
-                        Video session
-                      </p>
-                    </button> */}
-                  </div>
-
-                  <div className="flex flex-row justify-end bg-gray-200 bg-opacity-25 md:bg-opacity-50 ">
-                    {/* <button className="inset-x-0 bottom-0 mr-2">
-                      <p className="text-sm text-black underline dark:text-gray-100">
-                        View Details
-                      </p>
-                    </button> */}
-                    {/* <button className="bottom-0 right-0 bg-amber-400 hover:bg-blue-700 text-white p-2 rounded-full m-2">
-                      <p className="text-xs text-black font-bold">
-                        Book a session
-                      </p>
-                    </button> */}
-                  </div>
-                </div>
-
+                        src="../../../images/CardRectangle.png"
+                        className="object-cover w-full"
+                      />
+                      <span className="absolute inset-x-0 top-0 mt-10">
+                        <p className="text-sm text-black font-semibold mt-5 p-1">
+                          {s.title}
+                        </p>
+                        <p className="text-sm text-black font-normal p-2">
+                        {s.responseTime}{' '}
+                                        {s.responseTimeIn}
+                        </p>
+                        <p className="text-xs text-black font-normal mt-2 p-2">
+                          {s.description}
+                        </p>
+                      </span>
+                    </div>
+                    </>
+                    )})
+                  ) : (<div></div>)
+                }
+                {
+                  coursesResults !== null && coursesResults.length > 0 ? (
+                    coursesResults.map((s, index) =>{
+                      return(
+                        <>
+                      <div key={index}
+                      className="relative overflow-hidden w-auto  rounded-xl shadow-xl">
+                      <img
+                        src="../../../images/CardRectangle.png"
+                        className="object-cover w-full"
+                      />
+                      <span className="absolute inset-x-0 top-0 mt-10">
+                        <p className="text-sm text-black font-semibold mt-5 p-1">
+                          {s.courseTitle}
+                        </p>
+                        <p className="text-sm text-black font-normal p-2">
+                        {s.sessionDuration}{' '}{s.sessionDurationIn}
+                        </p>
+                        <p className="text-xs text-black font-normal mt-2 p-2">
+                          {s.description}
+                        </p>
+                      </span>
+                    </div>
+                    </>
+                    )})
+                  ) : (<div></div>)
+                } */}
                 {/* repeat           */}
 
-                <div className="relative overflow-hidden w-full  rounded-xl shadow-xl">
+                {/* <div className="relative overflow-hidden w-full  rounded-xl shadow-xl">
                   <img
                     src="../../../images/CardRectangle.png"
                     className="object-cover w-full"
@@ -221,7 +386,7 @@ const Preview = ({ showServices, mentor }) => {
                   </span>
 
                   <div className="absolute top-0 right-0 items-center inline-flex  p-2 rounded-full z-10 text-sm font-medium text-white select-none">
-                    {/* <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                    <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                       <img
                         src="../../../images/camera.png"
                         alt=""
@@ -230,21 +395,21 @@ const Preview = ({ showServices, mentor }) => {
                       <p className="text-sm text-black dark:text-gray-100 ml-3">
                         Video session
                       </p>
-                    </button> */}
+                    </button>
                   </div>
                   <div className="flex flex-row justify-end bg-gray-200 bg-opacity-25 md:bg-opacity-50">
-                    {/* <button className="inset-x-0 bottom-0 mr-2">
+                    <button className="inset-x-0 bottom-0 mr-2">
                       <p className="text-sm text-black underline dark:text-gray-100">
                         View Details
                       </p>
-                    </button> */}
-                    {/* <button className="bottom-0 right-0 bg-amber-400 hover:bg-blue-700 text-white p-2 rounded-full m-2">
+                    </button>
+                    <button className="bottom-0 right-0 bg-amber-400 hover:bg-blue-700 text-white p-2 rounded-full m-2">
                       <p className="text-xs text-black font-bold">
                         Book a session
                       </p>
-                    </button> */}
+                    </button>
                   </div>
-                </div>
+                </div> */}
               </div>
             </>
           )}
