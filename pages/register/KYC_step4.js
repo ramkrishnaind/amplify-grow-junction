@@ -201,7 +201,7 @@ const KYC_step4 = () => {
   //   }
   // }, registerType)
   return (
-    <div className="md:p-40 bg-white p-10">
+    <div className="md:p-40 lg:p-40  bg-white p-10">
       <div
         className="flex flex-col justify-start items-center"
         style={{
@@ -243,7 +243,7 @@ const KYC_step4 = () => {
                 padding: 20,
               }}
             >
-              Receive updates on whatsapp
+              Receive updates on Whatsapp
             </div>
             <div
               style={{

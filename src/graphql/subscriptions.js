@@ -1189,6 +1189,78 @@ export const onDeletePayment = /* GraphQL */ `
     }
   }
 `;
+export const onCreateStudentBooking = /* GraphQL */ `
+  subscription OnCreateStudentBooking(
+    $filter: ModelSubscriptionStudentBookingFilterInput
+  ) {
+    onCreateStudentBooking(filter: $filter) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateStudentBooking = /* GraphQL */ `
+  subscription OnUpdateStudentBooking(
+    $filter: ModelSubscriptionStudentBookingFilterInput
+  ) {
+    onUpdateStudentBooking(filter: $filter) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteStudentBooking = /* GraphQL */ `
+  subscription OnDeleteStudentBooking(
+    $filter: ModelSubscriptionStudentBookingFilterInput
+  ) {
+    onDeleteStudentBooking(filter: $filter) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateTodo = /* GraphQL */ `
   subscription OnCreateTodo(
     $filter: ModelSubscriptionTodoFilterInput

@@ -19,7 +19,16 @@
         "testAmplify": {}
       },
       "api": {
-        "testamplifyapi": {}
+        "testamplifyapi": {},
+        "getCashfreeSessionId": {}
+      },
+      "function": {
+        "createOrder": {
+          "xclientid": "",
+          "xclientsecret": "",
+          "deploymentBucketName": "amplify-testamplifyapi-dev-90108-deployment",
+          "s3Key": "amplify-builds/createOrder-507470375256524b6463-build.zip"
+        }
       }
     }
   }

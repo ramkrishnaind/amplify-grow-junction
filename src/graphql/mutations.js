@@ -1273,6 +1273,81 @@ export const deletePayment = /* GraphQL */ `
     }
   }
 `;
+export const createStudentBooking = /* GraphQL */ `
+  mutation CreateStudentBooking(
+    $input: CreateStudentBookingInput!
+    $condition: ModelStudentBookingConditionInput
+  ) {
+    createStudentBooking(input: $input, condition: $condition) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateStudentBooking = /* GraphQL */ `
+  mutation UpdateStudentBooking(
+    $input: UpdateStudentBookingInput!
+    $condition: ModelStudentBookingConditionInput
+  ) {
+    updateStudentBooking(input: $input, condition: $condition) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteStudentBooking = /* GraphQL */ `
+  mutation DeleteStudentBooking(
+    $input: DeleteStudentBookingInput!
+    $condition: ModelStudentBookingConditionInput
+  ) {
+    deleteStudentBooking(input: $input, condition: $condition) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createTodo = /* GraphQL */ `
   mutation CreateTodo(
     $input: CreateTodoInput!
