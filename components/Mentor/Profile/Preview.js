@@ -174,7 +174,7 @@ const Preview = ({ showServices, mentor }) => {
                   </span>
 
                   <div className="absolute top-0 right-0 items-center inline-flex  p-2 rounded-full z-10 text-sm font-medium text-white select-none">
-                    <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                    {/* <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                       <img
                         src="../../../images/camera.png"
                         alt=""
@@ -183,20 +183,20 @@ const Preview = ({ showServices, mentor }) => {
                       <p className="text-sm text-black dark:text-gray-100 ml-3">
                         Video session
                       </p>
-                    </button>
+                    </button> */}
                   </div>
 
                   <div className="flex flex-row justify-end bg-gray-200 bg-opacity-25 md:bg-opacity-50 ">
-                    <button className="inset-x-0 bottom-0 mr-2">
+                    {/* <button className="inset-x-0 bottom-0 mr-2">
                       <p className="text-sm text-black underline dark:text-gray-100">
                         View Details
                       </p>
-                    </button>
-                    <button className="bottom-0 right-0 bg-amber-400 hover:bg-blue-700 text-white p-2 rounded-full m-2">
+                    </button> */}
+                    {/* <button className="bottom-0 right-0 bg-amber-400 hover:bg-blue-700 text-white p-2 rounded-full m-2">
                       <p className="text-xs text-black font-bold">
                         Book a session
                       </p>
-                    </button>
+                    </button> */}
                   </div>
                 </div>
 
@@ -221,7 +221,7 @@ const Preview = ({ showServices, mentor }) => {
                   </span>
 
                   <div className="absolute top-0 right-0 items-center inline-flex  p-2 rounded-full z-10 text-sm font-medium text-white select-none">
-                    <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                    {/* <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                       <img
                         src="../../../images/camera.png"
                         alt=""
@@ -230,19 +230,19 @@ const Preview = ({ showServices, mentor }) => {
                       <p className="text-sm text-black dark:text-gray-100 ml-3">
                         Video session
                       </p>
-                    </button>
+                    </button> */}
                   </div>
                   <div className="flex flex-row justify-end bg-gray-200 bg-opacity-25 md:bg-opacity-50">
-                    <button className="inset-x-0 bottom-0 mr-2">
+                    {/* <button className="inset-x-0 bottom-0 mr-2">
                       <p className="text-sm text-black underline dark:text-gray-100">
                         View Details
                       </p>
-                    </button>
-                    <button className="bottom-0 right-0 bg-amber-400 hover:bg-blue-700 text-white p-2 rounded-full m-2">
+                    </button> */}
+                    {/* <button className="bottom-0 right-0 bg-amber-400 hover:bg-blue-700 text-white p-2 rounded-full m-2">
                       <p className="text-xs text-black font-bold">
                         Book a session
                       </p>
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>

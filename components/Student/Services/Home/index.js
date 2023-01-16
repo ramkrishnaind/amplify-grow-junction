@@ -159,6 +159,7 @@ const Home = () => {
   const [durations, setDurations] = useState([])
   const [selectedTimeInterval, setSelectedTimeInterval] = useState('')
   const [timeSlots, setTimeSlots] = useState([])
+  const [isSelected, setIsSelected] = useState(false)
   const [duration, setDuration] = useState()
   // const [filterSessionResults, setFilterSessionResults] = useState([])
   const [weekDay, setWeekDay] = useState('')
@@ -184,9 +185,22 @@ const Home = () => {
   const disablePastDt = (current) => {
     return current.isAfter(yesterday)
   }
+  // disable the list of custom dates
+  const customDates1 = ['2023-01-26'];
+  const disableCustomDt = current => {
+    return !customDates1.includes(current.format('YYYY-MM-DD'));
+  }
+  // disable unavilable dates
+  // const today = moment();
+  // const disableFutureDt = current => {
+  //   return current.isBefore(today)
+  // }
+
+
 
   const setTimeInterval = (slot) => {
     debugger
+    setIsSelected(true)
     setSelectedTimeInterval(slot)
   }
 
@@ -211,13 +225,19 @@ const Home = () => {
   }
 
   const timeIntervals = (startTime, endTime, interval) => {
+    // setTimeSlots([])
     debugger
-    let stime = (startTime !== 'undefined') ? (startTime + ':00') : '00:00:00'
-    let etime = (endTime !== 'undefined') ? (endTime + ':00') : '00:00:00'
-    timeSlots.push(stime)
-    while (stime != etime) {
-      stime = addMinutes(stime, interval)
-      timeSlots.push(stime)
+    if (startTime !== undefined && endTime !== undefined) {
+      let stime = startTime + ':00' 
+      let etime = endTime + ':00'
+      timeSlots.push(stime.slice(0, -3))
+      while (stime != etime) {
+        stime = addMinutes(stime, interval)
+        timeSlots.push(stime.slice(0, -3))
+      }
+      if(timeSlots.length > 0 ){
+        timeSlots.pop()
+      }
     }
   }
 
@@ -227,118 +247,120 @@ const Home = () => {
     console.log(dt._d)
   }
 
-useEffect(() =>{
-  const disableCustomDt = (unavailableDates) => {
-    unavailableDates?.length > 0 ? (
-      unavailableDates.map((ud, index) =>{
-       // disablePastDt.includes(ud.format('YYYY-MM-DD'))
-      })
-    ) : null
-  }
-  setCustomDates(disableCustomDt)
-},[unavailableDates])
-
+  useEffect(() => {
+    debugger
+    console.log('disablePastDt -', disablePastDt)
+    //const disableCustomDt = (unavailableDates) => {
+      unavailableDates?.length > 0
+        ? unavailableDates.map((ud, index) => {
+             //disablePastDt.includes(ud.format('YYYY-MM-DD'))
+          })
+        : null
+    //}
+    //setCustomDates(disableCustomDt)
+  }, [unavailableDates])
 
   useEffect(() => {
     debugger
     const dt = new Date(bookingdate)
     const day = weekdays[dt.getDay()]?.toLowerCase().toString()
     setWeekDay(day)
-    
-  
-      if(day !== 'undefined' && day === 'sunday'){
-        if( sunday?.time?.length > 0){
-          sunday.map((s, index) =>{
-            timeIntervals(s.startTime, s.endTime, duration)
-          })
-        }
-      }
 
-      if(day !== 'undefined' && day === 'monday'){
-        if( monday?.time?.length > 0){
-          monday.map((s, index) =>{
-            timeIntervals(s.startTime, s.endTime, duration)
-          })
-        }
-      }
+    if (day !== 'undefined' && day === 'sunday') {
+      timeIntervals(sunday.startTime, sunday.endTime, duration)
+      // if( sunday?.time?.length > 0){
+      //   sunday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
 
+    if (day !== 'undefined' && day === 'monday') {
+      timeIntervals(monday.startTime, monday.endTime, duration)
+      // if( monday?.time?.length > 0){
+      //   monday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
 
-      if(day !== 'undefined' && day === 'tuesday'){
-        if( tuesday?.time?.length > 0){
-          tuesday.map((s, index) =>{
-            timeIntervals(s.startTime, s.endTime, duration)
-          })
-        }
-      }
+    if (day !== 'undefined' && day === 'tuesday') {
+      timeIntervals(tuesday.startTime, tuesday.endTime, duration)
+      // if( tuesday?.time?.length > 0){
+      //   tuesday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
 
-      if(day !== 'undefined' && day === 'wednesday'){
-        if( wednesday?.time?.length > 0){
-          wednesday.map((s, index) =>{
-            timeIntervals(s.startTime, s.endTime, duration)
-          })
-        }
-      }
+    if (day !== 'undefined' && day === 'wednesday') {
+      timeIntervals(wednesday.startTime, wednesday.endTime, duration)
+      // if( wednesday?.time?.length > 0){
+      //   wednesday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
 
+    if (day !== 'undefined' && day === 'thursday') {
+      timeIntervals(thursday.startTime, thursday.endTime, duration)
+      // if( thursday?.time?.length > 0){
+      //   thursday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
 
-      if(day !== 'undefined' && day === 'thursday'){
-        if( thursday?.time?.length > 0){
-          thursday.map((s, index) =>{
-            timeIntervals(s.startTime, s.endTime, duration)
-          })
-        }
-      }
+    if (day !== 'undefined' && day === 'friday') {
+      timeIntervals(friday.startTime, friday.endTime, duration)
+      // if( friday?.time?.length > 0){
+      //   friday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
 
+    if (day !== 'undefined' && day === 'saturday') {
+      timeIntervals(saturday.startTime, saturday.endTime, duration)
+      // if( saturday?.time?.length > 0){
+      //   saturday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
 
-      if(day !== 'undefined' && day === 'friday'){
-        if( friday?.time?.length > 0){
-          friday.map((s, index) =>{
-            timeIntervals(s.startTime, s.endTime, duration)
-          })
-        }
-      }
+    if (day !== 'undefined' && day === 'sunday') {
+      timeIntervals(sunday.startTime, sunday.endTime, duration)
+      // if( sunday?.time?.length > 0){
+      //   sunday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
 
+    // day && day === 'monday'
+    //   ? timeIntervals(startTime, endTime, interval)
+    //   : null
 
-      if(day !== 'undefined' && day === 'saturday'){
-        if( saturday?.time?.length > 0){
-          saturday.map((s, index) =>{
-            timeIntervals(s.startTime, s.endTime, duration)
-          })
-        }
-      }
+    // day && day === 'tuesday'
+    //   ? timeIntervals(startTime, endTime, interval)
+    //   : null
 
-      if(day !== 'undefined' && day === 'sunday'){
-        if( sunday?.time?.length > 0){
-          sunday.map((s, index) =>{
-            timeIntervals(s.startTime, s.endTime, duration)
-          })
-        }
-      }
+    // day && day === 'wednesday'
+    //   ? timeIntervals(startTime, endTime, interval)
+    //   : null
 
+    // day && day === 'thursday'
+    //   ? timeIntervals(startTime, endTime, interval)
+    //   : null
 
-      // day && day === 'monday'
-      //   ? timeIntervals(startTime, endTime, interval)
-      //   : null
-  
-      // day && day === 'tuesday'
-      //   ? timeIntervals(startTime, endTime, interval)
-      //   : null
-    
-      // day && day === 'wednesday'
-      //   ? timeIntervals(startTime, endTime, interval)
-      //   : null
-    
-      // day && day === 'thursday'
-      //   ? timeIntervals(startTime, endTime, interval)
-      //   : null
-    
-      // day && day === 'friday'
-      //   ? timeIntervals(startTime, endTime, interval)
-      //   : null
-    
-      // day && day === 'saturday'
-      //   ? timeIntervals(startTime, endTime, interval)
-      //   : null
-    
+    // day && day === 'friday'
+    //   ? timeIntervals(startTime, endTime, interval)
+    //   : null
+
+    // day && day === 'saturday'
+    //   ? timeIntervals(startTime, endTime, interval)
+    //   : null
   }, [bookingdate])
 
   const addmentorData = (items) => {
@@ -445,11 +467,8 @@ useEffect(() =>{
     }
   }
 
-
-
   const getAvailability = async (username, sessionDuration) => {
-    sessionDuration !== 'undefined' ? setDuration(sessionDuration) :''
-    //setTimeSlots([])
+    sessionDuration !== 'undefined' ? setDuration(sessionDuration) : ''
     debugger
     if (username) {
       setMentorName(username)
@@ -463,7 +482,9 @@ useEffect(() =>{
         debugger
         if (results.data.listSchedules.items.length > 0) {
           setScheduleDetails(results.data.listSchedules.items)
-          setUnavailableDates(results.data.listSchedules.items[0]?.unavailableDates)
+          setUnavailableDates(
+            results.data.listSchedules.items[0]?.unavailableDates,
+          )
           // results.data.listSchedules.items[0]?.unavailableDates.length > 0 ? (
           //   results.data.listSchedules.items[0]?.unavailableDates.map((ud, index) =>{
           //     debugger
@@ -475,45 +496,82 @@ useEffect(() =>{
 
           debugger
 
-          if (results.data.listSchedules.items[0]?.daySchedules.everyday.everyday) {
-            setEveryday(results.data.listSchedules.items[0]?.daySchedules.everyday.time)
-            if(results.data.listSchedules.items[0]?.daySchedules.everyday.time?.length > 0){
-              results.data.listSchedules.items[0]?.daySchedules.everyday.time.map((t, index) =>{
-                timeIntervals(t.startTime,t.endTime ,sessionDuration)
-              })
+          if (
+            results.data.listSchedules.items[0]?.daySchedules.everyday.everyday
+          ) {
+            setEveryday(
+              results.data.listSchedules.items[0]?.daySchedules.everyday.time,
+            )
+            if (
+              results.data.listSchedules.items[0]?.daySchedules.everyday.time
+                ?.length > 0
+            ) {
+              results.data.listSchedules.items[0]?.daySchedules.everyday.time.map(
+                (t, index) => {
+                  timeIntervals(t.startTime, t.endTime, sessionDuration)
+                },
+              )
             }
-            
           }
-          if (results.data.listSchedules.items[0]?.daySchedules.sunday.sunday) {
-            setSunday(results.data.listSchedules.items[0]?.daySchedules.sunday.time)
+          debugger
+          if (results.data.listSchedules.items[0]?.daySchedules.Sunday.Sunday) {
+            setSunday(
+              results.data.listSchedules.items[0]?.daySchedules?.Sunday
+                ?.time[0],
+            )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.sunday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.sunday?.time?.endTime ,sessionDuration)
           }
           if (results.data.listSchedules.items[0]?.daySchedules.Monday.Monday) {
-            setMonday(results.data.listSchedules.items[0]?.daySchedules.Monday.time)
+            setMonday(
+              results.data.listSchedules.items[0]?.daySchedules?.Monday
+                ?.time[0],
+            )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.monday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.monday?.time?.endTime ,sessionDuration)
           }
-          if (results.data.listSchedules.items[0]?.daySchedules.Tuesday.Tuesday ) {
-            setTuesday(results.data.listSchedules.items[0]?.daySchedules.Tuesday.time)
+          if (
+            results.data.listSchedules.items[0]?.daySchedules.Tuesday.Tuesday
+          ) {
+            setTuesday(
+              results.data.listSchedules.items[0]?.daySchedules?.Tuesday
+                ?.time[0],
+            )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.tuesday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.tuesday?.time?.endTime ,sessionDuration)
           }
-          if (results.data.listSchedules.items[0]?.daySchedules.Wednesday.Wednesday) {
-            setWednesday(results.data.listSchedules.items[0]?.daySchedules.wednesday.time)
+          if (
+            results.data.listSchedules.items[0]?.daySchedules.Wednesday
+              .Wednesday
+          ) {
+            setWednesday(
+              results.data.listSchedules.items[0]?.daySchedules?.wednesday
+                ?.time[0],
+            )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.wednesday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.wednesday?.time?.endTime ,sessionDuration)
           }
           if (
-            results.data.listSchedules.items[0]?.daySchedules.Thursday.Thursday) {
-            setThursday(results.data.listSchedules.items[0]?.daySchedules.Thursday.time)
+            results.data.listSchedules.items[0]?.daySchedules.Thursday.Thursday
+          ) {
+            setThursday(
+              results.data.listSchedules.items[0]?.daySchedules?.Thursday
+                ?.time[0],
+            )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.thursday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.thursday?.time?.endTime ,sessionDuration)
-           }
+          }
           if (results.data.listSchedules.items[0]?.daySchedules.Friday.Friday) {
-            setFriday(results.data.listSchedules.items[0]?.daySchedules.Friday.time)
+            setFriday(
+              results.data.listSchedules.items[0]?.daySchedules?.Friday
+                ?.time[0],
+            )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.friday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.friday?.time?.endTime ,sessionDuration)
-           }
-          if (results.data.listSchedules.items[0]?.daySchedules.Saturday.Saturday) {
-            setSaturday(results.data.listSchedules.items[0]?.daySchedules.Saturday.time)
+          }
+          if (
+            results.data.listSchedules.items[0]?.daySchedules.Saturday.Saturday
+          ) {
+            setSaturday(
+              results.data.listSchedules.items[0]?.daySchedules?.Saturday
+                ?.time[0],
+            )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.saturday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.saturday?.time?.endTime ,sessionDuration)
           }
-          
         }
       } catch (error) {
         console.log(`Load Error:${error}`)
@@ -687,9 +745,13 @@ useEffect(() =>{
     debugger
     setShowServiceDetail(true)
     const id = index
-    setBookNow(sessionResults[id])
-    showImage(sessionResults[id]?.user?.profile_image)
-    getAvailability(sessionResults[id]?.user?.username, sessionResults[id]?.sessionDuration)
+    setBookNow(sessionResults[index])
+    showImage(sessionResults[index]?.user?.profile_image)
+    //setTimeSlots([])
+    getAvailability(
+      sessionResults[id]?.user?.username,
+      sessionResults[id]?.sessionDuration,
+    )
     console.log('profile-Image - ', sessionResults[id]?.user?.profile_image)
     console.log('id=', sessionResults[id])
   }
@@ -727,10 +789,19 @@ useEffect(() =>{
     setBookSession1(true)
   }
 
-  const handleBookSession2 = () => {
+  const closeBookSession1 = () => {
+    setTimeSlots([])
+    setImage('')
     setBookSession1(false)
-    setBookSession2(true)
+    //setBookSession2(true)
   }
+
+  const closeBookSession3 = () => {
+    setTimeSlots([])
+    setImage('')
+    setBookSession3(false)
+  }
+
 
   const handleBookSession3 = () => {
     setBookSession1(false)
@@ -1631,7 +1702,7 @@ useEffect(() =>{
                   <button
                     className=""
                     type="button"
-                    onClick={() => setBookSession1(false)}
+                    onClick={() => closeBookSession1()}
                   >
                     <img
                       src="../../../assets/icon/cross.png"
@@ -1681,7 +1752,7 @@ useEffect(() =>{
                           {bookNow.sessionDurationIn}
                         </p>
                       </div>
-                      <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                      {/* <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                         <img
                           src="../../../images/camera.png"
                           alt=""
@@ -1690,7 +1761,7 @@ useEffect(() =>{
                         <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
                           Video session
                         </p>
-                      </div>
+                      </div> */}
                       <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                         <img
                           src="../../../assets/icon/mentor-dashboard/price.svg"
@@ -1704,28 +1775,25 @@ useEffect(() =>{
                     </div>
                   </div>
                   <div>
-
-                  <div className="flex flex-wrap">
-                    {timeSlots && timeSlots.length > 0 ? (
-                      timeSlots.map((slot, index) => {
-                        return (
-                          <div key={index}>
-                           
+                    <div className="flex flex-wrap">
+                      {timeSlots && timeSlots.length > 0 ? (
+                        timeSlots.map((slot, index) => {
+                          return (
+                            <div key={index}>
                               <span
-                                className="flex px-4 py-2 border-2 rounded-full m-2 text-sm font-normal"
+                                className="flex px-8 py-2 border-2 rounded-full m-2 text-sm font-normal"
                                 onClick={() => setTimeInterval(slot)}
                               >
                                 {slot}
                               </span>
                             </div>
-                        )
-                      })
-                    ) : (
-                      <div></div>
-                    )}
+                          )
+                        })
+                      ) : (
+                        <div></div>
+                      )}
                     </div>
-                    
-                  
+
                     <span>
                       {scheduleDetails?.daySchedules?.everyday?.time?.startTime}
                     </span>
@@ -1739,13 +1807,15 @@ useEffect(() =>{
                     {/* <DatePicker onChange={onChange} value={value} /> */}
                     <BookingDatePicker
                       inputProps={{
-                        style: { width: 250 },
+                        style: { width: 250,},
+                        placeholder: 'Select Date',
                       }}
                       value={bookingdate}
                       minDate={new Date()}
                       //dateFormat="DD-MM-YYYY"
                       //timeFormat="hh:mm A"
                       isValidDate={disablePastDt}
+                      //isValidDate={disableCustomDt}
                       // onChange={(val) => setDt(val)}
                       onChange={(value) => handleBookingDate(value)}
                     />
@@ -1769,7 +1839,7 @@ useEffect(() =>{
                   <div className="flex justify-center items-center w-full">
                     <button
                       className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                      onClick={() => setBookSession1(false)}
+                      onClick={() => closeBookSession1()}
                     >
                       <span className="text-base font-semibold py-1">
                         Close
@@ -1840,7 +1910,7 @@ useEffect(() =>{
                       </div>
                     </div>
                     <div className="flex justify-around w-full p-2">
-                      <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                      <div className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                         <img
                           src="../../../assets/icon/clock.png"
                           alt=""
@@ -1849,8 +1919,8 @@ useEffect(() =>{
                         <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
                           30 minutes
                         </p>
-                      </button>
-                      <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                      </div>
+                      {/* <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                         <img
                           src="../../../images/camera.png"
                           alt=""
@@ -1859,8 +1929,8 @@ useEffect(() =>{
                         <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
                           Video session
                         </p>
-                      </button>
-                      <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                      </button> */}
+                      <div className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                         <img
                           src="../../../assets/icon/money.png"
                           alt=""
@@ -1869,7 +1939,7 @@ useEffect(() =>{
                         <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
                           ₹ 1000
                         </p>
-                      </button>
+                      </div>
                     </div>
                   </div>
                   <span className="flex justify-start text-sm font-semibold p-4">
@@ -1996,8 +2066,10 @@ useEffect(() =>{
                   try {
                     debugger
                     values.username = mentorName
-                    //values.bookingDate = moment(bookingdate).format("L")
-                    //values.timeSlot = selectedTimeInterval ? selectedTimeInterval : ''
+                    values.bookingDate = moment(bookingdate).format('L')
+                    values.timeSlot = selectedTimeInterval
+                      ? selectedTimeInterval
+                      : ''
                     await API.graphql({
                       query: createStudentBooking,
                       variables: { input: { ...values } },
@@ -2054,7 +2126,7 @@ useEffect(() =>{
                           <button
                             className=""
                             type="button"
-                            onClick={() => setBookSession3(false)}
+                            onClick={() => closeBookSession3()}
                           >
                             <img
                               src="../../../assets/icon/cross.png"
@@ -2104,7 +2176,7 @@ useEffect(() =>{
                                   {bookNow.sessionDurationIn}
                                 </p>
                               </div>
-                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                              {/* <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                                 <img
                                   src="../../../images/camera.png"
                                   alt=""
@@ -2113,7 +2185,7 @@ useEffect(() =>{
                                 <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
                                   Video session
                                 </p>
-                              </div>
+                              </div> */}
                               <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                                 <img
                                   src="../../../assets/icon/mentor-dashboard/price.svg"
@@ -2133,7 +2205,9 @@ useEffect(() =>{
                                 className="w-6 h-6 p-1 mr-2"
                               ></img> */}
                               <span className="text-sm font-blue text-blue-700">
-                                {moment(bookingdate).format("LL")}{' | '}{selectedTimeInterval}
+                                {moment(bookingdate).format('LL')}
+                                {' | '}
+                                {selectedTimeInterval}
                               </span>
                             </div>
                           </div>
@@ -2244,10 +2318,10 @@ useEffect(() =>{
                           <div className="flex justify-center items-center w-full">
                             <button
                               className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                              onClick={() => setBookSession1(true)}
+                              onClick={() => closeBookSession3()}
                             >
                               <span className="text-base font-semibold py-1">
-                                Change date and time
+                                Close
                               </span>
                             </button>
                           </div>
