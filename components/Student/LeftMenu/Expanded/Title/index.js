@@ -6,7 +6,7 @@ const Title = ({ onCollapse }) => {
       <img
         className="w-10 h-8 cursor-pointer"
         onClick={onCollapse}
-        src="/assets/icon/mentor-dashboard/hamburger.png"
+        src="/assets/icon/mentor-dashboard/hamburger.svg"
       />
       <img src="/assets/icon/mentor-dashboard/GJ App logo.svg" />
     </section>

@@ -45,7 +45,7 @@ const KYC_step4 = () => {
               }}
             >
               <Image
-                src={require('../../public/assets/icon/logo.png')}
+                src={require('../../public/assets/icon/logo.svg')}
                 alt=""
                 style={{
                   height: 89,

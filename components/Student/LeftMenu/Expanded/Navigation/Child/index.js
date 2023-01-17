@@ -12,7 +12,7 @@ import {
 const Child = ({ title, image, url, setActive, partial }) => {
   const dispatch = useDispatch()
   const { logout: oAuthLogout } = useAuth0()
-  if (image === 'logout.png') {
+  if (image === 'logout.svg') {
     url = 'javascript:logout()'
     console.log('url', url)
   }

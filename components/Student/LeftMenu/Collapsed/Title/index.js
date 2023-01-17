@@ -6,7 +6,7 @@ const Title = ({ onExpanded }) => {
       <img
         className="w-10 h-8 cursor-pointer"
         onClick={onExpanded}
-        src="/assets/icon/mentor-dashboard/hamburger.png"
+        src="/assets/icon/mentor-dashboard/hamburger.svg"
       />
     </section>
   )
