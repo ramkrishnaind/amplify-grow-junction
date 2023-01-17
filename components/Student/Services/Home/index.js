@@ -132,8 +132,14 @@ const Home = () => {
   const [coursesFilteredResults, setCoursesFilteredResults] = useState([])
   const [packagesFilteredResults, setPackagesFilteredResults] = useState([])
   const [showServiceDetail, setShowServiceDetail] = useState(false)
+  const [showWorkshopDetail, setShowWorkshopDetail] = useState(false)
+  const [showCourseDetail, setShowCourseDetail] = useState(false)
+  const [showPackageDetail, setShowPackageDetail] = useState(false)
   const [scheduleDetails, setScheduleDetails] = useState([])
   const [bookNow, setBookNow] = useState([])
+  const [workshopNow, setWorkshopNow] = useState([])
+  const [courseNow, setCourseNow] = useState([])
+  const [packageNow, setPackageNow] = useState([])
   const [everyday, setEveryday] = useState([])
   const [monday, setMonday] = useState([])
   const [tuesday, setTuesday] = useState([])
@@ -148,6 +154,9 @@ const Home = () => {
   const [bookSession1, setBookSession1] = useState(false)
   const [bookSession2, setBookSession2] = useState(false)
   const [bookSession3, setBookSession3] = useState(false)
+  const [workshop1, setWorkshop1] = useState(false)
+  const [course1, setCourse1] = useState(false)
+  const [package1, setPackage1] = useState(false)
   const [mentor, setMentor] = useState([])
   const [showMentor, setShowMentor] = useState(false)
   const [image, setImage] = useState('')
@@ -758,18 +767,31 @@ const Home = () => {
 
   const handleWorkshopClick = (index) => {
     debugger
-    setShowServiceDetail(true)
+    setShowWorkshopDetail(true)
     const id = index
-    setBookNow(workshopResults[id])
+    setWorkshopNow(workshopResults[index])
+    showImage(workshopResults[index]?.user?.profile_image)
+    setMentorName(workshopResults[index]?.user?.username)
     console.log('id=', workshopResults[id])
   }
   const handleCoursesClick = (index) => {
     debugger
-    setShowServiceDetail(true)
-    const id = index
-    setBookNow(coursesResults[id])
-    console.log('id=', coursesResults[id])
+    setShowCourseDetail(true)
+    setCourseNow(coursesResults[index])
+    showImage(coursesResults[index]?.user?.profile_image)
+    setMentorName(coursesResults[index]?.user?.username)
+    console.log('id=', coursesResults[index])
   }
+
+  const handlePackagesClick = (index) => {
+    debugger
+    setShowPackageDetail(true)
+    setPackageNow(packagesResults[index])
+    showImage(packagesResults[index]?.user?.profile_image)
+    setMentorName(packagesResults[index]?.user?.username)
+    console.log('id=', packagesResults[index])
+  }
+
   const handleTextqueryClick = (index) => {
     debugger
     setShowServiceDetail(true)
@@ -777,16 +799,46 @@ const Home = () => {
     setBookNow(textQueryResults[id])
     console.log('id=', textQueryResults[id])
   }
-  const handlePackagesClick = (index) => {
-    debugger
-    setShowServiceDetail(true)
-    const id = index
-    setBookNow(packagesResults[id])
-    console.log('id=', packagesResults[id])
-  }
+  // const handlePackagesClick = (index) => {
+  //   debugger
+  //   setShowServiceDetail(true)
+  //   const id = index
+  //   setBookNow(packagesResults[id])
+  //   console.log('id=', packagesResults[id])
+  // }
   const handleBookClick = () => {
     setShowServiceDetail(false)
     setBookSession1(true)
+  }
+
+  const handleWorkshopBookClick = () => {
+    setShowWorkshopDetail(false)
+    setWorkshop1(true)
+  }
+
+  const handleCourseClick = () => {
+    setShowCourseDetail(false)
+    setCourse1(true)
+  }
+  
+  const handlePackageClick = () => {
+    setShowPackageDetail(false)
+    setPackage1(true)
+  }
+
+  const closeWorkshop1 = () => {
+    setImage('')
+    setWorkshop1(false)
+  }
+
+  const closeCourse1 = () => {
+    setImage('')
+    setCourse1(false)
+  }
+
+  const closePackage1 = () => {
+    setImage('')
+    setPackage1(false)
   }
 
   const closeBookSession1 = () => {
@@ -1688,6 +1740,333 @@ const Home = () => {
         </>
       ) : null}
 
+{showWorkshopDetail ? (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+              <div className="flex justify-between px-8 py-4  border-gray-300">
+                <div className="flex flex-row justify-start items-start px-6 py-6 bg-gray-100 rounded-md">
+                  <div
+                    className={`${classes['img-profile']} bg-gray-300 rounded-md`}
+                  ></div>
+                  <div className="ml-2 mt-6 p-2">
+                    <span className="text-3xl font-semibold ">
+                     {workshopNow.title}
+                    </span>
+                    <div className="flex flex-row justify-start items-start mt-2">
+                      {/* <span className="text-4xl font-bold mt-4">
+                        Rs. {bookNow.listedPrice} {bookNow.finalPrice}
+                      </span> */}
+                      <span className="text-4xl font-bold py-3">
+                        ₹
+                        {workshopNow.listedPrice === workshopNow.finalPrice ? (
+                          workshopNow.finalPrice
+                        ) : (
+                          <>
+                            <span className="  bold">
+                              <span className="bold">
+                                {workshopNow.listedPrice}
+                              </span>
+                            </span>{' '}
+                            <s className="text-xl   text-red-800 bold">
+                              {workshopNow.finalPrice}
+                            </s>
+                          </>
+                        )}
+                        <span className="text-xl font-semibold ml-5">
+                          {`(`}
+                          {(workshopNow.finalPrice - workshopNow.listedPrice) / 100}
+                        </span>
+                        <span className="text-xl font-semibold">%{`)`}</span>
+                      </span>
+                    </div>
+                    <div
+                      className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-1/2 text-2xl font-semibold hover:bg-gray-900 hover:text-white"
+                      onClick={() => handleWorkshopBookClick()}
+                    >
+                      Book Now
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setShowServiceDetail(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2 ml-2"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-col justify-start items-start ml-10">
+                <div className="mt-5">
+                  <p className="flex justify-start text-xl font-bold mb-3">
+                  Topics Covered  
+                  </p>
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Things you get in the webinar 01
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Things that are includued in the webinar 02
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Things you get in the webinar Things you get in the webinar 03
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-10">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Things you get in the webinar Things you get in the webinar 04
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+
+{showCourseDetail ? (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+              <div className="flex justify-between px-8 py-4  border-gray-300">
+                <div className="flex flex-row justify-start items-start px-6 py-6 bg-gray-100 rounded-md">
+                  <div
+                    className={`${classes['img-profile']} bg-gray-300 rounded-md`}
+                  ></div>
+                  <div className="ml-2 mt-6 p-2">
+                    <span className="text-3xl font-semibold ">
+                     {courseNow.courseTitle}
+                    </span>
+                    <div className="flex flex-row justify-start items-start mt-2">
+                      {/* <span className="text-4xl font-bold mt-4">
+                        Rs. {bookNow.listedPrice} {bookNow.finalPrice}
+                      </span> */}
+                      <span className="text-4xl font-bold py-3">
+                        ₹
+                        {courseNow.listedPrice === courseNow.finalPrice ? (
+                          courseNow.finalPrice
+                        ) : (
+                          <>
+                            <span className="  bold">
+                              <span className="bold">
+                                {courseNow.listedPrice}
+                              </span>
+                            </span>{' '}
+                            <s className="text-xl   text-red-800 bold">
+                              {courseNow.finalPrice}
+                            </s>
+                          </>
+                        )}
+                        <span className="text-xl font-semibold ml-5">
+                          {`(`}
+                          {(courseNow.finalPrice - courseNow.listedPrice) / 100}
+                        </span>
+                        <span className="text-xl font-semibold">%{`)`}</span>
+                      </span>
+                    </div>
+                    <div
+                      className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-1/2 text-2xl font-semibold hover:bg-gray-900 hover:text-white"
+                      onClick={() => handleCourseClick()}
+                    >
+                      Book Now
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setShowCourseDetail(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2 ml-2"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-col justify-start items-start ml-10">
+                <div className="mt-5">
+                  <p className="flex justify-start text-xl font-bold mb-3">
+                  Topics Covered  
+                  </p>
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Reviews resume
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Improvement guidance
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Templates provided
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-10">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Available for questions related anytime
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+
+{showPackageDetail ? (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+              <div className="flex justify-between px-8 py-4  border-gray-300">
+                <div className="flex flex-row justify-start items-start px-6 py-6 bg-gray-100 rounded-md">
+                  <div
+                    className={`${classes['img-profile']} bg-gray-300 rounded-md`}
+                  ></div>
+                  <div className="ml-2 mt-6 p-2">
+                    <span className="text-3xl font-semibold ">
+                     {packageNow?.packageTitle}
+                    </span>
+                    <div className="flex flex-row justify-start items-start mt-2">
+                      {/* <span className="text-4xl font-bold mt-4">
+                        Rs. {bookNow.listedPrice} {bookNow.finalPrice}
+                      </span> */}
+                      <span className="text-4xl font-bold py-3">
+                        ₹
+                        {packageNow?.listedPrice === packageNow?.finalPrice ? (
+                          packageNow?.finalPrice
+                        ) : (
+                          <>
+                            <span className="  bold">
+                              <span className="bold">
+                                {packageNow?.listedPrice}
+                              </span>
+                            </span>{' '}
+                            <s className="text-xl   text-red-800 bold">
+                              {packageNow?.finalPrice}
+                            </s>
+                          </>
+                        )}
+                        <span className="text-xl font-semibold ml-5">
+                          {`(`}
+                          {(packageNow?.finalPrice - packageNow?.listedPrice) / 100}
+                        </span>
+                        <span className="text-xl font-semibold">%{`)`}</span>
+                      </span>
+                    </div>
+                    <div
+                      className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-auto text-2xl font-semibold hover:bg-gray-900 hover:text-white"
+                      onClick={() => handlePackageClick()}
+                    >
+                      Book Now
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setShowPackageDetail(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2 ml-2"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-col justify-start items-start ml-10">
+                <div className="mt-5">
+                  <p className="flex justify-start text-xl font-bold mb-3">
+                  Topics Covered  
+                  </p>
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    1 on 1 Session with mentor 
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Text queries
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Access to product management course
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-10">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Access to product managemnt workshop
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+
       {bookSession1 && (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -2066,6 +2445,7 @@ const Home = () => {
                   try {
                     debugger
                     values.username = mentorName
+                    values.serviceType = '1 on 1 Session'
                     values.bookingDate = moment(bookingdate).format('L')
                     values.timeSlot = selectedTimeInterval
                       ? selectedTimeInterval
@@ -2335,6 +2715,806 @@ const Home = () => {
                             >
                               <span className="text-base font-semibold py-1">
                                 Schedule booking
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              )
+            }}
+          </Formik>
+        </>
+      )}
+
+{workshop1 && (
+        <>
+          <Formik
+            initialValues={{ ...state }}
+            enableReinitialize={true}
+            onSubmit={async (values, e) => {
+              debugger
+              try {
+                if (!values?.id) {
+                  try {
+                    debugger
+                    values.username = mentorName
+                    values.serviceType = 'Workshop'
+                    values.bookingDate = moment(workshopNow.workshopDate).format('L')
+                    values.timeSlot = workshopNow.workshopTime
+                    await API.graphql({
+                      query: createStudentBooking,
+                      variables: { input: { ...values } },
+                    })
+                    toast.success('Student workshop booking added successfully')
+                    // window.location.href = window.location.href
+                  } catch (error) {
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                  }
+                } else {
+                  const { createdAt, updatedAt, owner, ...rest } = {
+                    ...values,
+                  }
+                  rest.username = getLoggedinUserEmail()
+                  try {
+                    await API.graphql({
+                      query: updateStudentBooking,
+                      variables: {
+                        input: { ...rest },
+                      },
+                    })
+                    toast.success('Student booking updated successfully')
+                  } catch (error) {
+                    debugger
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                    console.log(error)
+                  }
+                }
+              } catch (e) {
+                console.log('error-', e)
+              }
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => {
+              return (
+                <form>
+                  <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                    <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+                      <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                        <div className="flex flex-col justify-start items-start border=b-2">
+                          <span className="text-2xl font-semibold mt-3">
+                            Enter details
+                          </span>
+                        </div>
+                        <div>
+                          <button
+                            className=""
+                            type="button"
+                            onClick={() => closeWorkshop1()}
+                          >
+                            <img
+                              src="../../../assets/icon/cross.png"
+                              alt=""
+                              className="w-4 h-4 mr-2 mt-5"
+                            ></img>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
+                        <div className="border-r-2">
+                          <div className="bg-gray-100 m-2 mr-3 w-auto rounded-lg ">
+                            <div className="flex flex-row justify-start items-start px-4 py-2">
+                              <div
+                                className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
+                              >
+                                {image ? (
+                                  <img
+                                    src={image}
+                                    alt=""
+                                    className={`${classes['persona']} rounded-full`}
+                                  />
+                                ) : null}
+                              </div>
+                              <div>
+                                <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
+                                  Workshop with{' '}
+                                  {workshopNow?.user?.about_yourself?.first_name +
+                                    ' ' +
+                                    workshopNow?.user?.about_yourself?.last_name}
+                                </p>
+                                <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
+                                  
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex justify-around w-full p-2">
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/clock.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  {workshopNow.callDuration}
+                                  {workshopNow.callDurationIn}
+                                </p>
+                              </div>
+                              {/* <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../images/camera.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  Video session
+                                </p>
+                              </div> */}
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/mentor-dashboard/price.svg"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  ₹ {workshopNow.finalPrice}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-3">
+                            <div className="flex justify-cener item-center m-3 bg-gray-100 border-2 border-blue-500 p-2 rounded-lg">
+                              {/* <img
+                                src="../../../assets/icon/dateBlue.png"
+                                className="w-6 h-6 p-1 mr-2"
+                              ></img> */}
+                              <span className="text-sm font-blue text-blue-700">
+                                {moment(workshopNow.workshopDate).format('LL')}
+                                {' | '}
+                                {workshopNow.workshopTime}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className=" text-base font-normal p-6 w-full">
+                            {/* <Calendar onChange={onChange} value={value} />
+                    <span>name</span> */}
+
+                            <div className="flex flex-col">
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Name
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="name"
+                                    onChangeValue={handleChange}
+                                    value={values.name}
+                                    type="text"
+                                    id="name"
+                                    placeholder="Name"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Email
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="emailId"
+                                    onChangeValue={handleChange}
+                                    value={values.emailId}
+                                    type="text"
+                                    id="emailId"
+                                    placeholder="examplemail@gmail.com"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Mobile Number
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="mobileNumber"
+                                    onChangeValue={handleChange}
+                                    value={values.mobileNumber}
+                                    type="text"
+                                    id="mobileNumber"
+                                    placeholder="+91 | 986 747 6346"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="flex justify-start text-sm w-full">
+                                <input
+                                  id="receiveUpdate"
+                                  type="checkbox"
+                                  onChangeValue={handleChange}
+                                  value={values.receiveUpdate}
+                                  className="w-4 h-4 text-gray-900 bg-gray-100 rounded border-gray-300 focus:ring-black"
+                                />
+                                <label
+                                  htmlFor="receiveUpdate"
+                                  className="text-sm font-medium text-gray-900"
+                                >
+                                  Receive updates on phone and whatsapp
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* gird */}
+                      </div>
+                      <div className="flex justify-evenly w-full">
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={() => closeWorkshop1()}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Close
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={handleSubmit}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Continue to pay
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              )
+            }}
+          </Formik>
+        </>
+      )}
+
+{course1 && (
+        <>
+          <Formik
+            initialValues={{ ...state }}
+            enableReinitialize={true}
+            onSubmit={async (values, e) => {
+              debugger
+              try {
+                if (!values?.id) {
+                  try {
+                    debugger
+                    values.username = mentorName
+                    values.serviceType = 'Course'
+                    values.bookingDate = moment(courseNow.courseDate).format('L')
+                    values.timeSlot = courseNow.courseTime
+                    await API.graphql({
+                      query: createStudentBooking,
+                      variables: { input: { ...values } },
+                    })
+                    toast.success('Student course booking added successfully')
+                    // window.location.href = window.location.href
+                  } catch (error) {
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                  }
+                } else {
+                  const { createdAt, updatedAt, owner, ...rest } = {
+                    ...values,
+                  }
+                  rest.username = getLoggedinUserEmail()
+                  try {
+                    await API.graphql({
+                      query: updateStudentBooking,
+                      variables: {
+                        input: { ...rest },
+                      },
+                    })
+                    toast.success('Student booking updated successfully')
+                  } catch (error) {
+                    debugger
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                    console.log(error)
+                  }
+                }
+              } catch (e) {
+                console.log('error-', e)
+              }
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => {
+              return (
+                <form>
+                  <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                    <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+                      <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                        <div className="flex flex-col justify-start items-start border=b-2">
+                          <span className="text-2xl font-semibold mt-3">
+                            Enter details
+                          </span>
+                        </div>
+                        <div>
+                          <button
+                            className=""
+                            type="button"
+                            onClick={() => closeCourse1()}
+                          >
+                            <img
+                              src="../../../assets/icon/cross.png"
+                              alt=""
+                              className="w-4 h-4 mr-2 mt-5"
+                            ></img>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
+                        <div className="border-r-2">
+                          <div className="bg-gray-100 m-2 mr-3 w-auto rounded-lg ">
+                            <div className="flex flex-row justify-start items-start px-4 py-2">
+                              <div
+                                className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
+                              >
+                                {image ? (
+                                  <img
+                                    src={image}
+                                    alt=""
+                                    className={`${classes['persona']} rounded-full`}
+                                  />
+                                ) : null}
+                              </div>
+                              <div>
+                                <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
+                                  Course by{' '}
+                                  {courseNow?.user?.about_yourself?.first_name +
+                                    ' ' +
+                                    courseNow?.user?.about_yourself?.last_name}
+                                </p>
+                                <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
+                                  {courseNow.courseTitle}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex justify-around w-full p-2">
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/clock.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  {courseNow.sessionDuration}
+                                  {courseNow.sessionDurationIn}
+                                </p>
+                              </div>
+                              {/* <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../images/camera.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  Video session
+                                </p>
+                              </div> */}
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/mentor-dashboard/price.svg"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  ₹ {courseNow.finalPrice}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-3">
+                            <div className="flex justify-cener item-center m-3 bg-gray-100 border-2 border-blue-500 p-2 rounded-lg">
+                              {/* <img
+                                src="../../../assets/icon/dateBlue.png"
+                                className="w-6 h-6 p-1 mr-2"
+                              ></img> */}
+                              <span className="text-sm font-blue text-blue-700">
+                                {moment(courseNow.courseDate).format('LL')}
+                                {' | '}
+                                {courseNow.courseTime}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className=" text-base font-normal p-6 w-full">
+                            {/* <Calendar onChange={onChange} value={value} />
+                    <span>name</span> */}
+
+                            <div className="flex flex-col">
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Name
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="name"
+                                    onChangeValue={handleChange}
+                                    value={values.name}
+                                    type="text"
+                                    id="name"
+                                    placeholder="Name"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Email
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="emailId"
+                                    onChangeValue={handleChange}
+                                    value={values.emailId}
+                                    type="text"
+                                    id="emailId"
+                                    placeholder="examplemail@gmail.com"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Mobile Number
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="mobileNumber"
+                                    onChangeValue={handleChange}
+                                    value={values.mobileNumber}
+                                    type="text"
+                                    id="mobileNumber"
+                                    placeholder="+91 | 986 747 6346"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="flex justify-start text-sm w-full">
+                                <input
+                                  id="receiveUpdate"
+                                  type="checkbox"
+                                  onChangeValue={handleChange}
+                                  value={values.receiveUpdate}
+                                  className="w-4 h-4 text-gray-900 bg-gray-100 rounded border-gray-300 focus:ring-black"
+                                />
+                                <label
+                                  htmlFor="receiveUpdate"
+                                  className="text-sm font-medium text-gray-900"
+                                >
+                                  Receive updates on phone and whatsapp
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* gird */}
+                      </div>
+                      <div className="flex justify-evenly w-full">
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={() => closeCourse1()}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Close
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={handleSubmit}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Continue to pay
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              )
+            }}
+          </Formik>
+        </>
+      )}
+
+{package1 && (
+        <>
+          <Formik
+            initialValues={{ ...state }}
+            enableReinitialize={true}
+            onSubmit={async (values, e) => {
+              debugger
+              try {
+                if (!values?.id) {
+                  try {
+                    debugger
+                    values.username = mentorName
+                    values.serviceType = 'Package'
+                    values.bookingDate = moment(packageNow.courseDate).format('L')
+                    values.timeSlot = packageNow.courseTime
+                    await API.graphql({
+                      query: createStudentBooking,
+                      variables: { input: { ...values } },
+                    })
+                    toast.success('Student course booking added successfully')
+                    // window.location.href = window.location.href
+                  } catch (error) {
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                  }
+                } else {
+                  const { createdAt, updatedAt, owner, ...rest } = {
+                    ...values,
+                  }
+                  rest.username = getLoggedinUserEmail()
+                  try {
+                    await API.graphql({
+                      query: updateStudentBooking,
+                      variables: {
+                        input: { ...rest },
+                      },
+                    })
+                    toast.success('Student booking updated successfully')
+                  } catch (error) {
+                    debugger
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                    console.log(error)
+                  }
+                }
+              } catch (e) {
+                console.log('error-', e)
+              }
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => {
+              return (
+                <form>
+                  <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                    <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+                      <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                        <div className="flex flex-col justify-start items-start border=b-2">
+                          <span className="text-2xl font-semibold mt-3">
+                            Enter details
+                          </span>
+                        </div>
+                        <div>
+                          <button
+                            className=""
+                            type="button"
+                            onClick={() => closePackage1()}
+                          >
+                            <img
+                              src="../../../assets/icon/cross.png"
+                              alt=""
+                              className="w-4 h-4 mr-2 mt-5"
+                            ></img>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
+                        <div className="border-r-2">
+                          <div className="bg-gray-100 m-2 mr-3 w-auto rounded-lg ">
+                            <div className="flex flex-row justify-start items-start px-4 py-2">
+                              <div
+                                className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
+                              >
+                                {image ? (
+                                  <img
+                                    src={image}
+                                    alt=""
+                                    className={`${classes['persona']} rounded-full`}
+                                  />
+                                ) : null}
+                              </div>
+                              <div>
+                                <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
+                                  Package by{' '}
+                                  {packageNow?.user?.about_yourself?.first_name +
+                                    ' ' +
+                                    packageNow?.user?.about_yourself?.last_name}
+                                </p>
+                                <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
+                                  {packageNow.packageTitle}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex justify-around w-full p-2">
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/clock.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  {packageNow?.packageServices?.length} Bundles combined                  
+                                </p>
+                              </div>
+                              {/* <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../images/camera.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  Video session
+                                </p>
+                              </div> */}
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/mentor-dashboard/price.svg"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  ₹ {packageNow.finalPrice}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-3">
+                            <div className="flex justify-cener item-center m-3 bg-gray-100 border-2 border-blue-500 p-2 rounded-lg">
+                              {/* <img
+                                src="../../../assets/icon/dateBlue.png"
+                                className="w-6 h-6 p-1 mr-2"
+                              ></img> */}
+                              <span className="text-sm font-blue text-blue-700">
+                                {moment(packageNow.courseDate).format('LL')}
+                                {' | '}
+                                {packageNow.courseTime}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className=" text-base font-normal p-6 w-full">
+                            {/* <Calendar onChange={onChange} value={value} />
+                    <span>name</span> */}
+
+                            <div className="flex flex-col">
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Name
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="name"
+                                    onChangeValue={handleChange}
+                                    value={values.name}
+                                    type="text"
+                                    id="name"
+                                    placeholder="Name"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Email
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="emailId"
+                                    onChangeValue={handleChange}
+                                    value={values.emailId}
+                                    type="text"
+                                    id="emailId"
+                                    placeholder="examplemail@gmail.com"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Mobile Number
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="mobileNumber"
+                                    onChangeValue={handleChange}
+                                    value={values.mobileNumber}
+                                    type="text"
+                                    id="mobileNumber"
+                                    placeholder="+91 | 986 747 6346"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="flex justify-start text-sm w-full">
+                                <input
+                                  id="receiveUpdate"
+                                  type="checkbox"
+                                  onChangeValue={handleChange}
+                                  value={values.receiveUpdate}
+                                  className="w-4 h-4 text-gray-900 bg-gray-100 rounded border-gray-300 focus:ring-black"
+                                />
+                                <label
+                                  htmlFor="receiveUpdate"
+                                  className="text-sm font-medium text-gray-900"
+                                >
+                                  Receive updates on phone and whatsapp
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* gird */}
+                      </div>
+                      <div className="flex justify-evenly w-full">
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={() => closePackage1()}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Close
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={handleSubmit}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Continue to pay
                               </span>
                             </button>
                           </div>
