@@ -1793,7 +1793,7 @@ const Home = () => {
                       </span>
                     </div>
                     <div
-                      className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-1/2 text-2xl font-semibold hover:bg-gray-900 hover:text-white"
+                      className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-auto text-2xl font-semibold hover:bg-gray-900 hover:text-white"
                       onClick={() => handleWorkshopBookClick()}
                     >
                       Book Now
@@ -1804,7 +1804,7 @@ const Home = () => {
                   <button
                     className=""
                     type="button"
-                    onClick={() => setShowServiceDetail(false)}
+                    onClick={() => setShowWorkshopDetail(false)}
                   >
                     <img
                       src="../../../assets/icon/cross.png"
@@ -2012,7 +2012,7 @@ const Home = () => {
                       </span>
                     </div>
                     <div
-                      className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-1/2 text-2xl font-semibold hover:bg-gray-900 hover:text-white"
+                      className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-auto text-2xl font-semibold hover:bg-gray-900 hover:text-white"
                       onClick={() => handleCourseClick()}
                     >
                       Book Now
