@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react'
+import { slice } from 'lodash'
 import classes from './Preview.module.css'
 import { API, Storage, graphqlOperation } from 'aws-amplify'
-import { listMentorRegisters, listUserInfos, listOneOnOnes, listTextQueries, listWorkshops, listCourses } from '../../../src/graphql/queries'
+import {
+  listMentorRegisters,
+  listUserInfos,
+  listOneOnOnes,
+  listTextQueries,
+  listWorkshops,
+  listCourses,
+  listPackages,
+} from '../../../src/graphql/queries'
 import { getLoggedinUserEmail } from '../../../utilities/user'
 
 const Preview = ({ showServices, mentor }) => {
-  const [image, setImage] = useState('')
+  const [preImage, setPreImage] = useState('')
   const [firstName, setFirstName] = useState(mentor?.about_yourself?.first_name)
   const [lastName, setLastName] = useState(mentor?.about_yourself?.last_name)
   const [url, setUrl] = useState(mentor?.about_yourself?.grow_junction_url)
@@ -28,9 +37,24 @@ const Preview = ({ showServices, mentor }) => {
   const [workshopResults, setWorkshopResults] = useState([])
   const [textQueryResults, setTextQueryResults] = useState([])
   const [coursesResults, setCoursesResults] = useState([])
+  const [totalServiceResults, setTotalServiceResults] = useState([])
+  const [isCompleted, setIsCompleted] = useState(false)
+  const [index, setIndex] = useState(4)
+  const initialPosts = slice(totalServiceResults, 0, index)
+
+  const loadMore = () => {
+    setIndex(index + 4)
+    console.log(index)
+    if (index >= totalServiceResults.length) {
+      setIsCompleted(true)
+    } else {
+      setIsCompleted(false)
+    }
+  }
+
   const usrName = getLoggedinUserEmail()
   const getUser = async () => {
-    // debugger
+    debugger
     //const usrName = getLoggedinUserEmail()
     console.log('username - ', usrName)
     const results = await API.graphql(
@@ -40,11 +64,11 @@ const Preview = ({ showServices, mentor }) => {
     )
     if (results.data.listMentorRegisters.items.length > 0) {
       const data = { ...results.data.listMentorRegisters.items[0] }
-      // debugger
+       debugger
       if (data.profile_image) {
         const img = await Storage.get(data.profile_image)
         console.log('image - ', img)
-        setImage(img)
+        setPreImage(img)
       }
       // debugger
       setFirstName(data.about_yourself?.first_name)
@@ -66,16 +90,15 @@ const Preview = ({ showServices, mentor }) => {
         }),
       )
       if (results.data.listUserInfos.items.length > 0) {
-        // debugger
+       debugger
         const data = { ...results.data.listUserInfos.items[0] }
         if (data.profile_image) {
           // const img = await Storage.get(data.profile_image)
-          setImage(data.profile_image)
+          setPreImage(data.profile_image)
         }
       }
     }
   }
-
 
   const loadOneOnOne = async () => {
     debugger
@@ -88,7 +111,17 @@ const Preview = ({ showServices, mentor }) => {
       // debugger
       if (results.data.listOneOnOnes.items.length > 0) {
         setSessionResults(results.data.listOneOnOnes.items)
-        console.log('oneonone- ', sessionResults)
+        results.data.listOneOnOnes.item.map((s, idx) => {
+          totalServiceResults.push({
+            text: '1 on 1 Session',
+            title: s.sessionTitle,
+            description: s.description,
+            duration: s.sessionDuration + ' ' + s.sessionDurationIn,
+            price: s.finalPrice,
+          })
+        })
+        //setTotalServiceResults(results.data.listOneOnOnes.items)
+        console.log('oneonone- ', results)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
@@ -98,13 +131,25 @@ const Preview = ({ showServices, mentor }) => {
   const loadWorkshop = async () => {
     debugger
     try {
-      const results = await API.graphql(graphqlOperation(listWorkshops, {
-        filter: { username: { contains: usrName } },
-      }),
-    )
+      const results = await API.graphql(
+        graphqlOperation(listWorkshops, {
+          filter: { username: { contains: usrName } },
+        }),
+      )
       if (results.data.listWorkshops.items.length > 0) {
         setWorkshopResults(results.data.listWorkshops.items)
-        console.log('workshop- ', workshopResults)
+        results.data.listWorkshops.items.map((s, idx) => {
+          totalServiceResults.push({
+            text: 'Workshop',
+            title: s.title,
+            description: s.description,
+            duration: s.callDuration + ' ' + s.callDurationIn,
+            price: s.finalPrice,
+          })
+        })
+
+        //setTotalServiceResults(...results.data.listWorkshops.items)
+        console.log('workshop- ', results)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
@@ -113,13 +158,25 @@ const Preview = ({ showServices, mentor }) => {
 
   const loadCourses = async () => {
     try {
-      const results = await API.graphql(graphqlOperation(listCourses, {
-        filter: { username: { contains: usrName } },
-      }),
-    )
+      const results = await API.graphql(
+        graphqlOperation(listCourses, {
+          filter: { username: { contains: usrName } },
+        }),
+      )
       if (results.data.listCourses.items.length > 0) {
         setCoursesResults(results.data.listCourses.items)
-        console.log('courses- ', coursesResults)
+        results.data.listCourses.items.map((s, idx) => {
+          totalServiceResults.push({
+            text: 'Courses',
+            title: s.courseTitle,
+            description: s.description,
+            duration: s.sessionDuration + ' ' + s.sessionDurationIn,
+            price: s.finalPrice,
+          })
+        })
+
+        //setTotalServiceResults(...results.data.listCourses.items)
+        console.log('courses- ', results)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
@@ -128,24 +185,65 @@ const Preview = ({ showServices, mentor }) => {
 
   const loadTextQuery = async () => {
     try {
-      const results = await API.graphql(graphqlOperation(listTextQueries, {
-        filter: { username: { contains: usrName } },
-      }),
-    )
+      const results = await API.graphql(
+        graphqlOperation(listTextQueries, {
+          filter: { username: { contains: usrName } },
+        }),
+      )
       if (results.data.listTextQueries.items.length > 0) {
         setTextQueryResults(results.data.listTextQueries.items)
-        console.log('textquery- ', textQueryResults)
+        results.data.listTextQueries.items.map((s, idx) => {
+          totalServiceResults.push({
+            text: 'TextQuery',
+            title: s.title,
+            description: s.description,
+            duration: s.responseTime + ' ' + s.responseTimeIn,
+            price: s.finalPrice,
+          })
+        })
+
+        //setTotalServiceResults(...results.data.listTextQueries.items)
+        console.log('textquery- ', results)
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
     }
   }
+
+  const loadPackages = async () => {
+    try {
+      const results = await API.graphql(
+        graphqlOperation(listPackages, {
+          filter: { username: { contains: usrName } },
+        }),
+      )
+      if (results.data.listPackages.items.length > 0) {
+        setPackagesResults(results.data.listPackages.items)
+        results.data.listPackages.items.map((s, idx) => {
+          totalServiceResults.push({
+            text: 'TextQuery',
+            title: s.title,
+            description: s.description,
+            duration: s.responseTime + ' ' + s.responseTimeIn,
+            price: s.finalPrice,
+          })
+        })
+        //setTotalServiceResults(...results.data.listPackages.items)
+        console.log('listPackages- ', results)
+      }
+    } catch (error) {
+      console.log(`Load Error:${error}`)
+    }
+  }
+
   useEffect(() => {
-    if (!mentor) getUser()
+    //if (!mentor) getUser()
+    getUser()
     loadOneOnOne()
-    loadTextQuery()
     loadWorkshop()
     loadCourses()
+    loadTextQuery()
+    loadPackages()
   }, [])
 
   return (
@@ -159,9 +257,9 @@ const Preview = ({ showServices, mentor }) => {
         <div
           className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
         >
-          {image ? (
+          {preImage ? (
             <img
-              src={image}
+              src={preImage}
               alt=""
               className={`${classes['persona']} rounded-full`}
             />
@@ -226,61 +324,40 @@ const Preview = ({ showServices, mentor }) => {
                 Services Offered
               </span>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 w-auto p-4">
-                {
-                  sessionResults !== null && sessionResults.length > 0 ?
-                  (
-                      sessionResults.map((s, index) =>{
-                        return(
-                          <>
-                        <div key={index}
-                        className="relative overflow-hidden w-1/2 rounded-xl shadow-xl">
-                        <img
-                          src="../../../images/CardRectangle.png"
-                          className="object-cover"
-                        />
-                        <span className="absolute inset-x-0 top-0 mt-5">
-                          <p className="text-sm text-black font-semibold p-1">
-                            1 on 1 Mock Interview
-                          </p>
-                          <p className="text-sm text-black font-normal p-2">
-                          {s.sessionDuration}{' '}{s.sessionDurationIn}
-                          </p>
-                          <p className="text-xs text-black font-normal mt-2 p-2">
-                            {s.description}
-                          </p>
-                        </span>
-      
-                        <div className="absolute top-0 right-0 items-center inline-flex  p-2 rounded-full z-10 text-sm font-medium text-white select-none">
-                          {/* <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
-                            <img
-                              src="../../../images/camera.png"
-                              alt=""
-                              className="w-4 h-3"
-                            ></img>
-                            <p className="text-sm text-black dark:text-gray-100 ml-3">
-                              Video session
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+                {initialPosts !== null &&
+                initialPosts.length > 0 ? (
+                  initialPosts.map((s, index) => {
+                    return (
+                      <>
+                        <div
+                          key={index}
+                          className="relative overflow-hidden w-3/5 shadow-md ml-24 mt-4 "
+                        >
+                          <img
+                            src="../../../images/CardRectangle.png"
+                            className="object-cover"
+                          />
+                          <span className="absolute inset-x-0 top-0 mt-5">
+                            <p className="text-sm text-black font-semibold p-1">
+                              {s.title}
                             </p>
-                          </button> */}
+                            <p className="text-sm text-black font-normal p-2">
+                              {s.description}
+                            </p>
+                            <p className="text-xs text-black font-normal mt-2 p-2">
+                              {s.duration}
+                            </p>
+                          </span>
                         </div>
-      
-                        <div className="flex flex-row justify-end bg-gray-200 bg-opacity-25 md:bg-opacity-50 ">
-                          {/* <button className="inset-x-0 bottom-0 mr-2">
-                            <p className="text-sm text-black underline dark:text-gray-100">
-                              View Details
-                            </p>
-                          </button> */}
-                          {/* <button className="bottom-0 right-0 bg-amber-400 hover:bg-blue-700 text-white p-2 rounded-full m-2">
-                            <p className="text-xs text-black font-bold">
-                              Book a session
-                            </p>
-                          </button> */}
-                        </div>
-                      </div>
                       </>
-                      )})
-                  ) :(<div></div>)
-                }
+                    )
+                  })
+                ) : (
+                  <div></div>
+                )}
+
+                
                 {/* {
                   workshopResults !== null && workshopResults.length > 0 ?
                   (
@@ -411,6 +488,28 @@ const Preview = ({ showServices, mentor }) => {
                   </div>
                 </div> */}
               </div>
+              {initialPosts.length > 0 ? (
+                              <div className="flex justify-center item-center m-5">
+                              {isCompleted ? (
+                                <button
+                                  onClick={loadMore}
+                                  type="button"
+                                  className="flex py-3 px-5 justify-center items-center bg-black text-sm p-2 text-white rounded-full w-auto ml-5"
+                                >
+                                  No more
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={loadMore}
+                                  type="button"
+                                  className="flex py-3 px-5 justify-center items-center bg-black hover:bg-blue-700 text-sm p-2 text-white rounded-full w-auto ml-5"
+                                >
+                                  Load more +
+                                </button>
+                              )}
+                            </div>
+              ) : null}
+
             </>
           )}
         </div>

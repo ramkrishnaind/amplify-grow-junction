@@ -3922,7 +3922,7 @@ const Home = () => {
 
       {showMentor && (
         <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-          <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-3/5 lg:w-3/5">
+          <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-1/2 lg:w-1/2  fixed  h-full overflow-x-hidden overflow-y-auto">
             <div className="flex justify-between px-8 py-4 border-b border-gray-300">
               <div className="flex flex-col justify-start items-start border=b-2">
                 <span className="text-2xl font-semibold mt-3">Mentor</span>
