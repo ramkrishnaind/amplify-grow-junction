@@ -169,7 +169,7 @@ const Schedule = ({
 
   const [isChecked, setIsChecked] = useState(false)
   const [isEdayChecked, setIsEdayChecked] = useState(false)
-
+  const [message, setMessage] = useState('')
   console.log('unavailableDates', unavailableDates)
   useEffect(() => {
     getUser()
@@ -221,9 +221,29 @@ const Schedule = ({
     const keys = ['availableSameTime', 'unavailableDates', 'daySchedules']
   }, [state])
 
+  useEffect(() => {
+    debugger
+    setMessage('')
+    if (startTime === '' && endTime === '') setMessage('')
+    if (startTime !== '' && endTime !== '') {
+      if (startTime === endTime) {
+        setMessage('Start time equals end time')
+      }
+      if (startTime > endTime) {
+        setMessage('Start time is greater than end time')
+      }
+    }
+  }, [endTime, startTime, message])
+
   const handleStartTimeChange = (e) => {
     debugger
+    setMessage('')
     setStartTime(e.target.value)
+  }
+
+  const handleEndTimeChange = (e) => {
+    setMessage('')
+    setEndTime(e.target.value)
   }
 
   const handleDate = (date) => {
@@ -483,79 +503,84 @@ const Schedule = ({
                             //   values.daySchedules.everyday,
                             // )
                             return (
-                              <div key={index} className="flex flex-row">
-                                <div className="w-1/3 mx-1">
-                                  <span className="text-sm text-gray-900 font-normal">
-                                    Start Time
-                                  </span>
-                                  <TextField
-                                    id="startTime"
-                                    type="time"
-                                    value={
-                                      values.daySchedules.everyday.time[index]
-                                        .startTime
-                                    }
-                                    onChangeValue={(e) => {
-                                      handleStartTimeChange(e)
-                                      handleChange(e)
-                                    }}
-                                    name={`daySchedules.everyday.time[${index}].startTime`}
-                                    className="w-full"
-                                    disable
-                                  />
-                                </div>
-                                <div className="w-1/3  mx-1">
-                                  <span className="text-sm text-gray-900 font-normal">
-                                    End Time
-                                  </span>
-                                  <TextField
-                                    id="Everyday"
-                                    type="time"
-                                    value={
-                                      values.daySchedules.everyday.time[index]
-                                        .endTime
-                                    }
-                                    onChangeValue={(e) => {
-                                      // handleEndTimeChange(e)
-                                      handleChange(e)
-                                    }}
-                                    name={`daySchedules.everyday.time[${index}].endTime`}
-                                    className="w-full"
-                                    disable
-                                  />
-                                </div>
+                              <>
+                                <div key={index} className="flex flex-row">
+                                  <div className="w-1/3 mx-1">
+                                    <span className="text-sm text-gray-900 font-normal">
+                                      Start Time
+                                    </span>
+                                    <TextField
+                                      id="startTime"
+                                      type="time"
+                                      value={
+                                        values.daySchedules.everyday.time[index]
+                                          .startTime
+                                      }
+                                      onChangeValue={(e) => {
+                                        handleStartTimeChange(e)
+                                        handleChange(e)
+                                      }}
+                                      name={`daySchedules.everyday.time[${index}].startTime`}
+                                      className="w-full"
+                                      disable
+                                    />
+                                  </div>
+                                  <div className="w-1/3  mx-1">
+                                    <span className="text-sm text-gray-900 font-normal">
+                                      End Time
+                                    </span>
+                                    <TextField
+                                      id="Everyday"
+                                      type="time"
+                                      value={
+                                        values.daySchedules.everyday.time[index]
+                                          .endTime
+                                      }
+                                      onChangeValue={(e) => {
+                                        handleEndTimeChange(e)
+                                        handleChange(e)
+                                      }}
+                                      name={`daySchedules.everyday.time[${index}].endTime`}
+                                      className="w-full"
+                                      disable
+                                    />
+                                  </div>
 
-                                <div className="w-1/3  mx-1">
-                                  {index !== 0 && (
-                                    <button
-                                      type="button"
-                                      onClick={removeTimeSlots.bind(
-                                        null,
-                                        'everyday',
-                                        index,
-                                      )}
-                                      className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-2 px-2 mx-1 border rounded"
-                                    >
-                                      Remove
-                                    </button>
-                                  )}
+                                  <div className="w-1/3  mx-1">
+                                    {index !== 0 && (
+                                      <button
+                                        type="button"
+                                        onClick={removeTimeSlots.bind(
+                                          null,
+                                          'everyday',
+                                          index,
+                                        )}
+                                        className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-2 px-2 mx-1 border rounded"
+                                      >
+                                        Remove
+                                      </button>
+                                    )}
 
-                                  {index ===
-                                    values.daySchedules.everyday.time.length -
-                                      1 && (
-                                    <button
-                                      type="button"
-                                      onClick={addTimeSlots.bind(
-                                        null,
-                                        'everyday',
-                                      )}
-                                      className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-2 px-2  mx-1  border rounded"
-                                    >
-                                      Add
-                                    </button>
-                                  )}
+                                    {index ===
+                                      values.daySchedules.everyday.time.length -
+                                        1 && (
+                                      <button
+                                        type="button"
+                                        onClick={addTimeSlots.bind(
+                                          null,
+                                          'everyday',
+                                        )}
+                                        className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-2 px-2  mx-1  border rounded"
+                                      >
+                                        Add
+                                      </button>
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
+                                <p className="text-base font-normal">
+                                  {message}
+                                </p>
+                              </>
                             )
                           },
                         )}
@@ -593,6 +618,7 @@ const Schedule = ({
                             {values.daySchedules[day].time.map(
                               (time, index) => (
                                 // eslint-disable-next-line react/jsx-key
+                                <>
                                 <div className="flex flex-row">
                                   <div className="w-1/3 mx-1">
                                     <span className="text-sm text-gray-900 font-normal">
@@ -603,7 +629,7 @@ const Schedule = ({
                                       type="time"
                                       value={time.startTime}
                                       onChangeValue={(e) => {
-                                        // handleEndTimeChange(e)
+                                        handleStartTimeChange(e)
                                         handleChange(e)
                                       }}
                                       name={`daySchedules.${day}.time[${index}].startTime`}
@@ -620,7 +646,7 @@ const Schedule = ({
                                       type="time"
                                       value={time.endTime}
                                       onChangeValue={(e) => {
-                                        // handleEndTimeChange(e)
+                                        handleEndTimeChange(e)
                                         handleChange(e)
                                       }}
                                       name={`daySchedules.${day}.time[${index}].endTime`}
@@ -657,6 +683,10 @@ const Schedule = ({
                                     )}
                                   </div>
                                 </div>
+                                 {/* <p className="text-base font-normal">
+                                 {message}
+                               </p> */}
+                               </>
                               ),
                             )}
                           </div>
