@@ -33,7 +33,7 @@ const VerifyEmail = () => {
     // if (res) {
     //   Object.entries(res?.attributes).forEach((item, index) => {
     //     if (item[0] === 'email_verified' && item[1]) {
-    router.push('/auth/Login')
+    //router.push('/auth/Login')
     //     } else if (item[0] === 'email_verified' && !item[1]) {
     //       toast.error(`Email not verified yet`)
     //     }
@@ -47,6 +47,15 @@ const VerifyEmail = () => {
     //   .catch((err) => {
     //     console.log('err', err)
     //   })
+    if (registerType) {
+      if (registerType === 'STUDENT') {
+        router.push('/student')
+      } else {
+        {
+          router.push('/mentor')
+        }
+      }
+    }
   }
   return (
     
