@@ -13,7 +13,7 @@ import { createTextQuery } from '../../../../src/graphql/mutations'
 import { getLoggedinUserEmail } from '../../../../utilities/user'
 import { v4 as uuid } from 'uuid'
 import { Storage } from 'aws-amplify'
-
+import { setS3ImageUrl } from '../../../../utilities/others'
 const AddService = () => {
   const items = [
     '1 on 1 Session',
@@ -110,7 +110,7 @@ const AddService = () => {
         query: createOneOnOne,
         variables: { input: { ...state.oneOnOne } },
       })
-      toast.success('Profile added successfully')
+      toast.success('OneOnOne Service added successfully')
       window.location.href = '/mentor/services'
     } catch (error) {
       toast.error(`Save Error:${error.errors[0].message}`)
@@ -174,11 +174,16 @@ const AddService = () => {
         state.workshop.file.name.lastIndexOf('.') + 1,
       )
       const filename = `${name}_${uuid()}.${ext}`
-      state.workshop.workshopImage = filename
       console.log(filename)
-      await Storage.put(filename, state.workshop.file, {
-        contentType: `image/${ext}`, // contentType is optional
-      })
+      await setS3ImageUrl(
+        filename,
+        state.workshop.file,
+        state.workshop.workshopImage,
+      )
+      // await Storage.put(filename, state.workshop.file, {
+      //   contentType: `image/${ext}`, // contentType is optional
+      // })
+      state.workshop.workshopImage = filename
       // delete state.workshop.file
     }
 
@@ -224,11 +229,16 @@ const AddService = () => {
         state.courses.file.name.lastIndexOf('.') + 1,
       )
       const filename = `${name}_${uuid()}.${ext}`
-      state.courses.courseImage = filename
       console.log(filename)
-      await Storage.put(filename, state.courses.file, {
-        contentType: `image/${ext}`, // contentType is optional
-      })
+      await setS3ImageUrl(
+        filename,
+        state.courses.file,
+        state.courses.courseImage,
+      )
+      // await Storage.put(filename, state.courses.file, {
+      //   contentType: `image/${ext}`, // contentType is optional
+      // })
+      state.courses.courseImage = filename
       delete state.courses.file
     }
     try {
@@ -268,11 +278,16 @@ const AddService = () => {
           state.packages.file.name.lastIndexOf('.') + 1,
         )
         const filename = `${name}_${uuid()}.${ext}`
-        state.packages.packageImage = filename
         console.log(filename)
-        await Storage.put(filename, state.packages.file, {
-          contentType: `image/${ext}`, // contentType is optional
-        })
+        await setS3ImageUrl(
+          filename,
+          state.packages.file,
+          state.packages.packageImage,
+        )
+        // await Storage.put(filename, state.packages.file, {
+        //   contentType: `image/${ext}`, // contentType is optional
+        // })
+        state.packages.packageImage = filename
         delete state.packages.file
       }
       state.packages.username = getLoggedinUserEmail()

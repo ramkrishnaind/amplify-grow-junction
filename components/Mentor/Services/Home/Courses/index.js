@@ -96,12 +96,14 @@ const Courses = ({ services }) => {
           courses.file.name.lastIndexOf('.') + 1,
         )
         const filename = `${name}_${uuid()}.${ext}`
+        await setS3ImageUrl(filename, courses.file, courses.courseImage)
         courses.courseImage = filename
 
         console.log(filename)
-        await Storage.put(filename, courses.file, {
-          contentType: `image/${ext}`, // contentType is optional
-        })
+
+        // await Storage.put(filename, courses.file, {
+        //   contentType: `image/${ext}`, // contentType is optional
+        // })
         delete courses.file
       }
       const { createdAt, updatedAt, owner, ...rest } = courses

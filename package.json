@@ -13,6 +13,7 @@
   "dependencies": {
     "@auth0/auth0-react": "^1.12.0",
     "@aws-amplify/ui-react": "^1.2.26",
+    "@aws-sdk/client-s3": "^3.254.0",
     "@formkit/auto-animate": "^1.0.0-beta.5",
     "@graphql-eslint/eslint-plugin": "^3.13.1",
     "@reduxjs/toolkit": "^1.9.0",

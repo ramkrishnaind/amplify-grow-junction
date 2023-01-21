@@ -12,7 +12,7 @@ import { v4 as uuid } from 'uuid'
 import Pill from '../../Add/Header/Pill'
 import AddPackages from '../../Add/Content/Packages'
 import { getLoggedinUserEmail } from '../../../../../utilities/user'
-
+import { setS3ImageUrl } from '../../../../../utilities/others'
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
@@ -95,11 +95,12 @@ const Packages = ({ services }) => {
           packages.file.name.lastIndexOf('.') + 1,
         )
         const filename = `${name}_${uuid()}.${ext}`
-        packages.packageImage = filename
         console.log(filename)
-        await Storage.put(filename, packages.file, {
-          contentType: `image/${ext}`, // contentType is optional
-        })
+        await setS3ImageUrl(filename, packages.file, packages.packageImage)
+        // await Storage.put(filename, packages.file, {
+        //   contentType: `image/${ext}`, // contentType is optional
+        // })
+        packages.packageImage = filename
         delete packages.file
       }
       const { createdAt, updatedAt, file, owner, ...rest } = packages

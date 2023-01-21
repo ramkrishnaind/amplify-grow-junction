@@ -33,7 +33,7 @@ const ProfileInfo = ({
   const initialState = {}
   const imageInputref = useRef()
   const [image, setImage] = useState()
-  const [convertedImage, setConvertedImage] = useState()
+  const [convertedImage, setConvertedImage] = useState(profile_image_url)
   const [state, setState] = useState({
     about_yourself,
     social,
@@ -64,7 +64,7 @@ const ProfileInfo = ({
     // const image_key = await Storage.get(profile_image)
     setConvertedImage(profile_image_url)
   }
-  debugger
+  // debugger
   console.log('app', {
     about_yourself,
     social,
@@ -75,9 +75,10 @@ const ProfileInfo = ({
     setProfileState,
   })
   useEffect(() => {
-    if (profile_image_url) {
-      getImage()
-    }
+    // if (profile_image_url) {
+    // debugger
+    setConvertedImage(profile_image_url)
+    // }
   }, [profile_image_url])
   const handleFileInput = (e) => {
     e.preventDefault()
