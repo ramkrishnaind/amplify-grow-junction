@@ -11,7 +11,10 @@ import { listTextQueries } from '/src/graphql/queries'
 import { listWorkshops } from '/src/graphql/queries'
 import { listCourses } from '/src/graphql/queries'
 import { getLoggedinUserEmail } from '../../../../../../utilities/user'
-
+import {
+  getS3ImageUrl,
+  setS3ImageUrl,
+} from '../../../../../../utilities/others'
 const AutoSubmitToken = ({
   setValues,
   hideService,
@@ -112,7 +115,8 @@ const Packages = ({
   }, [packages.packageServices])
   useEffect(() => {
     const getImage = async () => {
-      const img = await Storage.get(packages.packageImage)
+      // const img = await Storage.get(packages.packageImage)
+      const img = await getS3ImageUrl(packages.packageImage)
       setConvertedImage(img)
     }
     if (packages.packageImage) {
@@ -288,9 +292,10 @@ const Packages = ({
       const filename = `${name}_${uuid()}.${ext}`
       setFileUrl(filename)
       console.log(fileUrl)
-      await Storage.put(filename, e.target.files[0], {
-        contentType: `text/${ext}`, // contentType is optional
-      })
+      await setS3ImageUrl(filename, e.target.files[0], packages.packageImage)
+      // await Storage.put(filename, e.target.files[0], {
+      //   contentType: `text/${ext}`, // contentType is optional
+      // })
     }
   }
 

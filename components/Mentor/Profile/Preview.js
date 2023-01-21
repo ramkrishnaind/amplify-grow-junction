@@ -12,7 +12,7 @@ import {
   listPackages,
 } from '../../../src/graphql/queries'
 import { getLoggedinUserEmail } from '../../../utilities/user'
-
+import { getS3ImageUrl } from '../../../utilities/others'
 const Preview = ({ showServices, mentor }) => {
   const [preImage, setPreImage] = useState('')
   const [firstName, setFirstName] = useState(mentor?.about_yourself?.first_name)
@@ -54,7 +54,7 @@ const Preview = ({ showServices, mentor }) => {
 
   const usrName = getLoggedinUserEmail()
   const getUser = async () => {
-    debugger
+    // debugger
     //const usrName = getLoggedinUserEmail()
     console.log('username - ', usrName)
     const results = await API.graphql(
@@ -64,11 +64,16 @@ const Preview = ({ showServices, mentor }) => {
     )
     if (results.data.listMentorRegisters.items.length > 0) {
       const data = { ...results.data.listMentorRegisters.items[0] }
-       debugger
+      // debugger
       if (data.profile_image) {
-        const img = await Storage.get(data.profile_image)
-        console.log('image - ', img)
-        setPreImage(img)
+        try {
+          // const img = await Storage.get(data.profile_image)
+          const img = await getS3ImageUrl(data.profile_image)
+          console.log('image - ', img)
+          setPreImage(img)
+        } catch (errSt) {
+          console.log(errSt)
+        }
       }
       // debugger
       setFirstName(data.about_yourself?.first_name)
@@ -90,7 +95,7 @@ const Preview = ({ showServices, mentor }) => {
         }),
       )
       if (results.data.listUserInfos.items.length > 0) {
-       debugger
+        // debugger
         const data = { ...results.data.listUserInfos.items[0] }
         if (data.profile_image) {
           // const img = await Storage.get(data.profile_image)
@@ -101,7 +106,7 @@ const Preview = ({ showServices, mentor }) => {
   }
 
   const loadOneOnOne = async () => {
-    debugger
+    // debugger
     try {
       const results = await API.graphql(
         graphqlOperation(listOneOnOnes, {
@@ -129,7 +134,7 @@ const Preview = ({ showServices, mentor }) => {
   }
 
   const loadWorkshop = async () => {
-    debugger
+    // debugger
     try {
       const results = await API.graphql(
         graphqlOperation(listWorkshops, {
@@ -325,8 +330,7 @@ const Preview = ({ showServices, mentor }) => {
               </span>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
-                {initialPosts !== null &&
-                initialPosts.length > 0 ? (
+                {initialPosts !== null && initialPosts.length > 0 ? (
                   initialPosts.map((s, index) => {
                     return (
                       <>
@@ -357,7 +361,6 @@ const Preview = ({ showServices, mentor }) => {
                   <div></div>
                 )}
 
-                
                 {/* {
                   workshopResults !== null && workshopResults.length > 0 ?
                   (
@@ -489,27 +492,26 @@ const Preview = ({ showServices, mentor }) => {
                 </div> */}
               </div>
               {initialPosts.length > 0 ? (
-                              <div className="flex justify-center item-center m-5">
-                              {isCompleted ? (
-                                <button
-                                  onClick={loadMore}
-                                  type="button"
-                                  className="flex py-3 px-5 justify-center items-center bg-black text-sm p-2 text-white rounded-full w-auto ml-5"
-                                >
-                                  No more
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={loadMore}
-                                  type="button"
-                                  className="flex py-3 px-5 justify-center items-center bg-black hover:bg-blue-700 text-sm p-2 text-white rounded-full w-auto ml-5"
-                                >
-                                  Load more +
-                                </button>
-                              )}
-                            </div>
+                <div className="flex justify-center item-center m-5">
+                  {isCompleted ? (
+                    <button
+                      onClick={loadMore}
+                      type="button"
+                      className="flex py-3 px-5 justify-center items-center bg-black text-sm p-2 text-white rounded-full w-auto ml-5"
+                    >
+                      No more
+                    </button>
+                  ) : (
+                    <button
+                      onClick={loadMore}
+                      type="button"
+                      className="flex py-3 px-5 justify-center items-center bg-black hover:bg-blue-700 text-sm p-2 text-white rounded-full w-auto ml-5"
+                    >
+                      Load more +
+                    </button>
+                  )}
+                </div>
               ) : null}
-
             </>
           )}
         </div>

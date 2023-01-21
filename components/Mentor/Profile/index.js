@@ -11,7 +11,17 @@ import {
   createMentorRegister,
   updateMentorRegister,
 } from '../../../src/graphql/mutations'
+import {
+  PutObjectCommand,
+  // GetObjectCommand,
+  DeleteObjectCommand,
+} from '@aws-sdk/client-s3'
 
+import {
+  s3Client,
+  getS3ImageUrl,
+  setS3ImageUrl,
+} from '../../../utilities/others'
 import { listMentorRegisters } from '../../../src/graphql/queries'
 import { getLoggedinUserEmail } from '../../../utilities/user'
 const initialState = {
@@ -57,6 +67,7 @@ const initialState = {
 const Profile = () => {
   // const { width, height } = useWindowDimensions()
   // console.log("nestedkeys",nestedkeys)
+
   const [openTab, setOpenTab] = useState(1)
   const [state, setState] = useState(initialState)
   const [user, setUser] = useState()
@@ -65,8 +76,10 @@ const Profile = () => {
   const [percentage, setPercentage] = useState(40)
   const getUser = async () => {
     debugger
-    const usr = await Auth.currentAuthenticatedUser()
-    if (usr) setUser(usr)
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      if (usr) setUser(usr)
+    } catch (error) {}
     debugger
     const usrName = getLoggedinUserEmail()
     const results = await API.graphql(
@@ -78,12 +91,9 @@ const Profile = () => {
       setIsNew(false)
       const data = { ...results.data.listMentorRegisters.items[0] }
       if (data.profile_image) {
-        const img = await Storage.get(data.profile_image)
-        // const response = await fetch(img)
-        // const arrBuf = await response.arrayBuffer()
-        // const base64String = arrayBufferToBase64(arrBuf)
-        // data.profile_image = `data:image/png;base64,${base64String}`
-        data.profile_image_url = img
+        const image_url = await getS3ImageUrl(data.profile_image)
+        debugger
+        data.profile_image_url = image_url
       }
       setState({ ...data })
     }
@@ -143,10 +153,42 @@ const Profile = () => {
         profile_image_file.name.lastIndexOf('.') + 1,
       )
       const filename = `${name}_${uuid()}.${ext}`
+      await setS3ImageUrl(filename, profile_image_file, state.profile_image)
+      // try {
+      //   const data = await s3Client.send(
+      //     new DeleteObjectCommand({
+      //       Bucket: 'testamplifyapia8dcbc927f9c443b9c1dbfaa11180a7c90108-dev', // The name of the bucket. For example, 'sample_bucket_101'.
+      //       Key: `public/${remaining.profile_image}`,
+      //     }),
+      //   )
+      // } catch (error) {}
+
       remaining.profile_image = filename
-      await Storage.put(filename, profile_image_file, {
-        contentType: `image/${ext}`, // contentType is optional
-      })
+      // debugger
+      // const params = {
+      //   ContentType: `image/${ext}`,
+      //   Bucket: 'testamplifyapia8dcbc927f9c443b9c1dbfaa11180a7c90108-dev', // The name of the bucket. For example, 'sample_bucket_101'.
+      //   Key: `public/${filename}`,
+      //   Body: profile_image_file,
+      // }
+      // try {
+      //   const results = await s3Client.send(new PutObjectCommand(params))
+      //   console.log('')
+      //   // console.log(
+      //   //     "Successfully created " +
+      //   //     params.Key +
+      //   //     " and uploaded it to " +
+      //   //     params.Bucket +
+      //   //     "/" +
+      //   //     params.Key
+      //   // );
+      //   // return results; // For unit tests.
+      // } catch (err) {
+      //   console.log('Error', err)
+      // }
+      // await Storage.put(filename, profile_image_file, {
+      //   contentType: `image/${ext}`, // contentType is optional
+      // })
     }
     if (isNew) {
       try {
@@ -158,8 +200,10 @@ const Profile = () => {
           variables: { input: { ...state, ...remaining } },
           // authMode: 'AMAZON_COGNITO_USER_POOLS',
         })
-        toast.success('Profile added successfully')
+        document.location.reload(true)
+        history.go(0)
         window.location.href = window.location.href
+        toast.success('Profile added successfully')
       } catch (error) {
         toast.error(`Save Error:${error.errors[0].message}`)
       }
@@ -288,7 +332,7 @@ const Profile = () => {
                       social: state.social,
                       currency: state.currency,
                       time_zone: state.time_zone,
-                      profile_image_url: state.profile_image,
+                      profile_image_url: state.profile_image_url,
                       setProfileState: setModifiedState,
                       percentage,
                       // ,

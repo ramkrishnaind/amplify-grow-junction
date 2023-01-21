@@ -20,6 +20,7 @@ import { listSchedules } from '/src/graphql/queries'
 import { useSelector, useDispatch } from 'react-redux'
 import { RxCrossCircled } from 'react-icons/rx'
 import Preview from '../../../Mentor/Profile/Preview'
+import { getS3ImageUrl } from '../../../../utilities/others'
 import {
   getLoggedinUserEmail,
   getMentorData,
@@ -198,17 +199,15 @@ const Home = () => {
     return current.isAfter(yesterday)
   }
   // disable the list of custom dates
-  const customDates1 = ['2023-01-26'];
-  const disableCustomDt = current => {
-    return !customDates1.includes(current.format('YYYY-MM-DD'));
+  const customDates1 = ['2023-01-26']
+  const disableCustomDt = (current) => {
+    return !customDates1.includes(current.format('YYYY-MM-DD'))
   }
   // disable unavilable dates
   // const today = moment();
   // const disableFutureDt = current => {
   //   return current.isBefore(today)
   // }
-
-
 
   const setTimeInterval = (slot) => {
     debugger
@@ -240,14 +239,14 @@ const Home = () => {
     // setTimeSlots([])
     debugger
     if (startTime !== undefined && endTime !== undefined) {
-      let stime = startTime + ':00' 
+      let stime = startTime + ':00'
       let etime = endTime + ':00'
       timeSlots.push(stime.slice(0, -3))
       while (stime != etime) {
         stime = addMinutes(stime, interval)
         timeSlots.push(stime.slice(0, -3))
       }
-      if(timeSlots.length > 0 ){
+      if (timeSlots.length > 0) {
         timeSlots.pop()
       }
     }
@@ -263,11 +262,11 @@ const Home = () => {
     debugger
     console.log('disablePastDt -', disablePastDt)
     //const disableCustomDt = (unavailableDates) => {
-      unavailableDates?.length > 0
-        ? unavailableDates.map((ud, index) => {
-             //disablePastDt.includes(ud.format('YYYY-MM-DD'))
-          })
-        : null
+    unavailableDates?.length > 0
+      ? unavailableDates.map((ud, index) => {
+          //disablePastDt.includes(ud.format('YYYY-MM-DD'))
+        })
+      : null
     //}
     //setCustomDates(disableCustomDt)
   }, [unavailableDates])
@@ -385,7 +384,8 @@ const Home = () => {
   const showPreview = async (mentorPassed) => {
     if (mentorPassed) {
       if (mentorPassed.profile_image) {
-        const img = await Storage.get(mentorPassed.profile_image)
+        // const img = await Storage.get(mentorPassed.profile_image)
+        const img = await getS3ImageUrl(mentorPassed.profile_image)
         console.log('image - ', img)
         setImage(img)
       }
@@ -747,7 +747,8 @@ const Home = () => {
 
   const showImage = async (image) => {
     if (image) {
-      const img = await Storage.get(image)
+      // const img = await Storage.get(image)
+      const img = await getS3ImageUrl(image)
       console.log('image - ', img)
       setImage(img)
     }
@@ -788,7 +789,6 @@ const Home = () => {
     console.log('id=', textQueryResults[id])
   }
 
-
   const handleCoursesClick = (index) => {
     debugger
     setShowCourseDetail(true)
@@ -822,12 +822,11 @@ const Home = () => {
     setTextquery1(true)
   }
 
-
   const handleCourseClick = () => {
     setShowCourseDetail(false)
     setCourse1(true)
   }
-  
+
   const handlePackageClick = () => {
     setShowPackageDetail(false)
     setPackage1(true)
@@ -865,7 +864,6 @@ const Home = () => {
     setImage('')
     setBookSession3(false)
   }
-
 
   const handleBookSession3 = () => {
     setBookSession1(false)
@@ -1752,7 +1750,7 @@ const Home = () => {
         </>
       ) : null}
 
-{showWorkshopDetail ? (
+      {showWorkshopDetail ? (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
@@ -1763,7 +1761,7 @@ const Home = () => {
                   ></div>
                   <div className="ml-2 mt-6 p-2">
                     <span className="text-3xl font-semibold ">
-                     {workshopNow.title}
+                      {workshopNow.title}
                     </span>
                     <div className="flex flex-row justify-start items-start mt-2">
                       {/* <span className="text-4xl font-bold mt-4">
@@ -1787,7 +1785,8 @@ const Home = () => {
                         )}
                         <span className="text-xl font-semibold ml-5">
                           {`(`}
-                          {(workshopNow.finalPrice - workshopNow.listedPrice) / 100}
+                          {(workshopNow.finalPrice - workshopNow.listedPrice) /
+                            100}
                         </span>
                         <span className="text-xl font-semibold">%{`)`}</span>
                       </span>
@@ -1817,7 +1816,7 @@ const Home = () => {
               <div className="flex flex-col justify-start items-start ml-10">
                 <div className="mt-5">
                   <p className="flex justify-start text-xl font-bold mb-3">
-                  Topics Covered  
+                    Topics Covered
                   </p>
                   <p className="flex text-sm font-semibold mb-2">
                     <img
@@ -1843,7 +1842,8 @@ const Home = () => {
                       alt=""
                       className="w-4 h-4 mr-2"
                     />
-                    Things you get in the webinar Things you get in the webinar 03
+                    Things you get in the webinar Things you get in the webinar
+                    03
                   </p>
 
                   <p className="flex text-sm font-semibold mb-10">
@@ -1852,7 +1852,8 @@ const Home = () => {
                       alt=""
                       className="w-4 h-4 mr-2"
                     />
-                    Things you get in the webinar Things you get in the webinar 04
+                    Things you get in the webinar Things you get in the webinar
+                    04
                   </p>
                 </div>
               </div>
@@ -1861,7 +1862,7 @@ const Home = () => {
         </>
       ) : null}
 
-{showTextqueryDetail ? (
+      {showTextqueryDetail ? (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
@@ -1872,7 +1873,7 @@ const Home = () => {
                   ></div>
                   <div className="ml-2 mt-6 p-2">
                     <span className="text-3xl font-semibold ">
-                     {textqueryNow.title}
+                      {textqueryNow.title}
                     </span>
                     <div className="flex flex-row justify-start items-start mt-2">
                       {/* <span className="text-4xl font-bold mt-4">
@@ -1880,7 +1881,8 @@ const Home = () => {
                       </span> */}
                       <span className="text-4xl font-bold py-3">
                         ₹
-                        {textqueryNow.listedPrice === textqueryNow.finalPrice ? (
+                        {textqueryNow.listedPrice ===
+                        textqueryNow.finalPrice ? (
                           textqueryNow.finalPrice
                         ) : (
                           <>
@@ -1896,7 +1898,9 @@ const Home = () => {
                         )}
                         <span className="text-xl font-semibold ml-5">
                           {`(`}
-                          {(textqueryNow.finalPrice - textqueryNow.listedPrice) / 100}
+                          {(textqueryNow.finalPrice -
+                            textqueryNow.listedPrice) /
+                            100}
                         </span>
                         <span className="text-xl font-semibold">%{`)`}</span>
                       </span>
@@ -1926,7 +1930,7 @@ const Home = () => {
               <div className="flex flex-col justify-start items-start ml-10">
                 <div className="mt-5">
                   <p className="flex justify-start text-xl font-bold mb-3">
-                  Topics Covered  
+                    Topics Covered
                   </p>
                   <p className="flex text-sm font-semibold mb-2">
                     <img
@@ -1970,8 +1974,7 @@ const Home = () => {
         </>
       ) : null}
 
-
-{showCourseDetail ? (
+      {showCourseDetail ? (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
@@ -1982,7 +1985,7 @@ const Home = () => {
                   ></div>
                   <div className="ml-2 mt-6 p-2">
                     <span className="text-3xl font-semibold ">
-                     {courseNow.courseTitle}
+                      {courseNow.courseTitle}
                     </span>
                     <div className="flex flex-row justify-start items-start mt-2">
                       {/* <span className="text-4xl font-bold mt-4">
@@ -2036,7 +2039,7 @@ const Home = () => {
               <div className="flex flex-col justify-start items-start ml-10">
                 <div className="mt-5">
                   <p className="flex justify-start text-xl font-bold mb-3">
-                  Topics Covered  
+                    Topics Covered
                   </p>
                   <p className="flex text-sm font-semibold mb-2">
                     <img
@@ -2080,7 +2083,7 @@ const Home = () => {
         </>
       ) : null}
 
-{showPackageDetail ? (
+      {showPackageDetail ? (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
@@ -2091,7 +2094,7 @@ const Home = () => {
                   ></div>
                   <div className="ml-2 mt-6 p-2">
                     <span className="text-3xl font-semibold ">
-                     {packageNow?.packageTitle}
+                      {packageNow?.packageTitle}
                     </span>
                     <div className="flex flex-row justify-start items-start mt-2">
                       {/* <span className="text-4xl font-bold mt-4">
@@ -2115,7 +2118,8 @@ const Home = () => {
                         )}
                         <span className="text-xl font-semibold ml-5">
                           {`(`}
-                          {(packageNow?.finalPrice - packageNow?.listedPrice) / 100}
+                          {(packageNow?.finalPrice - packageNow?.listedPrice) /
+                            100}
                         </span>
                         <span className="text-xl font-semibold">%{`)`}</span>
                       </span>
@@ -2145,7 +2149,7 @@ const Home = () => {
               <div className="flex flex-col justify-start items-start ml-10">
                 <div className="mt-5">
                   <p className="flex justify-start text-xl font-bold mb-3">
-                  Topics Covered  
+                    Topics Covered
                   </p>
                   <p className="flex text-sm font-semibold mb-2">
                     <img
@@ -2153,7 +2157,7 @@ const Home = () => {
                       alt=""
                       className="w-4 h-4 mr-2"
                     />
-                    1 on 1 Session with mentor 
+                    1 on 1 Session with mentor
                   </p>
 
                   <p className="flex text-sm font-semibold mb-2">
@@ -2308,7 +2312,7 @@ const Home = () => {
                     {/* <DatePicker onChange={onChange} value={value} /> */}
                     <BookingDatePicker
                       inputProps={{
-                        style: { width: 250,},
+                        style: { width: 250 },
                         placeholder: 'Select Date',
                       }}
                       value={bookingdate}
@@ -2851,7 +2855,7 @@ const Home = () => {
         </>
       )}
 
-{workshop1 && (
+      {workshop1 && (
         <>
           <Formik
             initialValues={{ ...state }}
@@ -2864,7 +2868,9 @@ const Home = () => {
                     debugger
                     values.username = mentorName
                     values.serviceType = 'Workshop'
-                    values.bookingDate = moment(workshopNow.workshopDate).format('L')
+                    values.bookingDate = moment(
+                      workshopNow.workshopDate,
+                    ).format('L')
                     values.timeSlot = workshopNow.workshopTime
                     await API.graphql({
                       query: createStudentBooking,
@@ -2951,13 +2957,13 @@ const Home = () => {
                               <div>
                                 <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
                                   Workshop with{' '}
-                                  {workshopNow?.user?.about_yourself?.first_name +
+                                  {workshopNow?.user?.about_yourself
+                                    ?.first_name +
                                     ' ' +
-                                    workshopNow?.user?.about_yourself?.last_name}
+                                    workshopNow?.user?.about_yourself
+                                      ?.last_name}
                                 </p>
-                                <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
-                                  
-                                </p>
+                                <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6"></p>
                               </div>
                             </div>
                             <div className="flex justify-around w-full p-2">
@@ -3118,7 +3124,7 @@ const Home = () => {
         </>
       )}
 
-{course1 && (
+      {course1 && (
         <>
           <Formik
             initialValues={{ ...state }}
@@ -3131,7 +3137,9 @@ const Home = () => {
                     debugger
                     values.username = mentorName
                     values.serviceType = 'Course'
-                    values.bookingDate = moment(courseNow.courseDate).format('L')
+                    values.bookingDate = moment(courseNow.courseDate).format(
+                      'L',
+                    )
                     values.timeSlot = courseNow.courseTime
                     await API.graphql({
                       query: createStudentBooking,
@@ -3385,7 +3393,7 @@ const Home = () => {
         </>
       )}
 
-{package1 && (
+      {package1 && (
         <>
           <Formik
             initialValues={{ ...state }}
@@ -3398,7 +3406,9 @@ const Home = () => {
                     debugger
                     values.username = mentorName
                     values.serviceType = 'Package'
-                    values.bookingDate = moment(packageNow.courseDate).format('L')
+                    values.bookingDate = moment(packageNow.courseDate).format(
+                      'L',
+                    )
                     values.timeSlot = packageNow.courseTime
                     await API.graphql({
                       query: createStudentBooking,
@@ -3485,7 +3495,8 @@ const Home = () => {
                               <div>
                                 <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
                                   Package by{' '}
-                                  {packageNow?.user?.about_yourself?.first_name +
+                                  {packageNow?.user?.about_yourself
+                                    ?.first_name +
                                     ' ' +
                                     packageNow?.user?.about_yourself?.last_name}
                                 </p>
@@ -3502,7 +3513,8 @@ const Home = () => {
                                   className="w-4 h-3"
                                 ></img>
                                 <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
-                                  {packageNow?.packageServices?.length} Bundles combined                  
+                                  {packageNow?.packageServices?.length} Bundles
+                                  combined
                                 </p>
                               </div>
                               {/* <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
@@ -3651,7 +3663,7 @@ const Home = () => {
         </>
       )}
 
-{textquery1 && (
+      {textquery1 && (
         <>
           <Formik
             initialValues={{ ...state }}
@@ -3670,7 +3682,9 @@ const Home = () => {
                       query: createStudentBooking,
                       variables: { input: { ...values } },
                     })
-                    toast.success('Student text query booking added successfully')
+                    toast.success(
+                      'Student text query booking added successfully',
+                    )
                     // window.location.href = window.location.href
                   } catch (error) {
                     toast.error(`Save Error:${error.errors[0].message}`)
@@ -3753,9 +3767,11 @@ const Home = () => {
                                   Text query by{' '}
                                 </p>
                                 <p className=" flex justify-start items-start text-lg font-semibold mt-2 px-6">
-                                  {textqueryNow?.user?.about_yourself?.first_name +
+                                  {textqueryNow?.user?.about_yourself
+                                    ?.first_name +
                                     ' ' +
-                                    textqueryNow?.user?.about_yourself?.last_name}
+                                    textqueryNow?.user?.about_yourself
+                                      ?.last_name}
                                 </p>
                                 <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
                                   {textqueryNow.title}
@@ -3770,7 +3786,7 @@ const Home = () => {
                                   className="w-4 h-3"
                                 ></img>
                                 <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
-                                {textqueryNow.responseTime}
+                                  {textqueryNow.responseTime}
                                   {textqueryNow.responseTimeIn}
                                 </p>
                               </div>

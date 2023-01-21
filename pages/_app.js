@@ -15,6 +15,7 @@ import { Formik } from 'formik'
 // toast.configure()
 // add to existing imports
 import Amplify from 'aws-amplify'
+
 import config from '../src/aws-exports'
 import { Auth0Provider } from '@auth0/auth0-react'
 // check if env is localhost or not

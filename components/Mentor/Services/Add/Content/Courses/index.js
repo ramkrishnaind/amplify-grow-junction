@@ -5,6 +5,7 @@ import TextField from '../../../../../../pages/ui-kit/TextField'
 import { v4 as uuid } from 'uuid'
 import classes from './Courses.module.css'
 import { Storage } from 'aws-amplify'
+import { getS3ImageUrl } from '../../../../../../utilities/others'
 const AutoSubmitToken = ({
   setValues,
   sessions,
@@ -107,7 +108,8 @@ const Courses = ({
     const getImage = async () => {
       debugger
       debugger
-      const img = await Storage.get(courses.courseImage)
+      // const img = await Storage.get(courses.courseImage)
+      const img = await getS3ImageUrl(courses.courseImage)
       setConvertedImage(img)
     }
     if (courses.courseImage) {

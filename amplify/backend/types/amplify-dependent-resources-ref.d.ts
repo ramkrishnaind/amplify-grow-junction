@@ -9,11 +9,6 @@ export type AmplifyDependentResourcesAttributes = {
             "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
-        },
-        "getCashfreeSessionId": {
-            "RootUrl": "string",
-            "ApiName": "string",
-            "ApiId": "string"
         }
     },
     "auth": {
@@ -41,14 +36,6 @@ export type AmplifyDependentResourcesAttributes = {
         "testAmplify": {
             "BucketName": "string",
             "Region": "string"
-        }
-    },
-    "function": {
-        "createOrder": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
         }
     }
 }

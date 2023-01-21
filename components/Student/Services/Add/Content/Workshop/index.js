@@ -5,7 +5,7 @@ import TextField from '../../../../../../pages/ui-kit/TextField'
 import { v4 as uuid } from 'uuid'
 import classes from './Workshop.module.css'
 import { Storage } from 'aws-amplify'
-
+import { getS3ImageUrl } from '../../../../../../utilities/others'
 const AutoSubmitToken = ({ setValues, questions, image }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
@@ -26,7 +26,7 @@ const AutoSubmitToken = ({ setValues, questions, image }) => {
     // if (values.token.length === 6) {
     //   submitForm();
     // }
-  }, [values,image, submitForm])
+  }, [values, image, submitForm])
   return null
 }
 
@@ -102,7 +102,8 @@ const Workshop = ({
     const getImage = async () => {
       debugger
       debugger
-      const img = await Storage.get(workshop.workshopImage)
+      // const img = await Storage.get(workshop.workshopImage)
+      const img = await getS3ImageUrl(workshop.workshopImage)
       setConvertedImage(img)
     }
     if (workshop.workshopImage) {

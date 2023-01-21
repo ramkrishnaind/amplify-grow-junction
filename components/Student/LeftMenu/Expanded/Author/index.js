@@ -4,6 +4,7 @@ import classes from './Author.module.css'
 import { listStudentRegisters } from '../../../../../src/graphql/queries'
 import { listUserInfos } from '../../../../../src/graphql/queries'
 import { getLoggedinUserEmail } from '../../../../../utilities/user'
+import { getS3ImageUrl } from '../../../../../utilities/others'
 const Author = () => {
   const [image, setImage] = useState('')
   const [name, setName] = useState()
@@ -22,7 +23,8 @@ const Author = () => {
       const data = { ...results.data.listStudentRegisters.items[0] }
       // debugger
       if (data.profile_image) {
-        const img = await Storage.get(data.profile_image)
+        // const img = await Storage.get(data.profile_image)
+        const img = await getS3ImageUrl(data.profile_image)
         console.log('image - ', img)
         setImage(img)
       }

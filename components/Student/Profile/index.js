@@ -5,6 +5,7 @@ import EducationalInfo from './EducationalInfo'
 import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
 import { toast } from 'react-toastify'
+import { getS3ImageUrl, setS3ImageUrl } from '../../../utilities/others'
 // import nestedkeys from 'nested-keys'
 // import useWindowDimensions from '../../public/utils/useWindowDimensions'
 import {
@@ -67,14 +68,15 @@ const Profile = () => {
     const usrname = getLoggedinUserEmail()
     const results = await API.graphql(
       graphqlOperation(listStudentRegisters, {
-        filter: { username: { contains: usrname} },
+        filter: { username: { contains: usrname } },
       }),
     )
     if (results.data.listStudentRegisters.items.length > 0) {
       setIsNew(false)
       const data = { ...results.data.listStudentRegisters.items[0] }
       if (data.profile_image) {
-        const img = await Storage.get(data.profile_image)
+        // const img = await Storage.get(data.profile_image)
+        const img = await getS3ImageUrl(data.profile_image)
         // const response = await fetch(img)
         // const arrBuf = await response.arrayBuffer()
         // const base64String = arrayBufferToBase64(arrBuf)
@@ -137,10 +139,11 @@ const Profile = () => {
         profile_image_file.name.lastIndexOf('.') + 1,
       )
       const filename = `${name}_${uuid()}.${ext}`
+      await setS3ImageUrl(filename, profile_image_file, remaining.profile_image)
+      // await Storage.put(filename, profile_image_file, {
+      //   contentType: `image/${ext}`, // contentType is optional
+      // })
       remaining.profile_image = filename
-      await Storage.put(filename, profile_image_file, {
-        contentType: `image/${ext}`, // contentType is optional
-      })
     }
     if (isNew) {
       const usrname = getLoggedinUserEmail()

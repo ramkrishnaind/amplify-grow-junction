@@ -12,7 +12,7 @@ import Pill from '../../Add/Header/Pill'
 import AddWorkshop from '../../Add/Content/Workshop'
 import { getLoggedinUserEmail } from '../../../../../utilities/user'
 import { v4 as uuid } from 'uuid'
-
+import { setS3ImageUrl } from '../../../../../utilities/others'
 const AutoSubmitToken = ({ setValues, questions }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
@@ -97,11 +97,12 @@ const Workshop = ({ services }) => {
           workshop.file.name.lastIndexOf('.') + 1,
         )
         const filename = `${name}_${uuid()}.${ext}`
-        workshop.workshopImage = filename
         console.log(filename)
-        await Storage.put(filename, workshop.file, {
-          contentType: `image/${ext}`, // contentType is optional
-        })
+        await setS3ImageUrl(filename, workshop.file, workshop.workshopImage)
+        // await Storage.put(filename, workshop.file, {
+        //   contentType: `image/${ext}`, // contentType is optional
+        // })
+        workshop.workshopImage = filename
         delete workshop.file
       }
       const { createdAt, updatedAt, owner, file, ...rest } = workshop

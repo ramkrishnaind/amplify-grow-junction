@@ -7,6 +7,7 @@ import { ClearUser, StoreUserAuth } from '../../../../redux/actions/AuthAction'
 import useComponentVisible from '../../../../hooks/useComponentVisible'
 import ReactDOM from 'react-dom'
 import classes from './Header.module.css'
+import { getS3ImageUrl } from '../../../../utilities/others'
 import {
   listUserInfos,
   listStudentRegisters,
@@ -57,7 +58,8 @@ const Header = () => {
       const data = { ...results.data.listStudentRegisters.items[0] }
       // debugger
       if (data.profile_image) {
-        const img = await Storage.get(data.profile_image)
+        // const img = await Storage.get(data.profile_image)
+        const img = await getS3ImageUrl(data.profile_image)
         console.log('image - ', img)
         setImage(img)
       }
