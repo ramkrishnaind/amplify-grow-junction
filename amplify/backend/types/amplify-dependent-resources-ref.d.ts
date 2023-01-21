@@ -1,5 +1,10 @@
 export type AmplifyDependentResourcesAttributes = {
     "api": {
+        "getCashfreeSessionId": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
+        },
         "testamplifyapi": {
             "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
@@ -22,6 +27,14 @@ export type AmplifyDependentResourcesAttributes = {
             "UserPoolName": "string",
             "AppClientIDWeb": "string",
             "AppClientID": "string"
+        }
+    },
+    "function": {
+        "createOrder": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
         }
     },
     "storage": {

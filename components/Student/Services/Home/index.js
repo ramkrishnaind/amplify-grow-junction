@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer, useRef, use } from 'react'
+import { Formik, useFormikContext } from 'formik'
 import classes from './Home.module.css'
 import { toast } from 'react-toastify'
 // import { useRouter } from 'next/router'
@@ -15,6 +16,7 @@ import { listTextQueries } from '/src/graphql/queries'
 import { listWorkshops } from '/src/graphql/queries'
 import { listCourses } from '/src/graphql/queries'
 import { listPackages } from '/src/graphql/queries'
+import { listSchedules } from '/src/graphql/queries'
 import { useSelector, useDispatch } from 'react-redux'
 import { RxCrossCircled } from 'react-icons/rx'
 import Preview from '../../../Mentor/Profile/Preview'
@@ -28,7 +30,32 @@ import DatePicker from 'react-multi-date-picker'
 import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import { AmplifySelectMfaType } from '@aws-amplify/ui-react'
 import Multiselect from 'multiselect-react-dropdown'
+import BookingDatePicker from 'react-datetime'
+import moment from 'moment'
+import 'react-datetime/css/react-datetime.css'
+import {
+  createStudentBooking,
+  updateStudentBooking,
+} from '../../../../src/graphql/mutations'
+
 const Home = () => {
+  const initialState = {
+    name: '',
+    emailId: '',
+    callAbout: '',
+    mobileNumber: '',
+    receiveUpdate: '',
+    timeZone: '',
+    bookingDate: '',
+    timeSlot: '',
+    isSuccess: '',
+    successText: '',
+    failureText: '',
+    serviceType: '',
+  }
+
+  const [state, setState] = useState(initialState)
+
   const mentorsState = useSelector((state) => state.MentorHeaderReducer)
   useEffect(() => {
     debugger
@@ -105,13 +132,34 @@ const Home = () => {
   const [coursesFilteredResults, setCoursesFilteredResults] = useState([])
   const [packagesFilteredResults, setPackagesFilteredResults] = useState([])
   const [showServiceDetail, setShowServiceDetail] = useState(false)
+  const [showWorkshopDetail, setShowWorkshopDetail] = useState(false)
+  const [showTextqueryDetail, setShowTextqueryDetail] = useState(false)
+  const [showCourseDetail, setShowCourseDetail] = useState(false)
+  const [showPackageDetail, setShowPackageDetail] = useState(false)
+  const [scheduleDetails, setScheduleDetails] = useState([])
   const [bookNow, setBookNow] = useState([])
+  const [workshopNow, setWorkshopNow] = useState([])
+  const [textqueryNow, setTextqueryNow] = useState([])
+  const [courseNow, setCourseNow] = useState([])
+  const [packageNow, setPackageNow] = useState([])
+  const [everyday, setEveryday] = useState([])
+  const [monday, setMonday] = useState([])
+  const [tuesday, setTuesday] = useState([])
+  const [wednesday, setWednesday] = useState([])
+  const [thursday, setThursday] = useState([])
+  const [friday, setFriday] = useState([])
+  const [saturday, setSaturday] = useState([])
+  const [sunday, setSunday] = useState([])
   const [value, onChange] = useState(new Date())
   const [timeZone, setTimeZone] = useState({})
 
   const [bookSession1, setBookSession1] = useState(false)
   const [bookSession2, setBookSession2] = useState(false)
   const [bookSession3, setBookSession3] = useState(false)
+  const [workshop1, setWorkshop1] = useState(false)
+  const [course1, setCourse1] = useState(false)
+  const [package1, setPackage1] = useState(false)
+  const [textquery1, setTextquery1] = useState(false)
   const [mentor, setMentor] = useState([])
   const [showMentor, setShowMentor] = useState(false)
   const [image, setImage] = useState('')
@@ -120,7 +168,213 @@ const Home = () => {
   const [serviceName, setServiceName] = useState('')
   const [mentorData, setMentorData] = useState([])
   const [mentorUserName, setMentorUserName] = useState('')
+  const [durations, setDurations] = useState([])
+  const [selectedTimeInterval, setSelectedTimeInterval] = useState('')
+  const [timeSlots, setTimeSlots] = useState([])
+  const [isSelected, setIsSelected] = useState(false)
+  const [duration, setDuration] = useState()
   // const [filterSessionResults, setFilterSessionResults] = useState([])
+  const [weekDay, setWeekDay] = useState('')
+  const [unavailableDates, setUnavailableDates] = useState([])
+  const weekdays = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'everyday',
+  ]
+  const [bookingdate, setBookingdate] = useState()
+  //, disable the list of custom dates
+  const [customDates, setCustomDates] = useState([])
+
+  //  const disableCustomDt = (current) => {
+  //   return !customDates.includes(current.format('YYYY-MM-DD'))
+  // }
+  const yesterday = moment().subtract(1, 'day')
+  const disablePastDt = (current) => {
+    return current.isAfter(yesterday)
+  }
+  // disable the list of custom dates
+  const customDates1 = ['2023-01-26'];
+  const disableCustomDt = current => {
+    return !customDates1.includes(current.format('YYYY-MM-DD'));
+  }
+  // disable unavilable dates
+  // const today = moment();
+  // const disableFutureDt = current => {
+  //   return current.isBefore(today)
+  // }
+
+
+
+  const setTimeInterval = (slot) => {
+    debugger
+    setIsSelected(true)
+    setSelectedTimeInterval(slot)
+  }
+
+  // add minutes
+  function addMinutes(time, minutes) {
+    var date = new Date(
+      new Date('01/01/2023 ' + time).getTime() + minutes * 60000,
+    )
+    var tempTime =
+      (date.getHours().toString().length == 1
+        ? '0' + date.getHours()
+        : date.getHours()) +
+      ':' +
+      (date.getMinutes().toString().length == 1
+        ? '0' + date.getMinutes()
+        : date.getMinutes()) +
+      ':' +
+      (date.getSeconds().toString().length == 1
+        ? '0' + date.getSeconds()
+        : date.getSeconds())
+    return tempTime
+  }
+
+  const timeIntervals = (startTime, endTime, interval) => {
+    // setTimeSlots([])
+    debugger
+    if (startTime !== undefined && endTime !== undefined) {
+      let stime = startTime + ':00' 
+      let etime = endTime + ':00'
+      timeSlots.push(stime.slice(0, -3))
+      while (stime != etime) {
+        stime = addMinutes(stime, interval)
+        timeSlots.push(stime.slice(0, -3))
+      }
+      if(timeSlots.length > 0 ){
+        timeSlots.pop()
+      }
+    }
+  }
+
+  const handleBookingDate = (dt) => {
+    debugger
+    setBookingdate(dt._d)
+    console.log(dt._d)
+  }
+
+  useEffect(() => {
+    debugger
+    console.log('disablePastDt -', disablePastDt)
+    //const disableCustomDt = (unavailableDates) => {
+      unavailableDates?.length > 0
+        ? unavailableDates.map((ud, index) => {
+             //disablePastDt.includes(ud.format('YYYY-MM-DD'))
+          })
+        : null
+    //}
+    //setCustomDates(disableCustomDt)
+  }, [unavailableDates])
+
+  useEffect(() => {
+    debugger
+    const dt = new Date(bookingdate)
+    const day = weekdays[dt.getDay()]?.toLowerCase().toString()
+    setWeekDay(day)
+
+    if (day !== 'undefined' && day === 'sunday') {
+      timeIntervals(sunday.startTime, sunday.endTime, duration)
+      // if( sunday?.time?.length > 0){
+      //   sunday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
+
+    if (day !== 'undefined' && day === 'monday') {
+      timeIntervals(monday.startTime, monday.endTime, duration)
+      // if( monday?.time?.length > 0){
+      //   monday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
+
+    if (day !== 'undefined' && day === 'tuesday') {
+      timeIntervals(tuesday.startTime, tuesday.endTime, duration)
+      // if( tuesday?.time?.length > 0){
+      //   tuesday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
+
+    if (day !== 'undefined' && day === 'wednesday') {
+      timeIntervals(wednesday.startTime, wednesday.endTime, duration)
+      // if( wednesday?.time?.length > 0){
+      //   wednesday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
+
+    if (day !== 'undefined' && day === 'thursday') {
+      timeIntervals(thursday.startTime, thursday.endTime, duration)
+      // if( thursday?.time?.length > 0){
+      //   thursday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
+
+    if (day !== 'undefined' && day === 'friday') {
+      timeIntervals(friday.startTime, friday.endTime, duration)
+      // if( friday?.time?.length > 0){
+      //   friday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
+
+    if (day !== 'undefined' && day === 'saturday') {
+      timeIntervals(saturday.startTime, saturday.endTime, duration)
+      // if( saturday?.time?.length > 0){
+      //   saturday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
+
+    if (day !== 'undefined' && day === 'sunday') {
+      timeIntervals(sunday.startTime, sunday.endTime, duration)
+      // if( sunday?.time?.length > 0){
+      //   sunday.map((s, index) =>{
+      //     timeIntervals(s.startTime, s.endTime, duration)
+      //   })
+      // }
+    }
+
+    // day && day === 'monday'
+    //   ? timeIntervals(startTime, endTime, interval)
+    //   : null
+
+    // day && day === 'tuesday'
+    //   ? timeIntervals(startTime, endTime, interval)
+    //   : null
+
+    // day && day === 'wednesday'
+    //   ? timeIntervals(startTime, endTime, interval)
+    //   : null
+
+    // day && day === 'thursday'
+    //   ? timeIntervals(startTime, endTime, interval)
+    //   : null
+
+    // day && day === 'friday'
+    //   ? timeIntervals(startTime, endTime, interval)
+    //   : null
+
+    // day && day === 'saturday'
+    //   ? timeIntervals(startTime, endTime, interval)
+    //   : null
+  }, [bookingdate])
+
   const addmentorData = (items) => {
     items.forEach((item) => {
       if (item.username) {
@@ -222,6 +476,118 @@ const Home = () => {
       }
     } catch (error) {
       console.log(`Load Error:${error}`)
+    }
+  }
+
+  const getAvailability = async (username, sessionDuration) => {
+    sessionDuration !== 'undefined' ? setDuration(sessionDuration) : ''
+    debugger
+    if (username) {
+      setMentorName(username)
+      debugger
+      try {
+        const results = await API.graphql(
+          graphqlOperation(listSchedules, {
+            filter: { username: { contains: username } },
+          }),
+        )
+        debugger
+        if (results.data.listSchedules.items.length > 0) {
+          setScheduleDetails(results.data.listSchedules.items)
+          setUnavailableDates(
+            results.data.listSchedules.items[0]?.unavailableDates,
+          )
+          // results.data.listSchedules.items[0]?.unavailableDates.length > 0 ? (
+          //   results.data.listSchedules.items[0]?.unavailableDates.map((ud, index) =>{
+          //     debugger
+          //    // disablePastDt.includes(ud)
+          //   })
+          // ) : null
+
+          console.log(results.data.listSchedules.items)
+
+          debugger
+
+          if (
+            results.data.listSchedules.items[0]?.daySchedules.everyday.everyday
+          ) {
+            setEveryday(
+              results.data.listSchedules.items[0]?.daySchedules.everyday.time,
+            )
+            if (
+              results.data.listSchedules.items[0]?.daySchedules.everyday.time
+                ?.length > 0
+            ) {
+              results.data.listSchedules.items[0]?.daySchedules.everyday.time.map(
+                (t, index) => {
+                  timeIntervals(t.startTime, t.endTime, sessionDuration)
+                },
+              )
+            }
+          }
+          debugger
+          if (results.data.listSchedules.items[0]?.daySchedules.Sunday.Sunday) {
+            setSunday(
+              results.data.listSchedules.items[0]?.daySchedules?.Sunday
+                ?.time[0],
+            )
+            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.sunday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.sunday?.time?.endTime ,sessionDuration)
+          }
+          if (results.data.listSchedules.items[0]?.daySchedules.Monday.Monday) {
+            setMonday(
+              results.data.listSchedules.items[0]?.daySchedules?.Monday
+                ?.time[0],
+            )
+            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.monday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.monday?.time?.endTime ,sessionDuration)
+          }
+          if (
+            results.data.listSchedules.items[0]?.daySchedules.Tuesday.Tuesday
+          ) {
+            setTuesday(
+              results.data.listSchedules.items[0]?.daySchedules?.Tuesday
+                ?.time[0],
+            )
+            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.tuesday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.tuesday?.time?.endTime ,sessionDuration)
+          }
+          if (
+            results.data.listSchedules.items[0]?.daySchedules.Wednesday
+              .Wednesday
+          ) {
+            setWednesday(
+              results.data.listSchedules.items[0]?.daySchedules?.wednesday
+                ?.time[0],
+            )
+            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.wednesday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.wednesday?.time?.endTime ,sessionDuration)
+          }
+          if (
+            results.data.listSchedules.items[0]?.daySchedules.Thursday.Thursday
+          ) {
+            setThursday(
+              results.data.listSchedules.items[0]?.daySchedules?.Thursday
+                ?.time[0],
+            )
+            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.thursday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.thursday?.time?.endTime ,sessionDuration)
+          }
+          if (results.data.listSchedules.items[0]?.daySchedules.Friday.Friday) {
+            setFriday(
+              results.data.listSchedules.items[0]?.daySchedules?.Friday
+                ?.time[0],
+            )
+            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.friday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.friday?.time?.endTime ,sessionDuration)
+          }
+          if (
+            results.data.listSchedules.items[0]?.daySchedules.Saturday.Saturday
+          ) {
+            setSaturday(
+              results.data.listSchedules.items[0]?.daySchedules?.Saturday
+                ?.time[0],
+            )
+            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.saturday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.saturday?.time?.endTime ,sessionDuration)
+          }
+        }
+      } catch (error) {
+        console.log(`Load Error:${error}`)
+      }
     }
   }
 
@@ -379,54 +745,130 @@ const Home = () => {
     // }
   }
 
+  const showImage = async (image) => {
+    if (image) {
+      const img = await Storage.get(image)
+      console.log('image - ', img)
+      setImage(img)
+    }
+  }
+
   const handleSessionClick = (index) => {
     debugger
     setShowServiceDetail(true)
     const id = index
-    setBookNow(sessionResults[id])
+    setBookNow(sessionResults[index])
+    showImage(sessionResults[index]?.user?.profile_image)
+    //setTimeSlots([])
+    getAvailability(
+      sessionResults[id]?.user?.username,
+      sessionResults[id]?.sessionDuration,
+    )
+    console.log('profile-Image - ', sessionResults[id]?.user?.profile_image)
     console.log('id=', sessionResults[id])
   }
 
   const handleWorkshopClick = (index) => {
     debugger
-    setShowServiceDetail(true)
+    setShowWorkshopDetail(true)
     const id = index
-    setBookNow(workshopResults[id])
+    setWorkshopNow(workshopResults[index])
+    showImage(workshopResults[index]?.user?.profile_image)
+    setMentorName(workshopResults[index]?.user?.username)
     console.log('id=', workshopResults[id])
   }
-  const handleCoursesClick = (index) => {
+
+  const handleTextqueriesClick = (index) => {
     debugger
-    setShowServiceDetail(true)
+    setShowTextqueryDetail(true)
     const id = index
-    setBookNow(coursesResults[id])
-    console.log('id=', coursesResults[id])
-  }
-  const handleTextqueryClick = (index) => {
-    debugger
-    setShowServiceDetail(true)
-    const id = index
-    setBookNow(textQueryResults[id])
+    setTextqueryNow(textQueryResults[index])
+    showImage(textQueryResults[index]?.user?.profile_image)
+    setMentorName(textQueryResults[index]?.user?.username)
     console.log('id=', textQueryResults[id])
   }
+
+
+  const handleCoursesClick = (index) => {
+    debugger
+    setShowCourseDetail(true)
+    setCourseNow(coursesResults[index])
+    showImage(coursesResults[index]?.user?.profile_image)
+    setMentorName(coursesResults[index]?.user?.username)
+    console.log('id=', coursesResults[index])
+  }
+
   const handlePackagesClick = (index) => {
     debugger
-    setShowServiceDetail(true)
-    const id = index
-    setBookNow(packagesResults[id])
-    console.log('id=', packagesResults[id])
+    setShowPackageDetail(true)
+    setPackageNow(packagesResults[index])
+    showImage(packagesResults[index]?.user?.profile_image)
+    setMentorName(packagesResults[index]?.user?.username)
+    console.log('id=', packagesResults[index])
   }
+
   const handleBookClick = () => {
     setShowServiceDetail(false)
     setBookSession1(true)
   }
 
-  const handleBookSession2 = () => {
-    setBookSession1(false)
-    setBookSession2(true)
+  const handleWorkshopBookClick = () => {
+    setShowWorkshopDetail(false)
+    setWorkshop1(true)
   }
 
+  const handleTextqueryClick = () => {
+    setShowTextqueryDetail(false)
+    setTextquery1(true)
+  }
+
+
+  const handleCourseClick = () => {
+    setShowCourseDetail(false)
+    setCourse1(true)
+  }
+  
+  const handlePackageClick = () => {
+    setShowPackageDetail(false)
+    setPackage1(true)
+  }
+
+  const closeWorkshop1 = () => {
+    setImage('')
+    setWorkshop1(false)
+  }
+
+  const closeTextquery1 = () => {
+    setImage('')
+    setTextquery1(false)
+  }
+
+  const closeCourse1 = () => {
+    setImage('')
+    setCourse1(false)
+  }
+
+  const closePackage1 = () => {
+    setImage('')
+    setPackage1(false)
+  }
+
+  const closeBookSession1 = () => {
+    setTimeSlots([])
+    setImage('')
+    setBookSession1(false)
+    //setBookSession2(true)
+  }
+
+  const closeBookSession3 = () => {
+    setTimeSlots([])
+    setImage('')
+    setBookSession3(false)
+  }
+
+
   const handleBookSession3 = () => {
-    setBookSession2(false)
+    setBookSession1(false)
     setBookSession3(true)
   }
 
@@ -983,7 +1425,7 @@ const Home = () => {
                             >
                               <div
                                 className={` bg-white text-center cursor-pointer border border-b-2 rounded-2xl shadow-lg m-4 w-full md:w-5/6 lg:w-5/6 ${classes.itemContainer}`}
-                                onClick={() => handleTextqueryClick(index)}
+                                onClick={() => handleTextqueriesClick(index)}
                               >
                                 <div className="flex justify-between py-6 px-6 border-b border-gray-300">
                                   <div className="flex justify-between p-2">
@@ -1292,7 +1734,7 @@ const Home = () => {
                       alt=""
                       className="w-4 h-4 mr-2"
                     />
-                    portfolio review
+                    Portfolio review
                   </p>
 
                   <p className="flex text-sm font-semibold mb-10">
@@ -1302,6 +1744,443 @@ const Home = () => {
                       className="w-4 h-4 mr-2"
                     />
                     Placement guidance
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+
+{showWorkshopDetail ? (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+              <div className="flex justify-between px-8 py-4  border-gray-300">
+                <div className="flex flex-row justify-start items-start px-6 py-6 bg-gray-100 rounded-md">
+                  <div
+                    className={`${classes['img-profile']} bg-gray-300 rounded-md`}
+                  ></div>
+                  <div className="ml-2 mt-6 p-2">
+                    <span className="text-3xl font-semibold ">
+                     {workshopNow.title}
+                    </span>
+                    <div className="flex flex-row justify-start items-start mt-2">
+                      {/* <span className="text-4xl font-bold mt-4">
+                        Rs. {bookNow.listedPrice} {bookNow.finalPrice}
+                      </span> */}
+                      <span className="text-4xl font-bold py-3">
+                        ₹
+                        {workshopNow.listedPrice === workshopNow.finalPrice ? (
+                          workshopNow.finalPrice
+                        ) : (
+                          <>
+                            <span className="  bold">
+                              <span className="bold">
+                                {workshopNow.listedPrice}
+                              </span>
+                            </span>{' '}
+                            <s className="text-xl   text-red-800 bold">
+                              {workshopNow.finalPrice}
+                            </s>
+                          </>
+                        )}
+                        <span className="text-xl font-semibold ml-5">
+                          {`(`}
+                          {(workshopNow.finalPrice - workshopNow.listedPrice) / 100}
+                        </span>
+                        <span className="text-xl font-semibold">%{`)`}</span>
+                      </span>
+                    </div>
+                    <div
+                      className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-auto text-2xl font-semibold hover:bg-gray-900 hover:text-white"
+                      onClick={() => handleWorkshopBookClick()}
+                    >
+                      Book Now
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setShowWorkshopDetail(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2 ml-2"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-col justify-start items-start ml-10">
+                <div className="mt-5">
+                  <p className="flex justify-start text-xl font-bold mb-3">
+                  Topics Covered  
+                  </p>
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Things you get in the webinar 01
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Things that are includued in the webinar 02
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Things you get in the webinar Things you get in the webinar 03
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-10">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Things you get in the webinar Things you get in the webinar 04
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+
+{showTextqueryDetail ? (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+              <div className="flex justify-between px-8 py-4  border-gray-300">
+                <div className="flex flex-row justify-start items-start px-6 py-6 bg-gray-100 rounded-md">
+                  <div
+                    className={`${classes['img-profile']} bg-gray-300 rounded-md`}
+                  ></div>
+                  <div className="ml-2 mt-6 p-2">
+                    <span className="text-3xl font-semibold ">
+                     {textqueryNow.title}
+                    </span>
+                    <div className="flex flex-row justify-start items-start mt-2">
+                      {/* <span className="text-4xl font-bold mt-4">
+                        Rs. {bookNow.listedPrice} {bookNow.finalPrice}
+                      </span> */}
+                      <span className="text-4xl font-bold py-3">
+                        ₹
+                        {textqueryNow.listedPrice === textqueryNow.finalPrice ? (
+                          textqueryNow.finalPrice
+                        ) : (
+                          <>
+                            <span className="  bold">
+                              <span className="bold">
+                                {textqueryNow.listedPrice}
+                              </span>
+                            </span>{' '}
+                            <s className="text-xl   text-red-800 bold">
+                              {textqueryNow.finalPrice}
+                            </s>
+                          </>
+                        )}
+                        <span className="text-xl font-semibold ml-5">
+                          {`(`}
+                          {(textqueryNow.finalPrice - textqueryNow.listedPrice) / 100}
+                        </span>
+                        <span className="text-xl font-semibold">%{`)`}</span>
+                      </span>
+                    </div>
+                    <div
+                      className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-auto text-2xl font-semibold hover:bg-gray-900 hover:text-white"
+                      onClick={() => handleTextqueryClick()}
+                    >
+                      Book Now
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setShowTextqueryDetail(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2 ml-2"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-col justify-start items-start ml-10">
+                <div className="mt-5">
+                  <p className="flex justify-start text-xl font-bold mb-3">
+                  Topics Covered  
+                  </p>
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Reviews resume
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Improvement guidance
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Templates provided
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-10">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Available for questions related anytime
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+
+
+{showCourseDetail ? (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+              <div className="flex justify-between px-8 py-4  border-gray-300">
+                <div className="flex flex-row justify-start items-start px-6 py-6 bg-gray-100 rounded-md">
+                  <div
+                    className={`${classes['img-profile']} bg-gray-300 rounded-md`}
+                  ></div>
+                  <div className="ml-2 mt-6 p-2">
+                    <span className="text-3xl font-semibold ">
+                     {courseNow.courseTitle}
+                    </span>
+                    <div className="flex flex-row justify-start items-start mt-2">
+                      {/* <span className="text-4xl font-bold mt-4">
+                        Rs. {bookNow.listedPrice} {bookNow.finalPrice}
+                      </span> */}
+                      <span className="text-4xl font-bold py-3">
+                        ₹
+                        {courseNow.listedPrice === courseNow.finalPrice ? (
+                          courseNow.finalPrice
+                        ) : (
+                          <>
+                            <span className="  bold">
+                              <span className="bold">
+                                {courseNow.listedPrice}
+                              </span>
+                            </span>{' '}
+                            <s className="text-xl   text-red-800 bold">
+                              {courseNow.finalPrice}
+                            </s>
+                          </>
+                        )}
+                        <span className="text-xl font-semibold ml-5">
+                          {`(`}
+                          {(courseNow.finalPrice - courseNow.listedPrice) / 100}
+                        </span>
+                        <span className="text-xl font-semibold">%{`)`}</span>
+                      </span>
+                    </div>
+                    <div
+                      className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-auto text-2xl font-semibold hover:bg-gray-900 hover:text-white"
+                      onClick={() => handleCourseClick()}
+                    >
+                      Book Now
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setShowCourseDetail(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2 ml-2"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-col justify-start items-start ml-10">
+                <div className="mt-5">
+                  <p className="flex justify-start text-xl font-bold mb-3">
+                  Topics Covered  
+                  </p>
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Reviews resume
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Improvement guidance
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Templates provided
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-10">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Available for questions related anytime
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+
+{showPackageDetail ? (
+        <>
+          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+              <div className="flex justify-between px-8 py-4  border-gray-300">
+                <div className="flex flex-row justify-start items-start px-6 py-6 bg-gray-100 rounded-md">
+                  <div
+                    className={`${classes['img-profile']} bg-gray-300 rounded-md`}
+                  ></div>
+                  <div className="ml-2 mt-6 p-2">
+                    <span className="text-3xl font-semibold ">
+                     {packageNow?.packageTitle}
+                    </span>
+                    <div className="flex flex-row justify-start items-start mt-2">
+                      {/* <span className="text-4xl font-bold mt-4">
+                        Rs. {bookNow.listedPrice} {bookNow.finalPrice}
+                      </span> */}
+                      <span className="text-4xl font-bold py-3">
+                        ₹
+                        {packageNow?.listedPrice === packageNow?.finalPrice ? (
+                          packageNow?.finalPrice
+                        ) : (
+                          <>
+                            <span className="  bold">
+                              <span className="bold">
+                                {packageNow?.listedPrice}
+                              </span>
+                            </span>{' '}
+                            <s className="text-xl   text-red-800 bold">
+                              {packageNow?.finalPrice}
+                            </s>
+                          </>
+                        )}
+                        <span className="text-xl font-semibold ml-5">
+                          {`(`}
+                          {(packageNow?.finalPrice - packageNow?.listedPrice) / 100}
+                        </span>
+                        <span className="text-xl font-semibold">%{`)`}</span>
+                      </span>
+                    </div>
+                    <div
+                      className="flex justify-center items-center px-4 py-2 mt-4 border-2 border-gray-900 rounded-full w-auto text-2xl font-semibold hover:bg-gray-900 hover:text-white"
+                      onClick={() => handlePackageClick()}
+                    >
+                      Book Now
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    className=""
+                    type="button"
+                    onClick={() => setShowPackageDetail(false)}
+                  >
+                    <img
+                      src="../../../assets/icon/cross.png"
+                      alt=""
+                      className="w-4 h-4 mr-2 ml-2"
+                    ></img>
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-col justify-start items-start ml-10">
+                <div className="mt-5">
+                  <p className="flex justify-start text-xl font-bold mb-3">
+                  Topics Covered  
+                  </p>
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    1 on 1 Session with mentor 
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Text queries
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-2">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Access to product management course
+                  </p>
+
+                  <p className="flex text-sm font-semibold mb-10">
+                    <img
+                      src="../../../assets/icon/approve.png"
+                      alt=""
+                      className="w-4 h-4 mr-2"
+                    />
+                    Access to product managemnt workshop
                   </p>
                 </div>
               </div>
@@ -1324,7 +2203,7 @@ const Home = () => {
                   <button
                     className=""
                     type="button"
-                    onClick={() => setBookSession1(false)}
+                    onClick={() => closeBookSession1()}
                   >
                     <img
                       src="../../../assets/icon/cross.png"
@@ -1339,14 +2218,23 @@ const Home = () => {
                 <div className="border-r-2">
                   <div className="bg-gray-100 m-2 mr-3 w-auto rounded-lg ">
                     <div className="flex flex-row justify-start items-start px-4 py-2">
-                      <img
-                        src="../../../images/student.png"
-                        alt=""
-                        className="w-20 h-20 mt-2"
-                      />
+                      <div
+                        className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
+                      >
+                        {image ? (
+                          <img
+                            src={image}
+                            alt=""
+                            className={`${classes['persona']} rounded-full`}
+                          />
+                        ) : null}
+                      </div>
                       <div>
                         <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
-                          Call with Michael
+                          Call with{' '}
+                          {bookNow?.user?.about_yourself?.first_name +
+                            ' ' +
+                            bookNow?.user?.about_yourself?.last_name}
                         </p>
                         <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
                           For 1 on 1 mock interview
@@ -1354,17 +2242,18 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="flex justify-around w-full p-2">
-                      <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                      <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                         <img
                           src="../../../assets/icon/clock.png"
                           alt=""
                           className="w-4 h-3"
                         ></img>
                         <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
-                          30 minutes
+                          {bookNow.sessionDuration}
+                          {bookNow.sessionDurationIn}
                         </p>
-                      </button>
-                      <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                      </div>
+                      {/* <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                         <img
                           src="../../../images/camera.png"
                           alt=""
@@ -1373,23 +2262,64 @@ const Home = () => {
                         <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
                           Video session
                         </p>
-                      </button>
-                      <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                      </div> */}
+                      <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                         <img
-                          src="../../../assets/icon/money.png"
+                          src="../../../assets/icon/mentor-dashboard/price.svg"
                           alt=""
                           className="w-4 h-3"
                         ></img>
                         <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
-                          ₹ 1000
+                          ₹ {bookNow.finalPrice}
                         </p>
-                      </button>
+                      </div>
                     </div>
+                  </div>
+                  <div>
+                    <div className="flex flex-wrap">
+                      {timeSlots && timeSlots.length > 0 ? (
+                        timeSlots.map((slot, index) => {
+                          return (
+                            <div key={index}>
+                              <span
+                                className="flex px-8 py-2 border-2 rounded-full m-2 text-sm font-normal"
+                                onClick={() => setTimeInterval(slot)}
+                              >
+                                {slot}
+                              </span>
+                            </div>
+                          )
+                        })
+                      ) : (
+                        <div></div>
+                      )}
+                    </div>
+
+                    <span>
+                      {scheduleDetails?.daySchedules?.everyday?.time?.startTime}
+                    </span>
+                    <span>
+                      {scheduleDetails?.daySchedules?.everyday?.time?.startTime}
+                    </span>
                   </div>
                 </div>
                 <div>
                   <div className=" text-base font-normal p-8 w-full">
-                    <DatePicker onChange={onChange} value={value} />
+                    {/* <DatePicker onChange={onChange} value={value} /> */}
+                    <BookingDatePicker
+                      inputProps={{
+                        style: { width: 250,},
+                        placeholder: 'Select Date',
+                      }}
+                      value={bookingdate}
+                      minDate={new Date()}
+                      //dateFormat="DD-MM-YYYY"
+                      //timeFormat="hh:mm A"
+                      isValidDate={disablePastDt}
+                      //isValidDate={disableCustomDt}
+                      // onChange={(val) => setDt(val)}
+                      onChange={(value) => handleBookingDate(value)}
+                    />
                   </div>
                   <div className="select-wrapper  text-base font-normal w-full p-6">
                     <TimezoneSelect
@@ -1410,7 +2340,7 @@ const Home = () => {
                   <div className="flex justify-center items-center w-full">
                     <button
                       className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                      onClick={() => setBookSession1(false)}
+                      onClick={() => closeBookSession1()}
                     >
                       <span className="text-base font-semibold py-1">
                         Close
@@ -1423,7 +2353,7 @@ const Home = () => {
                   <div className="flex justify-center items-center w-full">
                     <button
                       className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                      onClick={() => handleBookSession2()}
+                      onClick={() => handleBookSession3()}
                     >
                       <span className="text-base font-semibold py-1">
                         Continue
@@ -1481,7 +2411,7 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="flex justify-around w-full p-2">
-                      <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                      <div className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                         <img
                           src="../../../assets/icon/clock.png"
                           alt=""
@@ -1490,8 +2420,8 @@ const Home = () => {
                         <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
                           30 minutes
                         </p>
-                      </button>
-                      <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                      </div>
+                      {/* <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                         <img
                           src="../../../images/camera.png"
                           alt=""
@@ -1500,8 +2430,8 @@ const Home = () => {
                         <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
                           Video session
                         </p>
-                      </button>
-                      <button className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                      </button> */}
+                      <div className="flex justify-center items-center border-2 border-gray-500 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
                         <img
                           src="../../../assets/icon/money.png"
                           alt=""
@@ -1510,7 +2440,7 @@ const Home = () => {
                         <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
                           ₹ 1000
                         </p>
-                      </button>
+                      </div>
                     </div>
                   </div>
                   <span className="flex justify-start text-sm font-semibold p-4">
@@ -1627,216 +2557,1372 @@ const Home = () => {
 
       {bookSession3 && (
         <>
-          <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
-              <div className="flex justify-between px-8 py-4 border-b border-gray-300">
-                <div className="flex flex-col justify-start items-start border=b-2">
-                  <span className="text-2xl font-semibold mt-3">
-                    Select the date you want to schedule a meet
-                  </span>
-                </div>
-                <div>
-                  <button
-                    className=""
-                    type="button"
-                    onClick={() => setBookSession3(false)}
-                  >
-                    <img
-                      src="../../../assets/icon/cross.png"
-                      alt=""
-                      className="w-4 h-4 mr-2 mt-5"
-                    ></img>
-                  </button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
-                <div className="border-r-2">
-                  <div className="bg-gray-100 m-4 mr-3 w-auto rounded-lg border-2 border-blue-500">
-                    <div className="flex flex-row justify-start items-start px-4 py-2 ">
-                      <img
-                        src="../../../images/student.png"
-                        alt=""
-                        className="w-20 h-20 mt-2"
-                      />
-                      <div>
-                        <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
-                          Call with Michael
-                        </p>
-                        <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
-                          For 1 on 1 mock interview
-                        </p>
+          <Formik
+            initialValues={{ ...state }}
+            enableReinitialize={true}
+            onSubmit={async (values, e) => {
+              debugger
+              try {
+                if (!values?.id) {
+                  try {
+                    debugger
+                    values.username = mentorName
+                    values.serviceType = '1 on 1 Session'
+                    values.bookingDate = moment(bookingdate).format('L')
+                    values.timeSlot = selectedTimeInterval
+                      ? selectedTimeInterval
+                      : ''
+                    await API.graphql({
+                      query: createStudentBooking,
+                      variables: { input: { ...values } },
+                    })
+                    toast.success('Student booking added successfully')
+                    // window.location.href = window.location.href
+                  } catch (error) {
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                  }
+                } else {
+                  const { createdAt, updatedAt, owner, ...rest } = {
+                    ...values,
+                  }
+                  rest.username = getLoggedinUserEmail()
+                  try {
+                    await API.graphql({
+                      query: updateStudentBooking,
+                      variables: {
+                        input: { ...rest },
+                      },
+                    })
+                    toast.success('Student booking updated successfully')
+                  } catch (error) {
+                    debugger
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                    console.log(error)
+                  }
+                }
+              } catch (e) {
+                console.log('error-', e)
+              }
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => {
+              return (
+                <form>
+                  <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                    <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+                      <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                        <div className="flex flex-col justify-start items-start border=b-2">
+                          <span className="text-2xl font-semibold mt-3">
+                            Select the date you want to schedule a meet
+                          </span>
+                        </div>
+                        <div>
+                          <button
+                            className=""
+                            type="button"
+                            onClick={() => closeBookSession3()}
+                          >
+                            <img
+                              src="../../../assets/icon/cross.png"
+                              alt=""
+                              className="w-4 h-4 mr-2 mt-5"
+                            ></img>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex justify-around w-full p-2">
-                      <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
-                        <img
-                          src="../../../assets/icon/clock.png"
-                          alt=""
-                          className="w-4 h-3"
-                        ></img>
-                        <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white">
-                          30 minutes
-                        </p>
-                      </button>
-                      <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
-                        <img
-                          src="../../../images/camera.png"
-                          alt=""
-                          className="w-4 h-3"
-                        ></img>
-                        <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white">
-                          Video session
-                        </p>
-                      </button>
-                      <button className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
-                        <img
-                          src="../../../assets/icon/money.png"
-                          alt=""
-                          className="w-4 h-3"
-                        ></img>
-                        <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white">
-                          ₹ 1000
-                        </p>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="mt-3">
-                    <div className="flex justify-cener item-center m-3 bg-gray-100 border-2 border-blue-500 p-2 rounded-lg">
-                      <img
-                        src="../../../assets/icon/dateBlue.png"
-                        className="w-6 h-6 p-1 mr-2"
-                      ></img>
-                      <span className="text-sm font-blue text-blue-700">
-                        Wed, 22 Sep 2022 | 07:00 PM - 07:30 PM
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div className=" text-base font-normal p-6 w-full">
-                    {/* <Calendar onChange={onChange} value={value} />
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
+                        <div className="border-r-2">
+                          <div className="bg-gray-100 m-2 mr-3 w-auto rounded-lg ">
+                            <div className="flex flex-row justify-start items-start px-4 py-2">
+                              <div
+                                className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
+                              >
+                                {image ? (
+                                  <img
+                                    src={image}
+                                    alt=""
+                                    className={`${classes['persona']} rounded-full`}
+                                  />
+                                ) : null}
+                              </div>
+                              <div>
+                                <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
+                                  Call with{' '}
+                                  {bookNow?.user?.about_yourself?.first_name +
+                                    ' ' +
+                                    bookNow?.user?.about_yourself?.last_name}
+                                </p>
+                                <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
+                                  For 1 on 1 mock interview
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex justify-around w-full p-2">
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/clock.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  {bookNow.sessionDuration}
+                                  {bookNow.sessionDurationIn}
+                                </p>
+                              </div>
+                              {/* <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../images/camera.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  Video session
+                                </p>
+                              </div> */}
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/mentor-dashboard/price.svg"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  ₹ {bookNow.finalPrice}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-3">
+                            <div className="flex justify-cener item-center m-3 bg-gray-100 border-2 border-blue-500 p-2 rounded-lg">
+                              {/* <img
+                                src="../../../assets/icon/dateBlue.png"
+                                className="w-6 h-6 p-1 mr-2"
+                              ></img> */}
+                              <span className="text-sm font-blue text-blue-700">
+                                {moment(bookingdate).format('LL')}
+                                {' | '}
+                                {selectedTimeInterval}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className=" text-base font-normal p-6 w-full">
+                            {/* <Calendar onChange={onChange} value={value} />
                     <span>name</span> */}
 
-                    <div className="flex flex-col">
-                      <div className="text-sm w-full">
-                        <label className="flex justify-start text-sm font-normal">
-                          Name
-                        </label>
-                        <div className="flex flex-wrap items-stretch text-sm w-full relative">
-                          <TextField
-                            placeholder="Name"
-                            name="name"
-                            type="text"
-                            id="name"
-                          />
-                        </div>
-                      </div>
+                            <div className="flex flex-col">
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Name
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="name"
+                                    onChangeValue={handleChange}
+                                    value={values.name}
+                                    type="text"
+                                    id="name"
+                                    placeholder="Name"
+                                  />
+                                </div>
+                              </div>
 
-                      <div className="text-sm w-full">
-                        <label className="flex justify-start text-sm font-normal">
-                          Email
-                        </label>
-                        <div className="flex flex-wrap items-stretch text-sm w-full relative">
-                          <TextField
-                            placeholder="examplemail@gmail.com"
-                            name="email"
-                            type="email"
-                            id="email"
-                          />
-                        </div>
-                      </div>
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Email
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="emailId"
+                                    onChangeValue={handleChange}
+                                    value={values.emailId}
+                                    type="text"
+                                    id="emailId"
+                                    placeholder="examplemail@gmail.com"
+                                  />
+                                </div>
+                              </div>
 
-                      <div className="text-sm w-full">
-                        <label className="flex justify-start text-sm font-normal">
-                          What is this call about? (optional)
-                        </label>
-                        <div className="flex flex-wrap items-stretch text-sm w-full relative">
-                          <TextField
-                            placeholder="Hey this is michael, co-founder and executive officer at twitter. "
-                            name="callForWhat"
-                            type="text"
-                            id="callForWhat"
-                          />
-                        </div>
-                      </div>
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  What is this call about? (optional)
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="callAbout"
+                                    onChangeValue={handleChange}
+                                    value={values.callAbout}
+                                    type="text"
+                                    id="callAbout"
+                                    placeholder="Hey this is michael, co-founder and executive officer at twitter. "
+                                  />
+                                </div>
+                              </div>
 
-                      <div className="text-sm w-full">
-                        <label className="flex justify-start text-sm font-normal">
-                          Mobile Number
-                        </label>
-                        <div className="flex flex-wrap items-stretch text-sm w-full relative">
-                          <TextField
-                            placeholder="+91 | 986 747 6346"
-                            name="mobile"
-                            type="text"
-                            id="mobile"
-                          />
-                        </div>
-                      </div>
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Mobile Number
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="mobileNumber"
+                                    onChangeValue={handleChange}
+                                    value={values.mobileNumber}
+                                    type="text"
+                                    id="mobileNumber"
+                                    placeholder="+91 | 986 747 6346"
+                                  />
+                                </div>
+                              </div>
 
-                      <div className="flex justify-start text-sm w-full">
-                        <input
-                          id="update"
-                          type="checkbox"
-                          value=""
-                          className="w-4 h-4 text-gray-900 bg-gray-100 rounded border-gray-300 focus:ring-black"
-                        />
-                        <label
-                          htmlFor="update"
-                          className="text-sm font-medium text-gray-900"
-                        >
-                          Receive updates on phone and whatsapp
-                        </label>
+                              <div className="flex justify-start text-sm w-full">
+                                <input
+                                  id="receiveUpdate"
+                                  type="checkbox"
+                                  onChangeValue={handleChange}
+                                  value={values.receiveUpdate}
+                                  className="w-4 h-4 text-gray-900 bg-gray-100 rounded border-gray-300 focus:ring-black"
+                                />
+                                <label
+                                  htmlFor="receiveUpdate"
+                                  className="text-sm font-medium text-gray-900"
+                                >
+                                  Receive updates on phone and whatsapp
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="select-wrapper  text-base font-normal w-full p-6">
+                            <TimezoneSelect
+                              value={timeZone}
+                              onChange={setTimeZone}
+                              timezones={{
+                                ...allTimezones,
+                                'America/Lima': 'Pittsburgh',
+                                'Europe/Berlin': 'Frankfurt',
+                              }}
+                            />
+                          </div>
+                        </div>
+                        {/* gird */}
+                      </div>
+                      <div className="flex justify-evenly w-full">
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={() => closeBookSession3()}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Close
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={handleSubmit}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Schedule booking
+                              </span>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="select-wrapper  text-base font-normal w-full p-6">
-                    <TimezoneSelect
-                      value={timeZone}
-                      onChange={setTimeZone}
-                      timezones={{
-                        ...allTimezones,
-                        'America/Lima': 'Pittsburgh',
-                        'Europe/Berlin': 'Frankfurt',
-                      }}
-                    />
-                  </div>
-                </div>
-                {/* gird */}
-              </div>
-              <div className="flex justify-evenly w-full">
-                <div className="py-4 px-6 border-t border-gray-300 w-full">
-                  <div className="flex justify-center items-center w-full">
-                    <button
-                      className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                      //  onClick={() => setBookSession3(false)}
-                    >
-                      <span className="text-base font-semibold py-1">
-                        Change date and time
-                      </span>
-                    </button>
-                  </div>
-                </div>
+                </form>
+              )
+            }}
+          </Formik>
+        </>
+      )}
 
-                <div className="py-4 px-6 border-t border-gray-300 w-full">
-                  <div className="flex justify-center items-center w-full">
-                    <button className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md">
-                      <span className="text-base font-semibold py-1">
-                        Schedule booking
-                      </span>
-                    </button>
+{workshop1 && (
+        <>
+          <Formik
+            initialValues={{ ...state }}
+            enableReinitialize={true}
+            onSubmit={async (values, e) => {
+              debugger
+              try {
+                if (!values?.id) {
+                  try {
+                    debugger
+                    values.username = mentorName
+                    values.serviceType = 'Workshop'
+                    values.bookingDate = moment(workshopNow.workshopDate).format('L')
+                    values.timeSlot = workshopNow.workshopTime
+                    await API.graphql({
+                      query: createStudentBooking,
+                      variables: { input: { ...values } },
+                    })
+                    toast.success('Student workshop booking added successfully')
+                    // window.location.href = window.location.href
+                  } catch (error) {
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                  }
+                } else {
+                  const { createdAt, updatedAt, owner, ...rest } = {
+                    ...values,
+                  }
+                  rest.username = getLoggedinUserEmail()
+                  try {
+                    await API.graphql({
+                      query: updateStudentBooking,
+                      variables: {
+                        input: { ...rest },
+                      },
+                    })
+                    toast.success('Student booking updated successfully')
+                  } catch (error) {
+                    debugger
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                    console.log(error)
+                  }
+                }
+              } catch (e) {
+                console.log('error-', e)
+              }
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => {
+              return (
+                <form>
+                  <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                    <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+                      <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                        <div className="flex flex-col justify-start items-start border=b-2">
+                          <span className="text-2xl font-semibold mt-3">
+                            Enter details
+                          </span>
+                        </div>
+                        <div>
+                          <button
+                            className=""
+                            type="button"
+                            onClick={() => closeWorkshop1()}
+                          >
+                            <img
+                              src="../../../assets/icon/cross.png"
+                              alt=""
+                              className="w-4 h-4 mr-2 mt-5"
+                            ></img>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
+                        <div className="border-r-2">
+                          <div className="bg-gray-100 m-2 mr-3 w-auto rounded-lg ">
+                            <div className="flex flex-row justify-start items-start px-4 py-2">
+                              <div
+                                className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
+                              >
+                                {image ? (
+                                  <img
+                                    src={image}
+                                    alt=""
+                                    className={`${classes['persona']} rounded-full`}
+                                  />
+                                ) : null}
+                              </div>
+                              <div>
+                                <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
+                                  Workshop with{' '}
+                                  {workshopNow?.user?.about_yourself?.first_name +
+                                    ' ' +
+                                    workshopNow?.user?.about_yourself?.last_name}
+                                </p>
+                                <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
+                                  
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex justify-around w-full p-2">
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/clock.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  {workshopNow.callDuration}
+                                  {workshopNow.callDurationIn}
+                                </p>
+                              </div>
+                              {/* <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../images/camera.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  Video session
+                                </p>
+                              </div> */}
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/mentor-dashboard/price.svg"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  ₹ {workshopNow.finalPrice}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-3">
+                            <div className="flex justify-cener item-center m-3 bg-gray-100 border-2 border-blue-500 p-2 rounded-lg">
+                              {/* <img
+                                src="../../../assets/icon/dateBlue.png"
+                                className="w-6 h-6 p-1 mr-2"
+                              ></img> */}
+                              <span className="text-sm font-blue text-blue-700">
+                                {moment(workshopNow.workshopDate).format('LL')}
+                                {' | '}
+                                {workshopNow.workshopTime}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className=" text-base font-normal p-6 w-full">
+                            {/* <Calendar onChange={onChange} value={value} />
+                    <span>name</span> */}
+
+                            <div className="flex flex-col">
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Name
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="name"
+                                    onChangeValue={handleChange}
+                                    value={values.name}
+                                    type="text"
+                                    id="name"
+                                    placeholder="Name"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Email
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="emailId"
+                                    onChangeValue={handleChange}
+                                    value={values.emailId}
+                                    type="text"
+                                    id="emailId"
+                                    placeholder="examplemail@gmail.com"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Mobile Number
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="mobileNumber"
+                                    onChangeValue={handleChange}
+                                    value={values.mobileNumber}
+                                    type="text"
+                                    id="mobileNumber"
+                                    placeholder="+91 | 986 747 6346"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="flex justify-start text-sm w-full">
+                                <input
+                                  id="receiveUpdate"
+                                  type="checkbox"
+                                  onChangeValue={handleChange}
+                                  value={values.receiveUpdate}
+                                  className="w-4 h-4 text-gray-900 bg-gray-100 rounded border-gray-300 focus:ring-black"
+                                />
+                                <label
+                                  htmlFor="receiveUpdate"
+                                  className="text-sm font-medium text-gray-900"
+                                >
+                                  Receive updates on phone and whatsapp
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* gird */}
+                      </div>
+                      <div className="flex justify-evenly w-full">
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={() => closeWorkshop1()}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Close
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={handleSubmit}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Continue to pay
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                </form>
+              )
+            }}
+          </Formik>
+        </>
+      )}
+
+{course1 && (
+        <>
+          <Formik
+            initialValues={{ ...state }}
+            enableReinitialize={true}
+            onSubmit={async (values, e) => {
+              debugger
+              try {
+                if (!values?.id) {
+                  try {
+                    debugger
+                    values.username = mentorName
+                    values.serviceType = 'Course'
+                    values.bookingDate = moment(courseNow.courseDate).format('L')
+                    values.timeSlot = courseNow.courseTime
+                    await API.graphql({
+                      query: createStudentBooking,
+                      variables: { input: { ...values } },
+                    })
+                    toast.success('Student course booking added successfully')
+                    // window.location.href = window.location.href
+                  } catch (error) {
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                  }
+                } else {
+                  const { createdAt, updatedAt, owner, ...rest } = {
+                    ...values,
+                  }
+                  rest.username = getLoggedinUserEmail()
+                  try {
+                    await API.graphql({
+                      query: updateStudentBooking,
+                      variables: {
+                        input: { ...rest },
+                      },
+                    })
+                    toast.success('Student booking updated successfully')
+                  } catch (error) {
+                    debugger
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                    console.log(error)
+                  }
+                }
+              } catch (e) {
+                console.log('error-', e)
+              }
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => {
+              return (
+                <form>
+                  <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                    <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+                      <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                        <div className="flex flex-col justify-start items-start border=b-2">
+                          <span className="text-2xl font-semibold mt-3">
+                            Enter details
+                          </span>
+                        </div>
+                        <div>
+                          <button
+                            className=""
+                            type="button"
+                            onClick={() => closeCourse1()}
+                          >
+                            <img
+                              src="../../../assets/icon/cross.png"
+                              alt=""
+                              className="w-4 h-4 mr-2 mt-5"
+                            ></img>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
+                        <div className="border-r-2">
+                          <div className="bg-gray-100 m-2 mr-3 w-auto rounded-lg ">
+                            <div className="flex flex-row justify-start items-start px-4 py-2">
+                              <div
+                                className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
+                              >
+                                {image ? (
+                                  <img
+                                    src={image}
+                                    alt=""
+                                    className={`${classes['persona']} rounded-full`}
+                                  />
+                                ) : null}
+                              </div>
+                              <div>
+                                <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
+                                  Course by{' '}
+                                  {courseNow?.user?.about_yourself?.first_name +
+                                    ' ' +
+                                    courseNow?.user?.about_yourself?.last_name}
+                                </p>
+                                <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
+                                  {courseNow.courseTitle}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex justify-around w-full p-2">
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/clock.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  {courseNow.sessionDuration}
+                                  {courseNow.sessionDurationIn}
+                                </p>
+                              </div>
+                              {/* <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../images/camera.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  Video session
+                                </p>
+                              </div> */}
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/mentor-dashboard/price.svg"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  ₹ {courseNow.finalPrice}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-3">
+                            <div className="flex justify-cener item-center m-3 bg-gray-100 border-2 border-blue-500 p-2 rounded-lg">
+                              {/* <img
+                                src="../../../assets/icon/dateBlue.png"
+                                className="w-6 h-6 p-1 mr-2"
+                              ></img> */}
+                              <span className="text-sm font-blue text-blue-700">
+                                {moment(courseNow.courseDate).format('LL')}
+                                {' | '}
+                                {courseNow.courseTime}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className=" text-base font-normal p-6 w-full">
+                            {/* <Calendar onChange={onChange} value={value} />
+                    <span>name</span> */}
+
+                            <div className="flex flex-col">
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Name
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="name"
+                                    onChangeValue={handleChange}
+                                    value={values.name}
+                                    type="text"
+                                    id="name"
+                                    placeholder="Name"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Email
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="emailId"
+                                    onChangeValue={handleChange}
+                                    value={values.emailId}
+                                    type="text"
+                                    id="emailId"
+                                    placeholder="examplemail@gmail.com"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Mobile Number
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="mobileNumber"
+                                    onChangeValue={handleChange}
+                                    value={values.mobileNumber}
+                                    type="text"
+                                    id="mobileNumber"
+                                    placeholder="+91 | 986 747 6346"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="flex justify-start text-sm w-full">
+                                <input
+                                  id="receiveUpdate"
+                                  type="checkbox"
+                                  onChangeValue={handleChange}
+                                  value={values.receiveUpdate}
+                                  className="w-4 h-4 text-gray-900 bg-gray-100 rounded border-gray-300 focus:ring-black"
+                                />
+                                <label
+                                  htmlFor="receiveUpdate"
+                                  className="text-sm font-medium text-gray-900"
+                                >
+                                  Receive updates on phone and whatsapp
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* gird */}
+                      </div>
+                      <div className="flex justify-evenly w-full">
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={() => closeCourse1()}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Close
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={handleSubmit}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Continue to pay
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              )
+            }}
+          </Formik>
+        </>
+      )}
+
+{package1 && (
+        <>
+          <Formik
+            initialValues={{ ...state }}
+            enableReinitialize={true}
+            onSubmit={async (values, e) => {
+              debugger
+              try {
+                if (!values?.id) {
+                  try {
+                    debugger
+                    values.username = mentorName
+                    values.serviceType = 'Package'
+                    values.bookingDate = moment(packageNow.courseDate).format('L')
+                    values.timeSlot = packageNow.courseTime
+                    await API.graphql({
+                      query: createStudentBooking,
+                      variables: { input: { ...values } },
+                    })
+                    toast.success('Student package booking added successfully')
+                    // window.location.href = window.location.href
+                  } catch (error) {
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                  }
+                } else {
+                  const { createdAt, updatedAt, owner, ...rest } = {
+                    ...values,
+                  }
+                  rest.username = getLoggedinUserEmail()
+                  try {
+                    await API.graphql({
+                      query: updateStudentBooking,
+                      variables: {
+                        input: { ...rest },
+                      },
+                    })
+                    toast.success('Student booking updated successfully')
+                  } catch (error) {
+                    debugger
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                    console.log(error)
+                  }
+                }
+              } catch (e) {
+                console.log('error-', e)
+              }
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => {
+              return (
+                <form>
+                  <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                    <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+                      <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                        <div className="flex flex-col justify-start items-start border=b-2">
+                          <span className="text-2xl font-semibold mt-3">
+                            Enter details
+                          </span>
+                        </div>
+                        <div>
+                          <button
+                            className=""
+                            type="button"
+                            onClick={() => closePackage1()}
+                          >
+                            <img
+                              src="../../../assets/icon/cross.png"
+                              alt=""
+                              className="w-4 h-4 mr-2 mt-5"
+                            ></img>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
+                        <div className="border-r-2">
+                          <div className="bg-gray-100 m-2 mr-3 w-auto rounded-lg ">
+                            <div className="flex flex-row justify-start items-start px-4 py-2">
+                              <div
+                                className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
+                              >
+                                {image ? (
+                                  <img
+                                    src={image}
+                                    alt=""
+                                    className={`${classes['persona']} rounded-full`}
+                                  />
+                                ) : null}
+                              </div>
+                              <div>
+                                <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
+                                  Package by{' '}
+                                  {packageNow?.user?.about_yourself?.first_name +
+                                    ' ' +
+                                    packageNow?.user?.about_yourself?.last_name}
+                                </p>
+                                <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
+                                  {packageNow.packageTitle}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex justify-around w-full p-2">
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/clock.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  {packageNow?.packageServices?.length} Bundles combined                  
+                                </p>
+                              </div>
+                              {/* <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../images/camera.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  Video session
+                                </p>
+                              </div> */}
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/mentor-dashboard/price.svg"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  ₹ {packageNow.finalPrice}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-3">
+                            <div className="flex justify-cener item-center m-3 bg-gray-100 border-2 border-blue-500 p-2 rounded-lg">
+                              {/* <img
+                                src="../../../assets/icon/dateBlue.png"
+                                className="w-6 h-6 p-1 mr-2"
+                              ></img> */}
+                              <span className="text-sm font-blue text-blue-700">
+                                {moment(packageNow.courseDate).format('LL')}
+                                {' | '}
+                                {packageNow.courseTime}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className=" text-base font-normal p-6 w-full">
+                            {/* <Calendar onChange={onChange} value={value} />
+                    <span>name</span> */}
+
+                            <div className="flex flex-col">
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Name
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="name"
+                                    onChangeValue={handleChange}
+                                    value={values.name}
+                                    type="text"
+                                    id="name"
+                                    placeholder="Name"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Email
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="emailId"
+                                    onChangeValue={handleChange}
+                                    value={values.emailId}
+                                    type="text"
+                                    id="emailId"
+                                    placeholder="examplemail@gmail.com"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Mobile Number
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="mobileNumber"
+                                    onChangeValue={handleChange}
+                                    value={values.mobileNumber}
+                                    type="text"
+                                    id="mobileNumber"
+                                    placeholder="+91 | 986 747 6346"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="flex justify-start text-sm w-full">
+                                <input
+                                  id="receiveUpdate"
+                                  type="checkbox"
+                                  onChangeValue={handleChange}
+                                  value={values.receiveUpdate}
+                                  className="w-4 h-4 text-gray-900 bg-gray-100 rounded border-gray-300 focus:ring-black"
+                                />
+                                <label
+                                  htmlFor="receiveUpdate"
+                                  className="text-sm font-medium text-gray-900"
+                                >
+                                  Receive updates on phone and whatsapp
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* gird */}
+                      </div>
+                      <div className="flex justify-evenly w-full">
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={() => closePackage1()}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Close
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={handleSubmit}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Continue to pay
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              )
+            }}
+          </Formik>
+        </>
+      )}
+
+{textquery1 && (
+        <>
+          <Formik
+            initialValues={{ ...state }}
+            enableReinitialize={true}
+            onSubmit={async (values, e) => {
+              debugger
+              try {
+                if (!values?.id) {
+                  try {
+                    debugger
+                    values.username = mentorName
+                    values.serviceType = 'Text query'
+                    values.bookingDate = moment(new Date()).format('L')
+                    values.timeSlot = textqueryNow.responseTime
+                    await API.graphql({
+                      query: createStudentBooking,
+                      variables: { input: { ...values } },
+                    })
+                    toast.success('Student text query booking added successfully')
+                    // window.location.href = window.location.href
+                  } catch (error) {
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                  }
+                } else {
+                  const { createdAt, updatedAt, owner, ...rest } = {
+                    ...values,
+                  }
+                  rest.username = getLoggedinUserEmail()
+                  try {
+                    await API.graphql({
+                      query: updateStudentBooking,
+                      variables: {
+                        input: { ...rest },
+                      },
+                    })
+                    toast.success('Student booking updated successfully')
+                  } catch (error) {
+                    debugger
+                    toast.error(`Save Error:${error.errors[0].message}`)
+                    console.log(error)
+                  }
+                }
+              } catch (e) {
+                console.log('error-', e)
+              }
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => {
+              return (
+                <form>
+                  <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                    <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+                      <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                        <div className="flex flex-col justify-start items-start border=b-2">
+                          <span className="text-2xl font-semibold mt-3">
+                            Enter details
+                          </span>
+                        </div>
+                        <div>
+                          <button
+                            className=""
+                            type="button"
+                            onClick={() => closeTextquery1()}
+                          >
+                            <img
+                              src="../../../assets/icon/cross.png"
+                              alt=""
+                              className="w-4 h-4 mr-2 mt-5"
+                            ></img>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-  cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
+                        <div className="border-r-2">
+                          <div className="bg-gray-100 m-2 mr-3 w-auto rounded-lg ">
+                            <div className="flex flex-row justify-start items-start px-4 py-2">
+                              <div
+                                className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
+                              >
+                                {image ? (
+                                  <img
+                                    src={image}
+                                    alt=""
+                                    className={`${classes['persona']} rounded-full`}
+                                  />
+                                ) : null}
+                              </div>
+                              <div>
+                                <p className=" flex justify-start items-start text-lg font-semibold mt-5 px-6">
+                                  Text query by{' '}
+                                </p>
+                                <p className=" flex justify-start items-start text-lg font-semibold mt-2 px-6">
+                                  {textqueryNow?.user?.about_yourself?.first_name +
+                                    ' ' +
+                                    textqueryNow?.user?.about_yourself?.last_name}
+                                </p>
+                                <p className="flex justify-start items-start text-sm font-normal text-gray-700  px-6">
+                                  {textqueryNow.title}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex justify-around w-full p-2">
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/clock.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                {textqueryNow.responseTime}
+                                  {textqueryNow.responseTimeIn}
+                                </p>
+                              </div>
+                              {/* <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../images/camera.png"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  Video session
+                                </p>
+                              </div> */}
+                              <div className="flex justify-center items-center border-2 border-gray-900 hover:border-none hover:bg-blue-700 hover:text-white text-white font-bold p-1 rounded-full">
+                                <img
+                                  src="../../../assets/icon/mentor-dashboard/price.svg"
+                                  alt=""
+                                  className="w-4 h-3"
+                                ></img>
+                                <p className="text-sm text-black ml-1 hover:border-none hover:bg-blue-700 hover:text-white font-bold">
+                                  ₹ {textqueryNow.finalPrice}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-3">
+                            {/* <div className="flex justify-cener item-center m-3 bg-gray-100 border-2 border-blue-500 p-2 rounded-lg">
+                              <img
+                                src="../../../assets/icon/dateBlue.png"
+                                className="w-6 h-6 p-1 mr-2"
+                              ></img>
+                              <span className="text-sm font-blue text-blue-700">
+                                {moment(textqueryNow.courseDate).format('LL')}
+                                {' | '}
+                                {textqueryNow.courseTime}
+                              </span>
+                            </div> */}
+                          </div>
+                        </div>
+                        <div>
+                          <div className=" text-base font-normal p-6 w-full">
+                            {/* <Calendar onChange={onChange} value={value} />
+                    <span>name</span> */}
+
+                            <div className="flex flex-col">
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Name
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="name"
+                                    onChangeValue={handleChange}
+                                    value={values.name}
+                                    type="text"
+                                    id="name"
+                                    placeholder="Name"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Email
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="emailId"
+                                    onChangeValue={handleChange}
+                                    value={values.emailId}
+                                    type="text"
+                                    id="emailId"
+                                    placeholder="examplemail@gmail.com"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="text-sm w-full">
+                                <label className="flex justify-start text-sm font-normal">
+                                  Mobile Number
+                                </label>
+                                <div className="flex flex-wrap items-stretch text-sm w-full relative">
+                                  <TextField
+                                    name="mobileNumber"
+                                    onChangeValue={handleChange}
+                                    value={values.mobileNumber}
+                                    type="text"
+                                    id="mobileNumber"
+                                    placeholder="+91 | 986 747 6346"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="flex justify-start text-sm w-full">
+                                <input
+                                  id="receiveUpdate"
+                                  type="checkbox"
+                                  onChangeValue={handleChange}
+                                  value={values.receiveUpdate}
+                                  className="w-4 h-4 text-gray-900 bg-gray-100 rounded border-gray-300 focus:ring-black"
+                                />
+                                <label
+                                  htmlFor="receiveUpdate"
+                                  className="text-sm font-medium text-gray-900"
+                                >
+                                  Receive updates on phone and whatsapp
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* gird */}
+                      </div>
+                      <div className="flex justify-evenly w-full">
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={() => closeTextquery1()}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Close
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="py-4 px-6 border-t border-gray-300 w-full">
+                          <div className="flex justify-center items-center w-full">
+                            <button
+                              className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                              onClick={handleSubmit}
+                            >
+                              <span className="text-base font-semibold py-1">
+                                Continue to pay
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              )
+            }}
+          </Formik>
         </>
       )}
 
       {showMentor && (
         <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-          <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+          <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-1/2 lg:w-1/2  fixed  h-full overflow-x-hidden overflow-y-auto">
             <div className="flex justify-between px-8 py-4 border-b border-gray-300">
               <div className="flex flex-col justify-start items-start border=b-2">
                 <span className="text-2xl font-semibold mt-3">Mentor</span>

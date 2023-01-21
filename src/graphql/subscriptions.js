@@ -1147,6 +1147,120 @@ export const onDeleteConfigurations = /* GraphQL */ `
     }
   }
 `;
+export const onCreatePayment = /* GraphQL */ `
+  subscription OnCreatePayment($filter: ModelSubscriptionPaymentFilterInput) {
+    onCreatePayment(filter: $filter) {
+      accountType
+      accountHolderName
+      username
+      ifscCode
+      accountNumber
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePayment = /* GraphQL */ `
+  subscription OnUpdatePayment($filter: ModelSubscriptionPaymentFilterInput) {
+    onUpdatePayment(filter: $filter) {
+      accountType
+      accountHolderName
+      username
+      ifscCode
+      accountNumber
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePayment = /* GraphQL */ `
+  subscription OnDeletePayment($filter: ModelSubscriptionPaymentFilterInput) {
+    onDeletePayment(filter: $filter) {
+      accountType
+      accountHolderName
+      username
+      ifscCode
+      accountNumber
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateStudentBooking = /* GraphQL */ `
+  subscription OnCreateStudentBooking(
+    $filter: ModelSubscriptionStudentBookingFilterInput
+  ) {
+    onCreateStudentBooking(filter: $filter) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateStudentBooking = /* GraphQL */ `
+  subscription OnUpdateStudentBooking(
+    $filter: ModelSubscriptionStudentBookingFilterInput
+  ) {
+    onUpdateStudentBooking(filter: $filter) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteStudentBooking = /* GraphQL */ `
+  subscription OnDeleteStudentBooking(
+    $filter: ModelSubscriptionStudentBookingFilterInput
+  ) {
+    onDeleteStudentBooking(filter: $filter) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateTodo = /* GraphQL */ `
   subscription OnCreateTodo(
     $filter: ModelSubscriptionTodoFilterInput

@@ -7,7 +7,7 @@ export const NavigationLinks = [
   {
     title: 'Bookings',
     url: '/mentor/booking',
-    image: 'bookings.png',
+    image: 'bookings.svg',
   },
   {
     title: 'Text Queries',
@@ -32,13 +32,13 @@ export const NavigationLinks = [
   },
   {
     title: 'Payment',
-    url: '',
-    image: 'payment.png',
+    url: '/mentor/payment',
+    image: 'payment.svg',
   },
   {
     title: 'Workshop',
     url: '',
-    image: 'workshop.png',
+    image: 'workshop.svg',
   },
   {
     title: 'Courses',
@@ -72,18 +72,18 @@ export const NavigationLinks = [
       {
         title: 'Payment',
         url: '',
-        image: 'payment.png',
+        image: 'payment.svg',
       },
       {
         title: 'Settings',
         url: '',
-        image: 'settings.png',
+        image: 'settings.svg',
       },
       ,
       {
         title: 'Logout',
         url: 'javascript:logout()',
-        image: 'logout.png',
+        image: 'logout.svg',
       },
     ],
   },

@@ -33,7 +33,7 @@ const VerifyEmail = () => {
     // if (res) {
     //   Object.entries(res?.attributes).forEach((item, index) => {
     //     if (item[0] === 'email_verified' && item[1]) {
-    router.push('/auth/Login')
+    //router.push('/auth/Login')
     //     } else if (item[0] === 'email_verified' && !item[1]) {
     //       toast.error(`Email not verified yet`)
     //     }
@@ -47,12 +47,21 @@ const VerifyEmail = () => {
     //   .catch((err) => {
     //     console.log('err', err)
     //   })
+    if (registerType) {
+      if (registerType === 'STUDENT') {
+        router.push('/student')
+      } else {
+        {
+          router.push('/mentor')
+        }
+      }
+    }
   }
   return (
     
       <div className="flex h-screen bg-white">
         <div className='m-auto px-4'>
-        <div className="flex flex-col justify-center items-center mt-10 bg-gray-50   md:p-20 lg:p-20">
+        <div className="flex flex-col justify-center items-center mt-10 bg-gray-50 ">
           <Image
             src={require('../../public/assets/icon/logo.svg')}
             alt=""

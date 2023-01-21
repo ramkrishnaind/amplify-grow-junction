@@ -1222,6 +1222,132 @@ export const deleteConfigurations = /* GraphQL */ `
     }
   }
 `;
+export const createPayment = /* GraphQL */ `
+  mutation CreatePayment(
+    $input: CreatePaymentInput!
+    $condition: ModelPaymentConditionInput
+  ) {
+    createPayment(input: $input, condition: $condition) {
+      accountType
+      accountHolderName
+      username
+      ifscCode
+      accountNumber
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updatePayment = /* GraphQL */ `
+  mutation UpdatePayment(
+    $input: UpdatePaymentInput!
+    $condition: ModelPaymentConditionInput
+  ) {
+    updatePayment(input: $input, condition: $condition) {
+      accountType
+      accountHolderName
+      username
+      ifscCode
+      accountNumber
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deletePayment = /* GraphQL */ `
+  mutation DeletePayment(
+    $input: DeletePaymentInput!
+    $condition: ModelPaymentConditionInput
+  ) {
+    deletePayment(input: $input, condition: $condition) {
+      accountType
+      accountHolderName
+      username
+      ifscCode
+      accountNumber
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createStudentBooking = /* GraphQL */ `
+  mutation CreateStudentBooking(
+    $input: CreateStudentBookingInput!
+    $condition: ModelStudentBookingConditionInput
+  ) {
+    createStudentBooking(input: $input, condition: $condition) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateStudentBooking = /* GraphQL */ `
+  mutation UpdateStudentBooking(
+    $input: UpdateStudentBookingInput!
+    $condition: ModelStudentBookingConditionInput
+  ) {
+    updateStudentBooking(input: $input, condition: $condition) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteStudentBooking = /* GraphQL */ `
+  mutation DeleteStudentBooking(
+    $input: DeleteStudentBookingInput!
+    $condition: ModelStudentBookingConditionInput
+  ) {
+    deleteStudentBooking(input: $input, condition: $condition) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createTodo = /* GraphQL */ `
   mutation CreateTodo(
     $input: CreateTodoInput!

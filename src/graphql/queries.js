@@ -840,6 +840,92 @@ export const listConfigurations = /* GraphQL */ `
     }
   }
 `;
+export const getPayment = /* GraphQL */ `
+  query GetPayment($id: ID!) {
+    getPayment(id: $id) {
+      accountType
+      accountHolderName
+      username
+      ifscCode
+      accountNumber
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPayments = /* GraphQL */ `
+  query ListPayments(
+    $filter: ModelPaymentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPayments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        accountType
+        accountHolderName
+        username
+        ifscCode
+        accountNumber
+        id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getStudentBooking = /* GraphQL */ `
+  query GetStudentBooking($id: ID!) {
+    getStudentBooking(id: $id) {
+      name
+      emailId
+      callAbout
+      mobileNumber
+      receiveUpdate
+      timeZone
+      bookingDate
+      timeSlot
+      isSuccess
+      successText
+      failureText
+      serviceType
+      username
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listStudentBookings = /* GraphQL */ `
+  query ListStudentBookings(
+    $filter: ModelStudentBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listStudentBookings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        name
+        emailId
+        callAbout
+        mobileNumber
+        receiveUpdate
+        timeZone
+        bookingDate
+        timeSlot
+        isSuccess
+        successText
+        failureText
+        serviceType
+        username
+        id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getTodo = /* GraphQL */ `
   query GetTodo($id: ID!) {
     getTodo(id: $id) {

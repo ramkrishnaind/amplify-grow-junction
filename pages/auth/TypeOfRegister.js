@@ -13,7 +13,7 @@ const TypeOfRegister = () => {
   return (
     <div className="p-20 md:p-40 flex flex-col h-screen">
       <Image
-        src={require('../../public/assets/icon/logo.png')}
+        src={require('../../public/assets/icon/logo.svg')}
         alt=""
         style={{ height: 89, width: 224 }}
       />
