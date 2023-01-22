@@ -1,5 +1,9 @@
 import { S3Client as original } from '@aws-sdk/client-s3'
+import { store } from '../redux/store'
 // import { GetObjectCommand } from '@aws-sdk/client-s3'
+import { API, graphqlOperation } from 'aws-amplify'
+import { getLoggedinUserEmail } from './user'
+import { listUserInfos } from '../src/graphql/queries'
 import {
   PutObjectCommand,
   GetObjectCommand,
@@ -82,5 +86,33 @@ export const setS3ImageUrl = async (
     await s3Client.send(new PutObjectCommand(params))
   } catch (err) {
     console.log('Error', err)
+  }
+}
+export const checkUserKyc = async () => {
+  const authReducer = store.getState().AuthReducer
+  const username = getLoggedinUserEmail()
+  if (!username) {
+    window.location.replace('/auth/Login')
+  } else {
+    const results = await API.graphql(
+      graphqlOperation(listUserInfos, {
+        filter: {
+          username: {
+            eq: username,
+          },
+        },
+      }),
+    )
+    if (results.data.listUserInfos?.items?.length > 0) {
+      const data = { ...results.data.listUserInfos?.items[0] }
+      if (data.kyc_done) {
+        // debugger
+        window.location.replace(
+          `${authReducer.registerType === 'MENTOR' ? '/mentor' : '/student'}`,
+        )
+      }
+    } else {
+      window.location.replace('/auth/Login')
+    }
   }
 }

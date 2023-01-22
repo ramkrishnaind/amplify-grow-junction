@@ -8,6 +8,7 @@ import { RegisterTypeRequest } from '../../redux/actions/AuthAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAuth0 } from '@auth0/auth0-react'
 import { ClearUser, StoreUserAuth } from '../../redux/actions/AuthAction'
+import { checkUserKyc } from '../../utilities/others'
 const Dashboard = ({ isLoggedin }) => {
   const dispatch = useDispatch()
   const { user, isAuthenticated, isLoading, loginWithRedirect, logout } =
@@ -21,25 +22,41 @@ const Dashboard = ({ isLoggedin }) => {
         <div
           className={`flex-col md:flex-row cursor-pointer ${classes['right-side']}`}
         >
-          <a
-            className={classes.link}
-            onClick={() => {
-              RegisterTypeRequest(dispatch, 'MENTOR')
+          {isLoggedin ? (
+            <div>
+              <a
+                className={classes.link}
+                onClick={() => {
+                  checkUserKyc()
+                }}
+              >
+                Go to Dashboard
+              </a>
+            </div>
+          ) : (
+            <div className="md:flex-row flex flex-col cursor-pointer ">
+              <a
+                className={classes.link}
+                onClick={() => {
+                  RegisterTypeRequest(dispatch, 'MENTOR')
 
-              router.push('/auth/Register')
-            }}
-          >
-            Become a mentor
-          </a>
-          <a
-            className={classes.link}
-            onClick={() => {
-              RegisterTypeRequest(dispatch, 'STUDENT')
-              router.push('/auth/Register')
-            }}
-          >
-            Become a student
-          </a>
+                  router.push('/auth/Register')
+                }}
+              >
+                Become a mentor
+              </a>
+              <a
+                className={classes.link}
+                onClick={() => {
+                  RegisterTypeRequest(dispatch, 'STUDENT')
+                  router.push('/auth/Register')
+                }}
+              >
+                Become a student
+              </a>
+            </div>
+          )}
+
           <a
             className={`${classes.button} cursor-pointer`}
             onClick={async () => {
