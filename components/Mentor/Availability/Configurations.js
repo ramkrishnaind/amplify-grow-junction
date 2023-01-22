@@ -53,8 +53,10 @@ const Configurations = () => {
   const getUser = async () => {
     debugger
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      try {
+        const usr = await Auth.currentAuthenticatedUser()
+        console.log('usr', usr)
+      } catch (error) {}
       const usrName = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listConfigurations, {

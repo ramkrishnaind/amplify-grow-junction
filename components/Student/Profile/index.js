@@ -62,8 +62,10 @@ const Profile = () => {
   const [loading, setLoading] = useState(false)
   const [percentage, setPercentage] = useState(40)
   const getUser = async () => {
-    const usr = await Auth.currentAuthenticatedUser()
-    if (usr) setUser(usr)
+    try {
+      const usr = await Auth.currentAuthenticatedUser()
+      if (usr) setUser(usr)
+    } catch (error) {}
     debugger
     const usrname = getLoggedinUserEmail()
     const results = await API.graphql(

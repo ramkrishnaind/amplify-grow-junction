@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Formik, useFormikContext } from 'formik'
 import TextField from '../../../pages/ui-kit/TextField'
-import {
-  createPayment,
-  updatePayment,
-} from '../../../src/graphql/mutations'
+import { createPayment, updatePayment } from '../../../src/graphql/mutations'
 import { listPayments } from '../../../src/graphql/queries'
 import { API, Auth, input, Storage, graphqlOperation } from 'aws-amplify'
 import { v4 as uuid } from 'uuid'
@@ -33,8 +30,10 @@ const BankDetails = () => {
   const getUser = async () => {
     debugger
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      try {
+        const usr = await Auth.currentAuthenticatedUser()
+        console.log('usr', usr)
+      } catch (error) {}
       const usrName = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listPayments, {

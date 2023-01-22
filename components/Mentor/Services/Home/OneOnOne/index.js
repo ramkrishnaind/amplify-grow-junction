@@ -65,8 +65,8 @@ const OneOnOne = ({ services }) => {
     console.log('id - ', id)
     setId(id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const usrname = getLoggedinUserEmail()
       const oneOnOneResult = await API.graphql({
         query: getOneOnOne,
@@ -88,7 +88,7 @@ const OneOnOne = ({ services }) => {
     debugger
     console.log('id', id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
+      // const usr = await Auth.currentAuthenticatedUser()
       const usrname = getLoggedinUserEmail()
       const { createdAt, updatedAt, owner, ...rest } = oneOnOne
       rest.username = usrname
@@ -109,7 +109,7 @@ const OneOnOne = ({ services }) => {
     debugger
     console.log('id', id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
+      // const usr = await Auth.currentAuthenticatedUser()
       const usrname = getLoggedinUserEmail()
       console.log('usr', usr)
       await API.graphql({
@@ -274,7 +274,7 @@ const OneOnOne = ({ services }) => {
           className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer"
           onClick={searchClick}
         >
-          No sessions found
+          No One on One Sessions found
         </div>
       )}
 

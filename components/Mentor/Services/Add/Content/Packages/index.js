@@ -155,8 +155,10 @@ const Packages = ({
 
   const loadOneOnOne = async () => {
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // try {
+      //   const usr = await Auth.currentAuthenticatedUser()
+      //   console.log('usr', usr)
+      // } catch (error) {}
       const results = await API.graphql(
         graphqlOperation(listOneOnOnes, {
           filter: { username: { contains: usrname } },
@@ -187,13 +189,14 @@ const Packages = ({
   const loadWorkshop = async () => {
     // debugger
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const results = await API.graphql(
         graphqlOperation(listWorkshops, {
           filter: { username: { contains: usrname } },
         }),
       )
+      debugger
       if (results.data.listWorkshops.items.length > 0) {
         const resultsCloned = [...results.data.listWorkshops.items]
         const editedValues = [...packages.packageServices]
@@ -213,8 +216,8 @@ const Packages = ({
 
   const loadCourses = async () => {
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const results = await API.graphql(
         graphqlOperation(listCourses, {
           filter: { username: { contains: usrname } },
@@ -241,8 +244,8 @@ const Packages = ({
 
   const loadTextQuery = async () => {
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const results = await API.graphql(
         graphqlOperation(listTextQueries, {
           filter: { username: { contains: usrname } },
@@ -316,8 +319,16 @@ const Packages = ({
     sessionResults[index].selected = !sessionResults[index].selected
     setSessionResults(sessionResults)
     setSessions(sessionResults)
+    // const sessionsNew = []
     sessionResults.map((s, idx) => {
       if (s.selected) {
+        // sessionsNew.push({
+        //   id: uuid(),
+        //   text: '1 on 1 Session',
+        //   title: s.sessionTitle,
+        //   duration: s.sessionDuration + ' ' + s.sessionDurationIn,
+        //   price: s.finalPrice,
+        // })
         packageServices.push({
           id: uuid(),
           text: '1 on 1 Session',
@@ -327,6 +338,7 @@ const Packages = ({
         })
       }
     })
+    // setPackageServices([...packageServices, ...sessionsNew])
   }
 
   const workshopState1 = {
@@ -342,6 +354,7 @@ const Packages = ({
     workshopResults[index].selected = !workshopResults[index].selected
     setWorkshopResults(workshopResults)
     setWorkshops(workshopResults)
+
     workshopResults.map((s, idx) => {
       if (s.selected) {
         packageServices.push({
@@ -422,6 +435,7 @@ const Packages = ({
           if (textQueries.length > 0) packageServices.push(textQueries)
           if (workshops.length > 0) packageServices.push(workshops)
           if (courses.length > 0) packageServices.push(courses)
+          debugger
           values.packageServices = packageServices
           values.packageImage = imageUrl
           values.uploadFile = fileUrl
@@ -609,7 +623,7 @@ const Packages = ({
                         </div>
                       </div>
 
-                      <div className="flex flex-col mt-10 mb-10 px-2 w-1/3">
+                      <div className="flex flex-col mt-10 mb-10 px-2 w-[13rem]">
                         <p className="flex justify-start items-start text-sm ">
                           Upload file (optional)
                         </p>
@@ -783,7 +797,7 @@ const Packages = ({
                     </div>
                   ) : (
                     <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
-                      No sessions found
+                      No packages found
                     </div>
                   )}
                 </div>

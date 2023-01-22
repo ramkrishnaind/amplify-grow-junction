@@ -65,8 +65,8 @@ const OneOnOne = ({ services }) => {
     console.log('id - ', id)
     setId(id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const usrname = getLoggedinUserEmail()
       const oneOnOneResult = await API.graphql({
         query: getOneOnOne,
@@ -88,14 +88,14 @@ const OneOnOne = ({ services }) => {
     try {
       debugger
       setLoading(true)
-     
+
       const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listOneOnOnes, {
           filter: { username: { contains: usrname } },
         }),
       )
-        debugger
+      debugger
       if (results.data.listOneOnOnes.items.length > 0) {
         setResults(results.data.listOneOnOnes.items)
         // dispatch({
@@ -212,11 +212,8 @@ const OneOnOne = ({ services }) => {
           {/* outer */}
         </div>
       ) : (
-        <div
-          className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer"
-        
-        >
-          No sessions found
+        <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
+          No One on One sessions found
         </div>
       )}
     </>

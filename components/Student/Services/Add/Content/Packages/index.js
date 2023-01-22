@@ -155,8 +155,8 @@ const Packages = ({
 
   const loadOneOnOne = async () => {
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const results = await API.graphql(
         graphqlOperation(listOneOnOnes, {
           filter: { username: { contains: usrname } },
@@ -187,8 +187,8 @@ const Packages = ({
   const loadWorkshop = async () => {
     // debugger
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const results = await API.graphql(
         graphqlOperation(listWorkshops, {
           filter: { username: { contains: usrname } },
@@ -213,8 +213,8 @@ const Packages = ({
 
   const loadCourses = async () => {
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const results = await API.graphql(
         graphqlOperation(listCourses, {
           filter: { username: { contains: usrname } },
@@ -241,8 +241,8 @@ const Packages = ({
 
   const loadTextQuery = async () => {
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const results = await API.graphql(
         graphqlOperation(listTextQueries, {
           filter: { username: { contains: usrname } },
@@ -783,7 +783,7 @@ const Packages = ({
                     </div>
                   ) : (
                     <div className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer">
-                      No sessions found
+                      No packages found
                     </div>
                   )}
                 </div>

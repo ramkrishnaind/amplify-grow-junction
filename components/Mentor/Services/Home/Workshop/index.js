@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { API, Auth, graphqlOperation, Storage } from 'aws-amplify'
 import TextField from '../../../../../pages/ui-kit/TextField'
@@ -44,7 +44,9 @@ const Workshop = ({ services }) => {
     console.log('values - ', values)
     console.log('workshop value - ', values)
   }
-
+  useEffect(() => {
+    setResults(services)
+  }, [services])
   console.log('workshop - ', workshop)
 
   const searchClick = () => {
@@ -60,8 +62,8 @@ const Workshop = ({ services }) => {
     console.log('id', id)
     setId(id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const usrname = getLoggedinUserEmail()
       const workshopResult = await API.graphql({
         query: getWorkshop,
@@ -84,7 +86,7 @@ const Workshop = ({ services }) => {
     console.log('id', id)
 
     try {
-      const usr = await Auth.currentAuthenticatedUser()
+      // const usr = await Auth.currentAuthenticatedUser()
       const usrname = getLoggedinUserEmail()
 
       //console.log('filename -', filename)
@@ -123,7 +125,7 @@ const Workshop = ({ services }) => {
     debugger
     console.log('id', id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
+      // const usr = await Auth.currentAuthenticatedUser()
       const usrname = getLoggedinUserEmail()
       console.log('usr', usr)
       await API.graphql({
@@ -288,7 +290,7 @@ const Workshop = ({ services }) => {
           className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer"
           onClick={searchClick}
         >
-          No sessions found
+          No workshops found
         </div>
       )}
 

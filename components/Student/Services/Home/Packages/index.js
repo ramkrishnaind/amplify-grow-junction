@@ -56,8 +56,8 @@ const Packages = ({ services }) => {
     console.log('id', id)
     setId(id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const usrname = getLoggedinUserEmail()
       const packagesResult = await API.graphql({
         query: getPackages,
@@ -186,10 +186,9 @@ const Packages = ({ services }) => {
           className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer"
           onClick={searchClick}
         >
-          No sessions found
+          No packages found
         </div>
       )}
-
     </>
   )
 }

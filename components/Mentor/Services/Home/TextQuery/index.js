@@ -62,8 +62,8 @@ const TextQuery = ({ services }) => {
     console.log('id', id)
     setId(id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const usrname = getLoggedinUserEmail()
       const textQueryResult = await API.graphql({
         query: getTextQuery,
@@ -87,7 +87,7 @@ const TextQuery = ({ services }) => {
     debugger
     console.log('id', id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
+      // const usr = await Auth.currentAuthenticatedUser()
       const usrname = getLoggedinUserEmail()
       const { createdAt, updatedAt, owner, ...rest } = textQuery
       rest.username = usrname
@@ -107,7 +107,7 @@ const TextQuery = ({ services }) => {
     debugger
     console.log('id', id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
+      // const usr = await Auth.currentAuthenticatedUser()
       const usrname = getLoggedinUserEmail()
       console.log('usr', usr)
       await API.graphql({
@@ -272,7 +272,7 @@ const TextQuery = ({ services }) => {
           className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer"
           onClick={searchClick}
         >
-          No sessions found
+          No text queries found
         </div>
       )}
 
