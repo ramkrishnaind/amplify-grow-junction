@@ -4,7 +4,8 @@ import Expanded from './Expanded'
 import classes from './Layout.module.css'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 const Layout = () => {
-  const [collapsed, setCollapsed] = useState(false)
+  // const [collapsed, setCollapsed] = useState(false)
+  const [open, setOpen] = useState({ value: false })
   const [parent, enableAnimations] = useAutoAnimate({
     // Animation duration in milliseconds (default: 250)
     duration: 250,
@@ -15,19 +16,27 @@ const Layout = () => {
     disrespectUserMotionPreference: false,
   })
   const onCollapseHandler = (e) => {
+    debugger
     e.preventDefault()
-    setCollapsed(true)
+    // setCollapsed(true)
+    setOpen((prev) => ({
+      value: true,
+    }))
   }
   const onExpandHandler = (e) => {
     e.preventDefault()
-    setCollapsed(false)
+    // setCollapsed(false)
+    setOpen((prev) => ({
+      value: false,
+    }))
   }
+  console.log('open', open)
   return (
     <aside
       ref={parent}
       className={` ${classes.body} px-3 md:px-5 py-2 min-h-[100vh]`}
     >
-      {collapsed ? (
+      {open.value ? (
         <section className={`min-h-[100vh] w-17`}>
           <Collapsed onExpanded={onExpandHandler} />
         </section>

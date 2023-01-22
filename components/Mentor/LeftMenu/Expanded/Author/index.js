@@ -61,7 +61,7 @@ const Author = () => {
 
   return (
     <section
-      className={`${classes.container} h-80 bg-yellow-100 p-4 flex flex-col mb-15`}
+      className={`${classes.container} h-80 bg-yellow-100 p-4 flex flex-col min-h-[22rem] mb-15`}
     >
       <section className={`flex flex-col items-center justify-center`}>
         <div

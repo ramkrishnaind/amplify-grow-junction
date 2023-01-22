@@ -20,10 +20,10 @@ const Dashboard = ({ isLoggedin }) => {
       <header className={`flex-col md:flex-row ${classes.header}`}>
         <div className={classes.logo}></div>
         <div
-          className={`flex-col md:flex-row cursor-pointer ${classes['right-side']}`}
+          className={`flex gap-y-5 flex-col md:flex-row cursor-pointer ${classes['right-side']}`}
         >
           {isLoggedin ? (
-            <div>
+            <div clssName="mb-5">
               <a
                 className={classes.link}
                 onClick={() => {
@@ -34,7 +34,7 @@ const Dashboard = ({ isLoggedin }) => {
               </a>
             </div>
           ) : (
-            <div className="md:flex-row flex flex-col cursor-pointer ">
+            <div className="md:flex-row mb-5 flex flex-col cursor-pointer ">
               <a
                 className={classes.link}
                 onClick={() => {
