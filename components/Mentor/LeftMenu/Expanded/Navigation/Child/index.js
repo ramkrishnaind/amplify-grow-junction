@@ -4,8 +4,8 @@ import classes from './Child.module.css'
 import { Auth } from 'aws-amplify'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch } from 'react-redux'
-import { v4 as uuid } from 'uuid'
-import { Tooltip as ReactTooltip } from 'react-tooltip'
+// import { v4 as uuid } from 'uuid'
+// import { Tooltip as ReactTooltip } from 'react-tooltip'
 
 import {
   ClearUser,
@@ -13,7 +13,7 @@ import {
 } from '../../../../../../redux/actions/AuthAction'
 const Child = ({ title, image, url, js, setActive, partial }) => {
   const dispatch = useDispatch()
-  const id = uuid()
+  // const id = uuid()
   const { logout: oAuthLogout } = useAuth0()
   if (image === 'logout.svg') {
     url = 'javascript:logout()'
@@ -49,8 +49,8 @@ const Child = ({ title, image, url, js, setActive, partial }) => {
     >
       <div
         className={`${classes.container} pl-10 my-2 text-2xl flex items-center cursor-pointer`}
-        id={id}
-        data-tooltip-content={title}
+        // id={id}
+        // data-tooltip-content={title}
       >
         <img
           className="pl-14 pr-6  w-50 h-50"
@@ -59,7 +59,7 @@ const Child = ({ title, image, url, js, setActive, partial }) => {
         />
         <span>{title}</span>
       </div>
-      <ReactTooltip anchorId={id} />
+      {/* <ReactTooltip anchorId={id} /> */}
     </NavLink>
   )
 }
