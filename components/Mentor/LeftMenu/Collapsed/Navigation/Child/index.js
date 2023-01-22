@@ -4,6 +4,8 @@ import classes from './Child.module.css'
 import { Auth } from 'aws-amplify'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch } from 'react-redux'
+import { v4 as uuid } from 'uuid'
+import { Tooltip as ReactTooltip } from 'react-tooltip'
 import {
   ClearUser,
   StoreUserAuth,
@@ -12,6 +14,7 @@ import {
 const Child = ({ title, image, url, js, setActive, partial }) => {
   const dispatch = useDispatch()
   const { logout: oAuthLogout } = useAuth0()
+  const id = uuid()
   if (image === 'logout.svg') {
     url = 'javascript:logout()'
     console.log('url', url)
@@ -47,9 +50,12 @@ const Child = ({ title, image, url, js, setActive, partial }) => {
     >
       <div
         className={`${classes.container} my-2 text-2xl justify-center flex items-center cursor-pointer`}
+        data-tooltip-content={title}
+        id={id}
       >
         <img src={`/assets/icon/mentor-dashboard/${image}`} />
       </div>
+      <ReactTooltip anchorId={id} />
     </NavLink>
   )
 }
