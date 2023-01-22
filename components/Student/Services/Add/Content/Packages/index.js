@@ -44,7 +44,7 @@ const AutoSubmitToken = ({
     // if (values.token.length === 6) {
     //   submitForm();
     // }
-  }, [values, packageImage, submitForm])
+  }, [values, packageImage, submitForm, packageServices])
   return null
 }
 

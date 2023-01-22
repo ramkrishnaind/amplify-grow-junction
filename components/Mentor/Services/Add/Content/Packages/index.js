@@ -15,6 +15,7 @@ import {
   getS3ImageUrl,
   setS3ImageUrl,
 } from '../../../../../../utilities/others'
+import { values } from 'lodash'
 const AutoSubmitToken = ({
   setValues,
   hideService,
@@ -25,9 +26,10 @@ const AutoSubmitToken = ({
 }) => {
   // Grab values and submitForm from context
   const { values, submitForm } = useFormikContext()
-  // debugger
+  debugger
+  debugger
   React.useEffect(() => {
-    // debugger
+    debugger
     console.log('context_values', values)
     values.limitParticipants = limitParticipants
     values.hideService = hideService
@@ -37,6 +39,7 @@ const AutoSubmitToken = ({
     // if (textQueries.length > 0) packageServices.push(textQueries)
     // if (workshops.length > 0) packageServices.push(workshops)
     // if (courses.length > 0) packageServices.push(courses)
+    debugger
     values.packageServices = packageServices
     setValues(values)
     // setProfile(values)
@@ -44,7 +47,7 @@ const AutoSubmitToken = ({
     // if (values.token.length === 6) {
     //   submitForm();
     // }
-  }, [values, packageImage, submitForm])
+  }, [values, packageImage, submitForm, packageServices])
   return null
 }
 
@@ -112,6 +115,10 @@ const Packages = ({
     loadTextQuery()
     loadWorkshop()
     loadCourses()
+    debugger
+    debugger
+    setPackageServices([...packages.packageServices])
+    // setValues({ ...packages, packageServices: [...packages.packageServices] })
   }, [packages.packageServices])
   useEffect(() => {
     const getImage = async () => {
@@ -169,6 +176,7 @@ const Packages = ({
         // debugger
 
         const resultsCloned = [...results.data.listOneOnOnes.items]
+
         const editedValues = [...packages.packageServices]
         editedValues.forEach((a) => {
           const foundItem = resultsCloned.find(

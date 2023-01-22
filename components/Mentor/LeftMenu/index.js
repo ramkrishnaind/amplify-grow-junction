@@ -14,10 +14,12 @@ const Layout = () => {
     // they don’t want them via prefers-reduced-motion.
     disrespectUserMotionPreference: false,
   })
-  const onCollapseHandler = () => {
+  const onCollapseHandler = (e) => {
+    e.preventDefault()
     setCollapsed(true)
   }
-  const onExpandHandler = () => {
+  const onExpandHandler = (e) => {
+    e.preventDefault()
     setCollapsed(false)
   }
   return (
