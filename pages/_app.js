@@ -10,6 +10,8 @@ import Student from './student'
 import Mentor from './mentor'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import 'react-tooltip/dist/react-tooltip.css'
+
 import { Formik } from 'formik'
 // debugger
 // toast.configure()

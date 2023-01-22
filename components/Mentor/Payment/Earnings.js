@@ -30,8 +30,10 @@ const Earnings = () => {
   const getUser = async () => {
     debugger
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      try {
+        const usr = await Auth.currentAuthenticatedUser()
+        console.log('usr', usr)
+      } catch (error) {}
       const usrName = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listPayments, {
@@ -154,34 +156,17 @@ const Earnings = () => {
 
                   {/* repeat */}
                   <div className="flex flex-col md:flex-row lg:flex-row w-full">
-                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4">
-                      
-                    </div>
-                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4">
-                      
-                    </div>
-                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4">
-                    
-                    </div>
-                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4">
-                      
-                    </div>
+                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4"></div>
+                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4"></div>
+                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4"></div>
+                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4"></div>
                   </div>
                   <div className="flex flex-col md:flex-row lg:flex-row w-full ">
-                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4">
-                      
-                    </div>
-                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4">
-                      
-                    </div>
-                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4">
-                      
-                    </div>
-                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4">
-                      
-                    </div>
+                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4"></div>
+                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4"></div>
+                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4"></div>
+                    <div className="w-auto md:w-1/4 lg:w-1/4 text-sm font-semibold border-2 p-4"></div>
                   </div>
-
                 </div>
               </div>
             </>

@@ -61,8 +61,8 @@ const Courses = ({ services }) => {
     console.log('id', id)
     setId(id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const usrname = getLoggedinUserEmail()
       const coursesResult = await API.graphql({
         query: getCourses,
@@ -84,7 +84,7 @@ const Courses = ({ services }) => {
     debugger
     console.log('id', id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
+      // const usr = await Auth.currentAuthenticatedUser()
       const usrname = getLoggedinUserEmail()
       debugger
       if (courses.file) {
@@ -124,8 +124,8 @@ const Courses = ({ services }) => {
     debugger
     console.log('id', id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const usrname = getLoggedinUserEmail()
       await API.graphql({
         query: deleteCourses,

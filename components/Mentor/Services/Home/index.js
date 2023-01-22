@@ -72,8 +72,8 @@ const Home = () => {
   const loadOneOnOne = async () => {
     try {
       setLoading(true)
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listOneOnOnes, {
@@ -96,13 +96,15 @@ const Home = () => {
     setLoading(false)
   }
 
-
   const loadWorkshop = async () => {
     debugger
     try {
       setLoading(true)
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      try {
+        const usr = await Auth.currentAuthenticatedUser()
+        console.log('usr', usr)
+      } catch (error) {}
+      debugger
       const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listWorkshops, {
@@ -129,8 +131,8 @@ const Home = () => {
     debugger
     try {
       setLoading(true)
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listCourses, {
@@ -153,8 +155,8 @@ const Home = () => {
   const loadTextQuery = async () => {
     try {
       setLoading(true)
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listTextQueries, {
@@ -182,8 +184,8 @@ const Home = () => {
     debugger
     try {
       setLoading(true)
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const usrname = getLoggedinUserEmail()
       const results = await API.graphql(
         graphqlOperation(listPackages, {
@@ -202,7 +204,6 @@ const Home = () => {
     }
     setLoading(false)
   }
-
 
   useEffect(() => {
     loadOneOnOne()

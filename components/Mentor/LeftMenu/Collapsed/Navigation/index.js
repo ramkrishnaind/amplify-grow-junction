@@ -9,11 +9,16 @@ const Navigation = () => {
     <nav className="w-full">
       <ul className="max-h-[85vh] overflow-y-auto ">
         {NavigationLinks.map((navLink, index) => {
-          const { title, url, image, items, js,partial } = navLink
+          const { title, url, image, items, js, partial } = navLink
           if (items) {
             return (
               <>
-                <Parent key={index} {...navLink} hasItems={true} partial={partial} />
+                <Parent
+                  key={index}
+                  {...navLink}
+                  hasItems={true}
+                  partial={partial}
+                />
                 {/* <ul>
                   {items.map((child) => {
                     return <Child {...child} />
@@ -22,7 +27,15 @@ const Navigation = () => {
               </>
             )
           } else {
-            return <Parent key={index} {...navLink} hasItems={false} partial={partial} />
+            return (
+              <Parent
+                title={title}
+                key={index}
+                {...navLink}
+                hasItems={false}
+                partial={partial}
+              />
+            )
           }
         })}
       </ul>

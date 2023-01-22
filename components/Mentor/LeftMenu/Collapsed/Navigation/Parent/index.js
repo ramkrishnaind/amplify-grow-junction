@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import classes from './Parent.module.css'
 import Child from '../Child'
+import { v4 as uuid } from 'uuid'
 import NavLink from '../../../../../Utilities/NavLink'
 
 import Collapsed from '../../../Collapsed/index'
-const Parent = ({ image, url, hasItems, js, items, partial }) => {
+import { Tooltip as ReactTooltip } from 'react-tooltip'
+const Parent = ({ title, image, url, hasItems, js, items, partial }) => {
   // const [collapsed, setCollapsed] = useState(true)
   // const [headerActive, setHeaderActive] = useState(true)
   // const setActiveHandler = (value) => {
   //   setHeaderActive(value)
   // }
+  const id = uuid()
   return hasItems ? (
     <>
       {/* <div
@@ -38,7 +41,9 @@ const Parent = ({ image, url, hasItems, js, items, partial }) => {
   ) : (
     <NavLink href={url} exact={!partial} className="cursor-pointer">
       <div
+        id={id}
         className={`${classes.container} w-full my-2 text-2xl flex justify-center items-center cursor-pointer`}
+        data-tooltip-content={title}
       >
         <img
           //style={{ width: '75px' }}
@@ -47,6 +52,7 @@ const Parent = ({ image, url, hasItems, js, items, partial }) => {
         />
         {/* <span>{title}</span> */}
       </div>
+      <ReactTooltip anchorId={id} />
     </NavLink>
   )
 }

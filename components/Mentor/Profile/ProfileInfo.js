@@ -125,7 +125,7 @@ const ProfileInfo = ({
             <form>
               <div className="flex flex-col md:flex-row">
                 <div className="bg-gray-50 basis-3/5">
-                  <div className="flex flex-col tracking-wide text-black ml-4 bg-gray-50 w-full md:w-auto lg:w-auto">
+                  <div className="flex flex-col tracking-wide text-black bg-gray-50 w-full md:w-auto lg:w-auto">
                     <div className="m-10 flex flex-col md:flex-row lg:flex-row">
                       <div className="flex flex-row">
                         <div
@@ -197,7 +197,7 @@ const ProfileInfo = ({
                         Growjunction URL
                       </label>
 
-                      <div className="flex flex-wrap items-start w-full relative flex-col md:flex-row md-flex-row">
+                      <div className="flex flex-wrap items-start w-full relative  flex-row ">
                         <div className="focus-outline flex flex-row rounded-md border border-gray-300 px-5 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 pr-1">
                           <label className="text-black py-2 flex-1 text-right pr-0  text-sm font-normal">
                             Growjunction.io/

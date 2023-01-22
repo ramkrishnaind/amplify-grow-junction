@@ -58,8 +58,8 @@ const TextQuery = ({ services }) => {
     console.log('id', id)
     setId(id)
     try {
-      const usr = await Auth.currentAuthenticatedUser()
-      console.log('usr', usr)
+      // const usr = await Auth.currentAuthenticatedUser()
+      // console.log('usr', usr)
       const usrname = getLoggedinUserEmail()
       const textQueryResult = await API.graphql({
         query: getTextQuery,
@@ -78,7 +78,6 @@ const TextQuery = ({ services }) => {
       toast.error(`Get Error:${error.errors[0].message}`)
     }
   }
-
 
   return (
     <>
@@ -105,7 +104,6 @@ const TextQuery = ({ services }) => {
                           Text Query
                         </span>
                       </div>
-
                     </div>
                     <div className="flex flex-col">
                       <div className="flex justify-start text-black text-2xl font-semibold p-6">
@@ -184,10 +182,9 @@ const TextQuery = ({ services }) => {
           className="bg-white py-5 px-5 w-full rounded-md text-2xl text-center cursor-pointer"
           onClick={searchClick}
         >
-          No sessions found
+          No text queries found
         </div>
       )}
-
     </>
   )
 }
