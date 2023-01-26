@@ -146,7 +146,7 @@ const OneOnOne = ({ services }) => {
         </button>
       </div>
       {results.length > 0 ? (
-        <div className="my-3 bg-white p-10">
+        <div className="my-3 bg-white p-10  ">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
             {results.map((item, index) => {
               return (
@@ -281,8 +281,8 @@ const OneOnOne = ({ services }) => {
       {showReschedule && (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-1/3 lg:w-1/3">
-              <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+            <div className=" bg-white text-start mt-9 rounded-2xl shadow-lg w-full md:w-3/5">
+              <div className="flex sticky top-0 justify-between px-8 py-4 border-b border-gray-300">
                 <div className="text-sm font-semibold mt-4">1 on 1 Session</div>
                 <div>
                   <button
@@ -299,7 +299,7 @@ const OneOnOne = ({ services }) => {
                 </div>
               </div>
               <AddOneOnOne oneOnOne={state.oneOnOne} setValues={setValues} />
-              <div className="py-4 px-6 border-t border-gray-300 text-gray-600  mb-5">
+              <div className="py-4 px-6 border-t border-gray-300 text-gray-600 mb-0">
                 <div className="flex justify-between item-center w-auto">
                   <button
                     className="flex justify-center items-center bg-white border-2 border-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 w-1/2 rounded-md mr-5"

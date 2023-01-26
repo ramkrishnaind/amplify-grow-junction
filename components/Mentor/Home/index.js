@@ -1,6 +1,31 @@
 import React from 'react'
 import classes from './Home.module.css'
+import { getLoggedinUserEmail } from '../../../utilities/user'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { API, graphqlOperation } from 'aws-amplify'
+import { listMentorRegisters } from '../../../src/graphql/queries'
 const Home = () => {
+  const router = useRouter()
+  const [growJunctionUrl, setGrowJunctionUrl] = useState('')
+  useEffect(() => {
+    const fetchMentorData = async () => {
+      const usrName = getLoggedinUserEmail()
+      const results = await API.graphql(
+        graphqlOperation(listMentorRegisters, {
+          filter: { username: { contains: usrName } },
+        }),
+      )
+      if (results.data.listMentorRegisters.items.length > 0) {
+        setGrowJunctionUrl(
+          results.data.listMentorRegisters.items[0].about_yourself
+            ?.grow_junction_url,
+        )
+      }
+    }
+    fetchMentorData()
+  }, [])
+
   // return <div>Hi</div>
   return (
     <>
@@ -38,11 +63,18 @@ const Home = () => {
             </section>
             <section className="md:px-16 flex justify-center md:justify-start">
               <div>
-                <button className={`${classes['left-button']} text-lg mr-6`}>
-                  Visit your page
-                </button>
+                {growJunctionUrl && (
+                  <button
+                    className={`${classes['left-button']} text-lg mr-6`}
+                    onClick={() => router.push(`/${growJunctionUrl}`)}
+                  >
+                    Visit your page
+                  </button>
+                )}
+
                 <button
                   className={`${classes['right-button-full']} text-lg mr-6`}
+                  onClick={() => router.push(`/mentor/profile`)}
                 >
                   Complete your profile
                 </button>
@@ -71,13 +103,17 @@ const Home = () => {
             </section>
             <section className="md:px-16 flex justify-center">
               <div className="flex flex-col items-center">
-                <button
-                  className={`${classes['left-button']} mb-5 text-lg mr-6`}
-                >
-                  Visit your page
-                </button>
+                {growJunctionUrl && (
+                  <button
+                    className={`${classes['left-button']} mb-5 text-lg`}
+                    onClick={() => router.push(`/${growJunctionUrl}`)}
+                  >
+                    Visit your page
+                  </button>
+                )}
                 <button
                   className={`${classes['right-button']} py-5 px-16 text-lg `}
+                  onClick={() => router.push(`/mentor/profile`)}
                 >
                   Complete your profile
                 </button>

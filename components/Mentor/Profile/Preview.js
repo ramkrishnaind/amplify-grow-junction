@@ -36,11 +36,16 @@ const Preview = ({ showServices, mentor }) => {
   const [sessionResults, setSessionResults] = useState([])
   const [workshopResults, setWorkshopResults] = useState([])
   const [textQueryResults, setTextQueryResults] = useState([])
+  const [initialPosts, setInitialPosts] = useState([])
   const [coursesResults, setCoursesResults] = useState([])
   const [totalServiceResults, setTotalServiceResults] = useState([])
   const [isCompleted, setIsCompleted] = useState(false)
   const [index, setIndex] = useState(4)
-  const initialPosts = slice(totalServiceResults, 0, index)
+  useEffect(() => {
+    console.log('initialPosts', initialPosts)
+    setInitialPosts(slice(totalServiceResults, 0, index))
+  }, [totalServiceResults, index])
+  // const initialPosts = slice(totalServiceResults, 0, index)
 
   const loadMore = () => {
     setIndex(index + 4)
@@ -52,7 +57,7 @@ const Preview = ({ showServices, mentor }) => {
     }
   }
 
-  const usrName = getLoggedinUserEmail()
+  const usrName = mentor ? mentor.username : getLoggedinUserEmail()
   const getUser = async () => {
     // debugger
     //const usrName = getLoggedinUserEmail()
@@ -106,7 +111,7 @@ const Preview = ({ showServices, mentor }) => {
   }
 
   const loadOneOnOne = async () => {
-    // debugger
+    debugger
     try {
       const results = await API.graphql(
         graphqlOperation(listOneOnOnes, {
@@ -116,15 +121,29 @@ const Preview = ({ showServices, mentor }) => {
       // debugger
       if (results.data.listOneOnOnes.items.length > 0) {
         setSessionResults(results.data.listOneOnOnes.items)
-        results.data.listOneOnOnes.item.map((s, idx) => {
-          totalServiceResults.push({
-            text: '1 on 1 Session',
-            title: s.sessionTitle,
-            description: s.description,
-            duration: s.sessionDuration + ' ' + s.sessionDurationIn,
-            price: s.finalPrice,
-          })
+        setTotalServiceResults((prev) => {
+          return [
+            ...prev,
+            ...results.data.listOneOnOnes.items
+              .map((s, idx) => {
+                if (
+                  !prev.some(
+                    (p) =>
+                      p.text === '1 on 1 Session' && p.title === s.sessionTitle,
+                  )
+                )
+                  return {
+                    text: '1 on 1 Session',
+                    title: s.sessionTitle,
+                    description: s.description,
+                    duration: s.sessionDuration + ' ' + s.sessionDurationIn,
+                    price: s.finalPrice,
+                  }
+              })
+              .filter((a) => a),
+          ]
         })
+
         //setTotalServiceResults(results.data.listOneOnOnes.items)
         console.log('oneonone- ', results)
       }
@@ -134,7 +153,7 @@ const Preview = ({ showServices, mentor }) => {
   }
 
   const loadWorkshop = async () => {
-    // debugger
+    debugger
     try {
       const results = await API.graphql(
         graphqlOperation(listWorkshops, {
@@ -143,14 +162,26 @@ const Preview = ({ showServices, mentor }) => {
       )
       if (results.data.listWorkshops.items.length > 0) {
         setWorkshopResults(results.data.listWorkshops.items)
-        results.data.listWorkshops.items.map((s, idx) => {
-          totalServiceResults.push({
-            text: 'Workshop',
-            title: s.title,
-            description: s.description,
-            duration: s.callDuration + ' ' + s.callDurationIn,
-            price: s.finalPrice,
-          })
+        setTotalServiceResults((prev) => {
+          return [
+            ...prev,
+            ...results.data.listWorkshops.items
+              .map((s, idx) => {
+                if (
+                  !prev.some(
+                    (p) => p.text === 'Workshop' && p.title === s.title,
+                  )
+                )
+                  return {
+                    text: 'Workshop',
+                    title: s.title,
+                    description: s.description,
+                    duration: s.callDuration + ' ' + s.callDurationIn,
+                    price: s.finalPrice,
+                  }
+              })
+              .filter((a) => a),
+          ]
         })
 
         //setTotalServiceResults(...results.data.listWorkshops.items)
@@ -162,6 +193,7 @@ const Preview = ({ showServices, mentor }) => {
   }
 
   const loadCourses = async () => {
+    debugger
     try {
       const results = await API.graphql(
         graphqlOperation(listCourses, {
@@ -170,15 +202,36 @@ const Preview = ({ showServices, mentor }) => {
       )
       if (results.data.listCourses.items.length > 0) {
         setCoursesResults(results.data.listCourses.items)
-        results.data.listCourses.items.map((s, idx) => {
-          totalServiceResults.push({
-            text: 'Courses',
-            title: s.courseTitle,
-            description: s.description,
-            duration: s.sessionDuration + ' ' + s.sessionDurationIn,
-            price: s.finalPrice,
-          })
+        setTotalServiceResults((prev) => {
+          return [
+            ...prev,
+            ...results.data.listCourses.items
+              .map((s, idx) => {
+                if (
+                  !prev.some(
+                    (p) => p.text === 'Courses' && p.title === s.courseTitle,
+                  )
+                )
+                  return {
+                    text: 'Courses',
+                    title: s.courseTitle,
+                    description: s.description,
+                    duration: s.sessionDuration + ' ' + s.sessionDurationIn,
+                    price: s.finalPrice,
+                  }
+              })
+              .filter((a) => a),
+          ]
         })
+        // results.data.listCourses.items.map((s, idx) => {
+        //   totalServiceResults.push({
+        //     text: 'Courses',
+        //     title: s.courseTitle,
+        //     description: s.description,
+        //     duration: s.sessionDuration + ' ' + s.sessionDurationIn,
+        //     price: s.finalPrice,
+        //   })
+        // })
 
         //setTotalServiceResults(...results.data.listCourses.items)
         console.log('courses- ', results)
@@ -197,15 +250,37 @@ const Preview = ({ showServices, mentor }) => {
       )
       if (results.data.listTextQueries.items.length > 0) {
         setTextQueryResults(results.data.listTextQueries.items)
-        results.data.listTextQueries.items.map((s, idx) => {
-          totalServiceResults.push({
-            text: 'TextQuery',
-            title: s.title,
-            description: s.description,
-            duration: s.responseTime + ' ' + s.responseTimeIn,
-            price: s.finalPrice,
-          })
+        setTotalServiceResults((prev) => {
+          debugger
+          return [
+            ...prev,
+            ...results.data.listTextQueries.items
+              .map((s, idx) => {
+                if (
+                  !prev.some(
+                    (p) => p.text === 'TextQuery' && p.title === s.title,
+                  )
+                )
+                  return {
+                    text: 'TextQuery',
+                    title: s.title,
+                    description: s.description,
+                    duration: s.responseTime + ' ' + s.responseTimeIn,
+                    price: s.finalPrice,
+                  }
+              })
+              .filter((a) => a),
+          ]
         })
+        // results.data.listTextQueries.items.map((s, idx) => {
+        //   totalServiceResults.push({
+        //     text: 'TextQuery',
+        //     title: s.title,
+        //     description: s.description,
+        //     duration: s.responseTime + ' ' + s.responseTimeIn,
+        //     price: s.finalPrice,
+        //   })
+        // })
 
         //setTotalServiceResults(...results.data.listTextQueries.items)
         console.log('textquery- ', results)
@@ -216,6 +291,7 @@ const Preview = ({ showServices, mentor }) => {
   }
 
   const loadPackages = async () => {
+    debugger
     try {
       const results = await API.graphql(
         graphqlOperation(listPackages, {
@@ -224,15 +300,36 @@ const Preview = ({ showServices, mentor }) => {
       )
       if (results.data.listPackages.items.length > 0) {
         setPackagesResults(results.data.listPackages.items)
-        results.data.listPackages.items.map((s, idx) => {
-          totalServiceResults.push({
-            text: 'TextQuery',
-            title: s.title,
-            description: s.description,
-            duration: s.responseTime + ' ' + s.responseTimeIn,
-            price: s.finalPrice,
-          })
+        setTotalServiceResults((prev) => {
+          return [
+            ...prev,
+            ...results.data.listPackages.items
+              .map((s, idx) => {
+                if (
+                  !prev.some(
+                    (p) => p.text === 'Packages' && p.title === s.title,
+                  )
+                )
+                  return {
+                    text: 'Packages',
+                    title: s.title,
+                    description: s.description,
+                    duration: s.responseTime + ' ' + s.responseTimeIn,
+                    price: s.finalPrice,
+                  }
+              })
+              .filter((a) => a),
+          ]
         })
+        // results.data.listPackages.items.map((s, idx) => {
+        //   totalServiceResults.push({
+        //     text: 'TextQuery',
+        //     title: s.title,
+        //     description: s.description,
+        //     duration: s.responseTime + ' ' + s.responseTimeIn,
+        //     price: s.finalPrice,
+        //   })
+        // })
         //setTotalServiceResults(...results.data.listPackages.items)
         console.log('listPackages- ', results)
       }
@@ -249,7 +346,7 @@ const Preview = ({ showServices, mentor }) => {
     loadCourses()
     loadTextQuery()
     loadPackages()
-  }, [])
+  }, [showServices, mentor])
 
   return (
     <div className="flex flex-col items-center bg-white">
@@ -329,32 +426,57 @@ const Preview = ({ showServices, mentor }) => {
                 Services Offered
               </span>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center ">
                 {initialPosts !== null && initialPosts.length > 0 ? (
                   initialPosts.map((s, index) => {
+                    debugger
+                    debugger
+
                     return (
-                      <>
+                      <div className="">
                         <div
                           key={index}
-                          className="relative overflow-hidden w-3/5 shadow-md ml-24 mt-4 "
+                          className="relative mx-auto overflow-hidden shadow-md md:ml-24 mt-4  "
                         >
                           <img
                             src="../../../images/CardRectangle.png"
-                            className="object-cover"
+                            className="object-cover z-0"
                           />
-                          <span className="absolute inset-x-0 top-0 mt-5">
+                          <span className="text-left absolute inset-x-0 top-0 mt-5 z-50 p-2">
+                            <div className="flex justify-between px-1">
+                              <div className="text-left" >
+                              <p className="text-base text-black font-semibold p-1">
+                                {s.text}
+                              </p>
+                              <p className="text-base">
+                              {s.duration}
+                              </p>
+                                </div>
+                              
+                              <div className="flex justify-between items-center px-2 py-1 min-w-[11rem] rounded-full border border-gray-700 mb-3">
+                                <img
+                                  className="w-50 h-50"
+                                  src="/assets/icon/video.svg"
+                                  alt=""
+                                  sizes=""
+                                  srcset=""
+                                />
+                                <span className="text-sm">Video session</span>
+                              </div>
+                            </div>
+
                             <p className="text-sm text-black font-semibold p-1">
                               {s.title}
                             </p>
                             <p className="text-sm text-black font-normal p-2">
-                              {s.description}
+                              {(s.description+ s.description).split(' ').slice(0,10).join(' ')}
                             </p>
-                            <p className="text-xs text-black font-normal mt-2 p-2">
+                            {/* <p className="text-xs text-black font-normal mt-2 p-2">
                               {s.duration}
-                            </p>
+                            </p> */}
                           </span>
                         </div>
-                      </>
+                      </div>
                     )
                   })
                 ) : (
@@ -493,15 +615,14 @@ const Preview = ({ showServices, mentor }) => {
               </div>
               {initialPosts.length > 0 ? (
                 <div className="flex justify-center item-center m-5">
-                  {isCompleted ? (
-                    <button
-                      onClick={loadMore}
-                      type="button"
-                      className="flex py-3 px-5 justify-center items-center bg-black text-sm p-2 text-white rounded-full w-auto ml-5"
-                    >
-                      No more
-                    </button>
-                  ) : (
+                  {isCompleted ? null : (
+                    // <button
+                    //   onClick={loadMore}
+                    //   type="button"
+                    //   className="flex py-3 px-5 justify-center items-center bg-black text-sm p-2 text-white rounded-full w-auto ml-5"
+                    // >
+                    //   No more
+                    // </button>
                     <button
                       onClick={loadMore}
                       type="button"

@@ -20,15 +20,19 @@ const AutoSubmitToken = ({ setValues, questions }) => {
   }, [values, submitForm])
   return null
 }
-const TextQuery = ({ setValues, state: initial, textQuery =  {
-  title: '',
-  description: '',
-  responseTime: '',
-  responseTimeIn: '',
-  listedPrice: '',
-  finalPrice: '',
- // questions: [],
-} }) => {
+const TextQuery = ({
+  setValues,
+  state: initial,
+  textQuery = {
+    title: '',
+    description: '',
+    responseTime: '',
+    responseTimeIn: '',
+    listedPrice: '',
+    finalPrice: '',
+    // questions: [],
+  },
+}) => {
   // const {
   //   title,
   //   description,
@@ -45,7 +49,7 @@ const TextQuery = ({ setValues, state: initial, textQuery =  {
     responseTimeIn: '',
     listedPrice: '',
     finalPrice: '',
-   // questions: [],
+    // questions: [],
   }
   const items = ['Text', 'Upload (Pdf,jpeg)']
   const [questionType, setQuestionType] = useState(items[0])
@@ -55,7 +59,7 @@ const TextQuery = ({ setValues, state: initial, textQuery =  {
   const handleQuestionChange = (e) => {
     setQuestion(e.target.value)
   }
-  console.log("textquery-", textQuery)
+  console.log('textquery-', textQuery)
   const addQuestion = () => {
     const found = questions.find(
       (item) => item.text === question && item.type === questionType,
@@ -150,7 +154,7 @@ const TextQuery = ({ setValues, state: initial, textQuery =  {
                     <div className="flex flex-col font-normal md:flex-row lg:flex-row">
                       <div className="px-2 text-sm w-full">
                         <label className="leading-8 text-lg font-normal mt-5">
-                        Promising response time
+                          Promising response time
                         </label>
                         <div className="flex items-center flex-wrap w-auto mr-4 md:mr-1 lg:mr-1 relative">
                           <TextField
@@ -174,7 +178,6 @@ const TextQuery = ({ setValues, state: initial, textQuery =  {
                             <option value="month">Months</option>
                           </select>
                         </div>
-                       
                       </div>
                     </div>
 
@@ -210,8 +213,6 @@ const TextQuery = ({ setValues, state: initial, textQuery =  {
                         </div>
                       </div>
                     </div>
-
-
                   </div>
                 </div>
                 <div className="bg-white basis-2/5"></div>
@@ -269,8 +270,8 @@ const TextQuery = ({ setValues, state: initial, textQuery =  {
                         //   value={values.social.facebook_url}
                         type="text"
                         id="linkedurl"
-                        placeholder="Enter URL here"
-                        textStyleOverride={{ }}
+                        placeholder="Enter your question here"
+                        textStyleOverride={{}}
                       />
                     </div>
                     <div className="flex items-center">
@@ -278,7 +279,9 @@ const TextQuery = ({ setValues, state: initial, textQuery =  {
                       <span className="text-sm">Required</span>
                     </div>
                     <div className="text-lg bg-gray-50 py-4">
-                      <label className="mb-3 text-sm">Answer type (Select)</label>
+                      <label className="mb-3 text-sm">
+                        Answer type (Select)
+                      </label>
                       <section className="flex mt-3">
                         {items.map((item, index) => {
                           return (

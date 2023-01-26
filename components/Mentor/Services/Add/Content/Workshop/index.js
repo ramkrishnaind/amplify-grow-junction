@@ -481,7 +481,7 @@ const Workshop = ({
                         //   value={values.social.facebook_url}
                         type="text"
                         id="linkedurl"
-                        placeholder="Enter URL here"
+                        placeholder="Enter your question here"
                       />
                     </div>
                     <div className="flex items-center">

@@ -81,6 +81,7 @@ type OneOnOneQuestions {
   id: String
   text: String
   type: String
+  required: Boolean
 }
 type TextQuery
   @model
@@ -100,6 +101,7 @@ type TextQueryQuestions {
   id: String
   text: String
   type: String
+  required: Boolean
 }
 type Workshop
   @model
@@ -125,6 +127,7 @@ type WorkshopQuestions {
   id: String
   text: String
   type: String
+  required: Boolean
 }
 type Courses
   @model

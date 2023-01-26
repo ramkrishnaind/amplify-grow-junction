@@ -381,7 +381,9 @@ const Home = () => {
       }
     })
   }
-  const showPreview = async (mentorPassed) => {
+  const showPreview = async (e, mentorPassed) => {
+    e.stopPropagation()
+
     if (mentorPassed) {
       if (mentorPassed.profile_image) {
         // const img = await Storage.get(mentorPassed.profile_image)
@@ -751,6 +753,7 @@ const Home = () => {
       const img = await getS3ImageUrl(image)
       console.log('image - ', img)
       setImage(img)
+      return img
     }
   }
 
@@ -758,6 +761,7 @@ const Home = () => {
     debugger
     setShowServiceDetail(true)
     const id = index
+
     setBookNow(sessionResults[index])
     showImage(sessionResults[index]?.user?.profile_image)
     //setTimeSlots([])
@@ -769,10 +773,18 @@ const Home = () => {
     console.log('id=', sessionResults[id])
   }
 
-  const handleWorkshopClick = (index) => {
+  const handleWorkshopClick = async (index) => {
     debugger
     setShowWorkshopDetail(true)
     const id = index
+    if (workshopResults[index].workshopImage) {
+      const workshopImage = await showImage(
+        workshopResults[index].workshopImage,
+      )
+      if (workshopImage) {
+        workshopResults[index].workshopImageUrl = workshopImage
+      }
+    }
     setWorkshopNow(workshopResults[index])
     showImage(workshopResults[index]?.user?.profile_image)
     setMentorName(workshopResults[index]?.user?.username)
@@ -789,18 +801,31 @@ const Home = () => {
     console.log('id=', textQueryResults[id])
   }
 
-  const handleCoursesClick = (index) => {
-    debugger
+  const handleCoursesClick = async (index) => {
     setShowCourseDetail(true)
+    if (coursesResults[index].courseImage) {
+      debugger
+      const courseImage = await showImage(coursesResults[index].courseImage)
+      if (courseImage) {
+        coursesResults[index].courseImageUrl = courseImage
+      }
+    }
     setCourseNow(coursesResults[index])
     showImage(coursesResults[index]?.user?.profile_image)
     setMentorName(coursesResults[index]?.user?.username)
     console.log('id=', coursesResults[index])
   }
 
-  const handlePackagesClick = (index) => {
+  const handlePackagesClick = async (index) => {
     debugger
     setShowPackageDetail(true)
+    if (packagesResults[index].packageImage) {
+      debugger
+      const packageImage = await showImage(packagesResults[index].packageImage)
+      if (packageImage) {
+        packagesResults[index].packageImageUrl = packageImage
+      }
+    }
     setPackageNow(packagesResults[index])
     showImage(packagesResults[index]?.user?.profile_image)
     setMentorName(packagesResults[index]?.user?.username)
@@ -1084,10 +1109,9 @@ const Home = () => {
                                     <div
                                       className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end border-2
                                  text-black p-10"
-                                      onClick={showPreview.bind(
-                                        null,
-                                        item?.user,
-                                      )}
+                                      onClick={(e) =>
+                                        showPreview(e, item?.user)
+                                      }
                                     >
                                       {'- '}{' '}
                                       {item?.user.about_yourself.first_name +
@@ -1204,10 +1228,9 @@ const Home = () => {
                                     <div
                                       className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end   border-2
                                  text-black p-10"
-                                      onClick={showPreview.bind(
-                                        null,
-                                        item?.user,
-                                      )}
+                                      onClick={(e) =>
+                                        showPreview(e, item?.user)
+                                      }
                                     >
                                       {'- '}{' '}
                                       {item?.user.about_yourself.first_name +
@@ -1325,10 +1348,9 @@ const Home = () => {
                                     <div
                                       className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end  border-2
                                  text-black p-10"
-                                      onClick={showPreview.bind(
-                                        null,
-                                        item?.user,
-                                      )}
+                                      onClick={(e) =>
+                                        showPreview(e, item?.user)
+                                      }
                                     >
                                       {'- '}{' '}
                                       {item?.user.about_yourself.first_name +
@@ -1449,10 +1471,9 @@ const Home = () => {
                                     <div
                                       className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end border-2
                                  text-black p-10"
-                                      onClick={showPreview.bind(
-                                        null,
-                                        item?.user,
-                                      )}
+                                      onClick={(e) =>
+                                        showPreview(e, item?.user)
+                                      }
                                     >
                                       {'- '}{' '}
                                       {item?.user.about_yourself.first_name +
@@ -1570,10 +1591,9 @@ const Home = () => {
                                     <div
                                       className="flex cursor-pointer text-lg font-bold bg-slate-100 capitalize justify-end border-2
                                  text-black p-10"
-                                      onClick={showPreview.bind(
-                                        null,
-                                        item?.user,
-                                      )}
+                                      onClick={(e) =>
+                                        showPreview(e, item?.user)
+                                      }
                                     >
                                       {'- '}{' '}
                                       {item?.user.about_yourself.first_name +
@@ -1753,12 +1773,19 @@ const Home = () => {
       {showWorkshopDetail ? (
         <>
           <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
+            <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-[42rem]">
               <div className="flex justify-between px-8 py-4  border-gray-300">
                 <div className="flex flex-row justify-start items-start px-6 py-6 bg-gray-100 rounded-md">
                   <div
                     className={`${classes['img-profile']} bg-gray-300 rounded-md`}
-                  ></div>
+                  >
+                    {workshopNow.workshopImageUrl && (
+                      <img
+                        className="h-full w-full"
+                        src={workshopNow.workshopImageUrl}
+                      />
+                    )}
+                  </div>
                   <div className="ml-2 mt-6 p-2">
                     <span className="text-3xl font-semibold ">
                       {workshopNow.title}
@@ -1982,7 +2009,14 @@ const Home = () => {
                 <div className="flex flex-row justify-start items-start px-6 py-6 bg-gray-100 rounded-md">
                   <div
                     className={`${classes['img-profile']} bg-gray-300 rounded-md`}
-                  ></div>
+                  >
+                    {courseNow.courseImageUrl && (
+                      <img
+                        className="h-full w-full"
+                        src={courseNow.courseImageUrl}
+                      />
+                    )}
+                  </div>
                   <div className="ml-2 mt-6 p-2">
                     <span className="text-3xl font-semibold ">
                       {courseNow.courseTitle}
@@ -2091,7 +2125,14 @@ const Home = () => {
                 <div className="flex flex-row justify-start items-start px-6 py-6 bg-gray-100 rounded-md">
                   <div
                     className={`${classes['img-profile']} bg-gray-300 rounded-md`}
-                  ></div>
+                  >
+                    {packageNow.packageImageUrl && (
+                      <img
+                        className="h-full w-full"
+                        src={packageNow.packageImageUrl}
+                      />
+                    )}
+                  </div>
                   <div className="ml-2 mt-6 p-2">
                     <span className="text-3xl font-semibold ">
                       {packageNow?.packageTitle}
@@ -3939,7 +3980,7 @@ const Home = () => {
       {showMentor && (
         <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
           <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-1/2 lg:w-1/2  fixed  h-full overflow-x-hidden overflow-y-auto">
-            <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+            <div className="flex sticky bg-slate-100 top-0 z-50 w-full mb-5 justify-between px-8 py-4 border-b border-gray-300">
               <div className="flex flex-col justify-start items-start border=b-2">
                 <span className="text-2xl font-semibold mt-3">Mentor</span>
               </div>

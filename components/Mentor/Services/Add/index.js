@@ -110,7 +110,7 @@ const AddService = () => {
         query: createOneOnOne,
         variables: { input: { ...state.oneOnOne } },
       })
-      toast.success('Profile added successfully')
+      toast.success('One on One Session added successfully')
       window.location.href = '/mentor/services'
     } catch (error) {
       toast.error(`Save Error:${error.errors[0].message}`)

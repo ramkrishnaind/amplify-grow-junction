@@ -68,9 +68,13 @@ const OneOnOne = ({
   const [questionType, setQuestionType] = useState(items[0])
   const [state, setState] = useState(initialState)
   const [question, setQuestion] = useState('')
+  const [required, setRequired] = useState(false)
   const [questions, setQuestions] = useState([])
   const handleQuestionChange = (e) => {
     setQuestion(e.target.value)
+  }
+  const onRequiredChanged = (e) => {
+    setRequired(e.target.checked)
   }
   const addQuestion = () => {
     const found = questions.find(
@@ -81,10 +85,12 @@ const OneOnOne = ({
         id: uuid(),
         text: question,
         type: questionType,
+        required: required == 'checked',
       })
     }
     setQuestionType(items[0])
     setQuestion('')
+    setRequired(false)
   }
   const handleRemoveQuestion = (id) => {
     debugger
@@ -262,7 +268,7 @@ const OneOnOne = ({
                           placeholder="Description"
                           value={values.description}
                           name="description"
-                          className="w-full p-3 bg-gray-50 text-sm"
+                          className="w-full p-3 bg-gray-50 text-lg"
                         ></textarea>
                       </div>
                       <div className="flex justify-start text-xs mt-3 mb-10">
@@ -292,9 +298,10 @@ const OneOnOne = ({
                   </div>
                   <div>
                     {questions.length > 0 && (
-                      <div className="grid gap-2 grid-cols-3 px-10 py-5 text-lg uppercase border-b-2">
+                      <div className="grid gap-2 grid-cols-4 px-10 py-5 text-lg uppercase border-b-2">
                         <span>Question</span>
                         <span>Type</span>
+                        <span>Required</span>
                         <span className="px-5">Action</span>
                       </div>
                     )}
@@ -302,10 +309,11 @@ const OneOnOne = ({
                     {questions.map((qns) => (
                       <div
                         key={qns.id}
-                        className="grid grid-cols-3 px-10 py-5 items-center gap-2  text-lg "
+                        className="grid grid-cols-4 px-10 py-5 items-center gap-2  text-lg "
                       >
                         <span>{qns.text}</span>
                         <span>{qns.type}</span>
+                        <span>{qns.required}</span>
                         <span
                           className="text-red-700 cursor-pointer py-3 px-5 rounded-full hover:bg-gray-100 w-32 "
                           onClick={handleRemoveQuestion.bind(null, qns.id)}
@@ -327,11 +335,16 @@ const OneOnOne = ({
                         //   value={values.social.facebook_url}
                         type="text"
                         id="linkedurl"
-                        placeholder="Enter URL here"
+                        placeholder="Enter your question here"
                       />
                     </div>
                     <div className="flex items-center">
-                      <input type="checkbox" className="mr-3"></input>
+                      <input
+                        type="checkbox"
+                        className="mr-3"
+                        checked={required}
+                        onChange={onRequiredChanged}
+                      ></input>
                       <span className="text-sm">Required</span>
                     </div>
                     <div className="text-lg bg-gray-50 py-4">

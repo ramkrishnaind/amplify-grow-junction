@@ -12,7 +12,7 @@ import DashboardPage from './Dashboard'
 import { useSelector, useDispatch } from 'react-redux'
 import useWindowDimensions from '../public/utils/useWindowDimensions'
 import ACTION_KEYS from '../constants/action-keys'
-import { SetUser } from '../redux/actions/AuthAction'
+import { SetUser, RegisterTypeRequest } from '../redux/actions/AuthAction'
 import { getLoggedinUserEmail } from '../utilities/user'
 import { createUserInfo, updateUserInfo } from '../src/graphql/mutations'
 import { listUserInfos } from '../src/graphql/queries'
@@ -87,11 +87,11 @@ const Home = () => {
         }),
       )
       if (results.data.listUserInfos.items.length > 0) {
-        debugger
         const data = { ...results.data.listUserInfos.items[0] }
-        updateUser(data)
+        RegisterTypeRequest(dispatch, data.register_type)
+        // updateUser(data)
         if (data.kyc_done) {
-          if (registerType.registerType === 'STUDENT') {
+          if (data.register_type === 'STUDENT') {
             router.push('/student')
           } else {
             router.push('/mentor')

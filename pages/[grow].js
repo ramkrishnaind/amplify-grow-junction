@@ -20,7 +20,7 @@ const MentorProfile = (props) => {
   useEffect(() => {
     const found = mentorObj.mentors.find(
       (item) =>
-        item.about_yourself.grow_junction_url.trim().toLowerCase() ===
+        item.about_yourself?.grow_junction_url.trim().toLowerCase() ===
         grow.trim().toLowerCase(),
     )
     setMentor(found ? { ...found } : null)

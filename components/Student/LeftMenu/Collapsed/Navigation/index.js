@@ -13,7 +13,12 @@ const Navigation = () => {
           if (items) {
             return (
               <>
-                <Parent key={index} {...navLink} hasItems={true} />
+                <Parent
+                  title={title}
+                  key={index}
+                  {...navLink}
+                  hasItems={true}
+                />
                 {/* <ul>
                   {items.map((child) => {
                     return <Child {...child} />
@@ -22,7 +27,9 @@ const Navigation = () => {
               </>
             )
           } else {
-            return <Parent key={index} {...navLink} hasItems={false} />
+            return (
+              <Parent title={title} key={index} {...navLink} hasItems={false} />
+            )
           }
         })}
       </ul>
