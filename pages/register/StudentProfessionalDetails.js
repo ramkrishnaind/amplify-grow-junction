@@ -76,7 +76,8 @@ const StudentProfessionalDetails = () => {
               backgroundColor: color.headerColor,
             }}
           >
-            <div className='text-gray-900 text-4xl font-semibold p-5'
+            <div
+              className="text-gray-900 text-4xl font-semibold p-5"
               // style={{
               //   color: color.blackVariant,
               //   fontWeight: 400,
@@ -87,7 +88,8 @@ const StudentProfessionalDetails = () => {
             >
               Professional Details
             </div>
-            <div className='text-gray-400 text-base font-normal p-5'
+            <div
+              className="text-gray-400 text-base font-normal p-5"
               // style={{
               //   color: color.lightGrey,
               //   fontSize: 10,
@@ -161,9 +163,9 @@ const StudentProfessionalDetails = () => {
                     style={{ padding: 5 }}
                     value={values.recent_college}
                     onChangeValue={(text) => {
-                      if (spaceValidation.test(text.target.value)) {
-                        setFieldValue('recent_college', text.target.value)
-                      }
+                      // if (spaceValidation.test(text.target.value)) {
+                      setFieldValue('recent_college', text.target.value)
+                      // }
                     }}
                     styleOverride={{
                       backgroundColor: color.white,
@@ -182,9 +184,9 @@ const StudentProfessionalDetails = () => {
                     placeholder="Choose college degree"
                     style={{ padding: 5 }}
                     onChangeValue={(text) => {
-                      if (spaceValidation.test(text.target.value)) {
-                        setFieldValue('degree', text.target.value)
-                      }
+                      // if (spaceValidation.test(text.target.value)) {
+                      setFieldValue('degree', text.target.value)
+                      // }
                     }}
                     styleOverride={{
                       backgroundColor: color.white,
@@ -270,9 +272,9 @@ const StudentProfessionalDetails = () => {
                     label="Current Employer (optional))"
                     placeholder="Choose current employer"
                     onChangeValue={(text) => {
-                      if (spaceValidation.test(text.target.value)) {
-                        setFieldValue('current_employee', text.target.value)
-                      }
+                      // if (spaceValidation.test(text.target.value)) {
+                      setFieldValue('current_employee', text.target.value)
+                      // }
                     }}
                     style={{ padding: 5 }}
                     styleOverride={{
@@ -369,9 +371,9 @@ const StudentProfessionalDetails = () => {
                     }}
                     value={values.your_role}
                     onChangeValue={(text) => {
-                      if (spaceValidation.test(text.target.value)) {
-                        setFieldValue(text.target.id, text.target.value)
-                      }
+                      // if (spaceValidation.test(text.target.value)) {
+                      setFieldValue(text.target.id, text.target.value)
+                      // }
                     }}
                     errMsg={touched.your_role && errors.your_role}
                   />
@@ -382,7 +384,7 @@ const StudentProfessionalDetails = () => {
                     placeholder="Choose experience in year"
                     style={{ padding: 5 }}
                     id="experience"
-                    type="role"
+                    type="number"
                     //   icon={require('../../public/assets/icon/eye.png')}
                     styleOverride={{
                       backgroundColor: color.white,
@@ -394,9 +396,9 @@ const StudentProfessionalDetails = () => {
                       paddingLeft: 8,
                     }}
                     onChangeValue={(text) => {
-                      if (spaceValidation.test(text.target.value)) {
-                        setFieldValue(text.target.id, text.target.value)
-                      }
+                      // if (spaceValidation.test(text.target.value)) {
+                      setFieldValue(text.target.id, text.target.value)
+                      // }
                     }}
                     errMsg={touched.your_role && errors.your_role}
                   />
@@ -464,7 +466,7 @@ const StudentProfessionalDetails = () => {
                         // paddingRight: 20,
                         // paddingTop: 6,
                         // paddingBottom: 6,
-                        
+
                         color: color.white,
                         borderRadius: 22,
                         height: 43,

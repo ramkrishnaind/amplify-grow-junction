@@ -15,7 +15,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Formik, useFormikContext } from 'formik'
 import { verifyStep4 } from '../../public/utils/schema'
 import { v4 as uuid } from 'uuid'
-import { listUserInfos } from '../../src/graphql/queries'
+import {
+  listUserInfos,
+  listMentorRegisters,
+  listStudentRegisters,
+} from '../../src/graphql/queries'
 import { getLoggedinUserEmail } from '../../utilities/user'
 import WithAuthenticatedKYCDone from '../../hoc/withAuthenticatedKYCDone'
 const numberValidation = new RegExp(/^[0-9]{0,10}$/)
@@ -27,6 +31,7 @@ const KYC_step4 = () => {
   const [loading, setLoading] = useState()
   const [state, setState] = useState()
   // window.mentor = registerType
+  console.log('registerType', registerType)
   const AutoSubmitToken = ({ setValues }) => {
     // Grab values and submitForm from context
     const { values, submitForm } = useFormikContext()
@@ -48,23 +53,57 @@ const KYC_step4 = () => {
     setState(values)
   }
   const handleClick = async () => {
+    let postData
     if (registerType?.registerType === 'STUDENT') {
-      debugger
+      const usrname = getLoggedinUserEmail()
       const { registerType: rt, ...restKycStep1 } =
         registerType?.kycStep1?.STUDENT
       let payload = {
-        ...registerType?.professionalDetails?.payload,
+        ...registerType?.professionalDetails,
+
         ...restKycStep1,
         whatsapp_number: state.phoneNumber,
       }
       payload.interestedSkills = payload.interestedSkills.map((i) => i.id)
+      payload.username = usrname
       try {
-        const postData = await API.graphql({
-          query: mutations.createStudentRegister,
-          variables: { input: payload },
-          // authMode: 'AMAZON_COGNITO_USER_POOLS',
-        })
-        console.log(postData)
+        const results = await API.graphql(
+          graphqlOperation(listStudentRegisters, {
+            filter: { username: { contains: usrname } },
+          }),
+        )
+        if (results.data.listStudentRegisters.items.length > 0) {
+          const { createdAt, updatedAt, profile_image_url, ...rest } = {
+            ...results.data.listStudentRegisters.items[0],
+            ...payload,
+          }
+          try {
+            rest.username = usrname
+            postData = await API.graphql({
+              query: mutations.updateStudentRegister,
+              variables: {
+                input: { ...rest },
+                // condition: { username: { contains: state.username } },
+              },
+            })
+            // toast.success('Profile updated successfully')
+          } catch (error) {
+            debugger
+            // toast.error(`Save Error:${error.errors[0].message}`)
+            console.log(error)
+          }
+        } else {
+          try {
+            postData = await API.graphql({
+              query: mutations.createStudentRegister,
+              variables: { input: payload },
+              // authMode: 'AMAZON_COGNITO_USER_POOLS',
+            })
+            console.log(postData)
+          } catch (e) {
+            console.log('e', e)
+          }
+        }
         if (postData) {
           if (postData) {
             const results = await API.graphql(
@@ -115,10 +154,9 @@ const KYC_step4 = () => {
             // router.replace('/mentor')
           }
         }
-      } catch (e) {
-        console.log('e', e)
-      }
+      } catch (error) {}
     } else {
+      const usrname = getLoggedinUserEmail()
       const { registerType: rt, ...restKycStep1 } =
         registerType?.kycStep1?.MENTOR
       let payload = {
@@ -128,65 +166,99 @@ const KYC_step4 = () => {
       }
       payload.mentor_service_id = payload.mentor_service_id.map((i) => i.id)
       payload.domain_id = payload.domain_id.map((i) => i.id)
+      // payload.username = usrname
       console.log(payload)
-      try {
-        const postData = await API.graphql({
-          query: mutations.createMentorRegister,
-          variables: { input: payload },
-          // authMode: 'AMAZON_COGNITO_USER_POOLS',
-        })
-        console.log(postData)
 
-        if (postData) {
-          const results = await API.graphql(
-            graphqlOperation(listUserInfos, {
-              filter: {
-                username: {
-                  eq: getLoggedinUserEmail(),
-                },
+      try {
+        const results = await API.graphql(
+          graphqlOperation(listMentorRegisters, {
+            filter: { username: { contains: usrname } },
+          }),
+        )
+        if (results.data.listMentorRegisters.items.length > 0) {
+          const { createdAt, updatedAt, profile_image_url, owner, ...rest } = {
+            ...results.data.listMentorRegisters.items[0],
+            ...payload,
+          }
+          // const { createdAt, profile_image_url, ...rest } = {
+          //   ...state,
+          //   ...remaining,
+          // }
+          // rest.username = getLoggedinUserEmail()
+          try {
+            postData = await API.graphql({
+              query: mutations.updateMentorRegister,
+              variables: {
+                input: { ...rest },
+                // condition: { username: { contains: state.username } },
               },
-            }),
-          )
-          if (results.data.listUserInfos?.items?.length > 0) {
-            const data = { ...results.data.listUserInfos?.items[0] }
-            const { updatedAt, createdAt, owner, ...updateduser } = data
-            try {
-              await API.graphql({
-                query: mutations.updateUserInfo,
-                variables: {
-                  input: { ...updateduser, kyc_done: true },
-                  // condition: { username: { contains: state.username } },
-                },
-                // authMode: 'AMAZON_COGNITO_USER_POOLS',
-              })
-              // toast.success('Profile updated successfully')
-            } catch (error) {
-              debugger
-              toast.error(`Save Error:${error.errors[0].message}`)
-              console.log(error)
-            }
+            })
+            // toast.success('Profile updated successfully')
+          } catch (error) {
+            debugger
+            // toast.error(`Save Error:${error.errors[0].message}`)
+            console.log(error)
           }
-          if (registerType.userAuth) {
-            let user = await Auth.currentAuthenticatedUser()
-            let data = {
-              'custom:kyc_done': 'true',
-            }
-            Auth.updateUserAttributes(user, data)
-              .then((res) => {
-                console.log('res', res)
-                window.location.replace(window.location.origin + '/mentor')
-                // setSubmitting(false)
-              })
-              .catch((e) => {
-                console.log('err', e)
-              })
-          } else {
-            window.location.replace(window.location.origin + '/mentor')
+        } else {
+          try {
+            postData = await API.graphql({
+              query: mutations.createMentorRegister,
+              variables: { input: payload },
+              // authMode: 'AMAZON_COGNITO_USER_POOLS',
+            })
+            console.log(postData)
+          } catch (e) {
+            console.log('e', e)
           }
-          // router.replace('/mentor')
         }
-      } catch (e) {
-        console.log('e', e)
+      } catch (error) {}
+      if (postData) {
+        const results = await API.graphql(
+          graphqlOperation(listUserInfos, {
+            filter: {
+              username: {
+                eq: getLoggedinUserEmail(),
+              },
+            },
+          }),
+        )
+        if (results.data.listUserInfos?.items?.length > 0) {
+          const data = { ...results.data.listUserInfos?.items[0] }
+          const { updatedAt, createdAt, owner, ...updateduser } = data
+          try {
+            await API.graphql({
+              query: mutations.updateUserInfo,
+              variables: {
+                input: { ...updateduser, kyc_done: true },
+                // condition: { username: { contains: state.username } },
+              },
+              // authMode: 'AMAZON_COGNITO_USER_POOLS',
+            })
+            // toast.success('Profile updated successfully')
+          } catch (error) {
+            debugger
+            // toast.error(`Save Error:${error.errors[0].message}`)
+            console.log(error)
+          }
+        }
+        if (registerType.userAuth) {
+          let user = await Auth.currentAuthenticatedUser()
+          let data = {
+            'custom:kyc_done': 'true',
+          }
+          Auth.updateUserAttributes(user, data)
+            .then((res) => {
+              console.log('res', res)
+              window.location.replace(window.location.origin + '/mentor')
+              // setSubmitting(false)
+            })
+            .catch((e) => {
+              console.log('err', e)
+            })
+        } else {
+          window.location.replace(window.location.origin + '/mentor')
+        }
+        // router.replace('/mentor')
       }
     }
   }

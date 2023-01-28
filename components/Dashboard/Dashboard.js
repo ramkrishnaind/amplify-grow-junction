@@ -23,7 +23,7 @@ const Dashboard = ({ isLoggedin }) => {
           className={`flex gap-y-5 flex-col md:flex-row cursor-pointer ${classes['right-side']}`}
         >
           {isLoggedin ? (
-            <div clssName="mb-5">
+            <div className="mb-5">
               <a
                 className={classes.link}
                 onClick={() => {

@@ -18,7 +18,7 @@ const Header = (props) => {
       // }}
     >
       <Image
-        className=''
+        className=""
         src={require('../../../public/assets/icon/logo.svg')}
         alt={''}
         // style={{
@@ -27,12 +27,12 @@ const Header = (props) => {
         // }}
       />
       <button
-      className='px-8 mt-10 text-base font-bold bg-gray-900 text-white hover:bg-white hover:text-black h-16 rounded-md'
-      onClick={() => {
-        onClickBtn()
-      }}
+        className="px-8 mt-10 text-base font-bold bg-gray-900 text-white hover:bg-white hover:text-black h-16 rounded-md"
+        onClick={() => {
+          onClickBtn()
+        }}
       >
-        Log In
+        Sign up
       </button>
       {/* <Button
         label={btnName}

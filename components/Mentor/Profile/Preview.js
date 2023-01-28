@@ -18,6 +18,12 @@ const Preview = ({ showServices, mentor }) => {
   const [firstName, setFirstName] = useState(mentor?.about_yourself?.first_name)
   const [lastName, setLastName] = useState(mentor?.about_yourself?.last_name)
   const [url, setUrl] = useState(mentor?.about_yourself?.grow_junction_url)
+  const [linkedin_url, setfacebook_url] = useState(mentor?.social?.linkedin_url)
+  const [facebook_url, setLinkedin_url] = useState(mentor?.social?.facebook_url)
+  const [instagram_url, setInstagram_url] = useState(
+    mentor?.social?.instagram_url,
+  )
+
   const [shortDescription, setShortDescription] = useState(
     mentor?.about_yourself?.short_description,
   )
@@ -91,6 +97,9 @@ const Preview = ({ showServices, mentor }) => {
       setInstagram(data.SocialUrl?.instagram_url)
       setPersonalurl(data.SocialUrl?.personal_web_url)
       setUrl(data.about_yourself?.grow_junction_url || '')
+      setLinkedin_url(data.social?.linkedin_url || '')
+      setfacebook_url(data.social?.facebook_url || '')
+      setInstagram_url(data.social?.instagram_url || '')
     } else {
       const results = await API.graphql(
         graphqlOperation(listUserInfos, {
@@ -375,9 +384,19 @@ const Preview = ({ showServices, mentor }) => {
             {occupation} {organisation}
           </span>
           <div className="flex flex-row mt-5">
-            <img src="../../../images/linkedin.png" alt="" className="px-4" />
+            {linkedin_url && (
+              <img src="../../../images/linkedin.png" alt="" className="px-4" />
+            )} 
+
+            {instagram_url && (
             <img src="../../../images/instagram.png" alt="" className="px-4" />
-            <img src="../../../images/www.png" alt="" className="px-4" />
+             )}
+             {facebook_url && <img
+              src="../../../images/facebook.svg"
+              alt=""
+              className="px-4 w-20"
+            /> }
+            
           </div>
           <span className="text-2xl font-semibold mt-5  text-center">
             {shortDescription}
@@ -444,15 +463,13 @@ const Preview = ({ showServices, mentor }) => {
                           />
                           <span className="text-left absolute inset-x-0 top-0 mt-5 z-50 p-2">
                             <div className="flex justify-between px-1">
-                              <div className="text-left" >
-                              <p className="text-base text-black font-semibold p-1">
-                                {s.text}
-                              </p>
-                              <p className="text-base">
-                              {s.duration}
-                              </p>
-                                </div>
-                              
+                              <div className="text-left">
+                                <p className="text-base text-black font-semibold p-1">
+                                  {s.text}
+                                </p>
+                                <p className="text-base">{s.duration}</p>
+                              </div>
+
                               <div className="flex justify-between items-center px-2 py-1 min-w-[11rem] rounded-full border border-gray-700 mb-3">
                                 <img
                                   className="w-50 h-50"
@@ -469,7 +486,10 @@ const Preview = ({ showServices, mentor }) => {
                               {s.title}
                             </p>
                             <p className="text-sm text-black font-normal p-2">
-                              {(s.description+ s.description).split(' ').slice(0,10).join(' ')}
+                              {(s.description + s.description)
+                                .split(' ')
+                                .slice(0, 10)
+                                .join(' ')}
                             </p>
                             {/* <p className="text-xs text-black font-normal mt-2 p-2">
                               {s.duration}

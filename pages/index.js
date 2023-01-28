@@ -120,7 +120,7 @@ const Home = () => {
     if (registerType.user) {
       setIsLoggedIn(true)
     }
-  }, registerType.user)
+  }, [registerType.user])
   // if (isLoading) {
   //   return <div>Loading ...</div>;
   // }
