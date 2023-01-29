@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { slice } from 'lodash'
 import classes from './Preview.module.css'
 import { API, Storage, graphqlOperation } from 'aws-amplify'
+import OneOnOne from '../../Student/Services/Booking/OneOnOne'
 import {
   listMentorRegisters,
   listUserInfos,
@@ -10,6 +11,7 @@ import {
   listWorkshops,
   listCourses,
   listPackages,
+  // listDemoSkillsLists
 } from '../../../src/graphql/queries'
 import { getLoggedinUserEmail } from '../../../utilities/user'
 import { getS3ImageUrl } from '../../../utilities/others'
@@ -20,10 +22,31 @@ const Preview = ({ showServices, mentor }) => {
   const [url, setUrl] = useState(mentor?.about_yourself?.grow_junction_url)
   const [linkedin_url, setfacebook_url] = useState(mentor?.social?.linkedin_url)
   const [facebook_url, setLinkedin_url] = useState(mentor?.social?.facebook_url)
+  const [domainNames, setDomainNames] = useState([])
+  const [showBooking, setShowBooking] = useState(false)
+  const [component, setComponent] = useState(null)
   const [instagram_url, setInstagram_url] = useState(
     mentor?.social?.instagram_url,
   )
-
+  // let component = null
+  const serviceClicked = (service) => {
+    debugger
+    switch (service.text) {
+      case '1 on 1 Session':
+        setComponent(
+          <div className="relative w-[100vw] h-[100vh] ">
+            <div className="absoloute left-0 top-0 right-0 bottom-0 bg-gray-700 z-0"></div>
+            <OneOnOne
+              className=""
+              setShow={setShowBooking}
+              oneOnOneService={service?.service}
+              show={true}
+            />
+          </div>,
+        )
+    }
+    setShowBooking(true)
+  }
   const [shortDescription, setShortDescription] = useState(
     mentor?.about_yourself?.short_description,
   )
@@ -75,7 +98,38 @@ const Preview = ({ showServices, mentor }) => {
     )
     if (results.data.listMentorRegisters.items.length > 0) {
       const data = { ...results.data.listMentorRegisters.items[0] }
-      // debugger
+      let where = ``
+      data.domain_id.forEach((i, index) => {
+        if (index == data.domain_id.length - 1) {
+          where += `{id: {eq: "${i}"}}`
+        } else {
+          where += `{id: {eq: "${i}"}},`
+        }
+      })
+      debugger
+      const listDomains = `query MyQuery {
+        listDemoSkillsLists(filter: {or: [
+          ${where}
+        ]}) 
+          {
+          nextToken
+          items {
+            value
+          }
+        }
+      }`
+      try {
+        const results = await API.graphql(graphqlOperation(listDomains))
+        debugger
+        if (results.data.listDemoSkillsLists.items.length > 0) {
+          setDomainNames(
+            results.data.listDemoSkillsLists.items.map((i) => i.value),
+          )
+        }
+      } catch (error) {
+        debugger
+        console.log('error', error)
+      }
       if (data.profile_image) {
         try {
           // const img = await Storage.get(data.profile_image)
@@ -120,7 +174,7 @@ const Preview = ({ showServices, mentor }) => {
   }
 
   const loadOneOnOne = async () => {
-    debugger
+    // debugger
     try {
       const results = await API.graphql(
         graphqlOperation(listOneOnOnes, {
@@ -143,10 +197,12 @@ const Preview = ({ showServices, mentor }) => {
                 )
                   return {
                     text: '1 on 1 Session',
+
                     title: s.sessionTitle,
                     description: s.description,
                     duration: s.sessionDuration + ' ' + s.sessionDurationIn,
                     price: s.finalPrice,
+                    service: s,
                   }
               })
               .filter((a) => a),
@@ -162,7 +218,7 @@ const Preview = ({ showServices, mentor }) => {
   }
 
   const loadWorkshop = async () => {
-    debugger
+    // debugger
     try {
       const results = await API.graphql(
         graphqlOperation(listWorkshops, {
@@ -187,6 +243,7 @@ const Preview = ({ showServices, mentor }) => {
                     description: s.description,
                     duration: s.callDuration + ' ' + s.callDurationIn,
                     price: s.finalPrice,
+                    service: s,
                   }
               })
               .filter((a) => a),
@@ -202,7 +259,7 @@ const Preview = ({ showServices, mentor }) => {
   }
 
   const loadCourses = async () => {
-    debugger
+    // debugger
     try {
       const results = await API.graphql(
         graphqlOperation(listCourses, {
@@ -227,6 +284,7 @@ const Preview = ({ showServices, mentor }) => {
                     description: s.description,
                     duration: s.sessionDuration + ' ' + s.sessionDurationIn,
                     price: s.finalPrice,
+                    service: s,
                   }
               })
               .filter((a) => a),
@@ -260,7 +318,7 @@ const Preview = ({ showServices, mentor }) => {
       if (results.data.listTextQueries.items.length > 0) {
         setTextQueryResults(results.data.listTextQueries.items)
         setTotalServiceResults((prev) => {
-          debugger
+          // debugger
           return [
             ...prev,
             ...results.data.listTextQueries.items
@@ -276,6 +334,7 @@ const Preview = ({ showServices, mentor }) => {
                     description: s.description,
                     duration: s.responseTime + ' ' + s.responseTimeIn,
                     price: s.finalPrice,
+                    service: s,
                   }
               })
               .filter((a) => a),
@@ -300,7 +359,7 @@ const Preview = ({ showServices, mentor }) => {
   }
 
   const loadPackages = async () => {
-    debugger
+    // debugger
     try {
       const results = await API.graphql(
         graphqlOperation(listPackages, {
@@ -325,6 +384,7 @@ const Preview = ({ showServices, mentor }) => {
                     description: s.description,
                     duration: s.responseTime + ' ' + s.responseTimeIn,
                     price: s.finalPrice,
+                    service: s,
                   }
               })
               .filter((a) => a),
@@ -364,6 +424,7 @@ const Preview = ({ showServices, mentor }) => {
           Preview
         </div>
       </div>
+      {showBooking && component}
       <div className="p-5 items-center flex flex-col">
         <div
           className={`${classes['persona']} bg-gray-300 rounded-full flex justify-center`}
@@ -386,17 +447,22 @@ const Preview = ({ showServices, mentor }) => {
           <div className="flex flex-row mt-5">
             {linkedin_url && (
               <img src="../../../images/linkedin.png" alt="" className="px-4" />
-            )} 
+            )}
 
             {instagram_url && (
-            <img src="../../../images/instagram.png" alt="" className="px-4" />
-             )}
-             {facebook_url && <img
-              src="../../../images/facebook.svg"
-              alt=""
-              className="px-4 w-20"
-            /> }
-            
+              <img
+                src="../../../images/instagram.png"
+                alt=""
+                className="px-4"
+              />
+            )}
+            {facebook_url && (
+              <img
+                src="../../../images/facebook.svg"
+                alt=""
+                className="px-4 w-20"
+              />
+            )}
           </div>
           <span className="text-2xl font-semibold mt-5  text-center">
             {shortDescription}
@@ -408,7 +474,7 @@ const Preview = ({ showServices, mentor }) => {
           <span className="text-xs font-semibold underline underline-offset-4 mt-5  text-center">
             About {firstName}
           </span>
-          <span className="text-xs font-normal mt-5  text-center">
+          <span className="text-base font-normal mt-5  text-center">
             {aboutYourself}
           </span>
           <span className="text-xs font-normal mt-2  text-center">
@@ -432,12 +498,11 @@ const Preview = ({ showServices, mentor }) => {
             Domain Experties
           </span>
           <div className="flex  flex-col md:flex-row  my-5">
-            <button className="flex py-2 px-5 mb-3 md:mb-0 justify-center items-center bg-black hover:bg-blue-700 text-sm  p-2 text-white rounded-full w-auto">
-              Entrepreneurship
-            </button>
-            <button className="flex py-3 px-5 justify-center items-center bg-black hover:bg-blue-700 text-sm p-2 text-white rounded-full w-auto ml-5">
-              Product Management
-            </button>
+            {domainNames.map((item) => (
+              <span className="flex py-2 mr-1 px-5 mb-3 md:mb-0 justify-center items-center bg-black hover:bg-blue-700 text-sm  p-2 text-white rounded-full w-auto">
+                {item}
+              </span>
+            ))}
           </div>
           {showServices && (
             <>
@@ -448,20 +513,23 @@ const Preview = ({ showServices, mentor }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center ">
                 {initialPosts !== null && initialPosts.length > 0 ? (
                   initialPosts.map((s, index) => {
-                    debugger
-                    debugger
+                    // debugger
+                    // debugger
 
                     return (
-                      <div className="">
+                      <div
+                        className="cursor-pointer"
+                        onClick={serviceClicked.bind(null, s)}
+                      >
                         <div
                           key={index}
                           className="relative mx-auto overflow-hidden shadow-md md:ml-24 mt-4  "
                         >
                           <img
                             src="../../../images/CardRectangle.png"
-                            className="object-cover z-0"
+                            className="object-cover "
                           />
-                          <span className="text-left absolute inset-x-0 top-0 mt-5 z-50 p-2">
+                          <span className="text-left absolute inset-x-0 top-0 mt-5 p-2">
                             <div className="flex justify-between px-1">
                               <div className="text-left">
                                 <p className="text-base text-black font-semibold p-1">
@@ -635,22 +703,24 @@ const Preview = ({ showServices, mentor }) => {
               </div>
               {initialPosts.length > 0 ? (
                 <div className="flex justify-center item-center m-5">
-                  {isCompleted ? null : (
-                    // <button
-                    //   onClick={loadMore}
-                    //   type="button"
-                    //   className="flex py-3 px-5 justify-center items-center bg-black text-sm p-2 text-white rounded-full w-auto ml-5"
-                    // >
-                    //   No more
-                    // </button>
-                    <button
-                      onClick={loadMore}
-                      type="button"
-                      className="flex py-3 px-5 justify-center items-center bg-black hover:bg-blue-700 text-sm p-2 text-white rounded-full w-auto ml-5"
-                    >
-                      Load more +
-                    </button>
-                  )}
+                  {isCompleted
+                    ? null
+                    : // <button
+                      //   onClick={loadMore}
+                      //   type="button"
+                      //   className="flex py-3 px-5 justify-center items-center bg-black text-sm p-2 text-white rounded-full w-auto ml-5"
+                      // >
+                      //   No more
+                      // </button>
+                      index < totalServiceResults.length && (
+                        <button
+                          onClick={loadMore}
+                          type="button"
+                          className="flex py-3 px-5 justify-center items-center bg-black hover:bg-blue-700 text-sm p-2 text-white rounded-full w-auto ml-5"
+                        >
+                          Load more +
+                        </button>
+                      )}
                 </div>
               ) : null}
             </>
