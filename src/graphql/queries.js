@@ -232,6 +232,7 @@ export const getOneOnOne = /* GraphQL */ `
         id
         text
         type
+        required
       }
       id
       createdAt
@@ -259,6 +260,7 @@ export const listOneOnOnes = /* GraphQL */ `
           id
           text
           type
+          required
         }
         id
         createdAt
@@ -282,6 +284,7 @@ export const getTextQuery = /* GraphQL */ `
         id
         text
         type
+        required
       }
       id
       createdAt
@@ -308,6 +311,7 @@ export const listTextQueries = /* GraphQL */ `
           id
           text
           type
+          required
         }
         id
         createdAt
@@ -337,6 +341,7 @@ export const getWorkshop = /* GraphQL */ `
         id
         text
         type
+        required
       }
       id
       createdAt
@@ -369,6 +374,7 @@ export const listWorkshops = /* GraphQL */ `
           id
           text
           type
+          required
         }
         id
         createdAt
@@ -802,7 +808,13 @@ export const listUserInfos = /* GraphQL */ `
 export const getConfigurations = /* GraphQL */ `
   query GetConfigurations($id: ID!) {
     getConfigurations(id: $id) {
-      timezone
+      timezone {
+        abbrev
+        altName
+        label
+        offset
+        value
+      }
       calender
       username
       personalMeetingLink
@@ -824,7 +836,13 @@ export const listConfigurations = /* GraphQL */ `
   ) {
     listConfigurations(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        timezone
+        timezone {
+          abbrev
+          altName
+          label
+          offset
+          value
+        }
         calender
         username
         personalMeetingLink
@@ -883,7 +901,13 @@ export const getStudentBooking = /* GraphQL */ `
       callAbout
       mobileNumber
       receiveUpdate
-      timeZone
+      timeZone {
+        abbrev
+        altName
+        label
+        offset
+        value
+      }
       bookingDate
       timeSlot
       isSuccess
@@ -910,7 +934,13 @@ export const listStudentBookings = /* GraphQL */ `
         callAbout
         mobileNumber
         receiveUpdate
-        timeZone
+        timeZone {
+          abbrev
+          altName
+          label
+          offset
+          value
+        }
         bookingDate
         timeSlot
         isSuccess

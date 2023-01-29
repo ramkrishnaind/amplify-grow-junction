@@ -304,6 +304,7 @@ export const onCreateOneOnOne = /* GraphQL */ `
         id
         text
         type
+        required
       }
       id
       createdAt
@@ -326,6 +327,7 @@ export const onUpdateOneOnOne = /* GraphQL */ `
         id
         text
         type
+        required
       }
       id
       createdAt
@@ -348,6 +350,7 @@ export const onDeleteOneOnOne = /* GraphQL */ `
         id
         text
         type
+        required
       }
       id
       createdAt
@@ -371,6 +374,7 @@ export const onCreateTextQuery = /* GraphQL */ `
         id
         text
         type
+        required
       }
       id
       createdAt
@@ -394,6 +398,7 @@ export const onUpdateTextQuery = /* GraphQL */ `
         id
         text
         type
+        required
       }
       id
       createdAt
@@ -417,6 +422,7 @@ export const onDeleteTextQuery = /* GraphQL */ `
         id
         text
         type
+        required
       }
       id
       createdAt
@@ -444,6 +450,7 @@ export const onCreateWorkshop = /* GraphQL */ `
         id
         text
         type
+        required
       }
       id
       createdAt
@@ -471,6 +478,7 @@ export const onUpdateWorkshop = /* GraphQL */ `
         id
         text
         type
+        required
       }
       id
       createdAt
@@ -498,6 +506,7 @@ export const onDeleteWorkshop = /* GraphQL */ `
         id
         text
         type
+        required
       }
       id
       createdAt
@@ -1095,7 +1104,13 @@ export const onCreateConfigurations = /* GraphQL */ `
     $filter: ModelSubscriptionConfigurationsFilterInput
   ) {
     onCreateConfigurations(filter: $filter) {
-      timezone
+      timezone {
+        abbrev
+        altName
+        label
+        offset
+        value
+      }
       calender
       username
       personalMeetingLink
@@ -1114,7 +1129,13 @@ export const onUpdateConfigurations = /* GraphQL */ `
     $filter: ModelSubscriptionConfigurationsFilterInput
   ) {
     onUpdateConfigurations(filter: $filter) {
-      timezone
+      timezone {
+        abbrev
+        altName
+        label
+        offset
+        value
+      }
       calender
       username
       personalMeetingLink
@@ -1133,7 +1154,13 @@ export const onDeleteConfigurations = /* GraphQL */ `
     $filter: ModelSubscriptionConfigurationsFilterInput
   ) {
     onDeleteConfigurations(filter: $filter) {
-      timezone
+      timezone {
+        abbrev
+        altName
+        label
+        offset
+        value
+      }
       calender
       username
       personalMeetingLink
@@ -1199,7 +1226,13 @@ export const onCreateStudentBooking = /* GraphQL */ `
       callAbout
       mobileNumber
       receiveUpdate
-      timeZone
+      timeZone {
+        abbrev
+        altName
+        label
+        offset
+        value
+      }
       bookingDate
       timeSlot
       isSuccess
@@ -1223,7 +1256,13 @@ export const onUpdateStudentBooking = /* GraphQL */ `
       callAbout
       mobileNumber
       receiveUpdate
-      timeZone
+      timeZone {
+        abbrev
+        altName
+        label
+        offset
+        value
+      }
       bookingDate
       timeSlot
       isSuccess
@@ -1247,7 +1286,13 @@ export const onDeleteStudentBooking = /* GraphQL */ `
       callAbout
       mobileNumber
       receiveUpdate
-      timeZone
+      timeZone {
+        abbrev
+        altName
+        label
+        offset
+        value
+      }
       bookingDate
       timeSlot
       isSuccess

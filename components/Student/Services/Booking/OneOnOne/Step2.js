@@ -80,6 +80,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
   // console.log('mentor', mentor)
   console.log('oneOnOneService', oneOnOneService)
   // console.log('timeslots', timeSlots)
+  console.log('timeZone', timeZone)
   const getAvailability = async (
     username,
     sessionDuration,
@@ -461,7 +462,10 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
                     )
                   })
                 ) : (
-                  <div className="text-base text-center w-full"> No available slots</div>
+                  <div className="text-base text-center w-full">
+                    {' '}
+                    No available slots
+                  </div>
                 )}
               </div>
 

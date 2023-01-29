@@ -312,7 +312,7 @@ type Configurations
   @auth(
     rules: [{ allow: public, operations: [read, update, create, delete] }]
   ) {
-  timezone: String
+  timezone: TimeZone
   calender: String
   username: String
   personalMeetingLink: String
@@ -342,7 +342,7 @@ type StudentBooking
   callAbout: String
   mobileNumber: String
   receiveUpdate: Boolean
-  timeZone: String
+  timeZone: TimeZone
   bookingDate: String
   timeSlot: String
   isSuccess: Boolean
@@ -350,4 +350,11 @@ type StudentBooking
   failureText: String
   serviceType: String
   username: String
+}
+type TimeZone {
+  abbrev: String
+  altName: String
+  label: String
+  offset: Int
+  value: String
 }
