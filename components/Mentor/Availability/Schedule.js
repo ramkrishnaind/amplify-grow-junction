@@ -291,7 +291,7 @@ const Schedule = ({
   const addTimeSlots = (key) => {
     debugger
     const prevState = { ...state }
-    prevState.daySchedules[key].time.push([{ startTime: '', endTime: '' }])
+    prevState.daySchedules[key].time.push({ startTime: '', endTime: '' })
     setState(prevState)
   }
   const removeTimeSlots = (key, index) => {
@@ -619,74 +619,74 @@ const Schedule = ({
                               (time, index) => (
                                 // eslint-disable-next-line react/jsx-key
                                 <>
-                                <div className="flex flex-row">
-                                  <div className="w-1/3 mx-1">
-                                    <span className="text-sm text-gray-900 font-normal">
-                                      Start Time
-                                    </span>
-                                    <TextField
-                                      id="startTime"
-                                      type="time"
-                                      value={time.startTime}
-                                      onChangeValue={(e) => {
-                                        handleStartTimeChange(e)
-                                        handleChange(e)
-                                      }}
-                                      name={`daySchedules.${day}.time[${index}].startTime`}
-                                      className="w-full"
-                                      disable
-                                    />
-                                  </div>
-                                  <div className="w-1/3  mx-1">
-                                    <span className="text-sm text-gray-900 font-normal">
-                                      End Time
-                                    </span>
-                                    <TextField
-                                      id="Everyday"
-                                      type="time"
-                                      value={time.endTime}
-                                      onChangeValue={(e) => {
-                                        handleEndTimeChange(e)
-                                        handleChange(e)
-                                      }}
-                                      name={`daySchedules.${day}.time[${index}].endTime`}
-                                      className="w-full"
-                                      disable
-                                    />
-                                  </div>
+                                  <div className="flex flex-row">
+                                    <div className="w-1/3 mx-1">
+                                      <span className="text-sm text-gray-900 font-normal">
+                                        Start Time
+                                      </span>
+                                      <TextField
+                                        id="startTime"
+                                        type="time"
+                                        value={time.startTime}
+                                        onChangeValue={(e) => {
+                                          handleStartTimeChange(e)
+                                          handleChange(e)
+                                        }}
+                                        name={`daySchedules.${day}.time[${index}].startTime`}
+                                        className="w-full"
+                                        disable
+                                      />
+                                    </div>
+                                    <div className="w-1/3  mx-1">
+                                      <span className="text-sm text-gray-900 font-normal">
+                                        End Time
+                                      </span>
+                                      <TextField
+                                        id="Everyday"
+                                        type="time"
+                                        value={time.endTime}
+                                        onChangeValue={(e) => {
+                                          handleEndTimeChange(e)
+                                          handleChange(e)
+                                        }}
+                                        name={`daySchedules.${day}.time[${index}].endTime`}
+                                        className="w-full"
+                                        disable
+                                      />
+                                    </div>
 
-                                  <div className="w-1/3  mx-1">
-                                    {index !== 0 && (
-                                      <button
-                                        type="button"
-                                        onClick={removeTimeSlots.bind(
-                                          null,
-                                          day,
-                                          index,
-                                        )}
-                                        className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-2 px-2 mx-1 border rounded"
-                                      >
-                                        Remove
-                                      </button>
-                                    )}
+                                    <div className="w-1/3  mx-1">
+                                      {index !== 0 && (
+                                        <button
+                                          type="button"
+                                          onClick={removeTimeSlots.bind(
+                                            null,
+                                            day,
+                                            index,
+                                          )}
+                                          className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-2 px-2 mx-1 border rounded"
+                                        >
+                                          Remove
+                                        </button>
+                                      )}
 
-                                    {index ===
-                                      values.daySchedules[day].time.length -
-                                        1 && (
-                                      <button
-                                        type="button"
-                                        onClick={addTimeSlots.bind(null, day)}
-                                        className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-2 px-2  mx-1  border rounded"
-                                      >
-                                        Add
-                                      </button>
-                                    )}
+                                      {index ===
+                                        values.daySchedules[day].time.length -
+                                          1 && (
+                                        <button
+                                          type="button"
+                                          onClick={addTimeSlots.bind(null, day)}
+                                          className="mt-12 text-sm bg-white hover:bg-gray-900 hover:text-white text-black border-gray-900 font-normal py-2 px-2  mx-1  border rounded"
+                                        >
+                                          Add
+                                        </button>
+                                      )}
+                                    </div>
                                   </div>
-                                </div>
-                                 {/* <p className="text-base font-normal">
+                                  {/* <p className="text-base font-normal">
                                  {message}
                                </p> */}
-                               </>
+                                </>
                               ),
                             )}
                           </div>

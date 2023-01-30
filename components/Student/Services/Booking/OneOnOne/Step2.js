@@ -6,15 +6,22 @@ import TimezoneSelect, { allTimezones } from 'react-timezone-select'
 import { API, graphqlOperation } from 'aws-amplify'
 import { getMentorData } from '../../../../../utilities/user'
 import { getS3ImageUrl } from '../../../../../utilities/others'
-import { listSchedules } from '../../../../../src/graphql/queries'
+import { toast } from 'react-toastify'
+
+import {
+  listSchedules,
+  listConfigurations,
+} from '../../../../../src/graphql/queries'
 const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
   const [timeZone, setTimeZone] = useState({})
+  const [timeZoneMentor, setTimeZoneMentor] = useState({})
   const [timeSlots, setTimeSlots] = useState([])
   const [bookingdate, setBookingdate] = useState()
   const [scheduleDetails, setScheduleDetails] = useState([])
   const [everyday, setEveryday] = useState([])
   const [monday, setMonday] = useState([])
   const [tuesday, setTuesday] = useState([])
+  const [availableDays, setAvailableDays] = useState([])
   const [wednesday, setWednesday] = useState([])
   const [thursday, setThursday] = useState([])
   const [friday, setFriday] = useState([])
@@ -24,6 +31,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
   const [weekDay, setWeekDay] = useState('')
   const [mentor, setMentor] = useState()
   const [duration, setDuration] = useState()
+  const [addTime, setAddTime] = useState(0)
   const [unavailableDates, setUnavailableDates] = useState([])
   const [selectedTimeInterval, setSelectedTimeInterval] = useState('')
   const weekdays = [
@@ -36,25 +44,62 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     'saturday',
     'everyday',
   ]
-  debugger
   useEffect(() => {
-    debugger
+    setAddTime(timeZoneMentor.offset - timeZone.offset)
+  }, [timeZoneMentor, timeZone])
+  // debugger
+  useEffect(() => {
+    // debugger
     getAvailability(
       oneOnOneService?.username,
       oneOnOneService?.sessionDuration,
       oneOnOneService?.sessionDurationIn,
     )
     const men = getMentorData(oneOnOneService.username)
+    const usrName = oneOnOneService?.username
 
     showPreview(men)
     setMentor(men)
+    const getConfiguration = async () => {
+      debugger
+      try {
+        const results = await API.graphql(
+          graphqlOperation(listConfigurations, {
+            filter: { username: { contains: usrName } },
+          }),
+        )
+        if (results.data.listConfigurations.items.length > 0) {
+          // setIsNew(false)
+          const data = { ...results.data.listConfigurations.items[0] }
+          const { timezone: tz } = data
+          setTimeZoneMentor(tz)
+          setTimeZone(tz)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getConfiguration()
   }, [oneOnOneService])
   const yesterday = moment().subtract(1, 'day')
   const disablePastDt = (current) => {
     return current.isAfter(yesterday)
   }
+  const handleBookSession = () => {
+    if (!bookingdate || !selectedTimeInterval) {
+      if (!bookingdate) toast.error(`Save Error:Please select a booking date`)
+      if (!selectedTimeInterval)
+        toast.error(`Save Error:A slot must be selected`)
+      return
+    }
+    handleBookSession3({
+      bookingDate: bookingdate,
+      timeZone,
+      slot: selectedTimeInterval,
+    })
+  }
   const handleBookingDate = (dt) => {
-    debugger
+    // debugger
     setBookingdate(dt._d)
     // setBookingdate(dt.format('DD-MM-YYYY'))
     // console.log(dt._d)
@@ -74,7 +119,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
       // setShowServiceDetail(false)
       // setShowMentor(true)
     }
-    debugger
+    // debugger
     console.log('mentorPassed', mentorPassed)
   }
   // console.log('mentor', mentor)
@@ -87,17 +132,17 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     sessionDurationIn,
   ) => {
     sessionDuration !== 'undefined' ? setDuration(sessionDuration) : ''
-    debugger
+    // debugger
     if (username) {
       // setMentorName(username)
-      debugger
+      // debugger
       try {
         const results = await API.graphql(
           graphqlOperation(listSchedules, {
             filter: { username: { contains: username } },
           }),
         )
-        debugger
+        // debugger
         if (results.data.listSchedules.items.length > 0) {
           setScheduleDetails(results.data.listSchedules.items)
           setUnavailableDates(
@@ -112,13 +157,14 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
 
           console.log(results.data.listSchedules.items)
 
-          debugger
+          // debugger
 
           if (
             results.data.listSchedules.items[0]?.daySchedules.everyday
               .everyday &&
             results.data.listSchedules.items[0]?.availableSameTime
           ) {
+            setAvailableDays([])
             setEveryday(
               results.data.listSchedules.items[0]?.daySchedules.everyday.time,
             )
@@ -126,7 +172,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
               results.data.listSchedules.items[0]?.daySchedules.everyday.time
                 ?.length > 0
             ) {
-              debugger
+              // debugger
               results.data.listSchedules.items[0]?.daySchedules.everyday.time.map(
                 (t, index) => {
                   timeIntervals(
@@ -139,8 +185,12 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
               )
             }
           }
-          debugger
+          // debugger
           if (results.data.listSchedules.items[0]?.daySchedules.Sunday.Sunday) {
+            setAvailableDays((prev) => {
+              if (!prev.includes('Sunday')) return [...prev, 'Sunday']
+              else return prev
+            })
             setSunday(
               results.data.listSchedules.items[0]?.daySchedules?.Sunday
                 ?.time[0],
@@ -148,6 +198,10 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.sunday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.sunday?.time?.endTime ,sessionDuration)
           }
           if (results.data.listSchedules.items[0]?.daySchedules.Monday.Monday) {
+            setAvailableDays((prev) => {
+              if (!prev.includes('Monday')) return [...prev, 'Monday']
+              else return prev
+            })
             setMonday(
               results.data.listSchedules.items[0]?.daySchedules?.Monday
                 ?.time[0],
@@ -157,6 +211,10 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
           if (
             results.data.listSchedules.items[0]?.daySchedules.Tuesday.Tuesday
           ) {
+            setAvailableDays((prev) => {
+              if (!prev.includes('Tuesday')) return [...prev, 'Tuesday']
+              else return prev
+            })
             setTuesday(
               results.data.listSchedules.items[0]?.daySchedules?.Tuesday
                 ?.time[0],
@@ -167,6 +225,11 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
             results.data.listSchedules.items[0]?.daySchedules.Wednesday
               .Wednesday
           ) {
+            setAvailableDays((prev) => {
+              if (!prev.includes('Wednesday')) return [...prev, 'Wednesday']
+              else return prev
+            })
+
             setWednesday(
               results.data.listSchedules.items[0]?.daySchedules?.wednesday
                 ?.time[0],
@@ -176,6 +239,11 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
           if (
             results.data.listSchedules.items[0]?.daySchedules.Thursday.Thursday
           ) {
+            setAvailableDays((prev) => {
+              if (!prev.includes('Thursday')) return [...prev, 'Thursday']
+              else return prev
+            })
+
             setThursday(
               results.data.listSchedules.items[0]?.daySchedules?.Thursday
                 ?.time[0],
@@ -183,6 +251,10 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.thursday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.thursday?.time?.endTime ,sessionDuration)
           }
           if (results.data.listSchedules.items[0]?.daySchedules.Friday.Friday) {
+            setAvailableDays((prev) => {
+              if (!prev.includes('Friday')) return [...prev, 'Friday']
+              else return prev
+            })
             setFriday(
               results.data.listSchedules.items[0]?.daySchedules?.Friday
                 ?.time[0],
@@ -192,6 +264,10 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
           if (
             results.data.listSchedules.items[0]?.daySchedules.Saturday.Saturday
           ) {
+            setAvailableDays((prev) => {
+              if (prev.includes('Saturday')) return [...prev, 'Saturday']
+              else return prev
+            })
             setSaturday(
               results.data.listSchedules.items[0]?.daySchedules?.Saturday
                 ?.time[0],
@@ -224,7 +300,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     return tempTime
   }
   const setTimeInterval = (slot) => {
-    debugger
+    // debugger
     // setIsSelected(true)
     setSelectedTimeInterval(slot)
   }
@@ -233,7 +309,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     const day = weekdays[dt.getDay()]?.toLowerCase().toString()
     setWeekDay(day)
     setTimeSlots([])
-    debugger
+    // debugger
     if (day !== 'undefined' && day === 'sunday') {
       timeIntervals(sunday.startTime, sunday.endTime, duration)
       // if( sunday?.time?.length > 0){
@@ -329,13 +405,19 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     // day && day === 'saturday'
     //   ? timeIntervals(startTime, endTime, interval)
     //   : null
-  }, [bookingdate])
+  }, [bookingdate, timeZone])
   const timeIntervals = (startTime, endTime, interval, sessionDurationIn) => {
     // setTimeSlots([])
     debugger
     if (startTime !== undefined && endTime !== undefined) {
-      let stime = startTime + ':00'
-      let etime = endTime + ':00'
+      const startTimeDate = moment('01/01/2023 ' + startTime).add(
+        addTime,
+        'hours',
+      )
+      const endTimeDate = moment('01/01/2023 ' + endTime).add(addTime, 'hours')
+
+      let stime = startTimeDate.format('HH:mm') + ':00'
+      let etime = endTimeDate.format('HH:mm') + ':00'
       const times = []
       times.push(stime.slice(0, -3))
       while (stime != etime) {
@@ -375,6 +457,20 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
             </button>
           </div>
         </div>
+        {availableDays.length > 0 && availableDays.length < 7 && (
+          <>
+            <div className="text-lg px-3 font-semibold text-left">
+              Days when Mentor is available
+            </div>
+            <div className="flex px-3 justify-start items-start border=b-2">
+              {availableDays.map((item) => (
+                <span className="text-base border border-orange-600 text-gray-600 mr-2 p-2 rounded-full font-semibold mt-3">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-0">
           <div className="border-r-2">
@@ -480,20 +576,25 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
           <div>
             <div className=" text-base font-normal p-8 w-full">
               {/* <DatePicker onChange={onChange} value={value} /> */}
-              <BookingDatePicker
-                inputProps={{
-                  // style: { width: 250 },
-                  placeholder: 'Select Date',
-                }}
-                timeFormat={false}
-                value={bookingdate}
-                minDate={new Date()}
-                dateFormat="DD-MM-YYYY"
-                isValidDate={disablePastDt}
-                //isValidDate={disableCustomDt}
-                // onChange={(val) => setDt(val)}
-                onChange={handleBookingDate}
-              />
+              <label className="text-left">
+                Booking Date
+                <div className="flex justify-center">
+                  <BookingDatePicker
+                    inputProps={{
+                      style: { minWidth: 200, textAlign: 'center' },
+                      placeholder: 'Select Date',
+                    }}
+                    timeFormat={false}
+                    value={bookingdate}
+                    minDate={new Date()}
+                    dateFormat="DD-MM-YYYY"
+                    isValidDate={disablePastDt}
+                    //isValidDate={disableCustomDt}
+                    // onChange={(val) => setDt(val)}
+                    onChange={handleBookingDate}
+                  />
+                </div>
+              </label>
             </div>
             <div className="select-wrapper  text-base font-normal w-full p-6">
               <TimezoneSelect
@@ -525,7 +626,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
             <div className="flex justify-center items-center w-full">
               <button
                 className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                onClick={() => handleBookSession3()}
+                onClick={() => handleBookSession()}
               >
                 <span className="text-base font-semibold py-1">Continue</span>
               </button>

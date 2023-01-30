@@ -355,6 +355,6 @@ type TimeZone {
   abbrev: String
   altName: String
   label: String
-  offset: Int
+  offset: Float
   value: String
 }
