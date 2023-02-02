@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import classes from './Step2.module.css'
 import BookingDatePicker from 'react-datetime'
 import moment from 'moment'
@@ -12,11 +12,47 @@ import {
   listSchedules,
   listConfigurations,
 } from '../../../../../src/graphql/queries'
+
+const reducerFunc = (state, action) => {
+  if (action.type == 'SET_TIMESLOT_ADJUSTED') {
+    debugger
+    const keys = Object.keys(action.payload)
+    const result = {}
+    keys.forEach((key) => {
+      // debugger
+      const prevKeys = Object.keys(state)
+      if (prevKeys.includes(key)) {
+        const values = state[key]
+        action.payload[key].forEach((time) => {
+          if (!values.includes(time)) values.push(time)
+        })
+        result[key] = values
+      } else {
+        result[key] = action.payload[key]
+      }
+    })
+    const keysNotfound = []
+    Object.keys(state).forEach((item) => {
+      if (!Object.keys(result).includes(item)) keysNotfound.push(item)
+    })
+    // if (state) ({ ...state, ...action.payload })
+    const newPrevNotFound = {}
+    keysNotfound.forEach((item) => {
+      newPrevNotFound[item] = state[item]
+    })
+    debugger
+    return { ...newPrevNotFound, ...result }
+  } else if (action.type == 'RESET_TIMESLOT_ADJUSTED') {
+    return {}
+  }
+  return state
+}
 const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
+  const [state, dispatch] = useReducer(reducerFunc, {})
   const [timeZone, setTimeZone] = useState({})
   const [timeZoneMentor, setTimeZoneMentor] = useState({})
   const [timeSlots, setTimeSlots] = useState([])
-  const [timeSlotsAdjusted, setTimeSlotsAdjusted] = useState({})
+  // const [timeSlotsAdjusted, setTimeSlotsAdjusted] = useState({})
   const [bookingdate, setBookingdate] = useState()
   const [scheduleDetails, setScheduleDetails] = useState([])
   const [everyday, setEveryday] = useState([])
@@ -320,19 +356,23 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     const day = weekdays[dt.getDay()]?.toLowerCase().toString()
     setWeekDay(day)
     setTimeSlots([])
-    setTimeSlotsAdjusted({})
+    dispatch({ type: 'RESET_TIMESLOT_ADJUSTED' })
+    // setTimeSlotsAdjusted({})
     setAvailableDays([])
-    debugger
+    const newWeekdays = weekdays.slice(0, weekdays.length - 1)
+    setBookingDay(newWeekdays[new Date(bookingdate).getDay()])
+    // debugger
+    // setTimeout(() => {
     if (sunday.length) addAvailabelDays('Sunday', sunday)
     if (monday.length) addAvailabelDays('Monday', monday)
     if (tuesday.length) addAvailabelDays('Tuesday', tuesday)
     if (wednesday.length) addAvailabelDays('Wednesday', wednesday)
     if (thursday.length) addAvailabelDays('Thursday', thursday)
     if (friday.length) addAvailabelDays('Friday', friday)
-    debugger
+    // debugger
     if (saturday.length) addAvailabelDays('Saturday', saturday)
-    const newWeekdays = weekdays.slice(0, weekdays.length - 1)
-    setBookingDay(newWeekdays[new Date(bookingdate).getDay()])
+    // }, 500)
+
     // var d = new Date("2023-02-02T02:59:26.186Z");
     // d.setTime(d.getTime() + (-8) * 60000*60);
 
@@ -433,6 +473,17 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     //   ? timeIntervals(startTime, endTime, interval)
     //   : null
   }, [bookingdate, timeZone])
+  useEffect(() => {
+    // setTimeout(() => {
+    setAvailableDays([...Object.keys(state)])
+    // }, 1000)
+  }, [state])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     debugger
+  //     setAvailableDays((prev) => [...Object.keys(timeSlotsAdjusted)])
+  //   }, 500)
+  // }, [bookingdate, timeZone])
   const addSlot = (times, day, slot) => {
     if (times[day]) {
       if (!times[day].includes(slot)) times[day].push(slot)
@@ -443,6 +494,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
   const addAvailabelDays = (day, time) => {
     const interval = oneOnOneService?.sessionDuration
     const sessionDurationIn = oneOnOneService?.sessionDurationIn
+    const addTimeTemp = timeZoneMentor.offset - timeZone.offset
     // debugger
     // const daysToAdd = [day]
     // const prevAvailableDates = [...availableDays]
@@ -476,15 +528,15 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     // })
     const times = {}
     const mentorDay = moment('01/01/2023').day()
-    debugger
+    // debugger
     time.forEach((t) => {
       if (t.startTime !== undefined && t.endTime !== undefined) {
         const startTimeDate = moment('01/01/2023 ' + t.startTime).add(
-          addTime,
+          addTimeTemp,
           'hours',
         )
         const endTimeDate = moment('01/01/2023 ' + t.endTime).add(
-          addTime,
+          addTimeTemp,
           'hours',
         )
 
@@ -497,7 +549,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
             moment('01/01/2023 ' + nextTimeDate.format('HH:mm')),
           )
         ) {
-          debugger
+          // debugger
           if (sessionDurationIn == 'hours') {
             stime = addMinutes(stime, interval * 60)
           } else {
@@ -505,8 +557,8 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
           }
           nextTimeDate = moment('01/01/2023 ' + stime)
           if (startTimeDate.day() !== mentorDay) {
-            debugger
-            if (addTime > 0) {
+            // debugger
+            if (addTimeTemp > 0) {
               addSlot(times, getPrevDay(day).toLowerCase(), stime.slice(0, -3))
             } else {
               addSlot(times, getNextDay(day).toLowerCase(), stime.slice(0, -3))
@@ -519,34 +571,36 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     })
     console.log('times', times)
     debugger
-    setTimeSlotsAdjusted((prev) => {
-      const keys = Object.keys(times)
-      const result = {}
-      keys.forEach((key) => {
-        debugger
-        const prevKeys = Object.keys(prev)
-        if (prevKeys.includes(key)) {
-          const values = prev[key]
-          times[key].forEach((time) => {
-            if (!values.includes(time)) values.push(time)
-          })
-          result[key] = values
-        } else {
-          result[key] = times[key]
-        }
-      })
-      const keysNotfound = []
-      Object.keys(prev).forEach((item) => {
-        if (!Object.keys(result).includes(item)) keysNotfound.push(item)
-      })
-      // if (prev) ({ ...prev, ...times })
-      const newPrevNotFound = {}
-      keysNotfound.forEach((item) => {
-        newPrevNotFound[item] = prev[item]
-      })
-      return { ...newPrevNotFound, ...result }
-    })
-    setAvailableDays((prev) => [...prev, ...Object.keys(times)])
+    dispatch({ type: 'SET_TIMESLOT_ADJUSTED', payload: times })
+    // const prev={...timeSlotsAdjusted}
+    // setTimeSlotsAdjusted((prev) => {
+    //   const keys = Object.keys(times)
+    //   const result = {}
+    //   keys.forEach((key) => {
+    //     // debugger
+    //     const prevKeys = Object.keys(prev)
+    //     if (prevKeys.includes(key)) {
+    //       const values = prev[key]
+    //       times[key].forEach((time) => {
+    //         if (!values.includes(time)) values.push(time)
+    //       })
+    //       result[key] = values
+    //     } else {
+    //       result[key] = times[key]
+    //     }
+    //   })
+    //   const keysNotfound = []
+    //   Object.keys(prev).forEach((item) => {
+    //     if (!Object.keys(result).includes(item)) keysNotfound.push(item)
+    //   })
+    //   // if (prev) ({ ...prev, ...times })
+    //   const newPrevNotFound = {}
+    //   keysNotfound.forEach((item) => {
+    //     newPrevNotFound[item] = prev[item]
+    //   })
+    //   debugger
+    //   return { ...newPrevNotFound, ...result }
+    // })
   }
   const timeIntervals = (time, interval, sessionDurationIn) => {
     // setTimeSlots([])
@@ -582,7 +636,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     })
     setTimeSlots(times.sort())
   }
-  console.log('timeSlotsAdjusted', timeSlotsAdjusted)
+  console.log('timeSlotsAdjusted', state)
   return (
     <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-100 outline-none focus:outline-none ">
       <div className="flex flex-col justify-around bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5 min-h-[50vh]">
@@ -689,8 +743,8 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
             </div>
             <div>
               <div className="flex flex-wrap">
-                {bookingDay && timeSlotsAdjusted[bookingDay]?.length > 0 ? (
-                  timeSlotsAdjusted[bookingDay]?.sort()?.map((slot, index) => {
+                {bookingDay && state[bookingDay]?.length > 0 ? (
+                  state[bookingDay]?.sort()?.map((slot, index) => {
                     return (
                       <div key={index}>
                         <span
