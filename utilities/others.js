@@ -29,7 +29,7 @@ export const s3Client = new original({
   },
 })
 export const getS3ImageUrl = async (image_name) => {
-  debugger
+  // debugger
   try {
     const command = new GetObjectCommand({
       Bucket: 'testamplifyapia8dcbc927f9c443b9c1dbfaa11180a7c90108-dev', // The name of the bucket. For example, 'sample_bucket_101'.

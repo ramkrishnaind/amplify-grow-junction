@@ -16,6 +16,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
   const [timeZone, setTimeZone] = useState({})
   const [timeZoneMentor, setTimeZoneMentor] = useState({})
   const [timeSlots, setTimeSlots] = useState([])
+  const [timeSlotsAdjusted, setTimeSlotsAdjusted] = useState({})
   const [bookingdate, setBookingdate] = useState()
   const [scheduleDetails, setScheduleDetails] = useState([])
   const [everyday, setEveryday] = useState([])
@@ -31,6 +32,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
   const [weekDay, setWeekDay] = useState('')
   const [mentor, setMentor] = useState()
   const [duration, setDuration] = useState()
+  const [bookingDay, setBookingDay] = useState()
   const [addTime, setAddTime] = useState(0)
   const [unavailableDates, setUnavailableDates] = useState([])
   const [selectedTimeInterval, setSelectedTimeInterval] = useState('')
@@ -44,6 +46,25 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     'saturday',
     'everyday',
   ]
+  const getNextDay = (day) => {
+    const newWeekdays = weekdays.slice(0, weekdays.length - 1)
+    const findIndex = newWeekdays.findIndex((a) => a === day.toLowerCase())
+    if (findIndex > -1) {
+      const nextIndex = (findIndex + 1) % newWeekdays.length
+      const nextItem = newWeekdays[nextIndex]
+      return nextItem.substr(0, 1).toUpperCase() + nextItem.substr(1)
+    }
+  }
+  const getPrevDay = (day) => {
+    const newWeekdays = weekdays.slice(0, weekdays.length - 1)
+    const findIndex = newWeekdays.findIndex((a) => a === day.toLowerCase())
+    if (findIndex > -1) {
+      const nextIndex =
+        findIndex - 1 === -1 ? newWeekdays.length - 1 : findIndex - 1
+      const nextItem = newWeekdays[nextIndex]
+      return nextItem.substr(0, 1).toUpperCase() + nextItem.substr(1)
+    }
+  }
   useEffect(() => {
     setAddTime(timeZoneMentor.offset - timeZone.offset)
   }, [timeZoneMentor, timeZone])
@@ -98,6 +119,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
       slot: selectedTimeInterval,
     })
   }
+
   const handleBookingDate = (dt) => {
     // debugger
     setBookingdate(dt._d)
@@ -173,51 +195,42 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
                 ?.length > 0
             ) {
               // debugger
-              results.data.listSchedules.items[0]?.daySchedules.everyday.time.map(
-                (t, index) => {
-                  timeIntervals(
-                    t.startTime,
-                    t.endTime,
-                    sessionDuration,
-                    sessionDurationIn,
-                  )
-                },
-              )
+              const t =
+                results.data.listSchedules.items[0]?.daySchedules.everyday.time
+              timeIntervals(t, sessionDuration, sessionDurationIn)
             }
           }
           // debugger
           if (results.data.listSchedules.items[0]?.daySchedules.Sunday.Sunday) {
-            setAvailableDays((prev) => {
-              if (!prev.includes('Sunday')) return [...prev, 'Sunday']
-              else return prev
-            })
+            addAvailabelDays(
+              'Sunday',
+              results.data.listSchedules.items[0]?.daySchedules?.Sunday?.time,
+            )
+
             setSunday(
-              results.data.listSchedules.items[0]?.daySchedules?.Sunday
-                ?.time[0],
+              results.data.listSchedules.items[0]?.daySchedules?.Sunday?.time,
             )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.sunday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.sunday?.time?.endTime ,sessionDuration)
           }
           if (results.data.listSchedules.items[0]?.daySchedules.Monday.Monday) {
-            setAvailableDays((prev) => {
-              if (!prev.includes('Monday')) return [...prev, 'Monday']
-              else return prev
-            })
+            addAvailabelDays(
+              'Monday',
+              results.data.listSchedules.items[0]?.daySchedules?.Monday?.time,
+            )
             setMonday(
-              results.data.listSchedules.items[0]?.daySchedules?.Monday
-                ?.time[0],
+              results.data.listSchedules.items[0]?.daySchedules?.Monday?.time,
             )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.monday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.monday?.time?.endTime ,sessionDuration)
           }
           if (
             results.data.listSchedules.items[0]?.daySchedules.Tuesday.Tuesday
           ) {
-            setAvailableDays((prev) => {
-              if (!prev.includes('Tuesday')) return [...prev, 'Tuesday']
-              else return prev
-            })
+            addAvailabelDays(
+              'Tuesday',
+              results.data.listSchedules.items[0]?.daySchedules?.Tuesday?.time,
+            )
             setTuesday(
-              results.data.listSchedules.items[0]?.daySchedules?.Tuesday
-                ?.time[0],
+              results.data.listSchedules.items[0]?.daySchedules?.Tuesday?.time,
             )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.tuesday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.tuesday?.time?.endTime ,sessionDuration)
           }
@@ -225,52 +238,50 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
             results.data.listSchedules.items[0]?.daySchedules.Wednesday
               .Wednesday
           ) {
-            setAvailableDays((prev) => {
-              if (!prev.includes('Wednesday')) return [...prev, 'Wednesday']
-              else return prev
-            })
+            addAvailabelDays(
+              'Wednesday',
+              results.data.listSchedules.items[0]?.daySchedules?.wednesday
+                ?.time,
+            )
 
             setWednesday(
               results.data.listSchedules.items[0]?.daySchedules?.wednesday
-                ?.time[0],
+                ?.time,
             )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.wednesday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.wednesday?.time?.endTime ,sessionDuration)
           }
           if (
             results.data.listSchedules.items[0]?.daySchedules.Thursday.Thursday
           ) {
-            setAvailableDays((prev) => {
-              if (!prev.includes('Thursday')) return [...prev, 'Thursday']
-              else return prev
-            })
+            addAvailabelDays(
+              'Thursday',
+              results.data.listSchedules.items[0]?.daySchedules?.Thursday?.time,
+            )
 
             setThursday(
-              results.data.listSchedules.items[0]?.daySchedules?.Thursday
-                ?.time[0],
+              results.data.listSchedules.items[0]?.daySchedules?.Thursday?.time,
             )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.thursday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.thursday?.time?.endTime ,sessionDuration)
           }
           if (results.data.listSchedules.items[0]?.daySchedules.Friday.Friday) {
-            setAvailableDays((prev) => {
-              if (!prev.includes('Friday')) return [...prev, 'Friday']
-              else return prev
-            })
+            addAvailabelDays(
+              'Friday',
+              results.data.listSchedules.items[0]?.daySchedules?.Friday?.time,
+            )
             setFriday(
-              results.data.listSchedules.items[0]?.daySchedules?.Friday
-                ?.time[0],
+              results.data.listSchedules.items[0]?.daySchedules?.Friday?.time,
             )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.friday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.friday?.time?.endTime ,sessionDuration)
           }
           if (
             results.data.listSchedules.items[0]?.daySchedules.Saturday.Saturday
           ) {
-            setAvailableDays((prev) => {
-              if (prev.includes('Saturday')) return [...prev, 'Saturday']
-              else return prev
-            })
+            addAvailabelDays(
+              'Saturday',
+              results.data.listSchedules.items[0]?.daySchedules?.Saturday?.time,
+            )
             setSaturday(
-              results.data.listSchedules.items[0]?.daySchedules?.Saturday
-                ?.time[0],
+              results.data.listSchedules.items[0]?.daySchedules?.Saturday?.time,
             )
             //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.saturday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.saturday?.time?.endTime ,sessionDuration)
           }
@@ -309,9 +320,25 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     const day = weekdays[dt.getDay()]?.toLowerCase().toString()
     setWeekDay(day)
     setTimeSlots([])
-    // debugger
+    setTimeSlotsAdjusted({})
+    setAvailableDays([])
+    debugger
+    if (sunday.length) addAvailabelDays('Sunday', sunday)
+    if (monday.length) addAvailabelDays('Monday', monday)
+    if (tuesday.length) addAvailabelDays('Tuesday', tuesday)
+    if (wednesday.length) addAvailabelDays('Wednesday', wednesday)
+    if (thursday.length) addAvailabelDays('Thursday', thursday)
+    if (friday.length) addAvailabelDays('Friday', friday)
+    debugger
+    if (saturday.length) addAvailabelDays('Saturday', saturday)
+    const newWeekdays = weekdays.slice(0, weekdays.length - 1)
+    setBookingDay(newWeekdays[new Date(bookingdate).getDay()])
+    // var d = new Date("2023-02-02T02:59:26.186Z");
+    // d.setTime(d.getTime() + (-8) * 60000*60);
+
+    // console.log('bookingdate', newWeekdays[new Date(bookingdate).getDay()])
     if (day !== 'undefined' && day === 'sunday') {
-      timeIntervals(sunday.startTime, sunday.endTime, duration)
+      // timeIntervals(sunday, duration, oneOnOneService.sessionDurationIn)
       // if( sunday?.time?.length > 0){
       //   sunday.map((s, index) =>{
       //     timeIntervals(s.startTime, s.endTime, duration)
@@ -320,7 +347,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     }
 
     if (day !== 'undefined' && day === 'monday') {
-      timeIntervals(monday.startTime, monday.endTime, duration)
+      // timeIntervals(monday, duration, oneOnOneService.sessionDurationIn)
       // if( monday?.time?.length > 0){
       //   monday.map((s, index) =>{
       //     timeIntervals(s.startTime, s.endTime, duration)
@@ -329,7 +356,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     }
 
     if (day !== 'undefined' && day === 'tuesday') {
-      timeIntervals(tuesday.startTime, tuesday.endTime, duration)
+      // timeIntervals(tuesday, duration, oneOnOneService.sessionDurationIn)
       // if( tuesday?.time?.length > 0){
       //   tuesday.map((s, index) =>{
       //     timeIntervals(s.startTime, s.endTime, duration)
@@ -338,7 +365,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     }
 
     if (day !== 'undefined' && day === 'wednesday') {
-      timeIntervals(wednesday.startTime, wednesday.endTime, duration)
+      // timeIntervals(wednesday, duration, oneOnOneService.sessionDurationIn)
       // if( wednesday?.time?.length > 0){
       //   wednesday.map((s, index) =>{
       //     timeIntervals(s.startTime, s.endTime, duration)
@@ -347,7 +374,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     }
 
     if (day !== 'undefined' && day === 'thursday') {
-      timeIntervals(thursday.startTime, thursday.endTime, duration)
+      // timeIntervals(thursday, duration, oneOnOneService.sessionDurationIn)
       // if( thursday?.time?.length > 0){
       //   thursday.map((s, index) =>{
       //     timeIntervals(s.startTime, s.endTime, duration)
@@ -356,7 +383,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     }
 
     if (day !== 'undefined' && day === 'friday') {
-      timeIntervals(friday.startTime, friday.endTime, duration)
+      // timeIntervals(friday, duration, oneOnOneService.sessionDurationIn)
       // if( friday?.time?.length > 0){
       //   friday.map((s, index) =>{
       //     timeIntervals(s.startTime, s.endTime, duration)
@@ -365,7 +392,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     }
 
     if (day !== 'undefined' && day === 'saturday') {
-      timeIntervals(saturday.startTime, saturday.endTime, duration)
+      // timeIntervals(saturday, duration, oneOnOneService.sessionDurationIn)
       // if( saturday?.time?.length > 0){
       //   saturday.map((s, index) =>{
       //     timeIntervals(s.startTime, s.endTime, duration)
@@ -373,14 +400,14 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
       // }
     }
 
-    if (day !== 'undefined' && day === 'sunday') {
-      timeIntervals(sunday.startTime, sunday.endTime, duration)
-      // if( sunday?.time?.length > 0){
-      //   sunday.map((s, index) =>{
-      //     timeIntervals(s.startTime, s.endTime, duration)
-      //   })
-      // }
-    }
+    // if (day !== 'undefined' && day === 'sunday') {
+    //   timeIntervals(sunday.startTime, sunday.endTime, duration)
+    //   // if( sunday?.time?.length > 0){
+    //   //   sunday.map((s, index) =>{
+    //   //     timeIntervals(s.startTime, s.endTime, duration)
+    //   //   })
+    //   // }
+    // }
 
     // day && day === 'monday'
     //   ? timeIntervals(startTime, endTime, interval)
@@ -406,34 +433,156 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     //   ? timeIntervals(startTime, endTime, interval)
     //   : null
   }, [bookingdate, timeZone])
-  const timeIntervals = (startTime, endTime, interval, sessionDurationIn) => {
-    // setTimeSlots([])
-    debugger
-    if (startTime !== undefined && endTime !== undefined) {
-      const startTimeDate = moment('01/01/2023 ' + startTime).add(
-        addTime,
-        'hours',
-      )
-      const endTimeDate = moment('01/01/2023 ' + endTime).add(addTime, 'hours')
-
-      let stime = startTimeDate.format('HH:mm') + ':00'
-      let etime = endTimeDate.format('HH:mm') + ':00'
-      const times = []
-      times.push(stime.slice(0, -3))
-      while (stime != etime) {
-        if ((sessionDurationIn = 'hours')) {
-          stime = addMinutes(stime, interval * 60)
-        } else {
-          stime = addMinutes(stime, interval)
-        }
-        times.push(stime.slice(0, -3))
-      }
-      if (times.length > 0) {
-        times.pop()
-      }
-      setTimeSlots(times)
+  const addSlot = (times, day, slot) => {
+    if (times[day]) {
+      if (!times[day].includes(slot)) times[day].push(slot)
+    } else {
+      times[day] = []
     }
   }
+  const addAvailabelDays = (day, time) => {
+    const interval = oneOnOneService?.sessionDuration
+    const sessionDurationIn = oneOnOneService?.sessionDurationIn
+    // debugger
+    // const daysToAdd = [day]
+    // const prevAvailableDates = [...availableDays]
+    // time.forEach((t) => {
+    //   const mentorDay = moment('01/01/2023').day()
+    //   const startTimeDate = moment('01/01/2023 ' + t.startTime).add(
+    //     addTime,
+    //     'hours',
+    //   )
+    //   if (startTimeDate.day() !== mentorDay) {
+    //     debugger
+    //     if (addTime > 0) {
+    //       daysToAdd.push(getPrevDay(day))
+    //     } else {
+    //       daysToAdd.push(getNextDay(day))
+    //     }
+    //   }
+
+    //   const endTimeDate = moment('01/01/2023 ' + t.endTime).add(
+    //     addTime,
+    //     'hours',
+    //   )
+    //   if (endTimeDate.day() !== mentorDay) {
+    //     debugger
+    //     if (addTime > 0) {
+    //       daysToAdd.push(getPrevDay(day))
+    //     } else {
+    //       daysToAdd.push(getNextDay(day))
+    //     }
+    //   }
+    // })
+    const times = {}
+    const mentorDay = moment('01/01/2023').day()
+    debugger
+    time.forEach((t) => {
+      if (t.startTime !== undefined && t.endTime !== undefined) {
+        const startTimeDate = moment('01/01/2023 ' + t.startTime).add(
+          addTime,
+          'hours',
+        )
+        const endTimeDate = moment('01/01/2023 ' + t.endTime).add(
+          addTime,
+          'hours',
+        )
+
+        let stime = startTimeDate.format('HH:mm') + ':00'
+        let etime = endTimeDate.format('HH:mm') + ':00'
+        let nextTimeDate = startTimeDate
+
+        while (
+          moment('01/01/2023 ' + endTimeDate.format('HH:mm')).isAfter(
+            moment('01/01/2023 ' + nextTimeDate.format('HH:mm')),
+          )
+        ) {
+          debugger
+          if (sessionDurationIn == 'hours') {
+            stime = addMinutes(stime, interval * 60)
+          } else {
+            stime = addMinutes(stime, interval)
+          }
+          nextTimeDate = moment('01/01/2023 ' + stime)
+          if (startTimeDate.day() !== mentorDay) {
+            debugger
+            if (addTime > 0) {
+              addSlot(times, getPrevDay(day).toLowerCase(), stime.slice(0, -3))
+            } else {
+              addSlot(times, getNextDay(day).toLowerCase(), stime.slice(0, -3))
+            }
+          } else {
+            addSlot(times, day.toLowerCase(), stime.slice(0, -3))
+          }
+        }
+      }
+    })
+    console.log('times', times)
+    debugger
+    setTimeSlotsAdjusted((prev) => {
+      const keys = Object.keys(times)
+      const result = {}
+      keys.forEach((key) => {
+        debugger
+        const prevKeys = Object.keys(prev)
+        if (prevKeys.includes(key)) {
+          const values = prev[key]
+          times[key].forEach((time) => {
+            if (!values.includes(time)) values.push(time)
+          })
+          result[key] = values
+        } else {
+          result[key] = times[key]
+        }
+      })
+      const keysNotfound = []
+      Object.keys(prev).forEach((item) => {
+        if (!Object.keys(result).includes(item)) keysNotfound.push(item)
+      })
+      // if (prev) ({ ...prev, ...times })
+      const newPrevNotFound = {}
+      keysNotfound.forEach((item) => {
+        newPrevNotFound[item] = prev[item]
+      })
+      return { ...newPrevNotFound, ...result }
+    })
+    setAvailableDays((prev) => [...prev, ...Object.keys(times)])
+  }
+  const timeIntervals = (time, interval, sessionDurationIn) => {
+    // setTimeSlots([])
+    debugger
+    const times = []
+    time.forEach((t) => {
+      if (t.startTime !== undefined && t.endTime !== undefined) {
+        const startTimeDate = moment('01/01/2023 ' + t.startTime).add(
+          addTime,
+          'hours',
+        )
+        const endTimeDate = moment('01/01/2023 ' + t.endTime).add(
+          addTime,
+          'hours',
+        )
+
+        let stime = startTimeDate.format('HH:mm') + ':00'
+        let etime = endTimeDate.format('HH:mm') + ':00'
+
+        times.push(stime.slice(0, -3))
+        while (stime != etime) {
+          if (sessionDurationIn == 'hours') {
+            stime = addMinutes(stime, interval * 60)
+          } else {
+            stime = addMinutes(stime, interval)
+          }
+          times.push(stime.slice(0, -3))
+        }
+        if (times.length > 0) {
+          times.pop()
+        }
+      }
+    })
+    setTimeSlots(times.sort())
+  }
+  console.log('timeSlotsAdjusted', timeSlotsAdjusted)
   return (
     <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-100 outline-none focus:outline-none ">
       <div className="flex flex-col justify-around bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5 min-h-[50vh]">
@@ -540,8 +689,8 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
             </div>
             <div>
               <div className="flex flex-wrap">
-                {timeSlots && timeSlots.length > 0 ? (
-                  timeSlots.map((slot, index) => {
+                {bookingDay && timeSlotsAdjusted[bookingDay]?.length > 0 ? (
+                  timeSlotsAdjusted[bookingDay]?.sort()?.map((slot, index) => {
                     return (
                       <div key={index}>
                         <span
