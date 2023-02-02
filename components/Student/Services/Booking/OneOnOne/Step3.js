@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Formik } from 'formik'
 import { getMentorData } from '../../../../../utilities/user'
 import TextField from '../../../../../pages/ui-kit/TextField'
+import moment from 'moment'
 import classes from './Step2.module.css'
 import { getS3ImageUrl } from '../../../../../utilities/others'
 const Step3 = ({
@@ -52,22 +53,26 @@ const Step3 = ({
       //   enableReinitialize={true}
       onSubmit={async (values, e) => {
         debugger
+
         try {
+          const validate = await e.validateForm()
+          debugger
           if (!values?.id) {
             try {
               debugger
-              values.username = mentorName
+              values.username = mentor.username
               values.serviceType = '1 on 1 Session'
               values.bookingDate = moment(bookingdate).format('L')
-              values.timeSlot = selectedTimeInterval ? selectedTimeInterval : ''
-              await API.graphql({
-                query: createStudentBooking,
-                variables: { input: { ...values } },
-              })
-              toast.success('Student booking added successfully')
+              values.timeSlot = timeSlot ? timeSlot : ''
+              closeBookSession3()
+              // await API.graphql({
+              //   query: createStudentBooking,
+              //   variables: { input: { ...values } },
+              // })
+              // toast.success('Student booking added successfully')
               // window.location.href = window.location.href
             } catch (error) {
-              toast.error(`Save Error:${error.errors[0].message}`)
+              // toast.error(`Save Error:${error.errors[0].message}`)
             }
           } else {
             const { createdAt, updatedAt, owner, ...rest } = {
@@ -75,17 +80,17 @@ const Step3 = ({
             }
             rest.username = getLoggedinUserEmail()
             try {
-              await API.graphql({
-                query: updateStudentBooking,
-                variables: {
-                  input: { ...rest },
-                },
-              })
-              toast.success('Student booking updated successfully')
+              // await API.graphql({
+              //   query: updateStudentBooking,
+              //   variables: {
+              //     input: { ...rest },
+              //   },
+              // })
+              // toast.success('Student booking updated successfully')
             } catch (error) {
-              debugger
-              toast.error(`Save Error:${error.errors[0].message}`)
-              console.log(error)
+              // debugger
+              // toast.error(`Save Error:${error.errors[0].message}`)
+              // console.log(error)
             }
           }
         } catch (e) {
@@ -106,7 +111,7 @@ const Step3 = ({
           <form>
             <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
               <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
-                <div className="flex justify-between px-8 py-4 border-b border-gray-300">
+                <div className="flex justify-between px-8 py-4 border-b border-gray-300 bg-slate-100 ">
                   <div className="flex flex-col justify-start items-start border=b-2">
                     <span className="text-2xl font-semibold mt-3">
                       Enter other details
@@ -248,6 +253,7 @@ const Step3 = ({
                               name="emailId"
                               onChangeValue={handleChange}
                               value={values.emailId}
+                              required
                               type="text"
                               id="emailId"
                               placeholder="examplemail@gmail.com"
@@ -288,6 +294,7 @@ const Step3 = ({
                               name="whatsappNumber"
                               onChangeValue={handleChange}
                               value={values.whatsappNumber}
+                              required
                               type="text"
                               id="whatsappNumber"
                               placeholder="000 000 0000"
@@ -303,9 +310,10 @@ const Step3 = ({
                               name="mobileNumber"
                               onChangeValue={handleChange}
                               value={values.mobileNumber}
+                              required
                               type="text"
                               id="mobileNumber"
-                              placeholder= "000 000 0000"
+                              placeholder="000 000 0000"
                             />
                           </div>
                         </div>

@@ -639,8 +639,8 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
   console.log('timeSlotsAdjusted', state)
   return (
     <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-100 outline-none focus:outline-none ">
-      <div className="flex flex-col justify-around bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5 min-h-[50vh]">
-        <div className="flex justify-between px-8 py-4 border-b border-gray-300 ">
+      <div className="flex flex-col justify-between bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5 min-h-[50vh]">
+        <div className="flex justify-between px-8 pb-4 border-b border-gray-300 bg-slate-100 ">
           <div className="flex flex-col justify-start items-start border=b-2">
             <span className="text-2xl font-semibold mt-3">
               Select the date you want to schedule a meet
@@ -784,7 +784,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
                 <div className="flex justify-center">
                   <BookingDatePicker
                     inputProps={{
-                      style: { minWidth: 200, textAlign: 'center' },
+                      style: { minWidth: 200,borderRadius:5, textAlign: 'center',border:"1px solid black" },
                       placeholder: 'Select Date',
                     }}
                     timeFormat={false}

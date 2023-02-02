@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import OneOnOneSessionData from './OneOnOneSessionData'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
@@ -7,6 +8,7 @@ const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
   const [showServiceDetail, setShowServiceDetail] = useState(show)
   const [bookSession1, setBookSession1] = useState(false)
   const [bookSession3, setBookSession3] = useState(false)
+  const [bookSession4, setBookSession4] = useState(false)
   const [image, setImage] = useState('')
   const [step2, setStep2] = useState()
   const handleBookClick = () => {
@@ -24,7 +26,19 @@ const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
     setBookSession1(false)
     setBookSession3(false)
   }
-
+  const closeBookSession3 = () => {
+    setImage('')
+    setBookSession1(false)
+    setBookSession3(false)
+    setBookSession4(true)
+  }
+  const closeBookSession4 = () => {
+    setImage('')
+    setBookSession1(false)
+    setBookSession3(false)
+    setBookSession4(false)
+    setShow(false)
+  }
   return (
     <>
       {showServiceDetail && (
@@ -54,10 +68,13 @@ const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
           timeZone={step2?.timeZone}
           timeSlot={step2?.slot}
           closeBookSession3={(val) => {
-            closeBookSession1(val)
-            setShow(val)
+            closeBookSession3(val)
+            setShow(true)
           }}
         />
+      )}
+      {bookSession4 && (
+        <OneOnOneSessionData oneOnOneService={oneOnOneService} closeBookSession4={closeBookSession4}/>
       )}
     </>
   )

@@ -10,7 +10,7 @@ const Step1 = ({
   return (
     <div className="  flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-100 outline-none focus:outline-none">
       <div className=" bg-white text-center mt-9 rounded-2xl shadow-lg w-full md:w-2/5 lg:w-2/5">
-        <div className="flex justify-between px-8 py-4  border-gray-300">
+        <div className="flex justify-between px-8 pb-4  border-gray-300 bg-slate-100 ">
           <div className="flex flex-row justify-start items-start px-6 py-6 bg-gray-100 rounded-md">
             <div
               className={`${classes['img-profile']} bg-gray-300 rounded-md`}
