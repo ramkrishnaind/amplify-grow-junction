@@ -3,7 +3,8 @@ import OneOnOneSessionData from './OneOnOneSessionData'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
-
+import { v4 as uuid } from 'uuid'
+import { setS3ImageUrl } from '../../../../../utilities/others'
 const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
   const [showServiceDetail, setShowServiceDetail] = useState(show)
   const [bookSession1, setBookSession1] = useState(false)
@@ -12,6 +13,7 @@ const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
   const [image, setImage] = useState('')
   const [step2, setStep2] = useState()
   const [step3, setStep3] = useState()
+  const [step4, setStep4] = useState()
   const handleBookClick = () => {
     setShowServiceDetail(false)
     setBookSession1(true)
@@ -27,6 +29,70 @@ const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
     setBookSession3(false)
     setBookSession4(true)
     setStep3(obj)
+  }
+  const handleBookSession5 = async (obj) => {
+    setShow(true)
+    setBookSession1(false)
+    setBookSession3(false)
+    setBookSession4(true)
+    setStep4(obj)
+    const finalObj = { step2, step3, step4: [] }
+    const tempStep4 = []
+    await obj.forEach(async (item) => {
+      const { file, ...rest } = item
+      if (file) {
+        const name = file.name.substr(0, file.name.lastIndexOf('.'))
+        const ext = file.name.substr(file.name.lastIndexOf('.') + 1)
+        const filename = `${name}_${uuid()}.${ext}`
+        rest.filename = filename
+        try {
+          // await setS3ImageUrl(filename, file)
+          debugger
+        } catch (error) {}
+        tempStep4.push({ ...rest })
+      } else {
+        tempStep4.push({ ...rest })
+      }
+    })
+    finalObj.step4 = tempStep4
+    console.log(finalObj)
+    // if (!values?.id) {
+    //         try {
+    //           debugger
+
+    //           values.username = finalObj.step3.emailId
+    //           values.serviceType = '1 on 1 Session'
+    //           // values.bookingDate = moment(bookingdate).format('L')
+    //           // values.timeSlot = timeSlot ? timeSlot : ''
+
+    //           // await API.graphql({
+    //           //   query: createStudentBooking,
+    //           //   variables: { input: { ...values } },
+    //           // })
+    //           // toast.success('Student booking added successfully')
+    //           // window.location.href = window.location.href
+    //         } catch (error) {
+    //           // toast.error(`Save Error:${error.errors[0].message}`)
+    //         }
+    //       } else {
+    //         const { createdAt, updatedAt, owner, ...rest } = {
+    //           ...values,
+    //         }
+    //         rest.username = getLoggedinUserEmail()
+    //         try {
+    //           // await API.graphql({
+    //           //   query: updateStudentBooking,
+    //           //   variables: {
+    //           //     input: { ...rest },
+    //           //   },
+    //           // })
+    //           // toast.success('Student booking updated successfully')
+    //         } catch (error) {
+    //           // debugger
+    //           // toast.error(`Save Error:${error.errors[0].message}`)
+    //           // console.log(error)
+    //         }
+    //       }
   }
   const backtoBookSession1 = () => {
     setShowServiceDetail(true)
@@ -65,6 +131,7 @@ const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
     setBookSession4(false)
     setShow(false)
   }
+  console.log('step4', step4)
   return (
     <>
       {showServiceDetail && (
@@ -111,6 +178,7 @@ const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
           backtoBookSession3={backtoBookSession3}
           oneOnOneService={oneOnOneService}
           closeBookSession4={closeBookSession4}
+          handleBookSession5={handleBookSession5}
         />
       )}
     </>

@@ -1,14 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import { API, graphqlOperation } from 'aws-amplify'
 import { getOneOnOne } from '../../../../../src/graphql/queries'
-
+import { Formik } from 'formik'
 const OneOnOneSessionData = ({
   // OneOnOneId
   oneOnOneService,
   closeBookSession4,
-  backtoBookSession3
+  backtoBookSession3,
+  handleBookSession5,
 }) => {
   const [questions, setQuestions] = useState(oneOnOneService?.questions)
+  const [answers, setAnswers] = useState(oneOnOneService?.questions || [])
+  const handleFileChange = (id, e) => {
+    const prevAnswers = [...answers]
+    const foundAnswer = prevAnswers.find((a) => a.id === id)
+    if (foundAnswer) {
+      foundAnswer.file = e.target.files[0]
+    }
+    setAnswers(prevAnswers)
+  }
+  const handleChange = (id, e) => {
+    const prevAnswers = [...answers]
+    const foundAnswer = prevAnswers.find((a) => a.id === id)
+    if (foundAnswer) {
+      foundAnswer.answer = e.target.value
+    }
+    setAnswers(prevAnswers)
+  }
   useEffect(() => {
     // const getOneOnOneData = async () => {
     //   try {
@@ -23,7 +41,9 @@ const OneOnOneSessionData = ({
     // }
     // getOneOnOneData()
     setQuestions(oneOnOneService?.questions)
+    setAnswers(oneOnOneService?.questions)
   }, [oneOnOneService?.questions])
+  console.log('questions', questions)
   return (
     <form>
       <div className="flex justify-center items-center bg-gray-600 bg-opacity-50 overflow-x-hidden overflow-y-auto fixed inset-0 z-100 outline-none focus:outline-none ">
@@ -34,6 +54,7 @@ const OneOnOneSessionData = ({
                 Answer to Mentor questions
               </span>
             </div>
+
             <div>
               <button
                 className=""
@@ -50,16 +71,24 @@ const OneOnOneSessionData = ({
           </div>
           <div>
             <div className=" flex flex-col items-center justify-start">
+              <span className="text-lg font-semibold mb-2 text-red-600 italic">
+                Please answer the mandatory questions marked with * for an
+                effective session
+              </span>
+
               {questions.map((question) => {
                 return question.type.includes('Upload') ? (
                   <div className="w-4/5 px-2 ">
                     <label>
                       <div className="text-lg text-bold p-2 text-left">
-                        {question?.text}
+                        {question?.text}{' '}
+                        {question.required && (
+                          <span className="text-red-600 text-lg bold"> *</span>
+                        )}
                       </div>
                       <input
                         type="file"
-                        required={question.required}
+                        onChange={(e) => handleFileChange(question.id, e)}
                         className="w-full border-2 text-lg text-bold p-2"
                       />
                     </label>
@@ -68,10 +97,13 @@ const OneOnOneSessionData = ({
                   <div className="w-4/5 px-2">
                     <div className="text-lg text-bold p-2 text-left">
                       {question?.text}
+                      {question.required && (
+                        <span className="text-red-600 text-lg bold"> *</span>
+                      )}
                     </div>
                     <textarea
-                      required={question.required}
                       className="w-full text-lg border-2 p-2 h-[5rem]"
+                      onChange={(e) => handleChange(question.id, e)}
                     ></textarea>
                   </div>
                 )
@@ -95,8 +127,14 @@ const OneOnOneSessionData = ({
                 <button
                   type="submit"
                   className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleBookSession5(answers)
+                  }}
                 >
-                  <span className="text-base font-semibold py-1">Schedule booking</span>
+                  <span className="text-base font-semibold py-1">
+                    Schedule booking
+                  </span>
                 </button>
               </div>
             </div>

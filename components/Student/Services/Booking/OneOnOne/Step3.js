@@ -21,12 +21,12 @@ const Step3 = ({
   const [mentor, setMentor] = useState()
   const [image, setImage] = useState('')
   const initialState = {
-    name: step3.name || '',
-    emailId: step3.emailId || '',
-    callAbout: step3.callAbout || '',
-    whatsappNumber: step3.whatsappNumber || '',
-    mobileNumber: step3.mobileNumber || '',
-    receiveUpdate: step3.receiveUpdate || true,
+    name: step3?.name || '',
+    emailId: step3?.emailId || '',
+    callAbout: step3?.callAbout || '',
+    whatsappNumber: step3?.whatsappNumber || '',
+    mobileNumber: step3?.mobileNumber || '',
+    receiveUpdate: step3?.receiveUpdate || true,
   }
   useEffect(() => {
     const men = getMentorData(oneOnOneService.username)
