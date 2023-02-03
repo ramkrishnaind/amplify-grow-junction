@@ -43,6 +43,7 @@ const reducerFunc = (state, action) => {
     debugger
     return { ...newPrevNotFound, ...result }
   } else if (action.type == 'RESET_TIMESLOT_ADJUSTED') {
+    debugger
     return {}
   }
   return state
@@ -233,94 +234,114 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
               // debugger
               const t =
                 results.data.listSchedules.items[0]?.daySchedules.everyday.time
-              timeIntervals(t, sessionDuration, sessionDurationIn)
+              // timeIntervals(t, sessionDuration, sessionDurationIn)
+              addAvailabelDays(
+                'Everyday',
+                results.data.listSchedules.items[0]?.daySchedules?.everyday
+                  ?.time,
+              )
+            }
+          } else {
+            if (
+              results.data.listSchedules.items[0]?.daySchedules.Sunday.Sunday
+            ) {
+              addAvailabelDays(
+                'Sunday',
+                results.data.listSchedules.items[0]?.daySchedules?.Sunday?.time,
+              )
+
+              setSunday(
+                results.data.listSchedules.items[0]?.daySchedules?.Sunday?.time,
+              )
+              //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.sunday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.sunday?.time?.endTime ,sessionDuration)
+            }
+            if (
+              results.data.listSchedules.items[0]?.daySchedules.Monday.Monday
+            ) {
+              addAvailabelDays(
+                'Monday',
+                results.data.listSchedules.items[0]?.daySchedules?.Monday?.time,
+              )
+              setMonday(
+                results.data.listSchedules.items[0]?.daySchedules?.Monday?.time,
+              )
+              //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.monday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.monday?.time?.endTime ,sessionDuration)
+            }
+            if (
+              results.data.listSchedules.items[0]?.daySchedules.Tuesday.Tuesday
+            ) {
+              addAvailabelDays(
+                'Tuesday',
+                results.data.listSchedules.items[0]?.daySchedules?.Tuesday
+                  ?.time,
+              )
+              setTuesday(
+                results.data.listSchedules.items[0]?.daySchedules?.Tuesday
+                  ?.time,
+              )
+              //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.tuesday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.tuesday?.time?.endTime ,sessionDuration)
+            }
+            if (
+              results.data.listSchedules.items[0]?.daySchedules.Wednesday
+                .Wednesday
+            ) {
+              addAvailabelDays(
+                'Wednesday',
+                results.data.listSchedules.items[0]?.daySchedules?.wednesday
+                  ?.time,
+              )
+
+              setWednesday(
+                results.data.listSchedules.items[0]?.daySchedules?.wednesday
+                  ?.time,
+              )
+              //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.wednesday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.wednesday?.time?.endTime ,sessionDuration)
+            }
+            if (
+              results.data.listSchedules.items[0]?.daySchedules.Thursday
+                .Thursday
+            ) {
+              addAvailabelDays(
+                'Thursday',
+                results.data.listSchedules.items[0]?.daySchedules?.Thursday
+                  ?.time,
+              )
+
+              setThursday(
+                results.data.listSchedules.items[0]?.daySchedules?.Thursday
+                  ?.time,
+              )
+              //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.thursday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.thursday?.time?.endTime ,sessionDuration)
+            }
+            if (
+              results.data.listSchedules.items[0]?.daySchedules.Friday.Friday
+            ) {
+              addAvailabelDays(
+                'Friday',
+                results.data.listSchedules.items[0]?.daySchedules?.Friday?.time,
+              )
+              setFriday(
+                results.data.listSchedules.items[0]?.daySchedules?.Friday?.time,
+              )
+              //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.friday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.friday?.time?.endTime ,sessionDuration)
+            }
+            if (
+              results.data.listSchedules.items[0]?.daySchedules.Saturday
+                .Saturday
+            ) {
+              addAvailabelDays(
+                'Saturday',
+                results.data.listSchedules.items[0]?.daySchedules?.Saturday
+                  ?.time,
+              )
+              setSaturday(
+                results.data.listSchedules.items[0]?.daySchedules?.Saturday
+                  ?.time,
+              )
+              //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.saturday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.saturday?.time?.endTime ,sessionDuration)
             }
           }
           // debugger
-          if (results.data.listSchedules.items[0]?.daySchedules.Sunday.Sunday) {
-            addAvailabelDays(
-              'Sunday',
-              results.data.listSchedules.items[0]?.daySchedules?.Sunday?.time,
-            )
-
-            setSunday(
-              results.data.listSchedules.items[0]?.daySchedules?.Sunday?.time,
-            )
-            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.sunday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.sunday?.time?.endTime ,sessionDuration)
-          }
-          if (results.data.listSchedules.items[0]?.daySchedules.Monday.Monday) {
-            addAvailabelDays(
-              'Monday',
-              results.data.listSchedules.items[0]?.daySchedules?.Monday?.time,
-            )
-            setMonday(
-              results.data.listSchedules.items[0]?.daySchedules?.Monday?.time,
-            )
-            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.monday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.monday?.time?.endTime ,sessionDuration)
-          }
-          if (
-            results.data.listSchedules.items[0]?.daySchedules.Tuesday.Tuesday
-          ) {
-            addAvailabelDays(
-              'Tuesday',
-              results.data.listSchedules.items[0]?.daySchedules?.Tuesday?.time,
-            )
-            setTuesday(
-              results.data.listSchedules.items[0]?.daySchedules?.Tuesday?.time,
-            )
-            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.tuesday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.tuesday?.time?.endTime ,sessionDuration)
-          }
-          if (
-            results.data.listSchedules.items[0]?.daySchedules.Wednesday
-              .Wednesday
-          ) {
-            addAvailabelDays(
-              'Wednesday',
-              results.data.listSchedules.items[0]?.daySchedules?.wednesday
-                ?.time,
-            )
-
-            setWednesday(
-              results.data.listSchedules.items[0]?.daySchedules?.wednesday
-                ?.time,
-            )
-            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.wednesday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.wednesday?.time?.endTime ,sessionDuration)
-          }
-          if (
-            results.data.listSchedules.items[0]?.daySchedules.Thursday.Thursday
-          ) {
-            addAvailabelDays(
-              'Thursday',
-              results.data.listSchedules.items[0]?.daySchedules?.Thursday?.time,
-            )
-
-            setThursday(
-              results.data.listSchedules.items[0]?.daySchedules?.Thursday?.time,
-            )
-            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.thursday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.thursday?.time?.endTime ,sessionDuration)
-          }
-          if (results.data.listSchedules.items[0]?.daySchedules.Friday.Friday) {
-            addAvailabelDays(
-              'Friday',
-              results.data.listSchedules.items[0]?.daySchedules?.Friday?.time,
-            )
-            setFriday(
-              results.data.listSchedules.items[0]?.daySchedules?.Friday?.time,
-            )
-            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.friday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.friday?.time?.endTime ,sessionDuration)
-          }
-          if (
-            results.data.listSchedules.items[0]?.daySchedules.Saturday.Saturday
-          ) {
-            addAvailabelDays(
-              'Saturday',
-              results.data.listSchedules.items[0]?.daySchedules?.Saturday?.time,
-            )
-            setSaturday(
-              results.data.listSchedules.items[0]?.daySchedules?.Saturday?.time,
-            )
-            //timeIntervals(results.data.listSchedules.items[0]?.daySchedules?.saturday?.time?.startTime,results.data.listSchedules.items[0]?.daySchedules?.saturday?.time?.endTime ,sessionDuration)
-          }
         }
       } catch (error) {
         console.log(`Load Error:${error}`)
@@ -363,14 +384,21 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     setBookingDay(newWeekdays[new Date(bookingdate).getDay()])
     // debugger
     // setTimeout(() => {
-    if (sunday.length) addAvailabelDays('Sunday', sunday)
-    if (monday.length) addAvailabelDays('Monday', monday)
-    if (tuesday.length) addAvailabelDays('Tuesday', tuesday)
-    if (wednesday.length) addAvailabelDays('Wednesday', wednesday)
-    if (thursday.length) addAvailabelDays('Thursday', thursday)
-    if (friday.length) addAvailabelDays('Friday', friday)
-    // debugger
-    if (saturday.length) addAvailabelDays('Saturday', saturday)
+    if (everyday.length) {
+      addAvailabelDays(
+        'Everyday',
+        everyday,
+      )
+    } else {
+      if (sunday.length) addAvailabelDays('Sunday', sunday)
+      if (monday.length) addAvailabelDays('Monday', monday)
+      if (tuesday.length) addAvailabelDays('Tuesday', tuesday)
+      if (wednesday.length) addAvailabelDays('Wednesday', wednesday)
+      if (thursday.length) addAvailabelDays('Thursday', thursday)
+      if (friday.length) addAvailabelDays('Friday', friday)
+      // debugger
+      if (saturday.length) addAvailabelDays('Saturday', saturday)
+    }
     // }, 500)
 
     // var d = new Date("2023-02-02T02:59:26.186Z");
@@ -529,46 +557,110 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     const times = {}
     const mentorDay = moment('01/01/2023').day()
     // debugger
-    time.forEach((t) => {
-      if (t.startTime !== undefined && t.endTime !== undefined) {
-        const startTimeDate = moment('01/01/2023 ' + t.startTime).add(
-          addTimeTemp,
-          'hours',
-        )
-        const endTimeDate = moment('01/01/2023 ' + t.endTime).add(
-          addTimeTemp,
-          'hours',
-        )
+    if (day === 'Everyday') {
+      debugger
+      const newWeekdays = weekdays.slice(0, weekdays.length - 1)
+      newWeekdays.forEach((weekday) => {
+        time.forEach((t) => {
+          if (t.startTime !== undefined && t.endTime !== undefined) {
+            const startTimeDate = moment('01/01/2023 ' + t.startTime).add(
+              addTimeTemp,
+              'hours',
+            )
+            const endTimeDate = moment('01/01/2023 ' + t.endTime).add(
+              addTimeTemp,
+              'hours',
+            )
 
-        let stime = startTimeDate.format('HH:mm') + ':00'
-        let etime = endTimeDate.format('HH:mm') + ':00'
-        let nextTimeDate = startTimeDate
+            let stime = startTimeDate.format('HH:mm') + ':00'
+            let etime = endTimeDate.format('HH:mm') + ':00'
+            let nextTimeDate = startTimeDate
 
-        while (
-          moment('01/01/2023 ' + endTimeDate.format('HH:mm')).isAfter(
-            moment('01/01/2023 ' + nextTimeDate.format('HH:mm')),
-          )
-        ) {
-          // debugger
-          if (sessionDurationIn == 'hours') {
-            stime = addMinutes(stime, interval * 60)
-          } else {
-            stime = addMinutes(stime, interval)
-          }
-          nextTimeDate = moment('01/01/2023 ' + stime)
-          if (startTimeDate.day() !== mentorDay) {
-            // debugger
-            if (addTimeTemp > 0) {
-              addSlot(times, getPrevDay(day).toLowerCase(), stime.slice(0, -3))
-            } else {
-              addSlot(times, getNextDay(day).toLowerCase(), stime.slice(0, -3))
+            while (
+              moment('01/01/2023 ' + endTimeDate.format('HH:mm')).isAfter(
+                moment('01/01/2023 ' + nextTimeDate.format('HH:mm')),
+              )
+            ) {
+              // debugger
+              if (sessionDurationIn == 'hours') {
+                stime = addMinutes(stime, interval * 60)
+              } else {
+                stime = addMinutes(stime, interval)
+              }
+              nextTimeDate = moment('01/01/2023 ' + stime)
+              if (startTimeDate.day() !== mentorDay) {
+                // debugger
+                if (addTimeTemp > 0) {
+                  addSlot(
+                    times,
+                    getPrevDay(weekday).toLowerCase(),
+                    stime.slice(0, -3),
+                  )
+                } else {
+                  addSlot(
+                    times,
+                    getNextDay(weekday).toLowerCase(),
+                    stime.slice(0, -3),
+                  )
+                }
+              } else {
+                addSlot(times, weekday.toLowerCase(), stime.slice(0, -3))
+              }
             }
-          } else {
-            addSlot(times, day.toLowerCase(), stime.slice(0, -3))
+          }
+        })
+      })
+    } else {
+      time.forEach((t) => {
+        if (t.startTime !== undefined && t.endTime !== undefined) {
+          const startTimeDate = moment('01/01/2023 ' + t.startTime).add(
+            addTimeTemp,
+            'hours',
+          )
+          const endTimeDate = moment('01/01/2023 ' + t.endTime).add(
+            addTimeTemp,
+            'hours',
+          )
+
+          let stime = startTimeDate.format('HH:mm') + ':00'
+          let etime = endTimeDate.format('HH:mm') + ':00'
+          let nextTimeDate = startTimeDate
+
+          while (
+            moment('01/01/2023 ' + endTimeDate.format('HH:mm')).isAfter(
+              moment('01/01/2023 ' + nextTimeDate.format('HH:mm')),
+            )
+          ) {
+            // debugger
+            if (sessionDurationIn == 'hours') {
+              stime = addMinutes(stime, interval * 60)
+            } else {
+              stime = addMinutes(stime, interval)
+            }
+            nextTimeDate = moment('01/01/2023 ' + stime)
+            if (startTimeDate.day() !== mentorDay) {
+              // debugger
+              if (addTimeTemp > 0) {
+                addSlot(
+                  times,
+                  getPrevDay(day).toLowerCase(),
+                  stime.slice(0, -3),
+                )
+              } else {
+                addSlot(
+                  times,
+                  getNextDay(day).toLowerCase(),
+                  stime.slice(0, -3),
+                )
+              }
+            } else {
+              addSlot(times, day.toLowerCase(), stime.slice(0, -3))
+            }
           }
         }
-      }
-    })
+      })
+    }
+
     console.log('times', times)
     debugger
     dispatch({ type: 'SET_TIMESLOT_ADJUSTED', payload: times })
@@ -784,7 +876,12 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
                 <div className="flex justify-center">
                   <BookingDatePicker
                     inputProps={{
-                      style: { minWidth: 200,borderRadius:5, textAlign: 'center',border:"1px solid black" },
+                      style: {
+                        minWidth: 200,
+                        borderRadius: 5,
+                        textAlign: 'center',
+                        border: '1px solid black',
+                      },
                       placeholder: 'Select Date',
                     }}
                     timeFormat={false}
