@@ -11,6 +11,7 @@ const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
   const [bookSession4, setBookSession4] = useState(false)
   const [image, setImage] = useState('')
   const [step2, setStep2] = useState()
+  const [step3, setStep3] = useState()
   const handleBookClick = () => {
     setShowServiceDetail(false)
     setBookSession1(true)
@@ -21,6 +22,31 @@ const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
     setBookSession3(true)
     setStep2(obj)
   }
+  const handleBookSession4 = (obj) => {
+    setBookSession1(false)
+    setBookSession3(false)
+    setBookSession4(true)
+    setStep3(obj)
+  }
+  const backtoBookSession1 = () => {
+    setShowServiceDetail(true)
+    setBookSession1(false)
+    setBookSession3(false)
+    setShow(true)
+  }
+  const backtoBookSession2 = () => {
+    setShowServiceDetail(false)
+    setBookSession1(true)
+    setBookSession3(false)
+    setShow(true)
+  }
+  const backtoBookSession3 = () => {
+    setShowServiceDetail(false)
+    setBookSession1(false)
+    setBookSession3(true)
+    setShow(true)
+  }
+  console.log('step3-out', step3)
   const closeBookSession1 = () => {
     setImage('')
     setBookSession1(false)
@@ -54,6 +80,10 @@ const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
       {bookSession1 && (
         <Step2
           oneOnOneService={oneOnOneService}
+          backtoBookSession1={backtoBookSession1}
+          bookingdate={step2?.bookingDate}
+          timeZone={step2?.timeZone}
+          timeSlot={step2?.slot}
           closeBookSession1={(val) => {
             closeBookSession1(val)
             setShow(val)
@@ -65,8 +95,11 @@ const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
         <Step3
           oneOnOneService={oneOnOneService}
           bookingdate={step2?.bookingDate}
+          backtoBookSession2={backtoBookSession2}
+          handleBookSession4={handleBookSession4}
           timeZone={step2?.timeZone}
           timeSlot={step2?.slot}
+          step3={step3}
           closeBookSession3={(val) => {
             closeBookSession3(val)
             setShow(true)
@@ -74,7 +107,11 @@ const OneOnOneBooking = ({ oneOnOneService, setShow, show = false }) => {
         />
       )}
       {bookSession4 && (
-        <OneOnOneSessionData oneOnOneService={oneOnOneService} closeBookSession4={closeBookSession4}/>
+        <OneOnOneSessionData
+          backtoBookSession3={backtoBookSession3}
+          oneOnOneService={oneOnOneService}
+          closeBookSession4={closeBookSession4}
+        />
       )}
     </>
   )

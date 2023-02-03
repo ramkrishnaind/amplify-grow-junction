@@ -48,7 +48,15 @@ const reducerFunc = (state, action) => {
   }
   return state
 }
-const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
+const Step2 = ({
+  oneOnOneService,
+  bookingdate: bd,
+  timeZone: tz,
+  timeSlot,
+  closeBookSession1,
+  handleBookSession3,
+  backtoBookSession1,
+}) => {
   const [state, dispatch] = useReducer(reducerFunc, {})
   const [timeZone, setTimeZone] = useState({})
   const [timeZoneMentor, setTimeZoneMentor] = useState({})
@@ -69,10 +77,22 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
   const [weekDay, setWeekDay] = useState('')
   const [mentor, setMentor] = useState()
   const [duration, setDuration] = useState()
+  const [errorValidation, setErrorValidation] = useState()
   const [bookingDay, setBookingDay] = useState()
   const [addTime, setAddTime] = useState(0)
   const [unavailableDates, setUnavailableDates] = useState([])
   const [selectedTimeInterval, setSelectedTimeInterval] = useState('')
+  useEffect(() => {
+    debugger
+    debugger
+    if (bd) setBookingdate(bd)
+    if (tz) setTimeZone(tz)
+  }, [bd, tz])
+
+  useEffect(() => {
+    if(timeSlot)
+    setSelectedTimeInterval(timeSlot)
+  }, [timeSlot])
   const weekdays = [
     'sunday',
     'monday',
@@ -145,11 +165,23 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
   }
   const handleBookSession = () => {
     if (!bookingdate || !selectedTimeInterval) {
-      if (!bookingdate) toast.error(`Save Error:Please select a booking date`)
-      if (!selectedTimeInterval)
-        toast.error(`Save Error:A slot must be selected`)
+      let errorVal = { ...errorValidation }
+      if (!bookingdate) {
+        errorVal = { ...errorVal, bookingDate: true }
+        // setErrorValidation({ ...errorValidation, bookingDate: true })
+      }
+      if (!selectedTimeInterval) {
+        errorVal = { ...errorVal, timeSlot: true }
+        // setErrorValidation({ ...errorValidation, timeSlot: true })
+      }
+      setErrorValidation({ ...errorVal })
+      setTimeout(() => {
+        setErrorValidation(null)
+      }, 3000)
+      debugger
       return
     }
+    setErrorValidation(null)
     handleBookSession3({
       bookingDate: bookingdate,
       timeZone,
@@ -385,10 +417,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     // debugger
     // setTimeout(() => {
     if (everyday.length) {
-      addAvailabelDays(
-        'Everyday',
-        everyday,
-      )
+      addAvailabelDays('Everyday', everyday)
     } else {
       if (sunday.length) addAvailabelDays('Sunday', sunday)
       if (monday.length) addAvailabelDays('Monday', monday)
@@ -558,7 +587,7 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
     const mentorDay = moment('01/01/2023').day()
     // debugger
     if (day === 'Everyday') {
-      debugger
+      
       const newWeekdays = weekdays.slice(0, weekdays.length - 1)
       newWeekdays.forEach((weekday) => {
         time.forEach((t) => {
@@ -835,29 +864,38 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
             </div>
             <div>
               <div className="flex flex-wrap">
-                {bookingDay && state[bookingDay]?.length > 0 ? (
-                  state[bookingDay]?.sort()?.map((slot, index) => {
-                    return (
-                      <div key={index}>
-                        <span
-                          className={`flex px-8 py-2 border-2 rounded-full m-2 text-sm font-normal ${
-                            slot === selectedTimeInterval
-                              ? ' border border-orange-400'
-                              : ''
-                          }`}
-                          onClick={() => setTimeInterval(slot)}
-                        >
-                          {slot}
-                        </span>
-                      </div>
-                    )
-                  })
-                ) : (
-                  <div className="text-base text-center w-full">
-                    {' '}
-                    No available slots
-                  </div>
-                )}
+                <>
+                  {bookingDay && state[bookingDay]?.length > 0 ? (
+                    <>
+                      {state[bookingDay]?.sort()?.map((slot, index) => {
+                        return (
+                          <div key={index}>
+                            <span
+                              className={`flex px-8 py-2 border-2 rounded-full m-2 text-sm font-normal ${
+                                slot === selectedTimeInterval
+                                  ? ' border border-orange-400'
+                                  : ''
+                              }`}
+                              onClick={() => setTimeInterval(slot)}
+                            >
+                              {slot}
+                            </span>
+                          </div>
+                        )
+                      })}
+                      {errorValidation?.timeSlot && (
+                        <div className="text-base text-center w-full text-red-600">
+                          Please select a time slot
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="text-base text-center w-full">
+                      {' '}
+                      No available slots
+                    </div>
+                  )}
+                </>
               </div>
 
               <span>
@@ -894,6 +932,11 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
                     onChange={handleBookingDate}
                   />
                 </div>
+                {errorValidation?.bookingDate && (
+                  <div className="text-base text-center w-full text-red-600">
+                    Please select a Booking date
+                  </div>
+                )}
               </label>
             </div>
             <div className="select-wrapper  text-base font-normal w-full p-6">
@@ -915,9 +958,9 @@ const Step2 = ({ oneOnOneService, closeBookSession1, handleBookSession3 }) => {
             <div className="flex justify-center items-center w-full">
               <button
                 className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                onClick={() => closeBookSession1()}
+                onClick={() => backtoBookSession1()}
               >
-                <span className="text-base font-semibold py-1">Close</span>
+                <span className="text-base font-semibold py-1">Back</span>
               </button>
             </div>
           </div>

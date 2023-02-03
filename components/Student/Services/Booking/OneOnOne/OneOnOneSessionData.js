@@ -6,6 +6,7 @@ const OneOnOneSessionData = ({
   // OneOnOneId
   oneOnOneService,
   closeBookSession4,
+  backtoBookSession3
 }) => {
   const [questions, setQuestions] = useState(oneOnOneService?.questions)
   useEffect(() => {
@@ -82,9 +83,9 @@ const OneOnOneSessionData = ({
               <div className="flex justify-center items-center w-full">
                 <button
                   className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                  onClick={() => closeBookSession4()}
+                  onClick={() => backtoBookSession3()}
                 >
-                  <span className="text-base font-semibold py-1">Close</span>
+                  <span className="text-base font-semibold py-1">Back</span>
                 </button>
               </div>
             </div>
@@ -95,7 +96,7 @@ const OneOnOneSessionData = ({
                   type="submit"
                   className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
                 >
-                  <span className="text-base font-semibold py-1">Continue</span>
+                  <span className="text-base font-semibold py-1">Schedule booking</span>
                 </button>
               </div>
             </div>

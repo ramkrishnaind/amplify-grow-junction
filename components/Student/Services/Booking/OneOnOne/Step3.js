@@ -5,30 +5,35 @@ import TextField from '../../../../../pages/ui-kit/TextField'
 import moment from 'moment'
 import classes from './Step2.module.css'
 import { getS3ImageUrl } from '../../../../../utilities/others'
+import { OneOnOneBookingContactSchema } from '../../../../../public/utils/schema'
 const Step3 = ({
   bookingdate,
   timeZone,
   timeSlot,
   oneOnOneService,
   closeBookSession3,
+  backtoBookSession2,
+  handleBookSession4,
+  step3,
 }) => {
   debugger
   debugger
   const [mentor, setMentor] = useState()
   const [image, setImage] = useState('')
   const initialState = {
-    name: '',
-    emailId: '',
-    callAbout: '',
-    whatsappNumber: '',
-    mobileNumber: '',
-    receiveUpdate: true,
+    name: step3.name || '',
+    emailId: step3.emailId || '',
+    callAbout: step3.callAbout || '',
+    whatsappNumber: step3.whatsappNumber || '',
+    mobileNumber: step3.mobileNumber || '',
+    receiveUpdate: step3.receiveUpdate || true,
   }
   useEffect(() => {
     const men = getMentorData(oneOnOneService.username)
     showPreview(men)
     setMentor(men)
   }, [])
+
   const showPreview = async (mentorPassed) => {
     // e.stopPropagation()
 
@@ -50,53 +55,58 @@ const Step3 = ({
   return (
     <Formik
       initialValues={{ ...initialState }}
-      //   enableReinitialize={true}
+      // enableReinitialize={true}
       onSubmit={async (values, e) => {
         debugger
 
         try {
-          const validate = await e.validateForm()
           debugger
-          if (!values?.id) {
-            try {
-              debugger
-              values.username = mentor.username
-              values.serviceType = '1 on 1 Session'
-              values.bookingDate = moment(bookingdate).format('L')
-              values.timeSlot = timeSlot ? timeSlot : ''
-              closeBookSession3()
-              // await API.graphql({
-              //   query: createStudentBooking,
-              //   variables: { input: { ...values } },
-              // })
-              // toast.success('Student booking added successfully')
-              // window.location.href = window.location.href
-            } catch (error) {
-              // toast.error(`Save Error:${error.errors[0].message}`)
-            }
-          } else {
-            const { createdAt, updatedAt, owner, ...rest } = {
-              ...values,
-            }
-            rest.username = getLoggedinUserEmail()
-            try {
-              // await API.graphql({
-              //   query: updateStudentBooking,
-              //   variables: {
-              //     input: { ...rest },
-              //   },
-              // })
-              // toast.success('Student booking updated successfully')
-            } catch (error) {
-              // debugger
-              // toast.error(`Save Error:${error.errors[0].message}`)
-              // console.log(error)
-            }
-          }
+          handleBookSession4({ ...values })
+          // if (!values?.id) {
+          //   try {
+          //     debugger
+
+          //     // values.username = mentor.username
+          //     // values.serviceType = '1 on 1 Session'
+          //     // values.bookingDate = moment(bookingdate).format('L')
+          //     // values.timeSlot = timeSlot ? timeSlot : ''
+
+          //     // await API.graphql({
+          //     //   query: createStudentBooking,
+          //     //   variables: { input: { ...values } },
+          //     // })
+          //     // toast.success('Student booking added successfully')
+          //     // window.location.href = window.location.href
+          //   } catch (error) {
+          //     // toast.error(`Save Error:${error.errors[0].message}`)
+          //   }
+          // } else {
+          //   const { createdAt, updatedAt, owner, ...rest } = {
+          //     ...values,
+          //   }
+          //   rest.username = getLoggedinUserEmail()
+          //   try {
+          //     // await API.graphql({
+          //     //   query: updateStudentBooking,
+          //     //   variables: {
+          //     //     input: { ...rest },
+          //     //   },
+          //     // })
+          //     // toast.success('Student booking updated successfully')
+          //   } catch (error) {
+          //     // debugger
+          //     // toast.error(`Save Error:${error.errors[0].message}`)
+          //     // console.log(error)
+          //   }
+          // }
         } catch (e) {
           console.log('error-', e)
         }
       }}
+      validationSchema={OneOnOneBookingContactSchema}
+      validateOnChange={true}
+      validateOnBlur={true}
+      validateOnMount={true}
     >
       {({
         values,
@@ -240,6 +250,7 @@ const Step3 = ({
                               type="text"
                               id="name"
                               placeholder="Name"
+                              errMsg={touched.name && errors.name}
                             />
                           </div>
                         </div>
@@ -257,6 +268,7 @@ const Step3 = ({
                               type="text"
                               id="emailId"
                               placeholder="examplemail@gmail.com"
+                              errMsg={touched.emailId && errors.emailId}
                             />
                           </div>
                         </div>
@@ -275,6 +287,17 @@ const Step3 = ({
                               onChange={handleChange}
                               value={values.callAbout}
                             ></textarea>
+                            {/* {errMsg ? (
+        <div
+          style={{
+            //   position: 'absolute',
+            //paddingTop: 35,
+            fontSize: 12,
+            color: 'red',
+          }}
+        >
+          {errMsg}
+        </div> */}
                             {/* <TextField
                               name="callAbout"
                               onChangeValue={handleChange}
@@ -298,6 +321,9 @@ const Step3 = ({
                               type="text"
                               id="whatsappNumber"
                               placeholder="000 000 0000"
+                              errMsg={
+                                touched.whatsappNumber && errors.whatsappNumber
+                              }
                             />
                           </div>
                         </div>
@@ -314,6 +340,9 @@ const Step3 = ({
                               type="text"
                               id="mobileNumber"
                               placeholder="000 000 0000"
+                              errMsg={
+                                touched.mobileNumber && errors.mobileNumber
+                              }
                             />
                           </div>
                         </div>
@@ -356,10 +385,10 @@ const Step3 = ({
                     <div className="flex justify-center items-center w-full">
                       <button
                         className="flex justify-center items-center text-base bg-white hover:bg-gray-900 text-black hover:text-white font-bold py-2 border border-black w-full rounded-md"
-                        onClick={() => closeBookSession3()}
+                        onClick={() => backtoBookSession2()}
                       >
                         <span className="text-base font-semibold py-1">
-                          Close
+                          Back
                         </span>
                       </button>
                     </div>
@@ -372,7 +401,7 @@ const Step3 = ({
                         onClick={handleSubmit}
                       >
                         <span className="text-base font-semibold py-1">
-                          Schedule booking
+                          Continue
                         </span>
                       </button>
                     </div>

@@ -39,7 +39,20 @@ export const SignInSchema = Yup.object().shape({
     // .nullable()
     .min(6, ({ min }) => 'password must be atleast 6 character'),
 })
-
+export const OneOnOneBookingContactSchema = Yup.object().shape({
+  name: Yup.string().required('Please enter your email id'),
+  // .nullable(),
+  emailId: Yup.string()
+    .required('Please enter a valid email')
+    .email('Please enter valid email address'),
+  // .nullable()
+  whatsappNumber: Yup.string()
+    .required('Please enter your whatsapp number')
+    .matches(numberValidation, 'Whatsapp number is not valid'),
+  mobileNumber: Yup.string()
+    .required('Please enter your mobileNumber ')
+    .matches(numberValidation, 'mobile number is not valid'),
+})
 export const ProfessionalDetailSchema = () =>
   Yup.object({
     recent_college: Yup.string().required('Please enter your recent college'),
